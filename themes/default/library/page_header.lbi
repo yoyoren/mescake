@@ -1,0 +1,20 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{insert_scripts files="header_spec2.js"}
+
+   <div class="header">
+	<div style="position:absolute;top:38px;left:74px;width:840px;"><a href="index.php"><img src="images/logo.jpg"/></a>
+		<div style='width:100px;position:absolute;right:0;top:35px;;margin-top:0px;'><a href='shopcar.php'><img src='images/gcar.png' /></a></div></div>
+   		<h1 class="display_none">蛋糕订购</h1>
+		<img src="images/head4.png" border="0" usemap="#Map" />
+		<h2 class="display_none">即刻分享</h2>
+		<h2 class="display_none">特别为</h2>
+		<h2 class="display_none">环球经典</h2>
+<map name="Map" id="Map">
+  <area shape="rect" coords="3,119,90,156" href="index.php">
+  <area shape="rect" coords="92,120,230,153" href="brand.php?id=4">
+  <area shape="rect" coords="231,121,410,152" href="brand.php?id=1">
+  <area shape="rect" coords="412,118,640,154" href="brand.php?id=2">
+  <area shape="rect" coords="642,118,830,154" href="brand.php?id=3">
+  <area shape="rect" coords="835,118,949,154" href="aboutus.php?aboutus=aboutus">
+</map>
+   </div>

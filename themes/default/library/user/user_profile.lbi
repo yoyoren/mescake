@@ -1,0 +1,79 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+{insert_scripts files='utils.js'}
+<script type="text/javascript">
+  {foreach from=$lang.profile_js item=item key=key}
+	var {$key} = "{$item}";
+  {/foreach}
+</script>
+<div id="container">
+    {include file='library/user/user_top_menu.lbi'}
+	<!-- 内容 -->
+	<div id="content">
+		<p class="wane_left"></p>
+		<p class="wane_right"></p>
+		<div class="data">
+        <form name="formEdit" action="user.php" method="post" onSubmit="return userEdit()">
+			<input name="submit" type="submit" class="data_but" value=""/>
+			<h2>修改我的信息</h2>
+			<div class="item">
+				<label>用户名：</label>
+				{$profile.user_name}
+			</div>
+			<div class="item item1">
+				<label>出生日期：</label>
+				{html_select_date field_order=YMD prefix=birthday start_year=-60 end_year=+1 display_days=true month_format=%m day_value_format=%02d time=$profile.birthday}
+				<p>
+					<label>性别：</label>
+					<select>
+                        <option value="0" {if $profile.sex eq 0}selected{/if}>{$lang.secrecy}</option>
+						<option value="1" {if $profile.sex eq 1}selected{/if}>{$lang.male}</option>
+						<option value="2" {if $profile.sex eq 2}selected{/if}>{$lang.female}</option>
+					</select>
+				</p>
+			</div>
+			<div class="item">
+				<label>电子邮件：</label>
+				<input name="email" value="{$profile.email}" type="text" class="w138px" />
+				<p>
+					<label>所在地区：</label>
+                    <select name="province" id="province">
+                    <option value="">请选择...</option>
+                    {foreach from=$profile.province_list item =province}
+                 <option value="{$province.region_id}" {if $province.region_id eq $profile.province} selected{/if}>{$province.region_name}</option>
+                 {/foreach}
+                    </select>
+				</p>
+			</div>
+			<div class="item">
+				<label>移动电话：</label>
+				<input name="mobile_phone" id="mobile_phone" value="{$profile.mobile_phone}" type="text" class="w138px" />
+			</div>
+			<div class="item">
+				<label>家庭地址：</label>
+				<input name="homeaddress" id="homeaddress" value="{$profile.homeaddress}" type="text" class="w472px" />
+			</div>
+            <input name="act" type="hidden" value="act_edit_profile" />
+            </form>
+		</div>
+		<div class="data pt30px">
+        <form name="formPassword" action="user.php" method="post" onSubmit="return editPassword()" >
+			<input name="submit" type="submit" class="data_but" value=""/>
+			<h2>修改密码</h2>
+			<div class="item">
+				<label class="pr20px">原密码：</label>
+				<input name="old_password" type="password" class="w138px" value="" />
+			</div>
+			<div class="item">
+				<label class="pr20px">新密码：</label>
+				<input name="new_password" type="password" class="w138px"  value=""/>
+			</div>
+			<div class="item">
+				<label>确认密码：</label>
+				<input name="comfirm_password" type="password" class="w138px"  value=""/>
+			</div>
+            <input name="act" type="hidden" value="act_edit_password" />
+         </form>
+		</div>
+	</div>
+</div>

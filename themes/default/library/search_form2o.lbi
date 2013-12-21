@@ -1,0 +1,78 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.search{ width:165px;  margin:0 auto;}
+.search ul{ width:165px; overflow:hidden; padding:5px 0; margin:0 auto; border-bottom:2px solid #B4B4B4;}
+.search .option li{ width:37px; font-size:11px; float:left; line-height:20px; padding-left:4px; position:relative;}
+.search .option1 li{padding-left:4px; font-size:11px; float:left; width:78px; overflow:hidden; line-height:14px;height:14px;position:relative;}
+.search  .option li span{ position:absolute; right:0px; top:3px;}
+.search  .option1 li span{ position:absolute; right:0px; top:0px;}
+.search .option2 li{ font-size:11px; width:160px; padding-left:4px; line-height:15px; position:relative;}
+.search  .option2 li span{ position:absolute; right:2px; top:0px;}
+.search1{ width:160px; height:27px; background:url(../images/sico.gif) no-repeat right; margin:5px auto ; line-height:27px;font-size:14px; font-weight:bold;}
+.history{ width:170px; overflow:hidden; margin:0 auto; padding-top:35px;}
+
+</style>
+<!--searchblankList start-->
+<form id="attr_searchForm" name="attr_searchForm" method="get" action="search.php">
+<div class="search">
+    
+	<ul class="option" id="jieri" onclick="kuang2('jieri')">
+<li><input  type="checkbox" id="shengri" name="attr[3]" value="生日" class="hide1"/>生日<span name="shengri" >&nbsp;</span></li>
+<li><input type="checkbox" id="juhui" name="attr[3]" value="聚会" class="hide1"/>聚会<span name="juhui" >&nbsp;</span></li>
+<li><input type="checkbox" id="ganen" name="attr[3]" value="感恩" class="hide1"/>感恩<span name="ganen" >&nbsp;</span></li>
+<li><input type="checkbox" id="qingzhu" name="attr[3]" value="庆祝" class="hide1" />庆祝<span name="qingzhu" >&nbsp;</span></li>
+<li><input type="checkbox" id="huodong" name="attr[3]" value="活动" class="hide1" />活动<span name="huodong" >&nbsp;</span></li>
+<li><input type="checkbox" id="shangwu" name="attr[3]" value="商务" class="hide1" />商务<span name="shangwu" >&nbsp;</span></li>
+<li><input type="checkbox" id="kuanghuan" name="attr[3]" value="狂欢" class="hide1" />狂欢<span name="kuanghuan" >&nbsp;</span></li>
+</ul>
+       
+    <div style="height:8px"></div>
+    <ul class="option1 " id="kouwei" onclick="kuang2('kouwei')">
+<li><input type="checkbox" id="qiaokeli" name="category[]" value="2" class="hide1" rel="巧克力蛋糕"/>巧克力蛋糕<span name="qiaokeli" >&nbsp;</span></li>
+<li><input type="checkbox" id="naiyou" name="category[]" value="1" class="hide1" rel="乳脂奶油蛋糕"/>乳脂奶油蛋糕<span name="naiyou" >&nbsp;</span></li>
+<li><input type="checkbox" id="musi" name="category[]" value="3" class="hide1" rel="慕斯蛋糕"/>慕斯蛋糕<span name="musi" >&nbsp;</span></li>
+<li><input type="checkbox" id="zhishi" name="category[]" value="5" class="hide1" rel="芝士蛋糕" />芝士蛋糕<span name="zhishi" >&nbsp;</span></li>
+<li><input type="checkbox" id="ice" name="category[]" value="4" class="hide1" rel="水果蛋糕" />水果蛋糕<span name="ice" >&nbsp;</span></li>           
+    </ul>      
+    <div style="clear:both"></div>
+     <ul class="option2" id="han"  onclick="kuang2('han')">
+<li><input type="checkbox" id="jianguo" name="attr[8]" value="坚果" class="hide1"/>含坚果<span name="jianguo" >&nbsp;</span></li>
+<li><input type="checkbox" id="jiu" name="attr[8]" value="含酒" class="hide1"/>含酒<span name="jiu" >&nbsp;</span></li>
+
+     </ul>
+    <div class="blank5"></div>
+   <a href="javascript:tijiao();"><div class="search1">点击搜索</div></a>
+</div>
+</form>
+<!--searchblankList end-->
+<script >
+function kuang2(id){
+  labels = document.getElementById(id).getElementsByTagName('span');
+  radios = document.getElementById(id).getElementsByTagName('input');
+    for(i=0,j=labels.length ; i<j ; i++)
+	{
+		labels[i].onclick=function() 
+		{   
+		   if(this.className==''){
+			 for(k=0,l=labels.length ; k<l ; k++)
+			 {
+			  //labels[k].className='';
+			  //radios[k].checked = false;
+			 }
+			 this.className='checked';
+			 try{
+				document.getElementById(this.getAttribute('name')).checked = true;
+			 } catch (e) {}
+		   }
+			
+			
+		}
+	}
+		
+		
+}
+function tijiao()
+{
+	attr_searchForm.submit();
+}
+</script>

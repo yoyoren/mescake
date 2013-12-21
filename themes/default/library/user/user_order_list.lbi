@@ -1,0 +1,47 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div id="container">
+    {include file='library/user/user_top_menu.lbi'}
+	<!-- 内容 -->
+	<div id="content">
+		<p class="wane_left"></p>
+		<p class="wane_right"></p>
+		<div class="indent">
+			<table >
+				<tbody>
+					<tr>
+						<th>订单号</th>
+						<th>下单时间</th>
+						<th>商品名称</th>
+						<th>订单总金额</th>
+						<th>送货时间</th>
+						<th>订单状态</th>
+						<th>操作</th>
+					</tr>
+                    <!--{foreach from=$orders item=item}-->
+					<tr align="center">
+						<td class="w167px"><a href="user.php?act=order_detail&order_id={$item.order_id}" target="_blank">{$item.order_sn}</a></td>
+						<td class="w98px">{$item.order_time}</td>
+						<td class="w119px" >{foreach from=$item.goods item=gitem}{if $gitem.goods_price gt 100}{$gitem.goods_name} {/if}{/foreach}</td>
+						<td class="w118px">{$item.total_fee}</td>
+						<td class="w173px">{$item.best_time}</td>
+						<td class="w123px">{$item.order_status}</td>
+						<td class="w72px" ><a href="user.php?act=order_detail&order_id={$item.order_id}" target="_blank">查看</a></td>
+					</tr>
+                    <!--{/foreach}-->	
+					<tr>
+						
+						<td colspan='7'>
+						<div style="text-align:center;"><!--{foreach from=$pager.page_number key=k item=item}-->
+							<a href="{$item}">&nbsp;[{$k}]&nbsp;</a>&nbsp;
+						<!--{/foreach}-->
+						</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+    <div class="blank5"></div>
+    {include file='library/pages.lbi'}
+    <div class="blank5"></div>
+</div>

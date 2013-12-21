@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery.min.js,jquery.json-1.3.js,transport.js,common.js,utils.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+ {insert name='member_info'}
+   <!--商品详情start-->
+   <div class="block box">
+   <div class="blank60"></div>
+   <div class="AreaL">
+   <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+    <div class="center-all-h">
+       <div class="gbanner">
+		<ul>
+		<li><img src="images/p/{$goods.goods_sn}-1.jpg"   /> </li>
+		<li><img src="images/p/{$goods.goods_sn}-2.jpg"   /> </li>
+		{if $goods.brand_id eq 3}<li><img src="images/p/{$goods.goods_sn}-3.jpg"   /> </li>{/if}
+		</ul>
+        <ol>
+        <li class="active"></li>
+        <li ></li>
+		{if $goods.brand_id eq 3}<li ></li>{/if}
+        </ol>
+	   </div>
+    </div>
+    <div class="cen-body clearfix" >
+	<!--左-->
+		<div style="width:200px;float:left;border:0 solid green;">
+			<div class="kouwei" >
+					<p style="margin-bottom:10px;">Flavor Type 口味</p>
+					<span>{$kouwei}</span>
+					<p style="margin-top:20px;margin-bottom:10px;">Food Materials 原材料</p>
+					<span>{$ycl}</span> 
+			</div>
+				
+			<div class="songhuo">
+					<p>1.北京市五环内免费送货。</p>
+					<p>2.蛋糕在收到后2-3小时内食用最佳。</p>
+					<p>3.如对本产品有过敏经历者，请选择其它款蛋糕。</p>
+					<p>4.蛋糕规格及免费配送餐具。</p><br><bt>
+			</div>
+		</div>
+	<!--中-->
+		<div style="width:380px;float:left;border-left:1px solid black;border-right:1px solid black;">
+				<div class="size">
+						   <h1>Size  尺寸</h1>
+						   <ul  class="goodsattr" id="goodsattr">
+					<!-- {* 开始循环所有可选属性 *} -->
+					<!-- {foreach from=$specification item=spec key=spec_key} -->
+					<li style="text-align:left;">
+					  <!-- {foreach from=$spec.values item=value key=key} -->
+					  <div class="clearfix" style="width:370px;margin-left:0;border:0px solid" >
+						<label for="spec_value_{$value.id}">
+							<div style="width:350px;float:left;border:0px solid green">
+							<b>{$value.label}&nbsp;[{$value.format_price|abs}]</b> 
+							</div>
+						</label>
+						<input class="hide1" style="display:none;" type="radio" name="spec_{$spec_key}"  value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" /><!--<class="hide1">*-->
+						<div style="float:left;"><span  id="_{$value.id}" ></span></div>
+					  </div>
+					  <br />
+					  <!-- {/foreach} -->
+					  <input type="hidden" name="spec_list" value="{$key}" />                             
+					  </li>    
+					  <!-- {/foreach} -->
+					  <!-- {* 结束循环可选属性 *} -->
+					  </ul>
+				<div class="text" >10磅~30磅产品可根据客户需要定制，<br/>详情咨询客服和网站</div>   
+					<div class="line1">
+						{if $wine}<img src="images/wine.jpg" />{/if}
+						{if $nut}<img src="images/nuts.jpg" />{/if}
+						{if $qkl}<img src="images/cho.jpg" />{/if}
+					</div>      
+				</div>	  	
+				
+				<div class="" >
+					<div class="line2"><img src="images/baoxian.jpg" /></div>
+					<div class="line3"><img src="images/wendu.jpg" /><img src="images/cha.jpg" /><span id="cj" style="font-size:25px; font-weight:bold"></span><img src="images/dao.jpg" /><span id="cd" style="font-size:25px; font-weight:bold"></span><img src="images/cj.jpg" /></div>            
+				</div>
+		</div>
+	<!--右-->
+		<div style="width:180px;float:left;border:0 solid blue;">
+			<div class="pinming">
+					<h1 style="line-height:30px;margin-left:15px;">{$goods.goods_sn}</h1>
+		  			<h1 style="line-height:60px;font-size:40px;margin-left:15px;">{$goods.goods_name}</h1>
+		  			<div id="ECS_GOODS_AMOUNT" style="padding-left:15px;"></div>
+                    <br><hr style="margin-left:5px;"><br/>
+		  			<div class="shuliang">
+                         
+		  				 <div class="plus"></div>
+                         <div class="num"><img src="images/shuliang.jpg" align="absmiddle"/>
+                            <img id="imgminus" src="images/minus.jpg" onclick="changenumber1(0)">&nbsp;<input name="number" type="text" id="number" value="1"  size="2"   onchange="changePrice()" />&nbsp;<img id="imgplus" src="images/plus.jpg" onclick="changenumber1(1)">
+                         </div>
+                         <div class="minus"></div> 
+		  			</div>
+			</div>
+			<br/>
+					<div id="login2" style="display:none;">{$u_name}{$u_name2}</div>
+					<div class="addgou"><a href="javascript:addToCart({$goods.goods_id})"> <img src="images/lijifukuan.png" onclick="check_logins();"></a></div>
+					
+			
+		</div>
+<!--右结束-->
+  
+    </div>
+   </form>
+   </div>
+         <div class="top-right">
+          <!-- #BeginLibraryItem "/library/search_form2.lbi" --><!-- #EndLibraryItem -->	
+ {insert name='right_history'}
+ <div id="ECS_CARTINFO">
+ {insert name='right_cart_info'}
+ </div>
+</div>
+   <div class="blank20"></div>
+   <div class="blank20"></div>
+    <!-- #BeginLibraryItem "/library/recommend_new.lbi" --><!-- #EndLibraryItem -->
+<div class="blank20"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+
+
+<!-- {if $step eq "login"} -->
+        {insert_scripts files='utils.js,user.js'}
+        <script type="text/javascript">
+        {foreach from=$lang.flow_login_register item=item key=key}
+          var {$key} = "{$item}";
+        {/foreach}
+
+        {literal}
+        function checkLoginForm(frm) {
+          if (Utils.isEmpty(frm.elements['username'].value)) {
+            alert(username_not_null);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['password'].value)) {
+            alert(password_not_null);
+            return false;
+          }
+
+          return true;
+        }
+
+        function checkSignupForm(frm) {
+          if (Utils.isEmpty(frm.elements['username'].value)) {
+            alert(username_not_null);
+            return false;
+          }
+
+          if (Utils.trim(frm.elements['username'].value).match(/^\s*$|^c:\\con\\con$|[%,\'\*\"\s\t\<\>\&\\]/))
+          {
+            alert(username_invalid);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['email'].value)) {
+            alert(email_not_null);
+            return false;
+          }
+
+          if (!Utils.isEmail(frm.elements['email'].value)) {
+            alert(email_invalid);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['password'].value)) {
+            alert(password_not_null);
+            return false;
+          }
+
+          if (frm.elements['password'].value.length < 6) {
+            alert(password_lt_six);
+            return false;
+          }
+
+          if (frm.elements['password'].value != frm.elements['confirm_password'].value) {
+            alert(password_not_same);
+            return false;
+          }
+          return true;
+        }
+        {/literal}
+        </script>
+        <!-- 开始用户登录注册界面 -->
+        <div class="flowBox">
+        <table width="99%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <td width="50%" valign="top" bgcolor="#ffffff">
+            <h6><span>用户登录：</span></h6>
+            <form action="flow.php?step=login" method="post" name="loginForm" id="loginForm" onsubmit="return checkLoginForm(this)">
+                <table width="90%" border="0" cellpadding="8" cellspacing="1" bgcolor="#B0D8FF" class="table">
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.username}</strong></div></td>
+                    <td bgcolor="#ffffff"><input name="username" type="text" class="inputBg" id="username" /></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.password}</strong></div></td>
+                    <td bgcolor="#ffffff"><input name="password" class="inputBg" type="password" /></td>
+                  </tr>
+                  <!-- 判断是否启用验证码{if $enabled_login_captcha} -->
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.comment_captcha}:</strong></div></td>
+                    <td bgcolor="#ffffff"><input type="text" size="8" name="captcha" class="inputBg" />
+                    <img src="captcha.php?is_login=1&{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?is_login=1&'+Math.random()" /> </td>
+                  </tr>
+                  <!--{/if}-->
+                  <tr>
+            <td colspan="2"  bgcolor="#ffffff"><input type="checkbox" value="1" name="remember" id="remember" /><label for="remember">{$lang.remember}</label></td>
+          </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" colspan="2" align="center"><a href="user.php?act=qpassword_name" class="f6">{$lang.get_password_by_question}</a>&nbsp;&nbsp;&nbsp;<a href="user.php?act=get_password" class="f6">{$lang.get_password_by_mail}</a></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" colspan="2"><div align="center">
+                        <input type="submit" class="bnt_blue" name="login" value="{$lang.forthwith_login}" />
+                        <!-- {if $anonymous_buy eq 1} 是否允许未登录用户购物 -->
+                        <input type="button" class="bnt_blue_2" value="{$lang.direct_shopping}" onclick="location.href='flow.php?step=consignee&amp;direct_shopping=1'" />
+                        <!-- {/if} -->
+                        <input name="act" type="hidden" value="signin" />
+                      </div></td>
+                  </tr>
+                </table>
+              </form>
+
+              </td>
+            <td valign="top" bgcolor="#ffffff">
+            <h6><span>用户注册：</span></h6>
+            <form action="flow.php?step=login" method="post" name="formUser" id="registerForm" onsubmit="return checkSignupForm(this)">
+               <table width="98%" border="0" cellpadding="8" cellspacing="1" bgcolor="#B0D8FF" class="table">
+                  <tr>
+                    <td bgcolor="#ffffff" align="right" width="25%"><strong>{$lang.username}</strong></td>
+                    <td bgcolor="#ffffff"><input name="username" type="text" class="inputBg" id="username" onblur="is_registered(this.value);" /><br />
+            <span id="username_notice" style="color:#FF0000"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.email_address}</strong></td>
+                    <td bgcolor="#ffffff"><input name="email" type="text" class="inputBg" id="email" onblur="checkEmail(this.value);" /><br />
+            <span id="email_notice" style="color:#FF0000"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.password}</strong></td>
+                    <td bgcolor="#ffffff"><input name="password" class="inputBg" type="password" id="password1" onblur="check_password(this.value);" onkeyup="checkIntensity(this.value)" /><br />
+            <span style="color:#FF0000" id="password_notice"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.confirm_password}</strong></td>
+                    <td bgcolor="#ffffff"><input name="confirm_password" class="inputBg" type="password" id="confirm_password" onblur="check_conform_password(this.value);" /><br />
+            <span style="color:#FF0000" id="conform_password_notice"></span></td>
+                  </tr>
+                  <!-- 判断是否启用验证码{if $enabled_register_captcha} -->
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.comment_captcha}:</strong></td>
+                    <td bgcolor="#ffffff"><input type="text" size="8" name="captcha" class="inputBg" />
+                    <img src="captcha.php?{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?'+Math.random()" /> </td>
+                  </tr>
+                  <!--{/if}-->
+                  <tr>
+                    <td colspan="2" bgcolor="#ffffff" align="center">
+                        <input type="submit" name="Submit" class="bnt_blue_1" value="{$lang.forthwith_register}" />
+                        <input name="act" type="hidden" value="signup" />
+                    </td>
+                  </tr>
+                </table>
+              </form>
+              </td>
+          </tr>
+          {if $need_rechoose_gift}
+          <tr>
+            <td colspan="2" align="center" style="border-top:1px #ccc solid; padding:5px; color:red;">{$lang.gift_remainder}</td>
+          </tr>
+          {/if}
+        </table>
+        </div>
+        <!-- 结束用户登录注册界面 -->
+        <!-- {/if} -->
+
+</body>
+<script type="text/javascript">
+var goods_id = <!--{$goods_id}-->;
+var goodsattr_style = {$cfg.goodsattr_style|default:1};
+var gmt_end_time = {$promote_end_time|default:0};
+{foreach from=$lang.goods_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+var goodsId = {$goods_id};
+var now_time = {$now_time};
+
+<!-- {literal} -->
+onload = function(){
+  changePrice();
+  //fixpng();
+  attrkuang();
+  try { onload_leftTime(); }
+  catch (e) {}
+}
+
+/**
+ * 点选可选属性或改变数量时修改商品价格的函数
+ */
+function changePrice()
+{
+  var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
+  var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
+
+  Ajax.call('goods.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
+}
+
+/**
+ * 接收返回的信息
+ */
+function changePriceResponse(res)
+{
+  if (res.err_msg.length > 0)
+  {
+    alert(res.err_msg);
+  }
+  else
+  {
+    document.forms['ECS_FORMBUY'].elements['number'].value = res.qty;
+
+    if (document.getElementById('ECS_GOODS_AMOUNT'))
+      document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
+	if(document.getElementById('cj'))
+	document.getElementById('cj').innerHTML = res.cj;
+	if(document.getElementById('cd'))
+	document.getElementById('cd').innerHTML = res.cd;
+  }
+}
+function changenumber1(way)
+{
+	if(way=="0"){
+		 document.forms['ECS_FORMBUY'].elements['number'].value=parseInt(document.forms['ECS_FORMBUY'].elements['number'].value)-1;
+		 if(document.forms['ECS_FORMBUY'].elements['number'].value==0) document.forms['ECS_FORMBUY'].elements['number'].value==1;
+		 changePrice();	 
+	}else{
+	 	document.forms['ECS_FORMBUY'].elements['number'].value=parseInt(document.forms['ECS_FORMBUY'].elements['number'].value)+1;
+		changePrice();	
+	}
+}
+
+
+function attrkuang(){
+		  labels = document.getElementById('goodsattr').getElementsByTagName('span');
+		  radios = document.getElementById('goodsattr').getElementsByTagName('input');
+		  for(m=0;m<radios.length;m++){
+		  	if(radios[m].checked == true) 
+			{
+				var aa=radios[m].id;
+				document.getElementById(aa.substr(10)).className='checked';;
+			}
+		  }
+		  for(i=0,j=labels.length ; i<j ; i++)
+		  {
+		   labels[i].onclick=function() 
+		   {   
+			if(this.className == '') {
+			 for(k=0,l=labels.length ; k<l ; k++)
+			 {
+			  labels[k].className='';
+			  radios[k].checked = false;
+			 }
+			 this.className='checked';
+			 var s=this.id;	 
+			 try{
+				document.getElementById('spec_value'+s).checked = true;
+				changePrice();
+			 } catch (e) {}
+			}
+		   }
+		  }
+	}
+$(function (){
+   var now=0;
+   var picTimer;
+   var ulwidth = $(".gbanner").width(); 
+   var lilen=$(".gbanner ul li").length;
+   $(".gbanner ul").css("width",ulwidth * (lilen)); //UL宽度
+	
+	//小按钮
+	$('.gbanner ol li').click(function (){
+		now=$(this).index();
+		$('.gbanner ol li').removeClass('active');
+		$(this).addClass('active');
+		$('.gbanner ul').animate({left: -ulwidth*$(this).index()});
+	});
+	
+	//箭头移入显示隐藏
+	$('.gbanner').hover(function(){	
+	//alert('dd');	
+		$('.btn').stop().animate({opacity: 1});
+		},function(){
+		$('.btn').stop().animate({opacity: 0});		
+			});
+			
+	//普通切换		
+	function tab(now)
+	{
+		$('.gbanner ol li').removeClass('active');
+		$('.gbanner ol li').eq(now).addClass('active');
+		var nowLeft = -now*ulwidth;
+		$(".gbanner ul").stop(true,false).animate({"left":nowLeft},300); 
+	}
+	   			
+	//右按钮	
+	$('.btn_r').click(function(){
+	    now += 1;
+		if(now == lilen) {now = 0;}
+		tab(now);
+	 })		
+	 
+	 //左按钮
+	 $('.btn_l').click(function(){
+		now -= 1;
+		if(now == -1) {now = lilen - 1;}
+	    tab(now);	
+	 })		
+	 
+	 //鼠标滑上焦点图时停止自动播放，滑出时开始自动播放
+	$(".gbanner").hover(function() {
+		clearInterval(picTimer);
+	},function() {
+		picTimer = setInterval(function() {
+			tab(now);
+			now++;
+			if(now == lilen) {now = 0;}
+		},4000);
+	}).trigger("mouseout");
+});
+</script>
+<script type="text/javascript">																										
+
+function check_logins(formCart)
+{
+	 var login=document.getElementById('login2').innerHTML;
+	 
+	 if(login==''){
+		 showBg();
+		
+	}
+	 
+	 
+}
+
+</script>
+
+<!-- {/literal} -->
+</script>
+</html>

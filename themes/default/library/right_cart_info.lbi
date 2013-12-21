@@ -1,0 +1,46 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="new_indent">
+<script type="text/javascript">
+//fixed
+$(function(){
+	$(window).scroll( function() {
+		if($(window).scrollTop()>=746){
+			$("div.new_indent").css({
+                 top:$(window).scrollTop()-200
+             });
+		}else{
+			$("div.new_indent").css({ top:550});
+		}
+		
+	});
+	$("div.close").click(function(rec_id){
+		
+	});
+});
+function delgoods2(rec_id){
+	Ajax.call('flow.php?step=drop_goods', 'ajax=1&id='+rec_id , delResponse, 'GET', 'JSON');
+}
+function delResponse(result)
+{
+		document.getElementById('ECS_CARTINFO').innerHTML = result.content;
+}
+</script>
+		<h3>我的购物车<br /><span>My order</span><p><label>{$cart_goods_number|default:0}</label></p></h3>
+		<p class="menu"><img src="images/menu.gif" /></p>
+		{foreach name=cart_goods_list from=$goods_list item=goods}
+		<ul>
+			<li style="width:60px">{$goods.goods_name}</li>
+			<li style="width:15px">{$goods.goods_number}</li>
+			<li style="width:55px">{$goods.goods_price}</li>
+			<li><a href="javascript:delgoods2({$goods.rec_id});"><img src="images/cancel.gif" width="12" height="12" /></a></li> 
+		</ul>
+		{/foreach}
+		<p class="amount">总计/Total<span>{$total.goods_price}</span></p>
+		<h4><a href="flow.php?step=cart">去付款 Next</a></h4>
+	</div>
+
+
+
+
+
+

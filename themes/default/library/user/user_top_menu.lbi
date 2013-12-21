@@ -1,0 +1,9 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 导航 -->
+<ul id="nav">
+<li {if $action eq 'profile'}class="active"{/if}><a href="user.php" onfocus="this.blur()">我的信息</a></li>
+<li {if $action eq 'order_list'}class="active"{/if}><a href="user.php?act=order_list" onfocus="this.blur()">我的订单</a></li>
+<!--<li {if $action eq 'order_detail'}class="active"{/if}><a href="#" onfocus="this.blur()">订单详情</a></li>-->
+<li {if $action eq 'charge'}class="active"{/if}><a href="user.php?act=charge" onfocus="this.blur()">礼金卡充值 </a></li>
+<li {if $action eq 'account_detail'}class="active"{/if}><a href="user.php?act=account_detail" onfocus="this.blur()">账户明细</a></li>
+</ul>

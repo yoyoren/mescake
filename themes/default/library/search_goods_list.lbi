@@ -1,0 +1,13 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--{foreach name=goods_list from=$goods_list item=goods}-->
+  <div class="searchg">
+    <div class="content">
+      <div class="gname"><b>{$goods.goods_name}</b><span class="dright"> {$goods.goods_sn}</span></div><hr>
+      <div class="gbrief">{$goods.goods_desc}</div>
+      <div class="img"><img src="images/sgoods/{$goods.goods_sn}.png" /></div>
+      <div class="price">{$goods.market_price}</div>
+      <div class="more"><a href="{$goods.url}">立即订购&nbsp;<img src="images/more.jpg" align="absmiddle"></a></a></div>
+    </div>
+  </div>
+
+<!--{/foreach}-->

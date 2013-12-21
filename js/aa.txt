@@ -1,0 +1,67 @@
+$(function(){
+var sWidth = $("#qire-slider").width();
+var len = $("#qire-slider .ui-silder-panel").length;
+var index = 0;
+var picTimer;
+var btn = "<a class='prev'>Prev</a><a class='next'>Next</a>";
+$("#qire-slider").append(btn);
+//
+$("#qire-slider .ui-silder-nav li").css("opacity",0.4).mouseenter(function() {
+index = $("#qire-slider .ui-silder-nav li").index(this);
+showPics(index);
+}).eq(0).trigger("mouseenter");
+// prev & next opacity
+$("#qire-slider .prev,#qire-slider .next").css("opacity",0.2).hover(function() {
+$(this).stop(true,false).animate({"opacity":"0.5"},300);
+},function() {
+$(this).stop(true,false).animate({"opacity":"0.2"},300);
+});
+// Prev
+$("#qire-slider .prev").click(function() {
+index -= 1;
+if(index == -1) {index = len - 1;}
+showPics(index);
+});
+// Next
+$("#qire-slider .next").click(function() {
+index += 1;
+if(index == len) {index = 0;}
+showPics(index);
+});
+//
+$("#qire-slider .ui-silder-cnt").css("width",sWidth * (len));
+// mouse
+$("#qire-slider").hover(function() {
+clearInterval(picTimer);
+},function() {
+picTimer = setInterval(function() {
+showPics(index);
+index++;
+if(index == len) {index = 0;}
+},4000);
+}).trigger("mouseleave");
+// showPics
+function showPics(index) {
+var nowLeft = -index*sWidth;
+$("#qire-slider .ui-silder-cnt").stop(true,false).animate({"left":nowLeft},300);
+$("#qire-slider .ui-silder-nav li").removeClass("current").eq(index).addClass("current");
+$("#qire-slider .ui-silder-nav li").stop(true,false).animate({"opacity":"0.6"},300).eq(index).stop(true,false).animate({"opacity":"1"},300);
+}
+});
+
+
+
+<div class="silderBox">
+<div id="qire-slider" class="ui-silder w960" style="height: 350px;">
+<div id="micro-silder-tip" class="ui-silder-tip">&nbsp;</div>
+<div id="micro-silder-cnt" class="ui-silder-cnt" style="left: 0px; width: 1920px;">
+<div class="ui-silder-panel fn-clear">
+<div class="ui-silder-panel fn-clear">
+</div>
+<ul id="micro-silder-nav" class="ui-silder-nav fn-clear">
+<a class="prev" style="opacity: 0.2;">Prev</a>
+<a class="next" style="opacity: 0.2;">Next</a>
+</div>
+</div>
+
+

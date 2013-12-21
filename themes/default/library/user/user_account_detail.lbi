@@ -1,0 +1,30 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div id="container">
+{include file='library/user/user_top_menu.lbi'}
+<div id="content">
+		<p class="wane_left"></p>
+		<p class="wane_right"></p>
+		<div class="service">
+			<h2>账户余额：<span class="fs28">{$surplus_amount}</span><span class="fs12">元</span><p><a href="user.php?act=charge">充 值</a></p></h2>
+			<table>
+				<tbody>
+					<tr>
+						<th class="w167px">日期时间</th>
+						<th class="w98px">操作</th>
+						<th class="w170px">金额（元）</th>
+						<th class="w437px">备注</th>
+					</tr>
+                    <!--{foreach from=$account_log item=item}-->
+					<tr>
+						<td>{$item.change_time}</td>
+						<td>{$item.type}</td>
+						<td>{$item.amount}</td>
+						<td>{$item.short_change_desc}</td>
+					</tr>
+                    <!--{/foreach}-->					
+				</tbody>
+			</table>
+            {include file='library/pages.lbi'}
+		</div>
+	</div>
+</div>

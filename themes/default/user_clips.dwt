@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery.min.js,jquery.json-1.3.js,transport.js,common.js,user.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+
+<!-- 用户信息界面 start-->
+<!--{if $action eq 'profile'}-->
+<!-- #BeginLibraryItem "/library/user/user_profile.lbi" --><!-- #EndLibraryItem -->
+<!--{/if}-->
+<!--#用户信息界面 end-->
+     
+
+<!--#订单列表界面 start-->
+<!-- {if $action eq 'order_list'} -->
+<!-- #BeginLibraryItem "/library/user/user_order_list.lbi" --><!-- #EndLibraryItem -->
+<!--{/if}-->
+<!--#订单列表界面end-->
+
+<!-- {if $action eq 'order_detail'} -->
+<!-- #BeginLibraryItem "/library/user/user_order_detail.lbi" --><!-- #EndLibraryItem -->
+<!--{/if}-->
+
+<!-- {if $action eq 'charge'} -->
+<!-- #BeginLibraryItem "/library/user/user_charge.lbi" --><!-- #EndLibraryItem -->
+<!--{/if}-->
+
+<!-- {if $action eq 'charge_finish'} -->
+<!-- #BeginLibraryItem "/library/user/user_charge_finish.lbi" --><!-- #EndLibraryItem -->
+<!--{/if}-->
+
+<!-- {if $action eq 'account_detail'} -->
+<!-- #BeginLibraryItem "/library/user/user_account_detail.lbi" --><!-- #EndLibraryItem -->
+<!--{/if}-->
+
+<div class="blank"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+  
+</body>
+<script type="text/javascript">
+{foreach from=$lang.clips_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+</script>
+</html>

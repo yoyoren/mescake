@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,index.js,jQuery-1.7.1.js,jQuery-easing.js,jQuery-jcImgScroll.js'}
+<script language="javascript" type="text/javascript">
+$(function(){
+	document.getElementById('bgimg').height=document.body.offsetHeight+20+20;	
+	
+});
+
+</script>
+</head>
+<!--onload="pic()"-->
+<body>
+<div id="div_bg" style="margin-top:20px">
+<img src="images/bg.jpg"  id="bgimg" style="z-index:-1;position:absolute;left:0;top:0;width:100%;" >
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="block clearfix"> 
+  <!--right start-->
+  <div class="indexR">
+   <!--焦点图和站内快讯 START-->
+      
+   <!--焦点图和站内快讯 END-->
+  </div>
+  <!--right end-->
+</div>
+<div  class="indexbox" id="bottomNav" >
+ <div class="indexbox_1">
+    <div id="4" class="indeximg f_l cat" onmouseover="showbg(4)" onmouseout="hidebg(4)"   ><a href="category.php?id=4"><img src="images/index/4.jpg"  /></a></div>
+	<div id="5" class="indeximg f_l indeximgl cat" ><a href="category.php?id=5"><img src="images/index/5.jpg"  /></a></div>
+    <div id="6" class="indeximg f_l indeximgl cat" ><a href="category.php?id=6"><img src="images/index/6.jpg" /></a></div>
+	<div id="2" class="indeximg1 f_l"><a href="category.php?id=2"><img src="images/index/2.jpg" width="630px"/></a></div>
+	<div id="3" class="indeximg f_l indeximgl cat" ><a href="category.php?id=3"><img src="images/index/3.jpg" /></a></div>
+  </div>
+<div>
+<div class="blank5"></div>
+<div class="blank5"></div>
+<div class="blank5"></div>
+<div class="blank5"></div>
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+<script>
+
+  function showbg(id) {
+    //var id=$(this).attr("id");
+    $("#"+id).html('');
+   
+    $("#"+id).css("background","url(themes/default/images/index/"+id+"bg.jpg)");
+    if(id==2){
+    	var div='<div style="width:630px;height:262px"></div>';
+    }else{
+    	var div='<div style="height:262px;"></div><div style="background:url(images/share.png);width:188px;height:37px;float:left"></div><div style="width:100px;height:37px;float:right;"><a href=category.php?id=';
+    	div+=id;
+    	div+=' style="display:block;line-height:37px;width:118px;text-decoration:none;">&nbsp;</a></div>';
+    }
+    $("#"+id).html(div);
+  }
+  function hidebg(id) {
+  
+   $("#"+id).html("<a href=category.php?id="+id+"><img src=\"themes/default/images/index/"+id+".jpg\"  /></a>");
+  }
+</script>
+</body>
+</html>

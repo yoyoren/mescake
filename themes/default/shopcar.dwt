@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="mes,每实,蛋糕" />
+<meta name="Description" content="MES每实是一个食物,生活方式,艺术和文化的综合体,它钟情于创造任何让生活产生乐趣,品质和格调的食物产品,3大系列,38款产品,让你尽享美好." />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>我的购物车</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{insert_scripts files="jquery.min.js"}
+{insert_scripts files='common.js,shopping_flow.js'}
+<!--head特效-->
+{insert_scripts files="header_spec.js"}
+	<style type="text/css">
+		
+		.rightborder{border-right:1px solid;padding-left:5px;width:200px;}
+	</style>
+</head>
+<body>
+    
+     <!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+	 {insert name='member_info'}
+	 <div style='height:60px;'></div>	
+	
+	<!--购物-->
+	  <table  width='960' align="center"  border="0" cellpadding="0" cellspacing="0" bgcolor="#FEF9D9" >
+	  <tr >
+		<td colspan="5" align="center" style="line-height:70px;position:relative;"><font size="6">我的购物车</font>
+			<div style='position:absolute;right:0;top:55px;width:140px;cursor:pointer;'><img src="images/flow/clearall.png" onclick="location.href='flow.php?step=clear2'" /><div></td>	
+	  </tr>
+	  <tr >
+		<td colspan="5"><hr style="width:895px;height:2px;color:#D1D1D1;"/> </td>
+	  </tr>
+	  <tr style="line-height:30px;font-size:14px;">
+		<td width="200" style="padding-left:24px;border-right:2px solid #D1D1D1;">品名</td>
+		<td width="200" style="border-right:2px solid #D1D1D1;">&nbsp;数量</td>
+		<td width="210" style="border-right:2px solid #D1D1D1;" >&nbsp;价格</td>
+		<td width="230" style="border-right:2px solid #D1D1D1;">&nbsp;优惠</td>
+		<!--<td width="250" style="border-right:2px solid #D1D1D1;">&nbsp;生日牌</td>-->
+		<!--<td width="236">额外餐具0.5元/份<img src="images/canju.png" align="absmiddle"/></td>-->
+		<td width="100">&nbsp;取消</td>
+	  </tr>
+	 <!-- {foreach from=$goods_list item=goods} -->
+            <tr height="40px">
+              <td bgcolor="#FEF9D9" align="left"  style="padding-left:24px;">
+                <!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} 商品 -->
+                 {$goods.goods_name}[{$goods.goods_attr|nl2br}]
+                <!-- {/if} -->
+              </td>
+              <td align="left" >
+			  <img src="images/flow/f_jian.png" align="absmiddle" style="cursor:pointer;vertical-align:middle;"  onclick="minus({$goods.rec_id});">&nbsp;<input type="text" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" size="4" class="inputBg" style="text-align:center " onkeydown="showdiv(this)"/>&nbsp;<img src="images/flow/f_jia.png" align="absmiddle"  style="cursor:pointer;vertical-align:middle;" onclick="plus({$goods.rec_id});">
+			  </td>
+              <td align="left"  > <font  face="Arial">{$goods.goods_price}</font> </td>
+              <td align="left" ><label id="sub_{$goods.rec_id}"></label></td>
+			  
+			 
+			  <script language="javascript">
+			  function checkce(e)
+			  {
+				var cepattern=/[\u4e00-\u9fa5]/ ;
+				var neirong=document.getElementById("birth"+e).value;
+				if(!cepattern.test(neirong))
+				{
+					$("#birth"+e).attr('maxlength','16');
+				}
+				else
+				{ 
+			
+					$("#birth"+e).attr('maxlength','8');
+				}
+			  }
+				function minuscanju(n)
+				{
+					var num=document.getElementById("canju_number_"+n).value;
+						num2=num-1;
+						if(num2>=0)
+						{
+							document.getElementById("canju_number_"+n).value=num2;
+							var cannum=document.getElementById("canjuyuan"+n).innerHTML;
+							//alert(cannum);
+							document.getElementById("canjuyuan"+n).innerHTML=cannum-0.5;
+							var total=document.getElementById("total").innerHTML;
+							total=total.substr(1);
+							
+							total=total-0.5;
+							
+							document.getElementById("total").innerHTML="￥"+total;
+						//	alert(num2);
+						}
+				}
+				function pluscanju(m)
+				{
+					var num=document.getElementById("canju_number_"+m).value;
+					
+						num++;
+					document.getElementById("canju_number_"+m).value=num;
+					var cannum=document.getElementById("canjuyuan"+m).innerHTML;
+					//alert(cannum);
+						document.getElementById("canjuyuan"+m).innerHTML=cannum-1+0.5+1;
+					var total=document.getElementById("total").innerHTML;
+					
+					total=total.substr(1)-1+0.5+1;
+					
+					//total=total + 0.5;
+					
+					document.getElementById("total").innerHTML="￥"+total;
+				}
+			  </script>
+              <td align="left" >
+                <a href="javascript:if (confirm('确定从购物车中删除该商品')) location.href='flow.php?step=drop_shopcar&amp;id={$goods.rec_id}'; " class="f6">&nbsp;<img src="images/flow/f_del.png"></a>
+              </td>
+            </tr>
+            <!-- {/foreach} -->
+		<tr >
+			<td colspan="5"><hr style="width:895px;height:2px;color:#D1D1D1;"/> </td>
+		</tr>
+		<tr>
+			<td colspan="5" >
+			 <div class="total" style='background:#FEF9D9'>
+			   <div class="clearcart" style='background:#FEF9D9'><font size='4'>总计/Total</font></div>
+			   <div class="shopping_money" id="total">{$shopping_money}</div>
+			 </div>
+			</td>
+		</tr>
+		<tr >
+			<td colspan="5"><hr style="width:895px;height:2px;color:#D1D1D1;"/></td>
+		</tr>
+		<tr>
+			<td style='padding-left:26px;'><a href='index.php'><img src='images/flow/f_to2.png'/></a></td><td colspan='2'>&nbsp;</td><td colspan='2' style='position:relative;'><a href='flow.php?step=cart' style='position:absolute;right:35px;top:0;'><img src='images/flow/f_next2.png'/></a></td>
+		</tr>
+		<tr><td>&nbsp;</td></tr>
+	</table>
+	<div style='height:60px;'></div>
+	   <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+   
+   
+</body>
+</html>

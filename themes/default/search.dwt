@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- {if $cat_style} -->
+<link href="{$cat_style}" rel="stylesheet" type="text/css" />
+<!-- {/if} -->
+{* 包含脚本文件 *}
+{insert_scripts files='jquery.min.js,jquery.json-1.3.js,common.js'}
+<style type="text/css">
+.searchg{width:774px;height:250px;padding-top:10px;margin-top:10px;background-color:#E3E0DB; position:relative;overflow:hidden;}
+.searchg .content{margin-left:15px;width:740px;height:175px;}
+.searchg .content .gbrief{height:155px}
+.img{ width:300px; height:220px; position:absolute; right:93px; top:50px;}
+.img img{ width:300px; height:220px;}
+.dright{float:right;margin-right:10px}
+</style>
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+{insert name='member_info'}
+<div class="block box">
+<div class="blank60"></div>
+  <!--left start-->
+   <div class="AreaL" id="search_goods_list">   
+  <!-- #BeginLibraryItem "/library/search_goods_list.lbi" --><!-- #EndLibraryItem --> 
+  </div>  
+  <!--left end-->
+   <div class="top-right">
+ 
+  <!-- #BeginLibraryItem "/library/search_form2.lbi" --><!-- #EndLibraryItem -->	
+ {insert name='right_history'}
+  <div id="ECS_CARTINFO">
+ {insert name='right_cart_info'}
+ </div>
+ </div>
+<div class="blank20"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+<script>
+var select_spe = "{$lang.select_spe}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+</script>
+  <!--浏览统计-->
+   <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000160405'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000160405%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>

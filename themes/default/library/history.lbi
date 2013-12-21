@@ -1,0 +1,39 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.history_title{ width:165px; overflow:hidden; margin:0 auto; padding-top:6px;padding-left:8px;}
+.history_title h3{ color:#292526; font-size:14px; font-weight:bold; border-bottom:2px solid #B3B3B3; padding-bottom:5px;}
+</style>
+<div class="box history" id='history_div'>
+  <div class="history_title"><h3>浏览记录<br />Browsing history</h3></div>  
+    <ul id='history_list'>
+        	{foreach name=history_goods from=$history_goods item=goods}
+            <li>
+            <span>{$smarty.foreach.history_goods.iteration}</span>
+           <a href="goods.php?id={$goods.goods_id}"><img src="images/sgoods/{$goods.goods_sn}.png" width="40" height="30" />
+            <img src="themes/default/images/price_name.gif" width="24" height="24" /></a>
+            <div>
+            <p style="color:#000;">{$goods.shop_price|price_format_new}</p>
+			<p>{$goods.goods_name}</p>
+            </div>
+            </li>
+            {/foreach}           
+        </ul>    
+</div>
+<script type="text/javascript">
+if (document.getElementById('history_list').innerHTML.replace(/\s/g,'').length<1)
+{
+    document.getElementById('history_div').style.display='none';
+}
+else
+{
+    document.getElementById('history_div').style.display='block';
+}
+function clear_history()
+{
+Ajax.call('user.php', 'act=clear_history',clear_history_Response, 'GET', 'TEXT',1,1);
+}
+function clear_history_Response(res)
+{
+document.getElementById('history_list').innerHTML = '{$lang.no_history}';
+}
+</script>

@@ -1,0 +1,88 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div id="container">
+{include file='library/user/user_top_menu.lbi'}
+<div id="content">
+		<p class="wane_left"></p>
+		<p class="wane_right"></p>
+		<div class="indent_detail">
+			<h2>订单状况：</h2>
+			<table>
+			<tr>
+				<td style="border-bottom:none;width:70px;">订单号：</td><td>{$order.order_sn}</td>
+			<tr>
+				<td style="border-bottom:none;">订单状况：</td><td>{$order.order_status}&nbsp;&nbsp;&nbsp;&nbsp;{$order.confirm_time}</td>
+			</tr>
+			<tr>
+				<td style="border-bottom:none;">付款状况</td>
+				<td>{$order.pay_status}&nbsp;&nbsp;&nbsp;&nbsp;{if $order.order_amount gt 0}{$order.pay_online}{/if}{$order.pay_time}</td>
+			</tr>
+			</table>
+		</div>
+		<div class="indent_detail">
+			<h2 class="pt20px">商品列表</h2>
+			<table >
+				<tbody align="center">
+					<tr>
+						<th>商品名称</th>
+						<th>属性</th>
+						<th>单价</th>
+						<th>购买数量</th>
+						<th>小计</th>
+					</tr>
+                     <!-- {foreach from=$goods_list item=goods} -->
+					<tr>
+						<td><!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} 商品 -->
+                <a href="goods.php?id={$goods.goods_id}" target="_blank" class="f6">{$goods.goods_name}</a>
+                <!-- {if $goods.parent_id > 0} -->
+                <span style="color:#FF0000">（{$lang.accessories}）</span>
+                <!-- {elseif $goods.is_gift} -->
+                <span style="color:#FF0000">（{$lang.largess}）</span>
+                <!-- {/if} -->
+              <!-- {elseif $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} -->
+                <a href="javascript:void(0)" onclick="setSuitShow({$goods.goods_id})" class="f6">{$goods.goods_name}<span style="color:#FF0000;">（礼包）</span></a>
+                <div id="suit_{$goods.goods_id}" style="display:none">
+                    <!-- {foreach from=$goods.package_goods_list item=package_goods_list} -->
+                      <a href="goods.php?id={$package_goods_list.goods_id}" target="_blank" class="f6">{$package_goods_list.goods_name}</a><br />
+                    <!-- {/foreach} -->
+                </div>
+              <!-- {/if} --></td>
+						<td>{$goods.goods_attr|nl2br}</td>
+						<td>{$goods.goods_price}</td>
+						<td>{$goods.goods_number}</td>
+						<td>{$goods.subtotal}</td>
+					</tr>
+                     <!-- {/foreach} -->
+				</tbody>
+			</table>
+		</div>
+		<div class="indent_detail">
+			<h2 class="pt20px"><span style="float:right;margin-right:150px">商品总价：{$order.formated_goods_amount}</span></h2>
+			<table border="1">
+				<tbody>
+					<tr>
+						<td style="width:200px;">费用总计</td>
+						<td>现金券：{$order.formated_bonus} &nbsp;礼金卡：{$order.formated_surplus}</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>配送费用：￥{$order.shipping_fee}&nbsp;&nbsp;&nbsp;付款总金额：{$order.formated_total_fee}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="indent_detail">
+			<h2 class="pt20px">收款人信息：</h2>
+			<table>
+			  <tr>
+				<td style="border-bottom:none;width:100px;">收款人姓名：</td><td>{$order.consignee}</td>
+			</tr>
+			<tr>
+				<td style="border-bottom:none;">详细地址：</td><td>{$order.address}</td>
+			</tr>
+			<tr>
+                <td style="border-bottom:none;">联系电话：</td><td>{$order.mobile}</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>

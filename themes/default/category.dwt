@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- {if $cat_style} -->
+<link href="{$cat_style}" rel="stylesheet" type="text/css" />
+<!-- {/if} -->
+{* 包含脚本文件 *}
+<!--jquery-1.2.6.min.js-->
+{insert_scripts files='common.js,global.js'}
+</head>
+<body >
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="catnav">
+{if $cakenav}
+<div class="catnav1">
+	<a href="category.php?id=1"> 
+        <img src="images/allb.png"  id="c1" style="margin-left:15px"   />
+    </a>
+    <a href="category.php?id=4"><img src="images/c4.png" id="c4" style="margin-left:20px" /></a>
+    <a href="category.php?id=5"><img src="images/c5.png" id="c5" style="margin-left:20px" /></a>
+    <a href="category.php?id=6"><img src="images/c6.png" id="c6" style="margin-left:20px" /></a>
+</div>
+{/if}
+{if $cakenav1}
+<div class="catnav2">
+	<a href="category.php?id=4"><img id="c4" src="images/alls.png"  /></a>
+    <a href="category.php?id=7"><img id="c7" src="images/c78.png"  /></a>
+    <a href="category.php?id=8"><img  id="c8" src="images/c910.png"  /></a>
+    <a href="category.php?id=9"><img id="c9" src="images/c1112.png"  /></a>
+</div>
+{/if}
+</div>
+<div class="cmain clearfix">
+  <!--left start-->
+  <div class="AreaL">{insert_scripts files='transport.js'}
+   <!--{foreach from=$goods_list item=goods}-->
+
+	{if $goods.i eq 4} <div  class="f_l cimgb " onmouseover="showgoodsbg({$goods.goods_id})" onmouseout="showgoods({$goods.goods_id})">{if $cakenav1}<img src="images/c1.png">{/if}
+	{if $category eq 2}<img src="images/Dseeerts.png">{/if}</div>
+	<div  class="cimg f_l cimgl goods1" onmouseover="showgoodsbg({$goods.goods_id})" onmouseout="showgoods({$goods.goods_id})"><img src="images/cake.jpg" name="{$goods.goods_id}" usemap="#Map{$goods.goods_id}" id="{$goods.goods_id}" />
+	  <map name="Map{$goods.goods_id}" id="Map{$goods.goods_id}">
+        <area shape="rect" coords="193,185,244,212" href="goods.php?id={$goods.goods_id}" />
+        <area shape="rect" coords="196,215,243,243" href="javascript:addToCart({$goods.goods_id})" />
+	  </map>
+	</div>
+	 {elseif $goods.i eq 1}<div  class="cimg f_l goods1" onmouseover="showgoodsbg({$goods.goods_id})" onmouseout="showgoods({$goods.goods_id})">
+	 <img src="images/cake.jpg" name="{$goods.goods_id}" usemap="#Map{$goods.goods_id}" id="{$goods.goods_id}" />
+	 <map name="Map{$goods.goods_id}" id="Map{$goods.goods_id}">
+            	<area shape="rect" coords="193,185,244,212" href="goods.php?id={$goods.goods_id}" />
+				 <area shape="rect" coords="196,215,243,243" href="javascript:addToCart({$goods.goods_id})" />
+	 </map> 
+	 </div> 
+	 {elseif $goods.i eq 5}<div  class="cimg f_l goods1" onmouseover="showgoodsbg({$goods.goods_id})" onmouseout="showgoods({$goods.goods_id})">
+	 <img src="images/cake.jpg" name="{$goods.goods_id}" usemap="#Map{$goods.goods_id}" id="{$goods.goods_id}" />
+	 <map name="Map{$goods.goods_id}" id="Map{$goods.goods_id}">
+            	<area shape="rect" coords="193,185,244,212" href="goods.php?id={$goods.goods_id}" />
+				 <area shape="rect" coords="196,215,243,243" href="javascript:addToCart({$goods.goods_id})" />
+	 </map> 
+	 </div> 
+	 {elseif $goods.i eq 8}<div  class="cimg f_l goods1" onmouseover="showgoodsbg({$goods.goods_id})" onmouseout="showgoods({$goods.goods_id})">
+	 <img src="images/cake.jpg" name="{$goods.goods_id}" usemap="#Map{$goods.goods_id}" id="{$goods.goods_id}" />
+	 <map name="Map{$goods.goods_id}" id="Map{$goods.goods_id}">
+         <area shape="rect" coords="193,185,244,212" href="goods.php?id={$goods.goods_id}" />
+		 <area shape="rect" coords="196,215,243,243" href="javascript:addToCart({$goods.goods_id})" />
+	 </map> 
+	 </div>
+	 {else}<div  class="cimg f_l cimgl goods1" onmouseover="showgoodsbg({$goods.goods_id})" onmouseout="showgoods({$goods.goods_id})">
+	 <img src="images/cake.jpg" name="{$goods.goods_id}" usemap="#Map{$goods.goods_id}" id="{$goods.goods_id}" />
+	 <map name="Map{$goods.goods_id}" id="Map{$goods.goods_id}">
+            	<area shape="rect" coords="193,185,244,212" href="goods.php?id={$goods.goods_id}" />
+				 <area shape="rect" coords="196,215,243,243" href="javascript:addToCart({$goods.goods_id})" />
+	 </map> </div>
+	 {/if}
+   <!--{/foreach}-->
+   
+  </div>  
+  <!--left end-->
+  <!--right start-->
+  <div class="AreaR">
+    <!--searchblank start-->
+  	<div class="searchblank">
+      <!-- #BeginLibraryItem "/library/search_form.lbi" --><!-- #EndLibraryItem -->
+      <!-- #BeginLibraryItem "/library/search_form2.lbi" --><!-- #EndLibraryItem -->	
+  		  
+  	</div>
+    <!--searchblank end-->  
+    {insert name='right_history'}
+     <!--myorder-->
+	 {insert name='right_cart_info'}  
+  </div>
+  <!--right end-->
+<div class="blank20"></div>
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+<div class="blank20"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+<script>
+function showgoodsbg(id){
+	 
+	document.getElementById(id).setAttribute("src","themes/default/images/cakebg.jpg");
+	
+	//$(this).children(".new").hide();
+		
+}
+
+function showgoods(id){
+	document.getElementById(id).setAttribute("src","themes/default/images/cake.jpg");
+    //$(this).children(".new").show();
+	
+}
+var select_spe = "{$lang.select_spe}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+</script>
+  <!--浏览统计-->
+   <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000160405'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000160405%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>

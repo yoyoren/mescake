@@ -1,0 +1,10 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <!-- {if $step eq "cart"} -->
+<hr style=" background:black;margin-top:40px;margin-left:20px;width:78px;border-color:#000000;float:left; color:#000000" size="6">
+ <!-- {/if} --> 
+ <!-- {if $step eq "checkout"}-->
+ <hr style=" background:black;margin-top:40px;margin-left:170px;width:95px;border-color:#000000;float:left; color:#000000" size="6">
+ <!-- {/if} -->
+  <!-- {if $step eq "done"}-->
+ <hr style=" background:black;margin-top:40px;margin-left:330px;width:95px;border-color:#000000;float:left; color:#000000" size="6">
+ <!-- {/if} -->

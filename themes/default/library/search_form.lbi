@@ -1,0 +1,69 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--searchblankTit start-->
+<div class="searchblankTit">
+  <script type="text/javascript">
+{literal}
+<!--
+function checkSearchForm()
+{
+if(document.getElementById('keyword').value)
+{
+    return true;
+}
+else
+{
+    alert("{$lang.no_keywords}");
+    return false;
+}
+}
+function kuang(id){
+  labels = document.getElementById(id).getElementsByTagName('span');
+  radios = document.getElementById(id).getElementsByTagName('input');
+  for(i=0,j=labels.length ; i<j ; i++)
+  {
+   labels[i].onclick=function() 
+   {   
+  
+    if(this.className == '') {
+     for(k=0,l=labels.length ; k<l ; k++)
+     {
+      labels[k].className='';
+      radios[k].checked = false;
+     }
+     this.className='checked';
+     try{
+        document.getElementById(this.getAttribute('name')).checked = true;
+     } catch (e) {}
+    }
+   }
+  }
+}
+
+function blur_stxt(obj)
+{
+  var sobj = document.getElementById('keyword');
+  if(sobj.value =="")
+  {
+     sobj.className = 'keywords keywords_bg'; 
+  }
+  else
+  {
+     sobj.className = 'keywords';	  
+  }	
+}
+
+function focus_stxt()
+{
+  var sobj = document.getElementById('keyword');
+  sobj.className = 'keywords';	
+}
+
+-->
+{/literal}
+</script>
+<form id="searchForm" name="searchForm" method="get" action="search.php">
+  <input name="keywords" type="text" id="keyword" value="{$search_keywords|escape}"  class="keywords{if $search_keywords eq ''} keywords_bg{/if}" onblur="blur_stxt();" onfocus="focus_stxt();"/>
+   <input name="imageField" type="submit" value="" class="go" style="cursor:pointer;"  />		   
+</form>
+</div>
+<!--searchblankTit end-->

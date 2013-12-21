@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>MES每时_尽享美好</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery.min.js,common.js'}
+
+</head>
+<body'>
+
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+{insert name='member_info'}
+<div class="block box">
+<div class="blank60"></div>
+  <div class="brandleft">
+    <div class="brandname"><div><img src="images/a.png" onclick="hello(4)" style='cursor:pointer;'/><img src="images/d.png" onclick="hello(1)" style='cursor:pointer;'/><img src="images/s.png" onclick='hello(2)' style='cursor:pointer;'/><img src="images/c.png" onclick='hello(3)' style='cursor:pointer;'></div><img src="{$brand.brand_logo}" id='brandlogo'/></div>
+	<div class="brandlist{$brand.brand_id}">
+<script language="javascript">
+	function hello(n)
+	{
+	//alert('ddddd');
+		$.ajax({
+			type:"post",
+			url:"series.php",
+			data:"id="+new Date()+"&step=series"+"&brand_id="+n,
+			dataType:"html",
+			success:function(msg){
+		    //接收服务器的响应结果
+		//alert(msg);
+		$("#series").html(msg);
+			//window.location.reload();
+			//$("#div1").html(msg);
+			  }
+			});
+			if(n==1){
+			document.getElementById('brandlogo').src='images/days.jpg';
+			document.title="DAYS_MES每时尽享美好";
+			}
+		if(n==2){
+			document.getElementById('brandlogo').src='images/special.jpg';
+			document.title="SPECIAL_MES每时尽享美好";
+		}
+		if(n==3){
+			document.getElementById('brandlogo').src='images/classic.jpg';
+			document.title="CLASSIC_MES每时尽享美好";
+		}
+		if(n==4){
+			document.getElementById('brandlogo').src='images/all.png';
+			document.title="ALL_MES每时尽享美好";
+		}
+	}
+</script>
+	<div id="series">
+		{if $brand_id eq 4}
+	<div class="clearfix"  style="width:804px;border:0px solid;padding-left:0px;"><br/>
+	{foreach from=$all_goods item=all}
+		<div style='float:left;width:200px;height:200px;padding-left:0px;margin-top:0px;'>
+			<a href='goods.php?id={$all.goods_id}'><img src='images/all/{$all.goods_id}.jpg' width='175' height='175'/></a>
+		</div>
+	
+	{/foreach}
+	</div>
+{else}
+		<div class="clearfix"  style="width:804px;border:0px solid;padding-left:0px;"><br/>
+		{foreach from=$goods_list item=goods}
+			<div style='float:left;width:200px;height:200px;border:0px solid;padding-left:0px;margin-top:0px;'>
+				<a href='goods.php?id={$goods.goods_id}'><img src='images/all/{$goods.goods_id}.jpg' width='175' height='175'/></a>
+			</div>
+		
+		{/foreach}
+		</div>
+{/if}	
+	</div>
+
+	
+	 
+	 <!-- <div class="footer"></div>-->
+	</div><!--end list-->
+	
+   </div><!--end left-->
+    <div class="top-right">
+     <!-- #BeginLibraryItem "/library/search_form2.lbi" --><!-- #EndLibraryItem -->	
+ {insert name='right_history'}
+  <!--<div id="ECS_CARTINFO">
+ {insert name='right_cart_info'}
+ </div>-->
+ </div>
+</div>
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+  
+</body>
+</html>

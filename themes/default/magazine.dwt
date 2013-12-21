@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery.min.js,common.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+{insert name='member_info'}
+<div class="block box">
+	<div class="blank20"></div><div class="blank20"></div><div class="blank20"></div>
+   {if $id eq 1}
+        <img src="images/m1.png" border="0" usemap="#Map1" />      
+<map name="Map1" id="Map1">
+  <area shape="poly" coords="503,5,942,4,934,214,525,318" href="goods.php?id=22" />
+  <area shape="poly" coords="522,330,525,541,945,586,946,223" href="goods.php?id=27" />
+<area shape="poly" coords="525,548,517,789,936,798,943,594" href="goods.php?id=25" />
+
+</map>  {elseif $id eq 2}
+		   <img src="images/m2.jpg" border="0" usemap="#Map2" />
+<map name="Map2" id="Map2">
+  <area shape="poly" coords="507,5,505,221,928,281,944,8" href="goods.php?id=15" />
+<area shape="poly" coords="504,235,504,568,926,465,930,295" href="goods.php?id=21" />
+<area shape="poly" coords="506,586,497,783,941,787,933,485" href="goods.php?id=20" />
+</map>
+   {else}
+      <img src="images/m3.png" border="0" usemap="#Map3" />
+<map name="Map3" id="Map3">
+  <area shape="poly" coords="503,10,502,257,924,206,941,11" href="goods.php?id=1" />
+<area shape="poly" coords="504,277,503,420,919,585,935,239" href="goods.php?id=4" />
+<area shape="poly" coords="507,461,498,792,930,798,915,609" href="goods.php?id=3" />
+</map>
+   {/if}</div>
+</body>
+</html>

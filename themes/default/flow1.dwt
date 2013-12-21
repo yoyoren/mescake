@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,shopping_flow.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+{insert name='member_info'}
+<!--当前位置 start-->
+<div class="block box">
+ <div id="ur_here">
+  <!-- #BeginLibraryItem "/library/flow_here.lbi" --><!-- #EndLibraryItem -->
+ </div>
+</div>
+<!--当前位置 end-->
+<div class="blank"></div>
+<div class="blank"></div>
+<div class="block">
+  <!-- {if $step eq "cart"} -->
+  <!-- 购物车内容 -->
+  {* 包含脚本文件 *}
+  
+  <script type="text/javascript">
+  {foreach from=$lang.password_js item=item key=key}
+    var {$key} = "{$item}";
+  {/foreach}
+  function kuang(id){
+		  labels = document.getElementById(id).getElementsByTagName('span');
+		  for(i=0,j=labels.length ; i<j ; i++)
+		  {
+		   labels[i].onclick=function() 
+		   {   
+		  		
+			if(this.className == 'kuang1') {
+			 for(k=0,l=labels.length ; k<l ; k++)
+			 {
+			  labels[k].className='kuang1';			  
+			 }
+			 this.className='checked1';
+			 try{
+			  if(id=="fujian1") addToCart(60);		   
+			  if(id=="fujian2") addToCart(61);
+			  
+			 } catch (e) {}
+			}
+		   }
+		  }
+	}
+  </script>
+  <div class="flowBox">
+  <div class="myorder">
+   <form id="formCart" name="formCart" method="post" action="flow.php" onsubmit="return checkOrderForm(this)">
+  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor="#F2F2F2">
+  <tr><td colspan="5"><img src="images/flow/cart1.jpg" width="954px"></td></tr>
+	 <!-- {foreach from=$goods_list item=goods} -->
+            <tr height="40px">
+              <td bgcolor="#F2F2F2" align="left" width="400px">&nbsp;&nbsp;&nbsp;&nbsp;
+                <!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} 商品 -->
+                 {$goods.goods_name}[{$goods.goods_attr|nl2br}]
+                <!-- {/if} -->
+              </td>
+              <td align="left"  width="180px">
+			  <img src="images/flow/f_jian.png" align="absmiddle" style="cursor:pointer;vertical-align:middle;"  onclick="minus({$goods.rec_id});">&nbsp;<input type="text" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" size="4" class="inputBg" style="text-align:center " onkeydown="showdiv(this)"/>&nbsp;<img src="images/flow/f_jia.png" align="absmiddle"  style="cursor:pointer;vertical-align:middle;" onclick="plus({$goods.rec_id});">
+			  </td>
+              <td align="left"  width="150px"> <font  face="Arial">{$goods.goods_price}</font> </td>
+              <td align="left"  width="160px"><label id="sub_{$goods.rec_id}">0</label></td>
+              <td align="left"  width="64px">
+                <a href="javascript:if (confirm('{$lang.drop_goods_confirm}')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " class="f6"><img src="images/flow/f_del.png"></a>
+              </td>
+            </tr>
+            <!-- {/foreach} -->
+  </table>
+     <div class="fujian">
+     <div id="fujian1">
+	   除按蛋糕规格免费赠送的餐具数量外，是否额外需要餐具？&nbsp;单价:&nbsp;0.5元/份&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	   <!-- {if $canju eq 1} -->
+		<span class="kuang1 checked" ></span>		
+	  <!--{else}--> 
+		<span class="kuang1" onclick="kuang('fujian1')" ></span>
+	 <!-- {/if} -->是的，我需要      </div>
+     <div id="fujian2">
+	   特制的生日蜡烛需要单独订购，是否需要生日蜡烛？&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单价:&nbsp;5.0元/个&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  <!-- {if $lazhu eq 1} -->
+		<span class="kuang1 checked"></span>	
+	  <!--{else}--> 
+		<span class="kuang1" onclick="kuang('fujian2')"></span>	
+	   <!--{/if}--> 
+	 是的，我需要</div>
+	   生日牌定制  <input type="text" name="card_message" />8个字以内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单价免费
+	 </div>
+     <div class="total">
+       <div class="clearcart"><img src="images/flow/f_clear.png" onclick="location.href='flow.php?step=clear'" /></div>
+	   <div class="shopping_money" id="total">{$shopping_money}</div>
+     </div>
+	 </div>
+	 <div class="shipping">
+	 <!-- #BeginLibraryItem "/library/consignee.lbi" --><!-- #EndLibraryItem -->
+	    
+	 </div>
+	 <!--<div class="orderinfo">
+	 
+	 <input type="text" name="orderman" id="orderman" />
+	 <input type="text" name="ordertel" id="ordertel" />
+	 <input type="text" name="orderemail" id="orderemail" />
+	 
+	 </div>-->
+	 <div class="anniu clearfix">
+	    <a href="index.php"><img src="images/flow/f_to.jpg" /></a>
+		<input type="image" src="images/flow/f_next.jpg" />
+        <input type="hidden" value="{$user_info.user_id}" id="login" name="login" />
+        <input type="hidden" value="0" id="save" name="save"/>
+		<input type="hidden" value="checkout" name="step" />
+	 </div>
+        <!-- #BeginLibraryItem "/library/recommend_new.lbi" --><!-- #EndLibraryItem -->
+   </div> <!--flowbox-->  
+  </div><!--block--> 
+  </form>
+    <div class="blank5"></div>
+  <!-- {/if} -->
+  </form>
+        <!-- {if $step eq "consignee"} -->
+        <!-- 开始收货人信息填写界面 -->
+        {insert_scripts files='region.js,utils.js'}
+        <script type="text/javascript">
+          region.isAdmin = false;
+          {foreach from=$lang.flow_js item=item key=key}
+          var {$key} = "{$item}";
+          {/foreach}
+
+          {literal}
+          onload = function() {
+            if (!document.all)
+            {
+              document.forms['theForm'].reset();
+            }
+          }
+          {/literal}
+        </script>
+        <!-- 如果有收货地址，循环显示用户的收获地址 -->
+        <!-- {foreach from=$consignee_list item=consignee key=sn} -->
+        <form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkConsignee(this)">
+        <!-- #BeginLibraryItem "/Library/consignee.lbi" --><!-- #EndLibraryItem -->
+        </form>
+        <!-- {/foreach} -->
+        <!-- {/if} -->
+
+        <!-- {if $step eq "checkout"} 开始订单确认界面 -->
+        <form action="flow.php" method="post" name="theForm" id="theForm" >
+        <script type="text/javascript">
+        var flow_no_payment = "{$lang.flow_no_payment}";
+        var flow_no_shipping = "{$lang.flow_no_shipping}";
+		function kuang(id){
+		  labels = document.getElementById(id).getElementsByTagName('span');
+		  radios = document.getElementById(id).getElementsByTagName('input');
+		  for(i=0,j=labels.length ; i<j ; i++)
+		  {
+		   labels[i].onclick=function() 
+		   {   
+		  
+			if(this.className == '') {
+			 for(k=0,l=labels.length ; k<l ; k++)
+			 {
+			  labels[k].className='';
+			  radios[k].checked = false;
+			 }
+			 this.className='checked';
+			 try{
+				document.getElementById(this.getAttribute('name')).checked = true;
+			 } catch (e) {}
+			}
+		   }
+		  }
+	}
+	function kuangfu(id){
+		  labels = document.getElementById(id).getElementsByTagName('span');
+		  radios = document.getElementById(id).getElementsByTagName('input');
+		  for(i=0,j=labels.length ; i<j ; i++)
+		  {
+		   labels[i].onclick=function() 
+		   {   
+		  
+			if(this.className == '') {
+			  for(k=0,l=labels.length ; k<l ; k++)
+			  {
+			    labels[k].className='';
+			    radios[k].checked = false;
+			  }
+			  this.className='checked';
+			  try{
+				document.getElementById(this.getAttribute('name')).checked = true;
+				if(this.getAttribute('name')=='bonus_id')
+				{
+					document.getElementById('qmsg').className="";
+					document.getElementById('lmsg').className="hide1";
+					changecard(0);
+				}
+				else
+				{
+					document.getElementById('lmsg').className="";
+					document.getElementById('qmsg').className="hide1";
+					changecard(1);
+				}
+			 } catch (e) {}
+			}else{
+			  for(k=0,l=labels.length ; k<l ; k++)
+			 {
+			  labels[k].className='';
+			  radios[k].checked = false;
+			 }
+			 this.className='';
+			 try{
+				document.getElementById(this.getAttribute('name')).checked = false;
+				if(this.getAttribute('name')=='bonus_id')
+				{
+					document.getElementById('qmsg').className="hide1";
+					document.getElementById('lmsg').className="hide1";
+					
+					changecard(0);
+				}
+				else 
+				{
+					document.getElementById('lmsg').className="hide1";
+					document.getElementById('qmsg').className="hide1";
+					
+					changecard(0);
+				}
+				
+			 } catch (e) {}
+			}
+		   }
+		  }
+	}
+        </script>
+		<div  id="dv1">
+		<!--头部div-->
+			<div id="cheader">
+			<div id="ctable">
+			<table border="0" width="914px" align="center" >
+			   <tr >
+			     <td width="90px" align="left">{$consignee.consignee|escape}</td>
+			     <td width="500px" align="center">{$consignee.addressname|escape}</td>
+			     <td width="162px" align="center">{$consignee.mobile|escape}</td>
+			     <td>{$order.best_time}</td>
+			   </tr> 
+			</table>
+			</div>
+			<div id="corder">
+			<table border="0" width="914px" align="center">
+			   <tr >
+			     <td width="140px" align="left">货到付款（现金）</td>
+			     <td width="117px" align="left">{$order.orderman}</td>
+			     <td width="508px" align="left">{$order.mobile}</td>		 
+			   </tr> 
+			</table>
+			</div>		
+			</div>
+		<!--中间div-->
+			<div id="middle">
+			        <div class="flowBox">
+        <table width="100%" align="center" border="0" cellpadding="5" cellspacing="0" bgcolor="#F2F2F2">
+            <!-- {foreach from=$goods_list item=goods} -->
+            <tr>
+              <td width="250px">&nbsp;&nbsp;&nbsp;
+          <a href="goods.php?id={$goods.goods_id}" target="_blank" class="fc">{$goods.goods_name}[{$goods.goods_attr|nl2br}]</a>
+              </td>
+              <td width="195px"></td>
+			  <td width="157px" align="left">{$goods.goods_number}</td>
+              <td width="150px" align="left">{$goods.formated_goods_price}</td>
+              <td  align="left">{$goods.discount|default:0}</td>
+            </tr>
+            <!-- {/foreach} -->
+          </table>
+      </div>
+			</div>
+		<!--脚部div-->
+			<div id="cfooter">
+			  <div id="ctotal">{$shopping_money}</div>
+			</div>
+		
+		<div class="payway clearfix" id="payid"  onclick="kuang('payid')">
+<div class="paywidth1 ">
+<input type="radio" id="cash" name="pay_id" value="1" class="hide1" checked="checked"/>货到付款（现金）&nbsp;<span name="cash" class="checked">&nbsp;</span>&nbsp;&nbsp;
+</div>
+<div class="paywidth2">
+<input type="radio" id="pos" name="pay_id" value="2" class="hide1"/>货到付款（POS机）&nbsp;<span name="pos" >&nbsp;</span>
+&nbsp;&nbsp;
+</div>
+<div class="paywidth3">
+<input type="radio" id="alipay" name="pay_id" value="3" class="hide1" />支付宝&nbsp;<span name="alipay" >&nbsp;</span>
+&nbsp;&nbsp;
+</div>
+<div class="paywidth4">
+<input type="radio" id="bill" name="pay_id" value="4" class="hide1" />快钱&nbsp;<span name="bill" >&nbsp;</span>
+</div>
+     </div>
+	 <div class="used" id="used" onclick="kuangfu('used')">
+		{if $your_surplus}<input type="radio" id="surplus" name="surplus" value="0" class="hide1" />使用礼金卡&nbsp;<span name="surplus" >&nbsp;</span><label id="lmsg" class="hide1">(可用余额:{$your_surplus})</label><br />{/if}
+		<input type="radio" id="bonus_id" name="bonus_id" value="0" class="hide1" />使用现金券&nbsp;<span name="bonus_id" >&nbsp;</span>&nbsp;<label id="qmsg" class="hide1"><input type="text" name="bonus_sn" value="请输入10位现金券券号"  onfocus="javasrcipt:this.value='';" />&nbsp;&nbsp;<input type="button" name="validate_bonus" value="验证" onclick="validateBonus(document.forms['theForm'].elements['bonus_sn'].value)" style="vertical-align:middle;" /></label>
+	 </div>
+          <!-- #BeginLibraryItem "/Library/order_total.lbi" --><!-- #EndLibraryItem -->
+	 
+		<div id="reDiv"><a href="flow.php"><img src="images/flow/revise.jpg" id="revise"></a></div>
+		<div id="nextDiv"><input type="image" src="images/flow/cnext.jpg" id="cnext"></div>
+      
+     <input type="hidden" value="done" name="step"/>
+
+      
+    </form>
+        <!-- {/if} -->
+
+        <!-- {if $step eq "done"} -->
+        <!-- 订单提交成功 -->
+		<script>
+	$(function(){
+		$('.imgShowSmall img').mouseover(function(){
+			var thissrc = $(this).attr('src');
+			$(this).parents('.imgShow').find('.imgShowBig img').attr('src',thissrc);
+		});		   
+	});
+</script>
+        <div class="flowBox">
+		<div class="box1">
+	<div class="imgShow">
+    	<div class="imgShowBig">
+		<img src="images/sgoods/{$goods.img}.png" width="144" height="96" alt="" />
+		</div>
+        <div class="imgShowSmall">
+		{foreach from=$goods_list item=goods}
+		<img src="images/sgoods/{$goods.goodsimg}.png" width="50" height="33" alt="" />
+		{/foreach}
+		</div>
+    </div>
+	<div class="donetext">
+	您选择的{$goods.name},订单号为{$order.order_sn}，蛋糕正在制作。<br/>
+	我们的特别派送员将在预订时间 送达贵处，再次感谢您的预定<br><br>
+	如需帮助请致电4000 600 700
+	</div>
+</div>
+        </div>{$pay_online}
+        <!-- {/if} -->
+        <!-- {if $step eq "login"} -->
+        {insert_scripts files='utils.js,user.js'}
+        <script type="text/javascript">
+        {foreach from=$lang.flow_login_register item=item key=key}
+          var {$key} = "{$item}";
+        {/foreach}
+
+        {literal}
+        function checkLoginForm(frm) {
+          if (Utils.isEmpty(frm.elements['username'].value)) {
+            alert(username_not_null);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['password'].value)) {
+            alert(password_not_null);
+            return false;
+          }
+
+          return true;
+        }
+
+        function checkSignupForm(frm) {
+          if (Utils.isEmpty(frm.elements['username'].value)) {
+            alert(username_not_null);
+            return false;
+          }
+
+          if (Utils.trim(frm.elements['username'].value).match(/^\s*$|^c:\\con\\con$|[%,\'\*\"\s\t\<\>\&\\]/))
+          {
+            alert(username_invalid);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['email'].value)) {
+            alert(email_not_null);
+            return false;
+          }
+
+          if (!Utils.isEmail(frm.elements['email'].value)) {
+            alert(email_invalid);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['password'].value)) {
+            alert(password_not_null);
+            return false;
+          }
+
+          if (frm.elements['password'].value.length < 6) {
+            alert(password_lt_six);
+            return false;
+          }
+
+          if (frm.elements['password'].value != frm.elements['confirm_password'].value) {
+            alert(password_not_same);
+            return false;
+          }
+          return true;
+        }
+        {/literal}
+        </script>
+        <!-- 开始用户登录注册界面 -->
+        <div class="flowBox">
+        <table width="99%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <td width="50%" valign="top" bgcolor="#ffffff">
+            <h6><span>用户登录：</span></h6>
+            <form action="flow.php?step=login" method="post" name="loginForm" id="loginForm" onsubmit="return checkLoginForm(this)">
+                <table width="90%" border="0" cellpadding="8" cellspacing="1" bgcolor="#B0D8FF" class="table">
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.username}</strong></div></td>
+                    <td bgcolor="#ffffff"><input name="username" type="text" class="inputBg" id="username" /></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.password}</strong></div></td>
+                    <td bgcolor="#ffffff"><input name="password" class="inputBg" type="password" /></td>
+                  </tr>
+                  <!-- 判断是否启用验证码{if $enabled_login_captcha} -->
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.comment_captcha}:</strong></div></td>
+                    <td bgcolor="#ffffff"><input type="text" size="8" name="captcha" class="inputBg" />
+                    <img src="captcha.php?is_login=1&{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?is_login=1&'+Math.random()" /> </td>
+                  </tr>
+                  <!--{/if}-->
+                  <tr>
+            <td colspan="2"  bgcolor="#ffffff"><input type="checkbox" value="1" name="remember" id="remember" /><label for="remember">{$lang.remember}</label></td>
+          </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" colspan="2" align="center"><a href="user.php?act=qpassword_name" class="f6">{$lang.get_password_by_question}</a>&nbsp;&nbsp;&nbsp;<a href="user.php?act=get_password" class="f6">{$lang.get_password_by_mail}</a></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" colspan="2"><div align="center">
+                        <input type="submit" class="bnt_blue" name="login" value="{$lang.forthwith_login}" />
+                        <!-- {if $anonymous_buy eq 1} 是否允许未登录用户购物 -->
+                        <input type="button" class="bnt_blue_2" value="{$lang.direct_shopping}" onclick="location.href='flow.php?step=consignee&amp;direct_shopping=1'" />
+                        <!-- {/if} -->
+                        <input name="act" type="hidden" value="signin" />
+                      </div></td>
+                  </tr>
+                </table>
+              </form>
+
+              </td>
+            <td valign="top" bgcolor="#ffffff">
+            <h6><span>用户注册：</span></h6>
+            <form action="flow.php?step=login" method="post" name="formUser" id="registerForm" onsubmit="return checkSignupForm(this)">
+               <table width="98%" border="0" cellpadding="8" cellspacing="1" bgcolor="#B0D8FF" class="table">
+                  <tr>
+                    <td bgcolor="#ffffff" align="right" width="25%"><strong>{$lang.username}</strong></td>
+                    <td bgcolor="#ffffff"><input name="username" type="text" class="inputBg" id="username" onblur="is_registered(this.value);" /><br />
+            <span id="username_notice" style="color:#FF0000"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.email_address}</strong></td>
+                    <td bgcolor="#ffffff"><input name="email" type="text" class="inputBg" id="email" onblur="checkEmail(this.value);" /><br />
+            <span id="email_notice" style="color:#FF0000"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.password}</strong></td>
+                    <td bgcolor="#ffffff"><input name="password" class="inputBg" type="password" id="password1" onblur="check_password(this.value);" onkeyup="checkIntensity(this.value)" /><br />
+            <span style="color:#FF0000" id="password_notice"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.confirm_password}</strong></td>
+                    <td bgcolor="#ffffff"><input name="confirm_password" class="inputBg" type="password" id="confirm_password" onblur="check_conform_password(this.value);" /><br />
+            <span style="color:#FF0000" id="conform_password_notice"></span></td>
+                  </tr>
+                  <!-- 判断是否启用验证码{if $enabled_register_captcha} -->
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.comment_captcha}:</strong></td>
+                    <td bgcolor="#ffffff"><input type="text" size="8" name="captcha" class="inputBg" />
+                    <img src="captcha.php?{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?'+Math.random()" /> </td>
+                  </tr>
+                  <!--{/if}-->
+                  <tr>
+                    <td colspan="2" bgcolor="#ffffff" align="center">
+                        <input type="submit" name="Submit" class="bnt_blue_1" value="{$lang.forthwith_register}" />
+                        <input name="act" type="hidden" value="signup" />
+                    </td>
+                  </tr>
+                </table>
+              </form>
+              </td>
+          </tr>
+          {if $need_rechoose_gift}
+          <tr>
+            <td colspan="2" align="center" style="border-top:1px #ccc solid; padding:5px; color:red;">{$lang.gift_remainder}</td>
+          </tr>
+          {/if}
+        </table>
+        </div>
+        <!-- 结束用户登录注册界面 -->
+        <!-- {/if} -->
+
+
+
+
+</div>
+<div class="blank5"></div>
+<div class="blank"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script type="text/javascript">
+var process_request = "{$lang.process_request}";
+{foreach from=$lang.passport_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+var username_exist = "{$lang.username_exist}";
+var compare_no_goods = "{$lang.compare_no_goods}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+var select_spe = "{$lang.select_spe}";
+</script>
+</html>

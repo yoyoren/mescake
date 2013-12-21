@@ -1,0 +1,7 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{if $user_info}
+ <a href="user.php?act=logout">{$lang.user_logout}</a>
+{else}
+ <a href="user.php">登陆</a><a href="user.php?act=register">注册</a>
+ 
+{/if}
