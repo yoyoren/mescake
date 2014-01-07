@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>弹窗组件详情</title>
+  <link rel="stylesheet" type="text/css" href="css/home.css" />
+  <script src="script/jquery-1.10.min.js"></script>
+  <script src="script/require.js"></script>
+</head>
+<body>
+<script>
+require(["ui/dialog"], function(util) {
+	new util()
+    //This function is called when scripts/helper/util.js is loaded.
+    //If util.js calls define(), then this function is not fired until
+    //util's dependencies have loaded, and the util argument will hold
+    //the module value for "helper/util".
+})
+</script>
+
+
+</body>
+
+</html>
