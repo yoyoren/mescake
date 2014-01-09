@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>购物车中的商品</title>
+  <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+</head>
+<body>
+<div class="layout">
+  <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
+
+  <div class="head-line"></div>
+  <div class="content">
+    <div class="order-area">
+      <h4 class="content-title">订单信息</h4>
+      <ul class="order-ul">
+        <li class="li-bg">
+          <span class="or-name">商品</span>
+          <span class="or-price">单价</span>
+          <span class="or-num">数量</span>
+          <span class="or-total">小计</sapn>
+        </li>
+        <li class="order-item">
+          <div class="or-main-container">
+            <span class="or-name">
+              <a href=""><img src="" class="or-name-img"/><sapn class="or-name-intro">冰魄荔枝（1.磅）</span></a>
+            </span>
+            <span class="or-price">188元</span>
+            <span class="or-num">
+              <em class="or-plus">-</em>
+              <span class="or-num-num">2</span>
+              <em class="or-add">+</em>
+            </span>
+            <span class="or-total">188元</sapn>
+            <em class="or-close">x</em>
+          </div>
+          <div class="or-child-container">
+            <span class="or-name">
+              <img src="" class="or-child-img"/><sapn class="or-name-intro">配套餐具</span>
+            </span>
+            <span class="or-price">免费</span>
+            <span class="or-num"><span>5人份</span></span>
+            <span class="or-total">0元</sapn>
+          </div>
+          <div class="or-child-container">
+            <span class="or-name">
+              <img src="" class="or-child-img"/><sapn class="or-name-intro">添加一个生日牌</span>
+            </span>
+            <span class="or-price">免费</span>
+          </div>
+        </li>
+        <li class="order-item">
+          <div class="or-main-container">
+            <span class="or-name">
+              <a href=""><img src="" class="or-name-img"/><sapn class="or-name-intro">冰魄荔枝（1.磅）</span></a>
+            </span>
+            <span class="or-price">188元</span>
+            <span class="or-num">
+              <em class="or-plus">-</em>
+              <span class="or-num-num">2</span>
+              <em class="or-add">+</em>
+            </span>
+            <span class="or-total">188元</sapn>
+            <em class="or-close">x</em>
+          </div>
+          <div class="or-child-container">
+            <span class="or-name">
+              <img src="" class="or-child-img"/><sapn class="or-name-intro">配套餐具</span>
+            </span>
+            <span class="or-price">免费</span>
+            <span class="or-num"><span>5人份</span></span>
+            <span class="or-total">0元</sapn>
+          </div>
+          <div class="or-child-container">
+            <span class="or-name">
+              <img src="" class="or-child-img"/><sapn class="or-name-intro">添加一个生日牌</span>
+            </span>
+            <span class="or-price">免费</span>
+          </div>
+        </li>
+        <li class="li-bg order-add-more">
+          <label for="dinnerware"><input type="checkbox" id="dinnerware" class="checkbox-item"/>我要添加额外的餐具（+0.5元/份）</label><br />
+          <label for="birthTitle"><input type="checkbox" id="birthTitle" class="checkbox-item" class="checkbox-item" />我要添加特别的生日蜡烛（+5元/份）</label><br />
+          <label for="leaveMes"><input type="checkbox" id="leaveMes" class="checkbox-item" />留言说明</label><br />
+          <textarea class="text-area hide"></textarea>
+        </li>
+      </ul>
+      <h4 class="content-title">送货信息<span class="ct-commit">*为保证送货准确性，请您填写正确无误的信息</span></h4>
+      <p class="need-login-tip">如果您之前注册购买过，请<a href="" class="td-u">登录</a>以读取地址信息，并积累积分</p>
+      <form action="">
+          <dl class="global-form-container clearfix">
+            <dt class="l-title">送货地址：</dt>
+            <dd class="r-con clearfix">
+              北京市
+              <em class="area-intro"></em>
+              <select>
+                <option>请选择区域</option>
+                <option>朝阳区</option>
+                <option>海淀区</option>
+              </select><br/>
+              <div class="check-container big-check-container" style="margin-top:10px;">
+                <input type="password" class="global-input" placeholder="详细地址"/>
+                <span class="tips-container">输入错误</span>
+              </div>
+            </dd>
+            <dt class="l-title lh-input">收货人：</dt>
+            <dd class="r-con clearfix">
+              <div class="check-container">
+                <input type="password" class="global-input" placeholder="收货人姓名"/>
+                <span class="tips-container">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
+              </div>
+            </dd>
+            <dt class="l-title lh-input">联系手机：</dt>
+            <dd class="r-con clearfix">
+              <div class="check-container">
+                <input type="text" class="global-input" placeholder="联系人的手机号码" />
+                <span class="tips-container">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
+              </div>
+            </dd>
+            <dt class="l-title">送货时间：</dt>
+            <dd class="r-con clearfix" style="margin-bottom:20px;">
+              <select>
+                <option>请选择日期</option>
+                <option>23</option>
+                <option>34</option>
+              </select>
+              <select>
+                <option>小时</option>
+                <option>23</option>
+                <option>34</option>
+              </select>
+              <select>
+                <option>分钟</option>
+                <option>23</option>
+                <option>34</option>
+              </select>
+            </dd>
+            <dt class="l-title">开发票：</dt>
+            <dd class="r-con clearfix" style="margin-bottom:20px;">
+              <input type="checkbox" class="checkbox-item" />
+            </dd>
+          </dl>
+          <h4 class="content-title">付款方式</h4>
+          <div class="payStyle">
+            <label for="cashon"><input type="radio" name="payStyle" id="cashon" class="radio-item" />货到付款</label>
+            <select style="margin:0 10px;"><option>现金付款</option><option>POS机刷卡</option></select>
+            <label for="alipay" style="margin-right:20px;"><input type="radio" name="payStyle" id="alipay" class="radio-item" />支付宝</label>
+            <label for="kuaiqian"><input type="radio" name="payStyle" id="kuaiqian" class="radio-item" />快钱</label>
+          </div>
+          <div class="check-money-area clearfix">
+            <div class="money-style">
+            <label for="voucher"><input type="checkbox" id="voucher" class="checkbox-item" />使用代金券</label><br />
+            <label for="balance"><input type="checkbox" id="balance" class="checkbox-item" />使用账户余额</label><br />
+            </div>
+            <div class="total-money">
+              <p><em>商品总计：</em><b>188元</b></p>
+              <p><em>配送费：</em><b>0元</b></p>
+              <p><em>优惠折扣：</em><b>0元</b></p>
+              <p class="total-p"><em>您总共需要支付：</em><b>188元</b></p>
+            </div>
+          </div>
+
+        </form>
+      <div class="tl-r">
+        <span class="total-sub-tip">请确认信息无误后下单</span>
+        <input class="btn green-btn big-btn" type="submit" style="margin-right:0;" value="提交订单"/>
+      </div>
+    </div>
+  </div>
+  <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
+</div>
+</body>
+</html>
