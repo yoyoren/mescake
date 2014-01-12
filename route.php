@@ -1,9 +1,7 @@
 <?php
 define('IN_ECS', true);
 require(dirname(__FILE__) . '/includes/init.php');
-require(ROOT_PATH . 'includes/lib_order.php');
-require(ROOT_PATH . 'includes/lib_transaction.php');
-
+require(ROOT_PATH . 'lib/order.php');
 if ((DEBUG_MODE & 2) != 2){
     $smarty->caching = true;
 }
@@ -22,11 +20,19 @@ switch ($mod) {
 		}else if($action == 'step3'){
 		
 		}else if($action == 'get_order_list'){
-			//defined in lib_order;
-			$cart_goods = get_cart_goods();
-			echo json_encode($cart_goods);
+			echo ECS_Order::get_order_list();
+		}else if($action == 'get_order_address'){
+			echo ECS_Order::get_order_address();
+		}else if($action == 'add_order_address'){
+			$contact= $_GET['contact'];
+			$country= $_GET['country'];
+			$city= $_GET['city'];
+			$address= $_GET['address'];
+			$tel= $_GET['tel'];
+			echo ECS_Order::add_order_address($contact,$country,$city,$address,$tel);
+		}else if($action == 'get_region'){
+			echo ECS_Order::get_region();
 		}
-
         break;
     case 'login':
         break;
