@@ -14,10 +14,19 @@ class ECS_Order{
 
 	public static function del_order_address($address_id){
 		GLOBAL $db;
-		$sql="delete * from ecs_user_address where user_id={$_SESSION['user_id']} and address_id=".$address_id;	
-		$address=$db->getAll($sql);
+		$sql="delete from ecs_user_address where address_id={$address_id}";
+		$address=$db->query($sql);
 		return json_encode(array('msg'=>'ok','code'=>'1'));
 	}
+
+
+	public static function update_order_address($address_id,$country,$city,$contact,$address){
+		GLOBAL $db;
+		$db->query("update ecs_user_address set country={$country},city={$city},consignee='{$contact}',address='{$address}',mobile='{$tel1}'
+			where address_id={$address_id}");
+		return json_encode(array('msg'=>'ok','code'=>'1'));
+	}
+
 
    //收货人,城市,地区,地质,和电话
 	public static function add_order_address($contact,$country,$city,$address,$tel){
@@ -33,6 +42,7 @@ class ECS_Order{
 		$cart_goods = get_cart_goods();
 		return json_encode($cart_goods);
 	}
+	
 	//获得地区列表
 	public static function get_region(){
 		GLOBAL $db;

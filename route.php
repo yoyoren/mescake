@@ -24,12 +24,22 @@ switch ($mod) {
 		}else if($action == 'get_order_address'){
 			echo ECS_Order::get_order_address();
 		}else if($action == 'add_order_address'){
-			$contact= $_GET['contact'];
-			$country= $_GET['country'];
-			$city= $_GET['city'];
-			$address= $_GET['address'];
-			$tel= $_GET['tel'];
+			$contact= $_POST['contact'];
+			$country= $_POST['country'];
+			$city= $_POST['city'];
+			$address= $_POST['address'];
+			$tel= $_POST['tel'];
 			echo ECS_Order::add_order_address($contact,$country,$city,$address,$tel);
+		}else if($action == 'del_order_address'){
+			$id = $_POST['id'];
+			echo ECS_Order::del_order_address($id);
+		}else if($action == 'update_order_address'){
+			$id = $_POST['id'];
+			$contact= $_POST['contact'];
+			$country= $_POST['country'];
+			$city= $_POST['city'];
+			$address= $_POST['address'];
+			echo ECS_Order::update_order_address($id,$country,$city,$contact,$address);
 		}else if($action == 'get_region'){
 			echo ECS_Order::get_region();
 		}
