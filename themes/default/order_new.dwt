@@ -14,150 +14,63 @@
     <div class="order-area">
       <h4 class="content-title">订单信息</h4>
       <ul class="order-ul">
-        <li class="li-bg">
+        <li class="li-bg" id="order_list">
           <span class="or-name">商品</span>
           <span class="or-price">单价</span>
           <span class="or-num">数量</span>
           <span class="or-total">小计</span>
           <span class="or-handle">操作</span>
         </li>
-        <li class="order-item">
-          <div class="or-main-container">
-            <span class="or-name">
-              <a href=""><img src="" class="or-name-img"><span class="or-name-intro">冰魄荔枝（1.磅）</span></a>
-            </span>
-            <span class="or-price">188元</span>
-            <span class="or-num">
-              <em class="or-plus">-</em>
-              <span class="or-num-num">2</span>
-              <em class="or-add">+</em>
-            </span>
-            <span class="or-total">188元</span>
-            <a href="" class="or-handle">删除</a>
-          </div>
-          <div class="or-child-container">
-            <span class="or-name">
-              <img src="" class="or-child-img"><span class="or-name-intro">配套餐具</span>
-            </span>
-            <span class="or-price">免费</span>
-            <span class="or-num"><span>5人份</span></span>
-            <span class="or-total">0元</span>
-          </div>
-          <div class="or-child-container">
-            <span class="or-name">
-              <img src="" class="or-child-img"><span class="or-name-intro">添加一个生日牌</span>
-            </span>
-            <span class="or-price">免费</span>
-          </div>
-        </li>
-        <li class="order-item">
-          <div class="or-main-container">
-            <span class="or-name">
-              <a href=""><img src="" class="or-name-img"><span class="or-name-intro">冰魄荔枝（1.磅）</span></a>
-            </span>
-            <span class="or-price">188元</span>
-            <span class="or-num">
-              <em class="or-plus">-</em>
-              <span class="or-num-num">2</span>
-              <em class="or-add">+</em>
-            </span>
-            <span class="or-total">188元</span>
-            <a href="" class="or-handle">删除</a>
-          </div>
-          <div class="or-child-container">
-            <span class="or-name">
-              <img src="" class="or-child-img"><span class="or-name-intro">配套餐具</span>
-            </span>
-            <span class="or-price">免费</span>
-            <span class="or-num"><span>5人份</span></span>
-            <span class="or-total">0元</span>
-          </div>
-          <div class="or-child-container">
-            <span class="or-name">
-              <img src="" class="or-child-img"><span class="or-name-intro">添加一个生日牌</span>
-            </span>
-            <span class="or-price">免费</span>
-          </div>
-        </li>
         <li class="li-bg order-add-more">
           <label for="dinnerware"><input type="checkbox" id="dinnerware" class="checkbox-item">我要添加额外的餐具（+0.5元/份）</label><br>
           <label for="birthTitle"><input type="checkbox" id="birthTitle" class="checkbox-item">我要添加特别的生日蜡烛（+5元/份）</label><br>
           <label for="leaveMes"><input type="checkbox" id="leaveMes" class="checkbox-item">留言说明</label><br>
           <textarea class="text-area hide"></textarea>
-          <span class="order-total-price">总计<b>188</b>元</span>
+          <span class="order-total-price">总计<b id="order_total">0</b>元</span>
         </li>
       </ul>
       <h4 class="content-title">送货信息<span class="ct-commit">*为保证送货准确性，请您填写正确无误的信息</span></h4>
       <p class="need-login-tip">如果您之前注册购买过，请<a href="" class="td-u">登录</a>以读取地址信息，并积累积分</p>
-      <div class="account-mes-area">
-        <div class="ama-item">
-          <p class="ama-name-area"><b class="fl-l">梅梅哇</b><span class="fl-r">1892432434</span></p>
-          <p class="address-area">
-            <span class="city">北京市</span>
-            <span class="area">朝阳区</span><br>
-            <span class="address">五道口朝阳大道5号楼345号五道口朝阳大道5号楼345号五5号楼345号</span>
-          </p>
-          <div class="clearfix handle-area">
-            <a href="" class="ama-edit fl-l">修改</a>
-            <a href="" class="ama-delete fl-r">删除</a>
-          </div>
+      <div class="account-mes-area" id="address_container">
+        <div class="ama-add-address">
+           <a href="#" class="btn" id="add_new_address">+添加新地址</a>
         </div>
-        <div class="ama-item">
-          <p class="ama-name-area"><b class="fl-l">梅梅哇</b><span class="fl-r">1892432434</span></p>
-          <p class="address-area">
-            <span class="city">北京市</span>
-            <span class="area">朝阳区</span><br>
-            <span class="address">五道口朝阳大道5号楼345号五道口朝阳大道5号楼345号五5号楼345号</span>
-          </p>
-          <div class="clearfix handle-area">
-            <a href="" class="ama-edit fl-l">修改</a>
-            <a href="" class="ama-delete fl-r">删除</a>
-          </div>
-        </div>
-        <div class="ama-item">
-          <p class="ama-name-area"><b class="fl-l">梅梅哇</b><span class="fl-r">1892432434</span></p>
-          <p class="address-area">
-            <span class="city">北京市</span>
-            <span class="area">朝阳区</span><br>
-            <span class="address">五道口朝阳大道5号楼345号五道口朝阳大道5号楼345号五5号楼345号</span>
-          </p>
-          <div class="clearfix handle-area">
-            <a href="" class="ama-edit fl-l">修改</a>
-            <a href="" class="ama-delete fl-r">删除</a>
-          </div>
-        </div>
-        <a href="" class="btn ama-add-address">+添加新地址</a>
       </div>
-      <form action="">
-          <dl class="global-form-container clearfix">
+      <form>
+          <dl class="global-form-container clearfix" id="new_address_form" style="display:none">
             <dt class="l-title">送货地址：</dt>
             <dd class="r-con clearfix">
               北京市
               <em class="area-intro"></em>
-              <select>
+              <select id="region_sel">
                 <option>请选择区域</option>
-                <option>朝阳区</option>
-                <option>海淀区</option>
               </select><br>
               <div class="check-container big-check-container" style="margin-top:10px;">
                 <input type="password" class="global-input" placeholder="详细地址">
-                <span class="tips-container">输入错误</span>
+                <span class="tips-container" style="display:none">输入错误</span>
               </div>
             </dd>
             <dt class="l-title lh-input">收货人：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="password" class="global-input" placeholder="收货人姓名">
-                <span class="tips-container">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
+                <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
               </div>
             </dd>
             <dt class="l-title lh-input">联系手机：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="text" class="global-input" placeholder="联系人的手机号码">
-                <span class="tips-container">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
+                <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
               </div>
             </dd>
+            <dt class="l-title lh-input">&nbsp;</dt>
+            <dd class="r-con clearfix">
+              <input class="btn green-btn" type="button" value="保存">
+              <input class="btn" type="button" value="取消">
+            </dd>
+          </dl>
+          <dl class="global-form-container clearfix">
             <dt class="l-title">送货时间：</dt>
             <dd class="r-con clearfix" style="margin-bottom:20px;">
               <select>
@@ -178,10 +91,10 @@
             </dd>
             <dt class="l-title">开发票：</dt>
             <dd class="r-con clearfix" style="margin-bottom:20px;">
-              <input type="checkbox" class="checkbox-item">
+              <input type="checkbox" class="checkbox-item" id="fapiao_chk">
             </dd>
           </dl>
-          <dl class="global-form-container clearfix" style="margin-left:80px;">
+          <dl class="global-form-container clearfix" style="margin-left:80px;display:none" id="fapiao_form">
             <dt class="l-title">发票类型：</dt>
             <dd class="r-con clearfix" style="margin-bottom:20px;">
               普通发票
@@ -195,14 +108,14 @@
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
-                <span class="tips-container">输入错误</span>
+                <span class="tips-container" style="display:none">输入错误</span>
               </div>
             </dd>
             <dt class="l-title lh-input">公司名称：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
-                <span class="tips-container">输入错误</span>
+                <span class="tips-container" style="display:none">输入错误</span>
               </div>
             </dd>
             <dt class="l-title">发票内容：</dt>
@@ -257,6 +170,8 @@
         
     </div>
   </div>
+  <script src="script/page/shoppingcar.js"></script>
+  <script src="script/page/order.js"></script>
   <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
 </div>
 </body>

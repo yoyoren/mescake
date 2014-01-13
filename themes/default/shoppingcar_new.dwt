@@ -19,17 +19,17 @@
           <span class="or-total">小计</sapn>
         </li>
         <!-- order list container -->
-        
         <li class="li-bg order-add-more">
-          <label for="dinnerware"><input type="checkbox" id="dinnerware" />我要添加额外的餐具（+0.5元/份）</label><br />
-          <label for="birthTitle"><input type="checkbox" id="birthTitle" />我要添加特别的生日蜡烛（+5元/份）</label><br />
-          <label for="leaveMes"><input type="checkbox" id="leaveMes" />留言说明</label><br />
+          <label for="dinnerware"><input type="checkbox" id="dinnerware" class="checkbox-item">我要添加额外的餐具（+0.5元/份）</label><br>
+          <label for="birthTitle"><input type="checkbox" id="birthTitle" class="checkbox-item">我要添加特别的生日蜡烛（+5元/份）</label><br>
+          <label for="leaveMes"><input type="checkbox" id="leaveMes" class="checkbox-item">留言说明</label><br>
           <textarea class="text-area hide"></textarea>
+          <span class="order-total-price">总计<b id="order_total">0</b>元</span>
         </li>
       </ul>
       <div class="order-btn-area clearfix">
-        <a href="#" id="continue_shopping" class="btn big-btn fl-l">继续购物</a>
-        <input class="btn green-btn big-btn fl-r" type="submit" value="提交订单"/>
+        <a href="index.php" id="continue_shopping" class="btn big-btn fl-l">继续购物</a>
+        <input class="btn green-btn big-btn fl-r" type="button" value="提交订单" onclick="location.href='route.php?mod=order&action=step2'"/>
       </div>
     </div>
   </div>
