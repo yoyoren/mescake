@@ -6,6 +6,10 @@ a{text-decoration: none;}
 a:hover{text-decoration: underline;}
 em,i{font-style: normal;}
 ul,li,ol,dl{list-style: none;}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
 .clearfix:after{display:block;content:"\20";height:0;clear:both;overflow:hidden;visibility:hidden;}
 .clearfix{*zoom:1;}
 html,body{height: 100%; width: 100%;  font-size: 14px; color: #333;}
@@ -14,14 +18,16 @@ body{overflow: auto;}
 .tl-c{text-align: center;}
 .tl-r{text-align: right;}
 .td-u{text-decoration: underline;}/* 针对有下划线的链接 */
-.td-u:hover{text-decoration: none;}
+.td-u:hover{color:#ff7e00;}
+.link-color{color: #333;}
 .mart-10{margin-top: 10px;}
 .lh-input{line-height: 40px;}/* 与输入框对齐 */
 .hide{display: none!important;}
 .fl-l{float: left;}
 .fl-r{float: right;}
-.checkbox-item,
-.radio-item{margin-right: 10px; vertical-align: middle;}
+.checkbox-item{margin-right: 10px; vertical-align: middle;}
+.radio-item{margin-right: 10px;}
+.space{margin-right: 20px;}
 .btn,
 .text-area,
 .check-container,
@@ -34,6 +40,12 @@ body{overflow: auto;}
 .or-add,
 .or-name-img,
 .total-sub-tip,
+.check-code,
+.more-input-area,
+.or-handle,
+.hn-item em,
+.ico-shop,
+.ico-phone,
 .global-input{display: inline-block; *display: inline; zoom:1;}
 .btn{padding: 0 20px; margin-right:10px; height: 30px; line-height:30px; font-size:12px; color:#333; background:none; border:0 none; text-align:center; border: 1px solid #b8b6a7; background: #e7e7e7; border-radius: 4px;
 background: -webkit-linear-gradient(top,#e7e7e7,#c9c9c9);
@@ -58,7 +70,31 @@ input.big-btn{height: 46px;}
 .text-area:focus,
 .global-input:focus{box-shadow: inset 0 0 8px #eaeaea;}
 .small-check-container .global-input{width: 120px;}
+/* 头部区域 */
+.mes-head{background: #fef9d9; width: 960px; height: 150px;}
+.mh-login-area{color: #3f3a39; }
+.mh-login-area a{color: #3f3a39; font-size: 12px;}
+.mh-login-area a:hover{color: #ff7e00;}
+.tel-con{margin-top: 10px;}
+.ico-shop,
+.ico-phone{vertical-align: middle;}
+.ico-shop{width:23px; height:18px; background: url(img/shop-ico.png) 0 -3px no-repeat;}
+.ico-phone{width:22px; height:22px; background: url(img/tel-ico.png) 0 0 no-repeat;}
 
+.head-nav{overflow: hidden; padding: 0 0 12px 36px;}
+.hn-item{float: left; margin-right: 24px; background: url(img/nav-li-bg.png) right 2px no-repeat;}
+.head-nav .last{background: none;}
+.hn-item a{color: #3f3a39; font-size: 14px; display: block; line-height: 26px; margin-right: 40px;}
+.hn-item a:hover{font-weight: bold; text-decoration: none;}
+.hn-item em{background: url(img/mes-nav-bg.png) 0 -12px no-repeat; margin-right: 4px; vertical-align: middle;}
+em.nav-ico-home{width: 26px; height: 26px;}
+em.nav-ico-share{width: 56px; height: 26px; background-position: -34px -12px;}
+em.nav-ico-special{width: 96px; height: 26px; background-position: -98px -12px;}
+em.nav-ico-classic{width: 65px; height: 26px; background-position: -204px -12px;}
+.main-logo{display: block; padding:24px 0 40px 32px;}
+.mh-login-area{text-align: right; padding: 20px 24px 0 0;}
+
+/* 弹框区域 */
 .dialog{width: 460px; border-radius: 10px; min-height: 200px; _height:200px; border: 1px solid #f0eac0; position: absolute; top:200px; left: 50%; margin-left: -230px; background: #fefefe;
 box-shadow: 0 0 10px #ddd;}
 .dialog-head{position: relative; padding: 20px 20px 10px; border-bottom: 2px solid #f9f9f9;}
@@ -117,17 +153,24 @@ box-shadow: 0 0 10px #ddd;}
 .li-bg{background: #ececec;}
 .order-ul li.order-add-more{padding: 20px;}
 .order-add-more .text-area{margin: 10px 0 0 24px;}
+.order-add-more{position: relative;}
+.order-total-price{position: absolute; right: 20px; bottom: 20px; font-size: 18px;}
+.order-total-price b{margin:0 20px;}
+
 .or-name,
 .or-price,
 .or-num,
+.or-handle,
 .or-total{float: left;}
 .or-name{width: 380px; padding-left: 20px;}
-.or-price{width: 120px;}
-.or-num{width: 240px;}
-.or-total{width: 120px;}
+.or-price{width: 100px;}
+.or-num{width: 200px;}
+.or-total{width: 100px;}
+.or-handle{width: 80px;}
 .or-close{position: absolute; right: 10px;top: 28px;}
 .or-price,
 .or-num,
+.or-handle,
 .or-total{text-align: center;}
 .or-name-img{width: 60px; height: 60px; background: #ccc; margin-right:10px; vertical-align: middle;}
 .or-main-container{line-height: 60px; overflow: hidden;}
@@ -160,7 +203,7 @@ box-shadow: 0 0 10px #ddd;}
 .payStyle{margin-bottom: 20px;}
 
 .check-money-area{padding: 20px; background: #ececec; margin-bottom: 20px;}
-.money-style{width: 400px; float: left;}
+.money-style{width: 600px; float: left;}
 .total-money{float: right; width: 170px; line-height: 1.5;}
 .total-money b{font-weight: normal; width: 50px; text-align:right; display: inline-block; *display: inline; zoom:1;}
 .total-money em{display: inline-block; *display: inline; zoom:1; width: 80px; padding-left: 40px;}
@@ -168,3 +211,33 @@ box-shadow: 0 0 10px #ddd;}
 .total-p b{font-weight: bold;}
 .total-p em{ padding:0; width: 120px;}
 .total-sub-tip{line-height: 46px; margin-right:10px;}
+
+.check-code{width: 100px; height: 38px; background: #ccc; vertical-align: middle;}
+
+/* 地址信息 */
+.account-mes-area{overflow: hidden;  margin-bottom: 20px;}
+.ama-item{display: inline-block; *display: inline; zoom:1; border-radius: 6px; width: 238px; padding:20px; margin: 0 10px 20px 0; float: left; border: 1px solid #ccc; background: #f2f2f2;}
+.ama-item:hover{background: #dcfcc4; border: 1px solid #c4d79f;}
+.ama-item:hover .ama-name-area{border-bottom: 1px solid #c4d79f;}
+.ama-item-current{background: #dcfcc4; border: 1px solid #c4d79f;}
+.ama-item-current .ama-name-area{border-bottom: 1px solid #c4d79f;}
+
+.ama-name-area{overflow: hidden; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid #ccc; }
+.address-area{height: 70px;}
+.handle-area{height: 20px; line-height: 20px; visibility: hidden;}
+.handle-area a{color: #999;}
+.ama-item:hover .handle-area{visibility: visible;}
+.ama-add-address{clear: both;}
+
+/* 我的订单列表 */
+.my-order{padding: 40px; position: relative;}
+.order-table{width: 100%; margin-bottom: 20px;}
+.order-table th{text-align: left;}
+.order-table th,
+.order-table td{border-bottom: 1px solid #ccc;}
+.order-table th,
+.order-table td{padding: 10px 0;}
+.order-table img{display: inline-block; *display: inline; zoom:1; width: 60px; height: 60px; margin-right: 10px; background: #ccc;}
+.my-order .need-login-tip{position: absolute; top:20px; right: 20px; border-radius: 6px;}
+.my-order .need-login-tip a{color: #333;}
+.my-order .need-login-tip a:hover{color: #ff7e00;}
