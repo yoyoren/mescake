@@ -4,7 +4,7 @@ define(['ui/dialog'],function(Dialog){
 			<span class="tips-container" style="display:none">用户名不能为空</span>\
           </div>\
           <div class="check-container">\
-            <input type="text" class="global-input" id="popup_login_password" placeholder="用户密码">\
+            <input type="password" class="global-input" id="popup_login_password" placeholder="用户密码">\
 			<span class="tips-container" style="display:none">密码不能为空</span>\
 			<span class="tips-container" id="popup_login_error" style="display:none">用户名或密码错误</span>\
           </div><br>'

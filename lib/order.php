@@ -3,11 +3,15 @@
 class MES_Order{
 	public static function get_order_address(){
 		GLOBAL $db;
-		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']}";	
-		$address=$db->getAll($sql);
-		for($i=0;$i<count($address);$i++){
-			$city=$db->getOne("select region_name from ship_region where region_id={$address[$i]['city']}");
-			$address[$i]['cityName'] = $city;
+		if($_SESSION['user_id']){;
+			$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']}";	
+			$address=$db->getAll($sql);
+			for($i=0;$i<count($address);$i++){
+				$city=$db->getOne("select region_name from ship_region where region_id={$address[$i]['city']}");
+				$address[$i]['cityName'] = $city;
+			}
+		}else{
+			$address = [];
 		}
 		return json_encode($address);
 	}
@@ -16,15 +20,24 @@ class MES_Order{
 		GLOBAL $db;
 		$sql="delete from ecs_user_address where address_id={$address_id}";
 		$address=$db->query($sql);
-		return json_encode(array('msg'=>'ok','code'=>'1'));
+		return json_encode(array('msg'=>'ok','code'=>'0'));
 	}
 
 
-	public static function update_order_address($address_id,$country,$city,$contact,$address){
+	public static function update_order_address($address_id,$country,$city,$contact,$address,$tel){
 		GLOBAL $db;
-		$db->query("update ecs_user_address set country={$country},city={$city},consignee='{$contact}',address='{$address}',mobile='{$tel1}'
-			where address_id={$address_id}");
-		return json_encode(array('msg'=>'ok','code'=>'1'));
+		$db->query("update ecs_user_address set country={$country},city={$city},consignee='{$contact}',address='{$address}',mobile='{$tel}'
+			where user_id={$_SESSION['user_id']} and address_id={$address_id}");
+
+
+		//get updated address
+		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} and address_id={$address_id}";	
+		$address=$db->getRow($sql);
+		
+		//get cityname from anther table;
+		$city=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
+		$address['cityName'] = $city;
+		return json_encode(array('msg'=>'ok','code'=>'0','data'=>$address));
 	}
 
 
@@ -33,7 +46,15 @@ class MES_Order{
 		GLOBAL $db;
 		$db->query("INSERT INTO ecs_user_address(address_name, user_id, consignee, country, province, city, district, address, tel, mobile, money_address, route_id, ExchangeState, ExchangeState2)
 		VALUES('',{$_SESSION['user_id']},'{$contact}','{$country}','0', '{$city}', '0', '{$address}', '', '{$tel}', NULL, '0', '0', '0')");
-		return json_encode(array('msg'=>'ok','code'=>'1'));
+		
+		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} limit 0,1";	
+		$address=$db->getRow($sql);
+		
+		//get cityname from anther table;
+		$city=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
+		$address['cityName'] = $city;
+
+		return json_encode(array('msg'=>'ok','code'=>'0','data'=>$address));
 	}
 
 	public static function get_order_list(){

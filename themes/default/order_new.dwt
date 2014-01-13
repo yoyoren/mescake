@@ -43,41 +43,38 @@
               北京市
               <em class="area-intro"></em>
               <select id="region_sel">
-                <option>请选择区域</option>
+                <option value="0">请选择区域</option>
               </select><br>
               <div class="check-container big-check-container" style="margin-top:10px;">
-                <input type="password" class="global-input" placeholder="详细地址">
+                <input type="text" class="global-input" placeholder="详细地址" id="new_address">
                 <span class="tips-container" style="display:none">输入错误</span>
               </div>
             </dd>
             <dt class="l-title lh-input">收货人：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
-                <input type="password" class="global-input" placeholder="收货人姓名">
+                <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact">
                 <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
               </div>
             </dd>
             <dt class="l-title lh-input">联系手机：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
-                <input type="text" class="global-input" placeholder="联系人的手机号码">
+                <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel">
                 <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
               </div>
             </dd>
             <dt class="l-title lh-input">&nbsp;</dt>
             <dd class="r-con clearfix">
-              <input class="btn green-btn" type="button" value="保存">
-              <input class="btn" type="button" value="取消">
+              <input class="btn green-btn" type="button" value="保存" id="save_address">
+              <input class="btn green-btn" type="button" value="修改并保存" id="mod_address" style="display:none">
+              <input class="btn" type="button" value="取消" id="cancel_address">
             </dd>
           </dl>
           <dl class="global-form-container clearfix">
             <dt class="l-title">送货时间：</dt>
             <dd class="r-con clearfix" style="margin-bottom:20px;">
-              <select>
-                <option>请选择日期</option>
-                <option>23</option>
-                <option>34</option>
-              </select>
+              <input type="text" id="date_picker">
               <select>
                 <option>小时</option>
                 <option>23</option>
@@ -89,8 +86,8 @@
                 <option>34</option>
               </select>
             </dd>
-            <dt class="l-title">开发票：</dt>
-            <dd class="r-con clearfix" style="margin-bottom:20px;">
+            <dt class="l-title" style="display:none">开发票：</dt>
+            <dd class="r-con clearfix" style="display:none;margin-bottom:20px;">
               <input type="checkbox" class="checkbox-item" id="fapiao_chk">
             </dd>
           </dl>
@@ -172,6 +169,7 @@
   </div>
   <script src="script/page/shoppingcar.js"></script>
   <script src="script/page/order.js"></script>
+  <script src="script/datepicker/WdatePicker.js"></script>
   <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
 </div>
 </body>
