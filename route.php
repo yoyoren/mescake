@@ -53,6 +53,10 @@ switch ($mod) {
 		}else if($action == 'drop_shopcart'){
 			$id =  $_GET['id'];
 			echo MES_Order::drop_shopcart($id);
+		}else if($action == 'update_fork'){
+			$id =  $_POST['id'];
+			$num =  $_POST['num'];
+			echo MES_Order::update_fork($id,$num);
 		}
 
 		

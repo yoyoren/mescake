@@ -22,13 +22,13 @@
 		            <span class="or-name">\
 		              <img src="" class="or-child-img"/><sapn class="or-name-intro">配套餐具</span>\
 		            </span>\
-		            <span class="or-price">免费</span>\
+		            <span class="or-price" id="fork_price_<%=data[i].rec_id%>">免费</span>\
 					<span class="or-num">\
-					<em class="or-plus order_des_tool" data-id="<%=data[i].rec_id%>">-</em>\
-		            <span>5人份</span>\
-					<em class="or-add order_add_tool" data-id="<%=data[i].rec_id%>">+</em>\
+					<em class="or-plus order_des_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">-</em>\
+		            <span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork%>人份</span>\
+					<em class="or-add order_add_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">+</em>\
 					</span>\
-		            <span class="or-total">0元</sapn>\
+		            <span class="or-total" id="fork_total_<%=data[i].rec_id%>">0元</sapn>\
 		          </div>\
 		          <div class="or-child-container">\
 		            <span class="or-name">\
@@ -74,6 +74,36 @@
 					action:'update_cart'
 				},function(d){
 					$('#sub_total_'+id).html(d.result);
+
+					//update free fork number;
+					$('#fork_num_'+id).html(d.free_fork+'人份');
+					$('#fork_num_'+id).prev().attr('free-num',d.free_fork);
+					$('#fork_num_'+id).next().attr('free-num',d.free_fork);
+
+					//update total price
+					$('#order_total').html(d.total);
+				},'json');
+			}
+
+
+			var updateFork = function(id,num){
+				$.post('route.php?mod=order&action=update_fork',{
+					id:id,
+					num:num
+				},function(d){
+					if(d.code == 0){
+						if(d.price>0){
+							$('#fork_price_'+id).html('0.5');
+						}else{
+							$('#fork_price_'+id).html('免费');
+						}
+
+						$('#fork_total_'+id).html('￥'+d.price);
+						//update free fork number;
+						$('#fork_num_'+id).html(d.num+'人份');
+						//update total price
+						$('#order_total').html(d.total);
+					}
 				},'json');
 			}
 			
@@ -106,6 +136,21 @@
 				},function(d){
 					$('#sub_order_'+id).remove();
 				},'json');
+			}).delegate('.order_des_fork','click',function(){
+				var _this = $(this);
+				var id=_this.data('id');
+				var num = parseInt(_this.next().html(),10);
+				num-=1;
+				if(num<0){
+					num = 0;
+				}
+				updateFork(id,num);
+			}).delegate('.order_add_fork','click',function(){
+				var _this = $(this);
+				var id=_this.data('id');
+				var num = parseInt(_this.prev().html(),10);
+				num+=1;
+				updateFork(id,num);
 			});
 		}
 	}

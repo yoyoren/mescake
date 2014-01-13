@@ -58,9 +58,76 @@ class MES_Order{
 	}
 
 	public static function get_order_list(){
-		require(ROOT_PATH . 'includes/lib_order.php');
-		require(ROOT_PATH . 'includes/lib_transaction.php');
-		$cart_goods = get_cart_goods();
+		//require(ROOT_PATH . 'includes/lib_order.php');
+		//require(ROOT_PATH . 'includes/lib_transaction.php');
+		
+		$free_fork_pre_cake = 5;
+
+	    $goods_list = array();
+	    $total = array(
+	        'goods_price'  => 0, // 本店售价合计（有格式）
+	        'market_price' => 0, // 市场售价合计（有格式）
+	        'saving'       => 0, // 节省金额（有格式）
+	        'save_rate'    => 0, // 节省百分比
+	        'goods_amount' => 0, // 本店售价合计（无格式）
+	    );
+
+	    /* 循环、统计 */
+	    $sql = "SELECT *, IF(parent_id, parent_id, goods_id) AS pid " .
+	            " FROM " . $GLOBALS['ecs']->table('cart') . " " .
+	            " WHERE session_id = '" . SESS_ID . "' AND rec_type = '" . CART_GENERAL_GOODS . "'" .
+	            " ORDER BY pid, parent_id";
+	    $res = $GLOBALS['db']->query($sql);
+
+	    /* 用于统计购物车中实体商品和虚拟商品的个数 */
+	    $virtual_goods_count = 0;
+	    $real_goods_count    = 0;
+
+	    while ($row = $GLOBALS['db']->fetchRow($res))
+	    {
+	        $total['goods_price']  += $row['goods_price'] * $row['goods_number'];
+	        $total['market_price'] += $row['market_price'] * $row['goods_number'];
+
+	        $row['subtotal']     = price_format($row['goods_price'] * $row['goods_number'], false);
+	        $row['goods_price']  = $row['goods_price'];
+	        $row['market_price'] = price_format($row['market_price'], false);
+
+	        /* 统计实体商品和虚拟商品的个数 */
+	        if ($row['is_real']){
+	            $real_goods_count++;
+	        }else{
+	            $virtual_goods_count++;
+	        }
+
+
+	        //增加是否在购物车里显示商品图 
+	        $goods_thumb = $GLOBALS['db']->getOne("SELECT `goods_thumb` FROM " . $GLOBALS['ecs']->table('goods') . " WHERE `goods_id`='{$row['goods_id']}'");
+	        $row['goods_thumb'] = get_image_path($row['goods_id'], $goods_thumb, true);
+	        
+	        if ($row['extension_code'] == 'package_buy'){
+	            $row['package_goods_list'] = get_package_goods($row['goods_id']);
+	        }
+
+	        //get number for weight!
+	        $row['goods_attr_real']= intval($row['goods_attr'],10);
+
+	        $row['free_fork'] = $row['goods_attr_real']*$row['goods_number']*$free_fork_pre_cake;
+	        $goods_list[] = $row;
+	    }
+
+	    $total['goods_amount'] = $total['goods_price'];
+	    $total['saving']       = price_format($total['market_price'] - $total['goods_price'], false);
+	    if ($total['market_price'] > 0)
+	    {
+	        $total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) *
+	        100 / $total['market_price']).'%' : 0;
+	    }
+	    $total['goods_price']  = price_format($total['goods_price'], false);
+	    $total['market_price'] = price_format($total['market_price'], false);
+	    $total['real_goods_count']    = $real_goods_count;
+	    $total['virtual_goods_count'] = $virtual_goods_count;
+	    $cart_goods = array('goods_list' => $goods_list, 'total' => $total);
+
 		return json_encode($cart_goods);
 	}
 	
@@ -76,7 +143,8 @@ class MES_Order{
         GLOBAL $db;
 		GLOBAL $ecs;
 		GLOBAL $_LANG;
-
+		$free_fork_pre_cake = 5;
+		$total = 0;
 		$res  = array('err_msg' => '', 'result' => '', 'total' => '','rec' =>0);
         if ($number < 1){
             $number = 0;
@@ -84,15 +152,19 @@ class MES_Order{
 
 	    $sql = "UPDATE " . $ecs->table('cart') . " SET goods_number = '$number' WHERE rec_id = '$id' and session_id='" . SESS_ID . "'";
         $db->query($sql);
-		$sql = "select rec_id,goods_price,goods_number from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
+		$sql = "select rec_id,goods_price,goods_number,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
 		foreach($goods as $val){
-			$total['amount'] += $val['goods_price'] * $val['goods_number'];
+			$total += $val['goods_price'] * $val['goods_number'];
 			if($val['rec_id']==$id){
 			      $res['result'] = price_format($val['goods_price'] * $number,false);
+
+			      //cal free fork number;
+			      $res['free_fork'] =  $number* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 			}
 		}		
-        $res['total'] = sprintf($_LANG['shopping_money'], price_format($total['amount'],false));
+		//var_dump($_LANG['shopping_money']);
+        $res['total'] = price_format($total,false);
 		$res['rec'] = "sub_".$id;
 	    
 		return json_encode($res);
@@ -214,6 +286,40 @@ class MES_Order{
 				AND rec_id IN ($del_rec_id)";
 		$GLOBALS['db']->query($sql);
 	}	
+
+	//your fork can be changed by this
+	public static function update_fork($id,$num){
+		GLOBAL $db;
+		GLOBAL $ecs;
+		GLOBAL $_LANG;
+
+		$price_fork_pre_cake = 0.5;
+		$free_fork_pre_cake = 5;
+		$free_fork_num = 0;
+		$total = 0;
+		$sql = "select rec_id,goods_price,goods_number,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
+		$goods = $db->getAll($sql);
+		foreach($goods as $val){
+			$total += $val['goods_price'] * $val['goods_number'];
+			if($val['rec_id']==$id){
+			      $free_fork_num =  $val['goods_number']* intval($val['goods_attr'],10)*$free_fork_pre_cake;
+			}
+		}		
+		//var_dump($free_fork_num);
+		if($free_fork_num>$num){
+			return json_encode(array('code'=>'1'));
+		}else{
+			$price = ($num-$free_fork_num)/2;
+			$total += $price;
+			return json_encode(array('code'=>'0','num'=>$num,'price'=>$price,'total'=>$total));
+		}
+	    
+		
+	}
+
+
+	
+	
 }
 
 ?>
