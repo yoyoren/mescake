@@ -151,8 +151,15 @@ class integrate
                 $this->sync($username,$password);
             }
             $this->set_session($username);
-            $this->set_cookie($username, $remember);
 
+			$time = time()+3600*24;
+			$token = md5($username.$password.'_mescake');
+            $_SESSION['serviceToken'] = $token;
+			$_SESSION['uuid'] = $username;
+			
+            setcookie("serviceToken",$token, $time, $this->cookie_path);            
+            setcookie("uuid",$username, $time, $this->cookie_path);
+	
             return true;
         }
         else
@@ -591,12 +598,14 @@ class integrate
             $time = time() - 3600;
             setcookie("ECS[user_id]",  '', $time, $this->cookie_path);            
             setcookie("ECS[password]", '', $time, $this->cookie_path);
+			setcookie("uuid", '', $time, $this->cookie_path);
+			setcookie("serviceToken", '', $time, $this->cookie_path);
 
         }
         elseif ($remember)
         {
             /* 设置cookie */
-            $time = time() + 3600 * 24 * 15;
+            $time = time() + 3600 * 24;
 
             setcookie("ECS[username]", $username, $time, $this->cookie_path, $this->cookie_domain);
             $sql = "SELECT user_id, password FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_name='$username' LIMIT 1";
