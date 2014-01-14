@@ -1,4 +1,5 @@
 (function(){
+
    var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
    				<li class="order-item" id="sub_order_<%=data[i].rec_id%>">\
 		          <div class="or-main-container">\
@@ -18,28 +19,36 @@
 						<em class="or-close order_cancel" data-id="<%=data[i].rec_id%>">x</em>\
 					</span>\
 		          </div>\
+				  <%if(data[i].goods_id!=61){%>\
 		          <div class="or-child-container">\
 		            <span class="or-name">\
 		              <img src="" class="or-child-img"/><sapn class="or-name-intro">配套餐具</span>\
 		            </span>\
-		            <span class="or-price" id="fork_price_<%=data[i].rec_id%>">免费</span>\
+		            <span class="or-price" id="fork_price_<%=data[i].rec_id%>">\
+						<%if(data[i].extra_fork){%>0.5\
+						<%}else{%>免费<% } %>\
+					</span>\
 					<span class="or-num">\
 					<em class="or-plus order_des_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">-</em>\
-		            <span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork%>人份</span>\
+		            <span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork+data[i].extra_fork%>人份</span>\
 					<em class="or-add order_add_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">+</em>\
 					</span>\
-		            <span class="or-total" id="fork_total_<%=data[i].rec_id%>">0元</sapn>\
+		            <span class="or-total" id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</sapn>\
 		          </div>\
 		          <div class="or-child-container">\
 		            <span class="or-name">\
-		              <img src="" class="or-child-img"/><sapn class="or-name-intro">添加一个生日牌</span>\
+		              <img src="" class="or-child-img"/><span class="or-name-intro add_brith_brand">添加一个生日牌</span>\
+					  <span style="display:none"><input type="text" class="brith_brand_input"/></span>\
 		            </span>\
 		            <span class="or-price">免费</span>\
 		          </div>\
+				  <% } %>\
 		        </li>\
 		      <% } %>' 
 
+	//记录一个蜡烛的id
 
+   var BRITH_ORDER_ID;
    var Order = {
    		getOrderList : function(){
 			 $.get('route.php',{
@@ -48,9 +57,17 @@
 			 },function(d){
 			 	var html = mstmpl(orderListTmpl,{
 			 		data:d.goods_list
-			 	})
+			 	});
+
+				//如果买了蜡烛 需要显示出来
+				for(var i=0;i<d.goods_list.length;i++){
+					if(d.goods_list[i].goods_id == 61){
+						$('#birth_chk')[0].checked =true;
+						BRITH_ORDER_ID = d.goods_list[i].rec_id;
+					}
+				}
 				$('#order_list').after(html);
-				$('#order_total').html(d.total.goods_price);
+				$('.order_total').html(d.total.goods_price);
 			 },'json');
 		},
 
@@ -76,12 +93,12 @@
 					$('#sub_total_'+id).html(d.result);
 
 					//update free fork number;
-					$('#fork_num_'+id).html(d.free_fork+'人份');
+					$('#fork_num_'+id).html(d.free_fork+d.extra_fork+'人份');
 					$('#fork_num_'+id).prev().attr('free-num',d.free_fork);
 					$('#fork_num_'+id).next().attr('free-num',d.free_fork);
 
 					//update total price
-					$('#order_total').html(d.total);
+					$('.order_total').html(d.total);
 				},'json');
 			}
 
@@ -102,7 +119,7 @@
 						//update free fork number;
 						$('#fork_num_'+id).html(d.num+'人份');
 						//update total price
-						$('#order_total').html(d.total);
+						$('.order_total').html(d.total);
 					}
 				},'json');
 			}
@@ -129,13 +146,20 @@
 			}).delegate('.order_cancel','click',function(){
 				var _this = $(this);
 				var id=_this.data('id');
-				$.get('route.php',{
-					id:id,
-					mod:'order',
-					action:'drop_shopcart'
-				},function(d){
-					$('#sub_order_'+id).remove();
-				},'json');
+				require(['ui/confirm'],function(confirm){
+					new confirm('确认取消这个子订单吗？',function(){
+						$.get('route.php',{
+							id:id,
+							mod:'order',
+							action:'drop_shopcart'
+						},function(d){
+							//重新结算帐单价格
+							$('#sub_order_'+id).remove();
+							$('.order_total').html('￥'+d.total);
+						},'json');
+					});
+				});
+				
 			}).delegate('.order_des_fork','click',function(){
 				var _this = $(this);
 				var id=_this.data('id');
@@ -151,11 +175,64 @@
 				var num = parseInt(_this.prev().html(),10);
 				num+=1;
 				updateFork(id,num);
+			}).delegate('.add_brith_brand','click',function(){
+				$(this).hide();
+				$(this).next().show();
+				$(this).next().focus();
+			}).delegate('.brith_brand_input','blur',function(){
+				
+				$(this).parent().hide();
+				$(this).parent().prev().html($(this).val()).show();
+				$(this).val('');
+			});
+		},
+		bind:function(){
+			$('#birth_title').click(function(){
+				  //取消蜡烛
+				  if($('#birth_chk')[0].checked){
+					 var id = BRITH_ORDER_ID;
+					 $('#birth_chk')[0].checked = false;
+					 $.get('route.php',{
+							id:id,
+							mod:'order',
+							action:'drop_shopcart'
+						},function(d){
+							//重新结算帐单价格
+							$('#sub_order_'+id).remove();
+							$('.order_total').html(d.total);
+						},'json');
+				  }else{
+					 $('#birth_chk')[0].checked = true;
+					  var goods        = new Object();
+					  var spec_arr     = new Array();
+					  var fittings_arr = new Array();
+					  var number       = 1;
+					  var quick		   = 0;
+
+					  //商品重量
+					  goods.spec     = spec_arr;
+					  goods.goods_id = 61;
+					  //数量
+					  goods.number   = number;
+					  goods.parent   = 0;//(typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
+					  $.post('route.php?mod=order&action=add_to_cart', {
+						goods:$.toJSON(goods),
+						goods_id:60
+					  }, function(d){
+							var html = mstmpl(orderListTmpl,{
+								data:[d.data]
+							});
+							$('#order_list').after(html);
+							BRITH_ORDER_ID = d.data.rec_id;
+					  },'json');
+				  }
+				  
 			});
 		}
 	}
 	Order.getOrderList();
 	Order.eventDelegate();
+	Order.bind();
 
 
 })();

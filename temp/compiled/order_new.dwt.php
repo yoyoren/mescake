@@ -2,18 +2,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="Generator" content="ECSHOP v2.7.3" />
   <title>购物车中的商品</title>
-  <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+  <?php echo $this->fetch('lib/head_script.lbi'); ?>
 </head>
 <body>
 <div class="layout">
-  <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
+  <?php echo $this->fetch('lib/header_new.lbi'); ?>
 
   <div class="head-line"></div>
   <div class="content">
     <div class="order-area">
       <h4 class="content-title">订单信息</h4>
-	<!-- #BeginLibraryItem "/lib/order_list.lbi" --><!-- #EndLibraryItem -->
+	<?php echo $this->fetch('lib/order_list.lbi'); ?>
       <h4 class="content-title">送货信息<span class="ct-commit">*为保证送货准确性，请您填写正确无误的信息</span></h4>
       <p class="need-login-tip" id="login_tip" style="display:none">如果您之前注册购买过，请<a href="#" class="td-u user_login">登录</a>以读取地址信息，并积累积分</p>
       <div class="account-mes-area" id="address_container">
@@ -39,14 +40,14 @@
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact">
-                <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
+                <span class="tips-container" style="display:none">输入错误</span>
               </div>
             </dd>
             <dt class="l-title lh-input">联系手机：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel">
-                <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
+                <span class="tips-container" style="display:none">输入错误</span>
               </div>
             </dd>
             <dt class="l-title lh-input">&nbsp;</dt>
@@ -162,7 +163,7 @@
   <script src="script/page/shoppingcar.js"></script>
   <script src="script/page/order.js"></script>
   <script src="script/datepicker/WdatePicker.js"></script>
-  <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
+  <?php echo $this->fetch('lib/footer_new.lbi'); ?>
 </div>
 </body>
 </html>

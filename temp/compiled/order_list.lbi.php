@@ -1,0 +1,15 @@
+      <ul class="order-ul">
+        <li class="li-bg" id="order_list">
+          <span class="or-name">商品</span>
+          <span class="or-price">单价</span>
+          <span class="or-num">数量</span>
+          <span class="or-total">小计</span>
+          <span class="or-handle">操作</span>
+        </li>
+        <li class="li-bg order-add-more">
+          <label for="birthTitle" id="birth_title"><input type="checkbox" id="birth_chk" class="checkbox-item">我要添加特别的生日蜡烛（+5元/份）</label><br>
+          <label for="leaveMes" id="leave_message"><input type="checkbox" class="checkbox-item">留言说明</label><br>
+          <textarea class="text-area hide"></textarea>
+          <span class="order-total-price">总计<b class="order_total">0</b>元</span>
+        </li>
+      </ul>

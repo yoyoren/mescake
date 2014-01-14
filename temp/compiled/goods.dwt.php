@@ -11,8 +11,11 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="<?php echo $this->_var['ecs_css_path']; ?>" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/home.css" />
 
 <?php echo $this->smarty_insert_scripts(array('files'=>'jquery.min.js,jquery.json-1.3.js,login_register.js,transport.js,common.js,utils.js')); ?>
+<script src="script/require.js"></script>
+<script src="script/page/common.js"></script>
 </head>
 <body>
 <?php echo $this->fetch('library/page_header.lbi'); ?>
@@ -118,9 +121,9 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
 			</div>
 			<br/>
 					<div id="login2" style="display:none;"><?php echo $this->_var['u_name']; ?><?php echo $this->_var['u_name2']; ?></div>
-					<div class="addgou"><img src="themes/default/images/paynow.png" onclick="check_logins(<?php echo $this->_var['goods']['goods_id']; ?>,1);" style="cursor:pointer;"></div><br/>
-					<div class="addgou"><img src="themes/default/images/addshopcar.png" onclick="check_logins(<?php echo $this->_var['goods']['goods_id']; ?>,2);" style="cursor:pointer;"></div>
-					<!--<div class="addgou"><a href="javascript:addToCart(<?php echo $this->_var['goods']['goods_id']; ?>)"> <img src="themes/default/images/addshopcar.png" onclick="check_logins();"></a></div>-->
+					<div class="addgou"><img src="themes/default/images/paynow.png" id="order_now_btn" style="cursor:pointer;"></div><br/>
+					<div class="addgou"><img src="themes/default/images/addshopcar.png" id="add_to_cart_btn" style="cursor:pointer;"></div>
+					
 					
 			
 		</div>
@@ -177,35 +180,7 @@ function closeBgs2(){
 	$("html").css("overflow-y","");
 	$("html").css("overflow-x","");
 }
-function check_logins(a,b)
-{
-	 var login=document.getElementById('login2').innerHTML;
-	 
-	 if(login=='')
-	 {   
-		if(b==1)
-			  {
-					document.getElementById('jump').innerHTML='<a href="user.php?act=register&jump=1" id="wozhuce">&nbsp;<img src="themes/default/images/zhuce3.jpg" align="absmiddle" style="cursor:pointer;border:0;margin-left:18px;width:100px;height:30px;"/></a>';
-					addToCart(a);
-			  }
-			  else
-			  {	
-					document.getElementById('jump').innerHTML='<a href="user.php?act=register&jump=2" id="wozhuce">&nbsp;<img src="themes/default/images/zhuce3.jpg" align="absmiddle" style="cursor:pointer;border:0;margin-left:18px;width:100px;height:30px;"/></a>';
-					addToCart(a);
-			  }	
-		goods_id=a;
-		typenum=b
-		 showBgs3();
-		
-	 }
-	 else
-	 {
-		if(b==2){
-				addToCart1(a);
-			}else{
-				addToCart2(a);}
-	 }	 
-}
+
 function showBgs3(){ 
 	var obj = document.getElementById('logindiv12');
 	var W = screen.width;//取得屏幕分辨率宽度 
@@ -537,8 +512,11 @@ $(function (){
 	}).trigger("mouseout");
 });
 </script>
+<script>
+	window.GOOD_ID = <?php echo $this->_var['goods']['goods_id']; ?>
 
-
+</script>
+<script src="script/page/goodsdetail.js"></script>
 
 
 </html>

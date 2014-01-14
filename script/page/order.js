@@ -32,11 +32,14 @@
 
 			//UI changed when you select an address
 			$('#address_container').delegate('.address_item','click',function(){
+				
+				var _this = $(this);
 				$('#address_container').find('.address_item').removeClass('ama-item-current');
-				$(this).addClass('ama-item-current');
+				_this.addClass('ama-item-current');
 
 				//set current id
-				CURRENT_ADDRESS_ID = $(this).data('id');
+				CURRENT_ADDRESS_ID = _this.data('id');
+				
 			}).delegate('.addr_del','click',function(){
 			//delete an address info if you want
 				var _this =$(this);
@@ -165,6 +168,12 @@
 				$('#new_address_form').hide();
 				me.clearAddressForm();
 			});
+
+			//submit this order to server
+			$('#submit_order_btn').click(function(){
+				var jqThis = $('#address_'+CURRENT_ADDRESS_ID);
+				me.saveconsignee(jqThis);
+			});
 		},
 		
 		//we need some front-end vaild we submit form
@@ -197,7 +206,8 @@
 					//index 0 is the current address
 					CURRENT_ADDRESS_ID = d[0].address_id;
 				}else{
-				
+					//no address ,show address form
+					$('#new_address_form').show();
 				}
 			},'json');
 		},
@@ -214,6 +224,45 @@
 				$('#region_sel').append(html);
 			},'json');
 
+		},
+
+		//save it in session
+		saveconsignee:function(_this){
+			var me = this;
+			if(window.IS_LOGIN){
+				var data = {
+						address_id:_this.data('id'),
+						consignee:_this.data('contact'),
+						country:501,
+						city:_this.data('city'),
+						address:_this.data('address'),
+						mobile:_this.data('tel'),
+						bdate:$('#date_picker').val(),
+						hour:$('#hour_picker').val(),
+						minute:$('#minute_picker').val()
+				};
+			}else{
+				var data = {
+						address_id:0,
+						consignee:$('#new_contact').val(),
+						country:501,
+						city:$('region_sel').val(),
+						address:$('#new_address').val(),
+						mobile:$('#new_tel').val(),
+						bdate:$('#date_picker').val(),
+						hour:$('#hour_picker').val(),
+						minute:$('#minute_picker').val()
+				}
+			}
+			$.post('route.php?action=save_consignee&mod=order',data||{},function(d){
+				me.checkout();
+			},'json');
+		},
+
+		checkout:function(){
+			$.post('route.php?action=checkout&mod=order',{},function(d){
+				$('#submit_form').submit();
+			},'json');
 		}
    }
 
@@ -222,12 +271,36 @@
    Order.getAddress();
    Order.getRegion();
    $(window).ready(function(){
+	 
+
+	var _html='';
+	
+	for(var i=10;i<=22;i++){
+		_html+='<option value="'+i+'">'+i+'</option>'
+	}
+	$('#hour_picker').append(_html);
    	$('#date_picker').click(function(){
    		//require(['datepicker/WdatePicker'],function(datePicker){
    			WdatePicker({minDate:'%y-%M-{%d}'});
    		//})
    		
    	});
+   	MES.checkLogin(function(){
+		//login
+   		$('#login_tip').hide();
+		$('#login_address_operate').show();
+		window.IS_LOGIN = true;
+   	},function(){
+		//unlogin
+   		$('#login_tip').show();
+		$('#add_new_address').hide();
+		$('#login_address_operate').hide();
+   		$('.user_login').click(function(){
+			require(["ui/login"], function(login) {login.show();});
+   		});
+		window.IS_LOGIN = false;
+   	})
+   	
    });
 
 })();

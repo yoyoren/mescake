@@ -57,6 +57,43 @@ switch ($mod) {
 			$id =  $_POST['id'];
 			$num =  $_POST['num'];
 			echo MES_Order::update_fork($id,$num);
+		}else if($action == 'save_consignee'){
+			//save consignee when user select a address!
+			$consignee = array(
+		            'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
+		            'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
+		            'country'       => empty($_POST['country'])    ? '' :   intval($_POST['country']),
+		            'province'      => empty($_POST['province'])   ? 502 :  intval($_POST['province']),
+		            'city'          => empty($_POST['city'])       ? '' :   intval($_POST['city']),
+		            'district'      => empty($_POST['district'])   ? '' :   intval($_POST['district']),
+		            'email'         => empty($_POST['email'])      ? '' :   compile_str($_POST['email']),
+		            'address'       => empty($_POST['address'])    ? '' :   compile_str($_POST['address']),
+		            'zipcode'       => empty($_POST['zipcode'])    ? '' :   compile_str(make_semiangle(trim($_POST['zipcode']))),
+		            'tel'           => empty($_POST['tel'])        ? '' :   compile_str(make_semiangle(trim($_POST['tel']))),
+		            'mobile'        => empty($_POST['mobile'])     ? '' :   compile_str(make_semiangle(trim($_POST['mobile']))),
+		            'sign_building' => empty($_POST['sign_building']) ? '' :compile_str($_POST['sign_building']),
+		            'best_time'     => $_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00",
+					
+		        );
+			echo MES_Order::save_consignee($consignee);
+		}else if($action == 'checkout'){
+			//checkout and cal total price
+			echo MES_Order::checkout();
+		}else if($action == 'add_to_cart'){
+			//add an cake or fork to your cart
+			
+			 $_POST['goods']=strip_tags(urldecode($_POST['goods']));
+   			 $_POST['goods'] = json_str_iconv($_POST['goods']);
+			$goods = $_POST['goods'];
+			if (!empty($_REQUEST['goods_id']) && empty($goods)){
+		        if (!is_numeric($_REQUEST['goods_id']) || intval($_REQUEST['goods_id']) <= 0){
+		            ecs_header("Location:./\n");
+		        }
+		        $goods_id = intval($_REQUEST['goods_id']);
+		        exit;
+		    }
+
+			echo MES_Order::add_to_cart($goods,$_REQUEST['goods_id']);
 		}
 
 		

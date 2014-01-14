@@ -105,37 +105,37 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
 		<!--<td width="236">额外餐具0.5元/份<img src="themes/default/images/canju.png" align="absmiddle"/></td>-->
 		<td width="100">&nbsp;取消</td>
 	  </tr>
-	 <?php $_from = $this->_var['goods_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_45739600_1387252732');if (count($_from)):
-    foreach ($_from AS $this->_var['goods_0_45739600_1387252732']):
+	 <?php $_from = $this->_var['goods_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_97594800_1389699171');if (count($_from)):
+    foreach ($_from AS $this->_var['goods_0_97594800_1389699171']):
 ?>
             <tr height="40px">
               <td bgcolor="#F2F2F2" align="left"  style="padding-left:24px;">
-                <?php if ($this->_var['goods_0_45739600_1387252732']['goods_id'] > 0 && $this->_var['goods_0_45739600_1387252732']['extension_code'] != 'package_buy'): ?>
-                 <?php echo $this->_var['goods_0_45739600_1387252732']['goods_name']; ?>[<?php echo nl2br($this->_var['goods_0_45739600_1387252732']['goods_attr']); ?>]
+                <?php if ($this->_var['goods_0_97594800_1389699171']['goods_id'] > 0 && $this->_var['goods_0_97594800_1389699171']['extension_code'] != 'package_buy'): ?>
+                 <?php echo $this->_var['goods_0_97594800_1389699171']['goods_name']; ?>[<?php echo nl2br($this->_var['goods_0_97594800_1389699171']['goods_attr']); ?>]
                 <?php endif; ?>
               </td>
               <td align="left" >
-			  <img src="themes/default/images/flow/f_jian.png" align="absmiddle" style="cursor:pointer;vertical-align:middle;"  onclick="minus(<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>);">&nbsp;<input type="text" name="goods_number[<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>]" id="goods_number_<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>" value="<?php echo $this->_var['goods_0_45739600_1387252732']['goods_number']; ?>" size="4" class="inputBg" style="text-align:center " onkeydown="showdiv(this)"/>&nbsp;<img src="themes/default/images/flow/f_jia.png" align="absmiddle"  style="cursor:pointer;vertical-align:middle;" onclick="plus(<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>);">
+			  <img src="themes/default/images/flow/f_jian.png" align="absmiddle" style="cursor:pointer;vertical-align:middle;"  onclick="minus(<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>);">&nbsp;<input type="text" name="goods_number[<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>]" id="goods_number_<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>" value="<?php echo $this->_var['goods_0_97594800_1389699171']['goods_number']; ?>" size="4" class="inputBg" style="text-align:center " onkeydown="showdiv(this)"/>&nbsp;<img src="themes/default/images/flow/f_jia.png" align="absmiddle"  style="cursor:pointer;vertical-align:middle;" onclick="plus(<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>);">
 			  </td>
-              <td align="left"  > <font  face="Arial"><?php echo $this->_var['goods_0_45739600_1387252732']['goods_price']; ?></font> </td>
-              <td align="left" ><label id="sub_<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>"></label></td>
-			  <?php if ($this->_var['goods_0_45739600_1387252732']['goods_id'] == 61): ?>
+              <td align="left"  > <font  face="Arial"><?php echo $this->_var['goods_0_97594800_1389699171']['goods_price']; ?></font> </td>
+              <td align="left" ><label id="sub_<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>"></label></td>
+			  <?php if ($this->_var['goods_0_97594800_1389699171']['goods_id'] == 61): ?>
 			  <td>&nbsp;</td>
 			 
-			  <?php elseif ($this->_var['goods_0_45739600_1387252732']['goods_id'] == 60): ?>
+			  <?php elseif ($this->_var['goods_0_97594800_1389699171']['goods_id'] == 60): ?>
 			  <td>&nbsp;</td>
 			 
 			  <?php else: ?>
 			  <td width="">&nbsp;
 				
-				是<input type="radio" maxlength="5" name="birthcard<?php echo $this->_var['goods_0_45739600_1387252732']['goods_id']; ?>" value="1" style="border:0;" onclick="yess(<?php echo $this->_var['goods_0_45739600_1387252732']['goods_id']; ?>)" checked  />
-				否<input  type="radio" name="birthcard<?php echo $this->_var['goods_0_45739600_1387252732']['goods_id']; ?>" value="0" style="border:0;" onclick="nono(<?php echo $this->_var['goods_0_45739600_1387252732']['goods_id']; ?>)" />
-				<input type="text" maxlength="8" name="card_message[]" id="birth<?php echo $this->_var['goods_0_45739600_1387252732']['goods_id']; ?>" onkeyup="checkce(<?php echo $this->_var['goods_0_45739600_1387252732']['goods_id']; ?>)" value="文字内容(八个字内)"  style="color:grey;width:120px;" onclick="disappear(<?php echo $this->_var['goods_0_45739600_1387252732']['goods_id']; ?>)"/>
+				是<input type="radio" maxlength="5" name="birthcard<?php echo $this->_var['goods_0_97594800_1389699171']['goods_id']; ?>" value="1" style="border:0;" onclick="yess(<?php echo $this->_var['goods_0_97594800_1389699171']['goods_id']; ?>)" checked  />
+				否<input  type="radio" name="birthcard<?php echo $this->_var['goods_0_97594800_1389699171']['goods_id']; ?>" value="0" style="border:0;" onclick="nono(<?php echo $this->_var['goods_0_97594800_1389699171']['goods_id']; ?>)" />
+				<input type="text" maxlength="8" name="card_message[]" id="birth<?php echo $this->_var['goods_0_97594800_1389699171']['goods_id']; ?>" onkeyup="checkce(<?php echo $this->_var['goods_0_97594800_1389699171']['goods_id']; ?>)" value="文字内容(八个字内)"  style="color:grey;width:120px;" onclick="disappear(<?php echo $this->_var['goods_0_97594800_1389699171']['goods_id']; ?>)"/>
 			  </td>
 			 <!-- <td>
-				<img src="themes/default/images/flow/f_jian.png" align="absmiddle" style="cursor:pointer;vertical-align:middle;"  onclick="minuscanju(<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>);">
-				<input type="text" name="canju_number[<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>]" id="canju_number_<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>" value="0" size="4" class="inputBg" style="text-align:center " readonly />&nbsp;
-				<img src="themes/default/images/flow/f_jia.png" align="absmiddle"  style="cursor:pointer;vertical-align:middle;" onclick="pluscanju(<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>);">&nbsp;<span id="canjuyuan<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>"> 0</span>&nbsp;元
+				<img src="themes/default/images/flow/f_jian.png" align="absmiddle" style="cursor:pointer;vertical-align:middle;"  onclick="minuscanju(<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>);">
+				<input type="text" name="canju_number[<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>]" id="canju_number_<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>" value="0" size="4" class="inputBg" style="text-align:center " readonly />&nbsp;
+				<img src="themes/default/images/flow/f_jia.png" align="absmiddle"  style="cursor:pointer;vertical-align:middle;" onclick="pluscanju(<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>);">&nbsp;<span id="canjuyuan<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>"> 0</span>&nbsp;元
 			  </td>-->
 			  <?php endif; ?>
 			  <script language="javascript">
@@ -191,7 +191,7 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
 				}
 			  </script>
               <td align="left" >
-                <a href="javascript:if (confirm('<?php echo $this->_var['lang']['drop_goods_confirm']; ?>')) location.href='flow.php?step=drop_goods&amp;id=<?php echo $this->_var['goods_0_45739600_1387252732']['rec_id']; ?>'; " class="f6">&nbsp;<img src="themes/default/images/flow/f_del.png"></a>
+                <a href="javascript:if (confirm('<?php echo $this->_var['lang']['drop_goods_confirm']; ?>')) location.href='flow.php?step=drop_goods&amp;id=<?php echo $this->_var['goods_0_97594800_1389699171']['rec_id']; ?>'; " class="f6">&nbsp;<img src="themes/default/images/flow/f_del.png"></a>
               </td>
             </tr>
             <?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
@@ -448,17 +448,17 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
               </tr>
             </table>
         <table  width="100%" align="center" border="0" cellpadding="5" cellspacing="0" bgcolor="#F2F2F2">
-            <?php $_from = $this->_var['goods_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_46038800_1387252732');if (count($_from)):
-    foreach ($_from AS $this->_var['goods_0_46038800_1387252732']):
+            <?php $_from = $this->_var['goods_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_97683300_1389699171');if (count($_from)):
+    foreach ($_from AS $this->_var['goods_0_97683300_1389699171']):
 ?>
             <tr>
               <td width="250px">&nbsp;&nbsp;&nbsp;
-          <a href="goods.php?id=<?php echo $this->_var['goods_0_46038800_1387252732']['goods_id']; ?>" target="_blank" class="fc"><?php echo $this->_var['goods_0_46038800_1387252732']['goods_name']; ?>[<?php echo nl2br($this->_var['goods_0_46038800_1387252732']['goods_attr']); ?>]</a>
+          <a href="goods.php?id=<?php echo $this->_var['goods_0_97683300_1389699171']['goods_id']; ?>" target="_blank" class="fc"><?php echo $this->_var['goods_0_97683300_1389699171']['goods_name']; ?>[<?php echo nl2br($this->_var['goods_0_97683300_1389699171']['goods_attr']); ?>]</a>
               </td>
               <td width="195px"></td>
-			  <td width="157px" align="left"><?php echo $this->_var['goods_0_46038800_1387252732']['goods_number']; ?></td>
-              <td width="150px" align="left"><?php echo $this->_var['goods_0_46038800_1387252732']['formated_goods_price']; ?></td>
-              <td  align="left"><?php echo empty($this->_var['goods_0_46038800_1387252732']['discount']) ? '0' : $this->_var['goods_0_46038800_1387252732']['discount']; ?></td>
+			  <td width="157px" align="left"><?php echo $this->_var['goods_0_97683300_1389699171']['goods_number']; ?></td>
+              <td width="150px" align="left"><?php echo $this->_var['goods_0_97683300_1389699171']['formated_goods_price']; ?></td>
+              <td  align="left"><?php echo empty($this->_var['goods_0_97683300_1389699171']['discount']) ? '0' : $this->_var['goods_0_97683300_1389699171']['discount']; ?></td>
             </tr>
             <?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
           </table>
@@ -523,10 +523,10 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
 		<img src="themes/default/images/sgoods/<?php echo $this->_var['goods']['img']; ?>.png" width="144" height="96" alt="" />
 		</div>
         <div class="imgShowSmall">
-		<?php $_from = $this->_var['goods_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_46103800_1387252732');if (count($_from)):
-    foreach ($_from AS $this->_var['goods_0_46103800_1387252732']):
+		<?php $_from = $this->_var['goods_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_97703100_1389699171');if (count($_from)):
+    foreach ($_from AS $this->_var['goods_0_97703100_1389699171']):
 ?>
-		<img src="themes/default/images/sgoods/<?php echo $this->_var['goods_0_46103800_1387252732']['goodsimg']; ?>.png" width="50" height="33" alt="" />
+		<img src="themes/default/images/sgoods/<?php echo $this->_var['goods_0_97703100_1389699171']['goodsimg']; ?>.png" width="50" height="33" alt="" />
 		<?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 		</div>
     </div>
