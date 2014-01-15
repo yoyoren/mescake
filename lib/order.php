@@ -1,9 +1,10 @@
 <?php
 
+require_once('lib/user.php');
 class MES_Order{
 	public static function get_order_address(){
 		GLOBAL $db;
-		if($_SESSION['user_id']){;
+		if(MES_User::server_check_login()){;
 			$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']}";	
 			$address=$db->getAll($sql);
 			for($i=0;$i<count($address);$i++){

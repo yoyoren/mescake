@@ -246,7 +246,7 @@
 						address_id:0,
 						consignee:$('#new_contact').val(),
 						country:501,
-						city:$('region_sel').val(),
+						city:$('#region_sel').val(),
 						address:$('#new_address').val(),
 						mobile:$('#new_tel').val(),
 						bdate:$('#date_picker').val(),
@@ -255,21 +255,78 @@
 				}
 			}
 			$.post('route.php?action=save_consignee&mod=order',data||{},function(d){
-				me.checkout();
+			
+				if(window.IS_LOGIN){
+					me.checkout();
+				}else{
+					//检查没有登录的用户手机号码是否被注册了
+					$.get('route.php?action=check_user_exsit&mod=account',{
+						username:$('#new_contact').val()
+					},function(d){
+
+						//用户已经存在于数据库中
+						if(d.exsit){
+							require(['ui/confirm'],function(confirm){
+								new confirm('您所使用的手机号已经被注册，请登录后再继续订购',function(){
+									require(["ui/login"], function(login) {login.show();});
+								});
+							});
+							
+						}else{
+							//给这个用户注册一个账户 并且帮他登录
+							$.post('route.php?action=auto_register&mod=account',{
+								username:$('#new_tel').val()
+							},function(d){
+								if(d.code == 0){
+									me.checkout();
+								}
+							},'json');
+						}
+					},'json')
+				}
+				
 			},'json');
 		},
 
+		//最终的结算
 		checkout:function(){
 			$.post('route.php?action=checkout&mod=order',{},function(d){
+				//结算数据form submit
 				$('#submit_form').submit();
 			},'json');
+		},
+
+		//变更支付的方式
+		changePayMethod:function(){
+			var payForm = $('#pay_id');
+			$('#cash').click(function(){
+				var cash = $('#cash_sel').val();
+				payForm.val(cash);
+			});
+			
+			$('#alipay').click(function(){
+				payForm.val(3);
+			});
+
+			$('#kuaiqian').click(function(){
+				payForm.val(4);
+			});
+
+			$('#cash_sel').change(function(){
+				payForm.val($(this).val());
+				$('#cash').find('input')[0].checked = true;
+			});
 		}
+
+
+
    }
 
 
    Order.bind();
    Order.getAddress();
    Order.getRegion();
+   Order.changePayMethod();
    $(window).ready(function(){
 	 
 
@@ -281,7 +338,7 @@
 	$('#hour_picker').append(_html);
    	$('#date_picker').click(function(){
    		//require(['datepicker/WdatePicker'],function(datePicker){
-   			WdatePicker({minDate:'%y-%M-{%d}'});
+   		WdatePicker({minDate:'%y-%M-{%d}'});
    		//})
    		
    	});

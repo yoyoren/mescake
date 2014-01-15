@@ -161,6 +161,7 @@
 				});
 				
 			}).delegate('.order_des_fork','click',function(){
+				//减少餐具
 				var _this = $(this);
 				var id=_this.data('id');
 				var num = parseInt(_this.next().html(),10);
@@ -170,22 +171,30 @@
 				}
 				updateFork(id,num);
 			}).delegate('.order_add_fork','click',function(){
+				//增加餐具
 				var _this = $(this);
 				var id=_this.data('id');
 				var num = parseInt(_this.prev().html(),10);
 				num+=1;
 				updateFork(id,num);
 			}).delegate('.add_brith_brand','click',function(){
+				//触发生日牌的修改
 				$(this).hide();
 				$(this).next().show();
 				$(this).next().focus();
 			}).delegate('.brith_brand_input','blur',function(){
-				
-				$(this).parent().hide();
-				$(this).parent().prev().html($(this).val()).show();
-				$(this).val('');
+				var _this = $(this);
+				var text = _this.val();
+
+				if($.trim(text) == ''){
+					text = '添加一个生日牌';
+				}
+				_this.parent().hide();
+				_this.parent().prev().html(text).show();
+				_this.val('');
 			});
 		},
+
 		bind:function(){
 			$('#birth_title').click(function(){
 				  //取消蜡烛

@@ -6,7 +6,7 @@ define(function(){
 	//相当于id
 	var index = 0;
 
-	var _html = '<div id="dialog_<%=index%>" class="dialog" style="margin:0;display:none;zIndex:<%=zIndex%>">\
+	var _html = '<div id="dialog_<%=index%>" class="dialog" style="margin:0;display:none;z-index:<%=zIndex%>">\
       <div class="dialog-head">\
         <%if(title){%><p class="dia-title"><%=title%></p><% } %>\
         <em class="close-ico" id="close_<%=index%>">X</em>\
@@ -38,7 +38,7 @@ define(function(){
 			zIndex:zIndex++
 		});
 		$('body').append(html);
-
+		$('body').append('<div class="gray-bg dialog_bg"></div>');
 		this.el = $('#dialog_'+_index);
 		
 	    //没有底部的结构就不需要事件绑定
@@ -79,6 +79,9 @@ define(function(){
 		},
 		
 		show:function(){
+			if(!$('body').find('.dialog_bg').length){
+				$('body').append('<div class="gray-bg dialog_bg"></div>');
+			}
 			this.el.show();
 			this._reposition();
 		},
@@ -90,9 +93,11 @@ define(function(){
 		},
 		hide:function(){
 			this.el.hide();
+			$('body').find('.dialog_bg').remove();
 		},
 		close:function(){
 			this.el.remove();
+			$('body').find('.dialog_bg').remove();
 		}
 	}
 	return _dialog;

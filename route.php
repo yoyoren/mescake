@@ -11,11 +11,13 @@ $mod = $_GET['mod'];
 
 switch ($mod) {
     case 'order':
-		require(ROOT_PATH . 'lib/order.php');
+    
+		require_once(ROOT_PATH . 'lib/order.php');
         if($action == 'step1'){
 			$smarty->display('shoppingcar_new.dwt');
 			return;
 		}else if($action == 'step2'){
+			
 			$smarty->display('order_new.dwt');
 			return;
 		}else if($action == 'step3'){
@@ -124,7 +126,55 @@ switch ($mod) {
 			echo MES_User::logout();
 		}else if($action == 'signup'){
 			
+			//用户注册 
+		}else if($action == 'check_user_exsit'){
+			
+			//检测一个用户是否存在
+			$username = $_GET['username'];
+			echo MES_User::check_user_exsit($username);
+		}else if($action == 'auto_register'){
+
+			//自动注册其实用的就是那个手机号码
+			$username = $_POST['username'];
+			echo MES_User::auto_register($username);
+		}else if($action=="change_unregister_password"){
+			
+			//修改未注册但是曾经下单用户的密码
+			$password = $_POST['password'];
+			echo MES_User::change_unregister_password($password);
+		}else if($action=="get_user_order_detail"){
+			
+			//获得一个用户订单的详情
+			$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+			echo MES_User::get_user_order_detail($order_id);
+		}else if($action=="get_user_order_list"){
+			
+			//获得一个用户所有的订单
+			echo MES_User::get_user_order_list();
+		}else if($action=="del_one_order"){
+			
+			//删除一个订单
+			$order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+			echo MES_User::del_one_order($order_id);
+		}else if($action=="order_list"){
+
+			//order list page
+			$smarty->display('order_list.dwt');
+		}else if($action=="order_detail"){
+			
+			//order detail page
+			$smarty->display('order_detail.dwt');
+		}else if($action == 'is_unset_password_user'){
+			
+			//check user if set password
+			echo MES_User::is_unset_password_user();
+		}else if($action == 'set_password'){
+			
+			//check user if set password
+			$smarty->display('order_set_password.dwt');
 		}
+
+
         break;
     default:
         break;

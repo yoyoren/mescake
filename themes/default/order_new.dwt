@@ -106,10 +106,10 @@
           </dl>
           <h4 class="content-title">付款方式</h4>
           <div class="payStyle">
-            <label for="cashon"><input type="radio" name="payStyle" id="cashon" class="radio-item">货到付款</label>
-            <select style="margin:0 10px;"><option>现金付款</option><option>POS机刷卡</option></select>
-            <label for="alipay" class="space"><input type="radio" name="payStyle" id="alipay" class="radio-item">支付宝</label>
-            <label for="kuaiqian"><input type="radio" name="payStyle" id="kuaiqian" class="radio-item">快钱</label>
+            <label for="cash_radio" id="cash"><input type="radio" checked="true" name="payStyle" id="cash_radio" class="radio-item">货到付款</label>
+            <select style="margin:0 10px;" id="cash_sel"><option value="1">现金付款</option><option value="2">POS机刷卡</option></select>
+            <label for="alipay_radio" id="alipay" class="space"><input type="radio" name="payStyle" id="alipay_radio" class="radio-item">支付宝</label>
+            <label for="kuaiqian_radio" id="kuaiqian"><input type="radio" name="payStyle" id="kuaiqian_radio" class="radio-item">快钱</label>
           </div>
           <div class="check-money-area clearfix">
             <div class="money-style">
@@ -137,7 +137,7 @@
               <p class="total-p"><em>您总共需要支付：</em><b class="total">0元</b></p>
             </div>
           </div>
-          <div class="tl-r">
+          <div class="tl-r" style="display:none" id="vaild_code_frame">
             <span class="total-sub-tip">请输入验证码：</span>
             <input type="text" class="global-input" style="width:80px;">
             <img src="" class="check-code">
@@ -148,7 +148,7 @@
           </div>
         </form>
         <form action="flow.php" method="post" id="submit_form">
-          <input type="hidden" name="pay_id" value="3" id="pay_id">
+          <input type="hidden" name="pay_id" value="1" id="pay_id">
           <input type="hidden" name="bonus_sn" value="请输入10位现金券券号"  id="bonus_sn">
           <input type="hidden" name="shipping_fee" value="￥0.00"  id="shipping_fee">
           <input type="hidden" name="x" value="97">
