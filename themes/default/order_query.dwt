@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>用手机号码查询手机号码</title>
+  <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+</head>
+<body>
+<div class="layout">
+ <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
+  <div class="head-line"></div>
+  <div class="content">
+    <div class="register-container phone-check clearfix">
+      <h4 class="content-title">用手机号码查询手机号码</h4>
+      <dl class="global-form-container clearfix">
+        <dt class="l-title">请输入您下单的联系手机号码：</dt>
+        <dd class="r-con clearfix">
+          <div class="check-container">
+            <input type="text" class="global-input" placeholder="手机号码" id="mobile_input"/>
+            <span class="tips-container" id="moblie_error" style="display:none">请输入手机号码</span>
+          </div>
+          <a href="#" class="btn" id="get_vaild_code">获取验证码</a>
+        </dd>
+        <dt class="l-title lh-input">验证码：</dt>
+        <dd class="r-con clearfix">
+          <div class="check-container">
+            <input type="text" class="global-input" id="vaild_input" placeholder="验证码"/>
+            <span class="tips-container" id="vaild_error" style="display:none">请输入短信验证码</span><!-- 错误信息容器,出现2秒后消失 -->
+          </div>
+        </dd>
+        <dt class="l-title">&nbsp;</dt>
+        <dd class="r-con clearfix">
+          <input class="btn green-btn big-btn" type="submit" value="查询" id="query_order"/>
+        </dd>
+      </dl>
+      <p class="phone-check-tip">如果您已经是注册用户，请您<a href="#" class="js_login">登录</a></p>
+    </div>
+  </div>
+  <script src="script/page/orderquery.js"></script>
+  <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
+</div>
+</body>
+</html>

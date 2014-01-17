@@ -2,6 +2,7 @@
 
    var addressTmpl = '<%for(var i=0;i<data.length;i++){%>\
 						<div class="ama-item address_item <%if(i==0){%>ama-item-current<%}%>" id="address_<%=data[i].address_id%>"\
+							data-id="<%=data[i].address_id%>"\
 							data-address="<%=data[i].address%>"\
 							data-tel="<%=data[i].mobile%>"\
 							data-contact="<%=data[i].consignee%>"\
@@ -36,7 +37,7 @@
 				var _this = $(this);
 				$('#address_container').find('.address_item').removeClass('ama-item-current');
 				_this.addClass('ama-item-current');
-
+			
 				//set current id
 				CURRENT_ADDRESS_ID = _this.data('id');
 				
@@ -110,7 +111,9 @@
 				var address = $('#new_address').val();
 				var tel = $('#new_tel').val();
 				var contact = $('#new_contact').val();
-
+				if(!me.vaildAddressForm()){
+					return
+				}
 				$.post('route.php?mod=order&action=add_order_address',{
 					country:501,
 					city:city,
@@ -141,7 +144,9 @@
 				var address = $('#new_address').val();
 				var tel = $('#new_tel').val();
 				var contact = $('#new_contact').val();
-
+				if(!me.vaildAddressForm()){
+					return
+				}
 				$.post('route.php?mod=order&action=update_order_address',{
 					country:501,
 					city:city,
@@ -172,13 +177,48 @@
 			//submit this order to server
 			$('#submit_order_btn').click(function(){
 				var jqThis = $('#address_'+CURRENT_ADDRESS_ID);
-				me.saveconsignee(jqThis);
+				
+					me.saveconsignee(jqThis);
+				
 			});
 		},
 		
 		//we need some front-end vaild we submit form
 		vaildAddressForm:function(){
+			
+			if($.trim($('#region_sel').val())==0){
+				require(['ui/confirm'],function(confirm){
+								new confirm('请选择一个送货的区域！',function(){
+								});
+							});
+				return false;
+			}
 
+			if($.trim($('#new_address').val())==''){
+				$('#new_address').next().show();
+				setTimeout(function(){
+					$('#new_address').next().hide();
+				},2000)
+				return false;
+			}
+
+			if($.trim($('#new_contact').val())==''){
+				$('#new_contact').next().show();
+				setTimeout(function(){
+					$('#new_contact').next().hide();
+				},2000)
+				return false;
+			}
+
+			if($.trim($('#new_tel').val())==''){
+				$('#new_tel').next().show();
+				setTimeout(function(){
+					$('#new_tel').next().hide();
+				},2000)
+				return false;
+			}
+
+			return true;
 		},
 
 		//clean new address form
@@ -226,6 +266,22 @@
 
 		},
 
+		vaildDate:function(){
+			if(!$('#date_picker').val()){
+				return false;
+			}
+			
+			var hour = $('#hour_picker').val();
+			if(hour>22||hour<10){
+				return false;
+			}
+
+			var minute = $('#minute_picker').val();
+			if(minute!=0&&minute!=30){
+				return false;
+			}
+			return true;
+		},
 		//save it in session
 		saveconsignee:function(_this){
 			var me = this;
@@ -253,6 +309,16 @@
 						hour:$('#hour_picker').val(),
 						minute:$('#minute_picker').val()
 				}
+
+				if(!me.vaildAddressForm()){
+					return;
+				}
+			}
+			if(!me.vaildDate()){
+				require(['ui/confirm'],function(confirm){
+					new confirm('您选择的送货日期不正确，请重新选择',function(){});
+				});
+				return;
 			}
 			$.post('route.php?action=save_consignee&mod=order',data||{},function(d){
 			
@@ -316,6 +382,34 @@
 				payForm.val($(this).val());
 				$('#cash').find('input')[0].checked = true;
 			});
+		},
+		getSurplus:function(){
+			$('#blance_label').click(function(){
+				var chk = $(this).find('input')[0];
+				if(chk.checked){
+					$.get('flow.php?step=validate_gift&is_surplus=1',function(d){
+						$('#balance_display').html('可用余额'+d.surplus).show();
+					},'json');
+				}else{
+					$('#balance_display').hide();	
+				}
+				
+			})
+			
+		},
+
+		chargeInPage:function(){
+			$('#cash_code').blur(function(){
+				$('#no').hide();
+				var bonus_sn = $('#cash_code').val();
+				if(bonus_sn.split('').length!=10){
+					$('#no').show();
+					return;
+				}
+				$.get('flow.php?step=validate_bonus&bonus_sn='+bonus_sn,function(d){
+							
+				},'json');
+			});
 		}
 
 
@@ -327,6 +421,8 @@
    Order.getAddress();
    Order.getRegion();
    Order.changePayMethod();
+   Order.getSurplus();
+   Order.chargeInPage();
    $(window).ready(function(){
 	 
 
@@ -346,6 +442,9 @@
 		//login
    		$('#login_tip').hide();
 		$('#login_address_operate').show();
+		$('#add_new_address').show();
+		//显示登陆后的礼金操作地址
+		$('#money_card_frame').show();
 		window.IS_LOGIN = true;
    	},function(){
 		//unlogin
@@ -355,6 +454,7 @@
    		$('.user_login').click(function(){
 			require(["ui/login"], function(login) {login.show();});
    		});
+		$('#money_card_frame').hide();
 		window.IS_LOGIN = false;
    	})
    	

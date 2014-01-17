@@ -20,8 +20,8 @@ switch ($mod) {
 			
 			$smarty->display('order_new.dwt');
 			return;
-		}else if($action == 'step3'){
-		
+		}else if($action == 'empty'){
+			$smarty->display('order_empty.dwt');
 		}else if($action == 'get_order_list'){
 			echo MES_Order::get_order_list();
 		}else if($action == 'get_order_address'){
@@ -171,9 +171,65 @@ switch ($mod) {
 		}else if($action == 'set_password'){
 			
 			//check user if set password
-			$smarty->display('order_set_password.dwt');
-		}
+			if($_SESSION['user_auto_register'] == '11'){
+				$smarty->display('order_set_password.dwt');
+			}else{
+				echo 0;
+			}
+		}else if($action == 'query_order'){
+			
+			//query your order by moblie
+			$smarty->display('order_query.dwt');
+		}else if($action == 'get_password_moblie'){
+			
+			//get password by your mobile
+			$moblie = $_POST['moblie'];
+			
+			echo MES_User::get_password_moblie($moblie);
+		}else if($action == 'query_login'){
+	
+			//login by moblie query
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			echo MES_User::query_login($username,$password);
+		}else if($action == 'get_auto_register_mobile'){
+			echo MES_User::get_auto_register_mobile();
+		}else if($action == 'account'){
+			$smarty->display('account.dwt');
+		}else if($action == 'change_mobile_get_code'){
+			$mobile = $_POST['mobile'];
+			echo MES_User::change_mobile_get_code($mobile);
+		}else if($action == 'change_mobile'){
 
+			//chang your tel 
+			$mobile = $_POST['mobile'];
+			$code = $_POST['code'];
+			echo MES_User::change_mobile($mobile,$code);
+		}else if($action == 'get_user_mobile_number'){
+
+			//get tel only
+			echo MES_User::get_user_mobile_number();
+		}else if($action == 'change_password'){
+
+			//change your password
+			$old = $_POST['old'];
+			$new = $_POST['new'];
+			echo MES_User::change_password($old,$new);
+		}else if($action == 'get_users_info'){
+
+			//get name,tel and sex
+			echo MES_User::get_users_info();
+		}else if($action == 'change_sex'){
+
+			//change your sex
+			$sex = $_POST['sex'];
+			echo MES_User::change_sex($sex);
+		}else if($action == 'change_real_name'){
+
+			//change your real name
+			$name = $_POST['name'];
+			echo MES_User::change_real_name($name);
+		}
 
         break;
     default:

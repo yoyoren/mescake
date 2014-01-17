@@ -22,7 +22,7 @@
 				  <%if(data[i].goods_id!=61){%>\
 		          <div class="or-child-container">\
 		            <span class="or-name">\
-		              <img src="" class="or-child-img"/><sapn class="or-name-intro">配套餐具</span>\
+		              <img src="img/canju.png" class="or-child-img"/><sapn class="or-name-intro">配套餐具</span>\
 		            </span>\
 		            <span class="or-price" id="fork_price_<%=data[i].rec_id%>">\
 						<%if(data[i].extra_fork){%>0.5\
@@ -37,8 +37,7 @@
 		          </div>\
 		          <div class="or-child-container">\
 		            <span class="or-name">\
-		              <img src="" class="or-child-img"/><span class="or-name-intro add_brith_brand">添加一个生日牌</span>\
-					  <span style="display:none"><input type="text" class="brith_brand_input"/></span>\
+                      <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro">添加一个生日牌</span></span><input type="text" style="display:none;" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
 		            </span>\
 		            <span class="or-price">免费</span>\
 		          </div>\
@@ -55,6 +54,11 @@
 				mod:'order',
 				action:'get_order_list'
 			 },function(d){
+				if(!d.goods_list.length){
+					location.href="route.php?mod=order&action=empty";
+					return false;
+				}
+				$('#my_order_frame').show();
 			 	var html = mstmpl(orderListTmpl,{
 			 		data:d.goods_list
 			 	});
@@ -179,7 +183,7 @@
 				updateFork(id,num);
 			}).delegate('.add_brith_brand','click',function(){
 				//触发生日牌的修改
-				$(this).hide();
+				$(this).find('.or-name-intro').hide();
 				$(this).next().show();
 				$(this).next().focus();
 			}).delegate('.brith_brand_input','blur',function(){
@@ -189,8 +193,8 @@
 				if($.trim(text) == ''){
 					text = '添加一个生日牌';
 				}
-				_this.parent().hide();
-				_this.parent().prev().html(text).show();
+				_this.hide();
+				_this.prev().find('.or-name-intro').html(text).show();
 				_this.val('');
 			});
 		},
@@ -231,6 +235,7 @@
 							var html = mstmpl(orderListTmpl,{
 								data:[d.data]
 							});
+
 							$('#order_list').after(html);
 							BRITH_ORDER_ID = d.data.rec_id;
 					  },'json');

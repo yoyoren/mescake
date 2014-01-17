@@ -9,7 +9,7 @@ define(['ui/dialog'],function(Dialog){
 			<span class="tips-container" id="popup_login_error" style="display:none">用户名或密码错误</span>\
           </div><br>'
 
-	var bottom = ' <input class="btn green-btn" type="submit" value="登录" id="popup_login"><a href="#" class="td-u">新用户注册</a>';
+	var bottom = ' <input class="v-btn green-btn" type="submit" value="登录" id="popup_login"><a href="user.php?act=register" class="td-u">新用户注册</a>';
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
 	var login = {
@@ -19,6 +19,7 @@ define(['ui/dialog'],function(Dialog){
 				single.show();
 			}else{
 				 single = new Dialog({
+						title:'用户登录',
 						body:body,
 						bottom:bottom,
 						afterRender:function(){

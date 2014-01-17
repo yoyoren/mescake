@@ -9,7 +9,7 @@
 		if(!d.res){
 			fail&&fail();
 		}else{
-			success&&success();
+			success&&success(d.uname);
 		}
 	},'json');
    }
@@ -41,9 +41,11 @@
 			});
 	   });
 
-	   MES.checkLogin(function(){
+	   MES.checkLogin(function(uname){
+			
 			$('#header_login').hide();
 			$('#header_logout').show();
+			$('#header_logout').before('<a href="route.php?mod=account&action=account">'+uname+', </a>');
 	   },function(){
 	   });
    

@@ -15,8 +15,8 @@ define(function(){
         <form action="">\
 		   <p><%=body%></p>\
 			<%if(!bottom) {%>\
-				<input id="dialog_confirm_<%=index%>" class="btn green-btn" type="submit" value="确定">\
-				<input id="dialog_cancel_<%=index%>" class="btn" type="reset" value="取消">\
+				<input id="dialog_confirm_<%=index%>" class="v-btn green-btn" type="submit" value="确定">\
+				<input id="dialog_cancel_<%=index%>" class="v-btn" type="reset" value="取消">\
 			<% } else {%>\
 				<%=bottom%>\
 			<% } %>\

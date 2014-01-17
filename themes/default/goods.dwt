@@ -10,15 +10,13 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="css/home.css" />
 {* 包含脚本文件 *}
+<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {insert_scripts files='jquery.min.js,jquery.json-1.3.js,login_register.js,transport.js,common.js,utils.js'}
-<script src="script/require.js"></script>
-<script src="script/page/common.js"></script>
 </head>
 <body>
-<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
- {insert name='member_info'}
+<!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
+
    <!--商品详情start-->
    <div class="block box">
    <div class="blank60"></div>

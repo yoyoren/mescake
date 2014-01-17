@@ -5,6 +5,11 @@
 
 	$('#change_password').click(function(){
 		var password = $('#password_input').val();
+		//检测一下密码的长度
+		if(!password||password.split('').length<7){
+			$('#set_warn').show();
+			return;
+		}
 		$.post('route.php?mod=account&action=change_unregister_password',{
 			password:password
 		},function(d){
@@ -21,6 +26,12 @@
 			}
 		},'json');
 	});
-	
+
+	//设置一下UI 上的展示效果
+	$.get('route.php?action=get_auto_register_mobile&mod=account',function(d){
+		if(d.code == 0){
+			$('#moblie_number').html(d.msg);
+		}
+	},'json')
 
 })();

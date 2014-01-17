@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>我的账户</title>
+  <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+</head>
+<body>
+<div class="layout">
+  <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
+  <div class="head-line"></div>
+  <div class="content">
+    <div class="register-container account-container clearfix">
+      <h4 class="content-title">我的账户</h4>
+      <dl class="global-form-container clearfix">
+        <dt class="l-title">我的手机是：</dt>
+        <dd class="r-con clearfix">
+          <p class="phone-num" id="my_current_number"></p>
+          <a href="#" class="btn" id="change_tel">修改手机</a>
+          <a href="#" class="btn" id="change_password">修改登录密码</a>
+        </dd>
+        <dt class="l-title lh-input">请您称呼我为：</dt>
+        <dd class="r-con clearfix" style="position:relative">
+          <input type="text" class="global-input" placeholder="我的姓名" id="my_name"/><span class="tips-container" id="mod_tip" style="display:none">修改成功</span><br />
+          <label for="man" class="space" id="man" ><input type="radio" name="female" class="radio-item" checked="checked" />男士</label>
+          <label for="lady" id="lady"><input type="radio"  name="female" class="radio-item" />女士</label>
+        </dd>
+        <!-- <dt class="l-title">&nbsp;</dt>
+        <dd class="r-con clearfix">
+          <input class="btn green-btn big-btn" type="submit" value="登录"/>
+        </dd> -->
+      </dl>
+      <p class="phone-check-tip"><b>我的账户中有<span id="my_money">0</span>元余额</b><br/>
+        <a href="user.php?act=charge" class="td-u">礼金卡充值</a><a href="user.php?act=charge" class="td-u">代金券充值</a>
+      </p>
+    </div>
+  </div>
+  <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
+  <script src="script/page/account.js"></script>
+</div>
+</body>
+</html>

@@ -6,7 +6,9 @@ class MES_User{
 		global $db;
 		global $_LANG;
 		global $user;// = user_info($_SESSION['user_id']);
-		
+		$username = addslashes($username);
+		$password = addslashes($password);
+
 		$json = new JSON;
 		$result   = array('code' => 0, 'content' => 'login successs');
 		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
@@ -32,6 +34,7 @@ class MES_User{
 
 	public static function get_user_info($user_id){
 		global $db;
+		$user_id = addslashes($user_id);
 		$sql = "SELECT * FROM " . $GLOBALS['ecs']->table('users') .
 				" WHERE user_id = '$user_id'";
 		$user = $db->getRow($sql);
@@ -59,15 +62,22 @@ class MES_User{
 		$res = false;
 		if($token&&$_SESSION['serviceToken'] == $token){
 			$res = true;
+			if($_SESSION['user_auto_register_moblie']){
+				$uname =$_SESSION['user_auto_register_moblie'];
+			}else{
+				$uname =$_SESSION['uuid'];
+			}
 		}
-		return json_encode(array('code'=>'0','msg'=>'success','res'=>$res));
+		return json_encode(array('code'=>'0','msg'=>'success','res'=>$res,'uname'=>$uname));
 	}
 
 	//服务器端用于检查是否登录的方法
 	public static function server_check_login(){
+		global $db;
 		$token = $_COOKIE['serviceToken'];
 		$res = false;
 		if($token&&$_SESSION['serviceToken'] == $token){
+			//$username = $db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
 			$res = true;
 		}
 		return $res;
@@ -78,7 +88,8 @@ class MES_User{
 		//global $user;
 		global $db;
 		$res = array('code'=>0);
-		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
+		$username = addslashes($username);
+		$username = $db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
 		if($username==''){
 		   $res['exsit'] = false;
 		}else{
@@ -91,11 +102,14 @@ class MES_User{
 	public static function auto_register($mobile){
 		global $db;
 		include_once(ROOT_PATH . 'includes/lib_passport.php');
+		$mobile = addslashes($mobile);
         $msg='';
+
+		//这个密码实际上会在注册后立即被更新成一个随机密码
         $password = '123456';
 		$f_email= 'W' . $mobile . "@fal.com";
 
-		$email    = $f_email;
+		$email = $f_email;
 		$username = $f_email;
         $other['mobile_phone'] = $mobile;
 		$other['rea_name'] = '';
@@ -103,25 +117,41 @@ class MES_User{
         $back_act = '';
         if (register($username, $password, $email,$other) !== false){
         	//user type 写成11 自动注册
-			$db->query("update ecs_users set user_type=11 where user_name='$username'");//用户类型设置bisc
+			//密码必须名文 因为这个要发送给用户
+			$rand_password = MES_User::rand_num();
+			$db->query("update ecs_users set user_type=11,password='$rand_password' where user_name='$username'");//用户类型设置bisc
 			$_SESSION['user_msg']=$username;
 		}
 
 		//标记一下这个用户是这次自动注册的
 		$_SESSION['user_auto_register'] = '11';
+		$_SESSION['user_auto_register_moblie'] = $mobile;
 		return json_encode(array('code' =>'0','msg'=>$msg));
+	}
+
+	public static function get_auto_register_mobile(){
+		return json_encode(array('code' =>'0','msg'=>$_SESSION['user_auto_register_moblie']));
 	}
 
 	//帮没有设置密码的用户
 	//帮没有设置密码的用户自动设置密码
 	public static function change_unregister_password($password){
 		global $db;
-		$password = md5($password);
-		$mobile = $_SESSION['user_auto_register_moblie'];
-		$username = 'W' . $mobile . "@fal.com";
-		if(strlen($password)<7){
+		
+		$password = addslashes($password);
+		//密码验证
+		if(empty($password)||strlen($password)<7){
 			return json_encode(array('code'=>'1','msg'=>'fail'));
 		}
+
+		
+		$password = md5($password);
+
+		$mobile = $_SESSION['user_auto_register_moblie'];
+		$username = 'W' . $mobile . "@fal.com";
+		
+
+
 		if($_SESSION['user_auto_register'] == '11'){
 			$db->query("update ecs_users set user_type=0,password='$password' where user_name='$username'");
 			unset($_SESSION['user_auto_register']);
@@ -146,7 +176,8 @@ class MES_User{
 	    include_once(ROOT_PATH . 'includes/lib_order.php');
 	    include_once(ROOT_PATH . 'includes/lib_clips.php');
 
-	    $user_id = $_SESSION['user_id'];
+		$order_id = addslashes($order_id);
+	    $user_id = addslashes($_SESSION['user_id']);
 	    $res = array('code' =>'0');
 	    /* 订单详情 */
 	    $order = get_order_detail($order_id, $user_id);
@@ -201,10 +232,159 @@ class MES_User{
 		include_once(ROOT_PATH . 'includes/lib_transaction.php');
 		global $db;
 		global $ecs;
+		$order_id = addslashes($order_id);
 		$user_id = $_SESSION['user_id'];
 	    $orders = $db->query("delete FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id' and order_id = '$order_id'");
 	    return json_encode(array('code' =>'0'));
 	}
+	
+	public static function get_password_moblie($mobile){
+	   global $db;
+	   $mobile = addslashes($mobile);
+	   if(strlen($mobile)<5){
+		   return json_encode(array('code' =>'2'));
+	   }
+	   $user_type=$db->getOne("select user_type from". $GLOBALS['ecs']->table("users")."where email='$mobile' or mobile_phone='$mobile'");
+	   if($user_type == 11){
+		   //重新生成随机的密码
+		   $rand_password = MES_User::rand_num();
+		   //组合出这个地址
+		   $user_name= 'W' . $mobile . "@fal.com";
+		   $db->query("update ecs_users set password='$rand_password' where user_name='$user_name'");
+
+		   $password = $db->getOne("select password from". $GLOBALS['ecs']->table("users")."where email='$mobile' or mobile_phone='$mobile'");	  
+		   
+		   $c = "尊敬的用户，您在每实官网手机校验码为".$password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+		   $cont=urlencode($c);
+		  
+		   $url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$cont.'&sendTime=';
+		   
+		   file_get_contents($url);
+		   
+		   return json_encode(array('code' =>'0'));
+	   }else{
+		   return json_encode(array('code' =>'1','user_type' =>$user_type));
+	   }
+	}
+
+	private static function rand_num(){
+		srand((double)microtime()*1000000);//create a random number feed.
+		$ychar="0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
+		$list=explode(",",$ychar);
+		for($i=0;$i<6;$i++){
+			$randnum=rand(0,35);
+			$authnum.=$list[$randnum];
+		}
+		return $authnum;
+	}
+
+	//使用手机号码查询验证码的登陆
+	public static function query_login($username,$password){
+		global $db;
+		global $_LANG;
+		global $user;
+		$username = addslashes($username);
+		$password = addslashes($password);
+		$mobile = $username;
+		$json = new JSON;
+		$res  = array('code' => 0, 'content' => 'login successs');
+
+		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where mobile_phone='$username'");
+
+		if(empty($username)||empty($password)){
+			$res['code']   = 1;
+			$res['content'] = $_LANG['login_failure'];
+			return $json->encode($result);
+		}
+
+		if ($user->login_for_auto_register($username, $password)){
+			$_SESSION['usermsg']= get_user_info();
+			//这种用户都是自动注册登陆 要区别对待
+			$_SESSION['user_auto_register'] = '11';
+			$_SESSION['user_auto_register_moblie'] = $mobile;
+		}else{
+			$res['code']   = 1;
+			$res['content'] = $_LANG['login_failure'];
+		}
+		return $json->encode($res);
+	}
+
+	public static function change_mobile($mobile,$code){
+		global $db;
+		if($_SESSION['change_mobile']!=$mobile||$_SESSION['change_mobile_code']!=$code){
+			return json_encode(array('code' =>'1'));
+		}else{
+			$user_name = $_SESSION['uuid'];
+			$db->query("update ecs_users set mobile_phone='$mobile' where user_name='$user_name'");
+			unset($_SESSION['change_mobile']);
+			unset($_SESSION['change_mobile_code']);
+			return json_encode(array('code' =>'0','mobile'=>$mobile));
+		}
+	}
+
+	public static function change_mobile_get_code($mobile){
+		$rand_password = MES_User::rand_num();
+		$c = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+		$content=urlencode($c);
+	    $url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$content.'&sendTime=';
+		file_get_contents($url);
+		$_SESSION['change_mobile'] = $mobile;
+		$_SESSION['change_mobile_code'] = $rand_password;
+		return json_encode(array('code' =>'0'));
+	}
+
+	//获得用户正在使用的电话号码
+	public static function get_user_mobile_number(){
+		global $db;
+		$user_name = addslashes($_SESSION['uuid']);
+		$mobile=$db->getOne("select mobile_phone from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+		return json_encode(array('code' =>'0','mobile'=>$mobile));
+	}
+
+	//获得用户正在使用的电话号码
+	public static function get_users_info(){
+		global $db;
+		$user_name = addslashes($_SESSION['uuid']);
+		$info=$db->getAll("select mobile_phone,rea_name,sex from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+		return json_encode(array('code' =>'0','info'=>$info));
+	}
+
+
+	
+
+	public static function change_password($old,$new){
+		global $db;
+		$user_name = addslashes($_SESSION['uuid']);
+		$old = md5(addslashes($old));
+		$new = md5(addslashes($new));
+		$username_in_db=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where user_name='$user_name' and password='$old'");
+		if($username_in_db==$user_name){
+			$db->query("update ecs_users set password='$new' where user_name='$user_name'");
+			return json_encode(array('code' =>'0'));
+		}else{
+			return json_encode(array('code' =>'1'));
+		}
+	}
+
+	public static function change_sex($sex){
+		global $db;
+		if($sex!=0&&$sex!=1){
+			return json_encode(array('code' =>'1'));
+		}
+		$user_name = addslashes($_SESSION['uuid']);
+		$sex = addslashes($sex);
+		$db->query("update ecs_users set sex='$sex' where user_name='$user_name'");
+		return json_encode(array('code' =>'0'));
+	}
+
+	public static function change_real_name($name){
+		global $db;
+		$user_name = addslashes($_SESSION['uuid']);
+		$name = addslashes($name);
+		$db->query("update ecs_users set rea_name='$name' where user_name='$user_name'");
+		return json_encode(array('code' =>'0'));
+	}
+	
 }
 
 ?>
