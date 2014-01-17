@@ -1426,9 +1426,9 @@ elseif ($_REQUEST['step'] == 'done')
     $_POST['inv_payee'] = isset($_POST['inv_payee']) ? compile_str($_POST['inv_payee']) : '';
     $_POST['inv_content'] = isset($_POST['inv_content']) ? compile_str($_POST['inv_content']) : '';
     $_POST['postscript'] = isset($_POST['postscript']) ? compile_str($_POST['postscript']) : '';
-$shipping_fee=$_POST['shipping_fee'];
-$shipping_fee=str_replace("￥"," ",$shipping_fee);
-$shipping_fee= trim($shipping_fee);
+    $shipping_fee=$_POST['shipping_fee'];
+    $shipping_fee=str_replace("￥"," ",$shipping_fee);
+    $shipping_fee= trim($shipping_fee);
 
     $order = array(
         'shipping_id'     => intval($_POST['shipping']),
@@ -1754,7 +1754,7 @@ $shipping_fee= trim($shipping_fee);
 //    while ($error_no == 1062); //如果是订单号重复则重新提交数据
 	//echo "<pre>";print_r($order);
 	
-  $db->query("insert into order_genid (remark) values('9999')");
+    $db->query("insert into order_genid (remark) values('9999')");
 	$order['order_id'] = $new_order_id = $db->insert_id();
 	//if($_SESSION['user_id']==12 or $_SESSION['user_id']==25) $order['order_amount']=0.01;
 	$order['order_sn'] = $cc.date("Ymd") . substr($order['order_id'], -5);
@@ -1778,7 +1778,7 @@ $shipping_fee= trim($shipping_fee);
 	$order_sn=$order['order_sn'];
 	$db->query("update ecs_order_info set shipping_fee={$shipping_fee} where order_sn='{$order_sn}' ");
     /* 插入订单商品 */
-  $sends = 0;
+    $sends = 0;
 	foreach($cart_goods as $val)
 	{
 		if($val['goods_price'] > 100)
@@ -2502,8 +2502,13 @@ assign_dynamic('shopping_flow');
 
 $smarty->assign('consignee_list',$consignee_list);
 //print_r($consignee_list);
+if($_SESSION['user_auto_register'] == '11'){
+  //如果是那种非注册用户就要引导注册
+   $smarty->display('order_set_password.dwt');    
+}else{
+   $smarty->display('flow.dwt');
+}
 
-$smarty->display('flow.dwt');
 
 /*------------------------------------------------------ */
 //-- PRIVATE FUNCTION
