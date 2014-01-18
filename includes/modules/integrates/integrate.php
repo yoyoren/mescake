@@ -167,6 +167,35 @@ class integrate
             return false;
         }
 	}
+
+	function login_for_auto_register($username, $password)
+    {
+        if ($this->check_user_auto_register($username, $password) > 0)
+        {
+            if ($this->need_sync)
+            {
+                $this->sync($username,$password);
+            }
+            $this->set_session($username);
+
+			$time = time()+3600*24;
+			$token = md5($username.$password.'_mescake');
+            $_SESSION['serviceToken'] = $token;
+			$_SESSION['uuid'] = $username;
+			
+            setcookie("serviceToken",$token, $time, $this->cookie_path);            
+            setcookie("uuid",$username, $time, $this->cookie_path);
+	
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
+
+	
     /**
      *
      *
@@ -501,7 +530,6 @@ class integrate
     {
 
         $post_username = $username;
-
         /* 如果没有定义密码则只检查用户名 */
         if ($password === null)
         {
@@ -519,6 +547,18 @@ class integrate
 
             return  $this->db->getOne($sql);
         }
+    }
+
+	function check_user_auto_register($username, $password)
+    {
+
+        $post_username = $username;
+		$sql = "SELECT " . $this->field_id .
+                   " FROM " . $this->table($this->user_table).
+                   " WHERE " . $this->field_name . "='" . $post_username . "' AND " . $this->field_pass . " ='" . $password . "'";
+
+        return  $this->db->getOne($sql);
+        
     }
 
     /**

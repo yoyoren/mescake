@@ -116,6 +116,16 @@ function register($username, $password, $email, $other = array())
         $GLOBALS['user']->set_session($username);
         $GLOBALS['user']->set_cookie($username);
 
+        $time = time()+3600*24;
+        $token = md5($username.$password.'_mescake');
+        
+        $_SESSION['serviceToken'] = $token;
+        $_SESSION['uuid'] = $username;
+            
+		//cookie的下发 要放到正确的路径下
+        setcookie("serviceToken",$token, $time,'/');            
+        setcookie("uuid",$username, $time,'/');
+
         /* 注册送积分 */
         if (!empty($GLOBALS['_CFG']['register_points']))
         {
@@ -378,12 +388,9 @@ function register_hash ($operation, $key)
 
         $pre_salt = substr(md5($user_id . $GLOBALS['_CFG']['hash_code'] . $reg_time), 16, 4);
 
-        if ($pre_salt == $salt)
-        {
+        if ($pre_salt == $salt){
             return $user_id;
-        }
-        else
-        {
+        }else{
             return 0;
         }
     }

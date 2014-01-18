@@ -163,9 +163,10 @@ function insert_right_history()
 			           
         }
     }
+
     $GLOBALS['smarty']->assign('history_goods', $history_goods);
     $val = $GLOBALS['smarty']->fetch('library/history.lbi');
-
+	
     $GLOBALS['smarty']->caching = $need_cache;
     $GLOBALS['smarty']->force_compile = $need_compile;
 

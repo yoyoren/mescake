@@ -1031,7 +1031,7 @@ background:url(images/regbk2.png) no-repeat;position:relative;border:0 solid gre
 
 
 #logindiv1{font-weight:bold;width:700px;height:320px;background:url("images/denglu.png") no-repeat;}
-#logindiv1 span{width:15px;height:14px;float:right;cursor:pointer;margin:10px 25px 0 0;}
+#logindiv1 span{width:15px;height:14px;float:right;cursor:pointer;margin:30px 25px 0 0;}
 #logindiv1 .logininput{width:350px;height:250px;float:right;margin:60px 0 0 10px;}
 #logindiv1 .logininput form table tr{font-size:18px; height:30px;}
 #logindiv1 .inp{border:1px solid #231815;font-size:18px;}

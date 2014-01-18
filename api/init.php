@@ -19,11 +19,14 @@ if (!defined('IN_ECS'))
 }
 
 error_reporting(E_ALL);
-
+//error_reporting(0);
 if (__FILE__ == '')
 {
     die('Fatal error code: 0');
 }
+
+
+
 
 /* 取得当前ecshop所在的根目录 */
 define('ROOT_PATH', str_replace('api', '', str_replace('\\', '/', dirname(__FILE__))));
@@ -116,10 +119,12 @@ $user =& init_users();
 if ((DEBUG_MODE & 1) == 1)
 {
     error_reporting(E_ALL);
+   // error_reporting(0);
 }
 else
 {
     error_reporting(E_ALL ^ E_NOTICE);
+    //error_reporting(0);
 }
 if ((DEBUG_MODE & 4) == 4)
 {

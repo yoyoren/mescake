@@ -617,7 +617,7 @@ function update_address($address)
  *
  * @return   arr        $order          订单所有信息的数组
  */
-function get_order_detail($order_id, $user_id = 0)
+function get_order_detail($order_id, $user_id = 0,$my_pay_code)
 {
     include_once(ROOT_PATH . 'includes/lib_order.php');
 
@@ -696,7 +696,7 @@ function get_order_detail($order_id, $user_id = 0)
 
             /* 取得在线支付方式的支付按钮 */
             $pay_obj    = new $payment_info['pay_code'];
-            $order['pay_online'] = $pay_obj->get_code($order, $payment);
+            $order['pay_online'] = $pay_obj->get_code($order, $payment,false,$my_pay_code);
         }
     }
     else
