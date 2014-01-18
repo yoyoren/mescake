@@ -95,7 +95,7 @@ class alipay
      * @param   array   $order      订单信息
      * @param   array   $payment    支付方式信息
      */
-    function get_code($order, $payment,$auto=false)
+    function get_code($order, $payment,$auto=false,$my_code)
     {
         if (!defined('EC_CHARSET'))
         {
@@ -201,6 +201,9 @@ class alipay
              alert("您的浏览器启用拦截支付宝弹出窗口过滤功能！\n\n请暂时先关闭此功能以完成支付！") ;  
           }   
 		</script>';
+        if($my_code){
+            $button = 'https://mapi.alipay.com/gateway.do?'.$param. '&sign='.md5($sign).'&sign_type=MD5';
+        }
 		//}
         return $button;
     }

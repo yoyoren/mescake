@@ -12,55 +12,10 @@
   <div class="head-line"></div>
   <div class="content">
     <div class="my-order">
-      <p class="need-login-tip">您还没有设置访问密码，建议<a href="" class="td-u">设置</a>以完成注册，方便查看订单信息。</p>
-      <h4 class="content-title"><a href="">我的订单</a> &gt; 订单详情</h4>
-      <div class="order-detail-container">
-        <div class="order-detail-con">订单号：<b>6786877987</b> <span class="odc-date">2014-11-23 15:30</span><a href="" class="td-u link-color fl-r">取消订单</a></div>
-        <div class="odc-container">
-          <div class="odc-title">
-            <p class="fl-l"><b>194.5元</b></p>
-            <p class="fl-r">状态：未付款 <a href="" class="btn">付款</a></p>
-          </div>
-          <!-- 配套的为一个li，单独的另起个li -->
-          <ul class="order-ul">
-            <li class="order-item">
-              <div class="or-main-container">
-                <span class="or-name">
-                  <a href=""><img src="" class="or-name-img"><span class="or-name-intro">冰魄荔枝（1.磅）</span></a>
-                </span>
-                <span class="or-price">188元 x1</span>
-              </div>
-              <div class="or-child-container">
-                <span class="or-name">
-                  <img src="" class="or-child-img"><span class="or-name-intro">配套餐具<span class="color-999">（5份以下免费，额外0.5元/份）</span></span>
-                </span>
-                <span class="or-price">x1</span>
-              </div>
-              <div class="or-child-container">
-                <span class="or-name">
-                  <img src="" class="or-child-img"><span class="or-name-intro">添生日牌,“小强生日快乐”</span>
-                </span>
-                <span class="or-price">x1</span>
-              </div>
-            </li>
-            <li class="order-item">
-              <div class="or-main-container">
-                <span class="or-name">
-                  <a href=""><img src="" class="or-name-img"><span class="or-name-intro">生日蜡烛</span></a>
-                </span>
-                <span class="or-price">5元 x1</span>
-              </div>
-            </li>
-          </ul>
-          <div class="odc-adress-area">
-            <p class="send-to">送至：</p>
-            <p>
-              小志，12838243244<br/>
-              北京市 朝阳区 清河五彩城小米大厦10层011位<br/>
-              将于<b>2014-03-12 15:30</b> 送至
-            </p>
-          </div>
-        </div>
+      <p class="need-login-tip" style="display:none">您还没有设置访问密码，建议<a href="" class="td-u">设置</a>以完成注册，方便查看订单信息。</p>
+      <h4 class="content-title"><a href="route.php?mod=account&action=order_list">我的订单</a> &gt; 订单详情</h4>
+      <div class="order-detail-container" id="order_container">
+
       </div>
     </div>
   </div>

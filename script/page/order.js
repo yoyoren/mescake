@@ -30,6 +30,45 @@
    var Order = {
 		bind:function(){
 			var me = this;
+			$('#region_sel').change(function(){
+				$.get('route.php?mod=order&action=get_district',{
+					_tc:Math.random(),
+					city:$(this).val()
+				},function(d){
+					if(d.code == 0){
+						var html = '<option value="0">选择送货街道</option>';
+						if(d.data){
+							for(var i in d.data){
+								html+='<option value="'+i+'">'+d.data[i].name+'</option>'
+							}
+							$('#dis_district').html(html).show();
+						}else{
+							$('#dis_district').html(html).hide();
+						}
+					}	
+				},'json');
+			});
+
+			$('#dis_district').change(function(){
+				MES.get({
+					mod:'order',
+					action:'shipping_fee_cal',
+					param:{
+						city:$('#region_sel').val(),
+						district:$(this).val()
+					},
+					callback:function(d){
+						if(d.code == 0){
+							if(d.fee){
+								$('#shipping_fee_display').show();
+							}else{
+								$('#shipping_fee_display').hide();
+							}
+							$('#shipping_fee').val(d.fee);
+						}
+					}
+				})
+			});
 
 			//UI changed when you select an address
 			$('#address_container').delegate('.address_item','click',function(){
@@ -45,7 +84,7 @@
 			//delete an address info if you want
 				var _this =$(this);
 				var id = _this.data('id');
-
+					
 				//we need some UI plugin
 				require(['ui/confirm'],function(confirm){
 					new confirm('确认删除这个地址信息吗？',function(){
@@ -177,9 +216,7 @@
 			//submit this order to server
 			$('#submit_order_btn').click(function(){
 				var jqThis = $('#address_'+CURRENT_ADDRESS_ID);
-				
 					me.saveconsignee(jqThis);
-				
 			});
 		},
 		
@@ -188,9 +225,14 @@
 			
 			if($.trim($('#region_sel').val())==0){
 				require(['ui/confirm'],function(confirm){
-								new confirm('请选择一个送货的区域！',function(){
-								});
-							});
+					new confirm('请选择一个送货的区域！');
+				});
+				return false;
+			}
+			if($('#dis_district').css('display')!='none'&&$.trim($('#dis_district').val())==0){
+				require(['ui/confirm'],function(confirm){
+					new confirm('请选择一个送货的街道！');
+				});
 				return false;
 			}
 
@@ -209,8 +251,8 @@
 				},2000)
 				return false;
 			}
-
-			if($.trim($('#new_tel').val())==''){
+			var tel = $.trim($('#new_tel').val());
+			if(!/\d{5,}/.test(tel)){
 				$('#new_tel').next().show();
 				setTimeout(function(){
 					$('#new_tel').next().hide();
@@ -233,7 +275,8 @@
 		getAddress:function(){
 			$.get('route.php',{
 				mod:'order',
-				action:'get_order_address'
+				action:'get_order_address',
+				_tc:Math.random()
 			},function(d){
 				
 				//has address
@@ -254,6 +297,7 @@
 
 		getRegion:function(){
 			$.get('route.php',{
+				_tc:Math.random(),
 				mod:'order',
 				action:'get_region'
 			},function(d){
@@ -327,6 +371,7 @@
 				}else{
 					//检查没有登录的用户手机号码是否被注册了
 					$.get('route.php?action=check_user_exsit&mod=account',{
+						_tc:Math.random(),
 						username:$('#new_contact').val()
 					},function(d){
 
@@ -356,7 +401,14 @@
 
 		//最终的结算
 		checkout:function(){
-			$.post('route.php?action=checkout&mod=order',{},function(d){
+			var brithCard = $('.brith_brand');
+			var card_message = [];
+			for(var i=0;i<brithCard.length;i++){
+				card_message.push(brithCard[i].innerHTML);
+			}
+			$.post('route.php?action=checkout&mod=order',{
+				card_message:card_message.join('|')
+			},function(d){
 				//结算数据form submit
 				$('#submit_form').submit();
 			},'json');
@@ -383,22 +435,57 @@
 				$('#cash').find('input')[0].checked = true;
 			});
 		},
+
+		//获得账户的余额
 		getSurplus:function(){
-			$('#blance_label').click(function(){
-				var chk = $(this).find('input')[0];
-				if(chk.checked){
-					$.get('flow.php?step=validate_gift&is_surplus=1',function(d){
+			//$.get('flow.php?step=validate_gift&is_surplus=1',function(d){
+			//	$('#balance_display').html('可用余额'+d.user_money).show();
+			//},'json');
+			$('#balance').click(function(){
+				if($(this)[0].checked){
+					$.get('flow.php?step=validate_gift&is_surplus=1',{
+						_tc:Math.random()
+					},function(d){
 						$('#balance_display').html('可用余额'+d.surplus).show();
+						//折扣金额
+						$('#disaccount').html(d.total.surplus_formated);
+						
+						//最终价格
+						$('#final_total').html(d.total.amount_formated);
+						$('#surplus').val();
 					},'json');
-				}else{
-					$('#balance_display').hide();	
 				}
-				
-			})
+				else{
+					$.get('flow.php?step=validate_gift&is_surplus=1',{
+						_tc:Math.random()
+					},function(d){
+						$('#balance_display').html('可用余额'+d.user_money).show();
+						//折扣金额
+						$('#disaccount').html('￥0');
+						
+						//最终价格
+						$('#final_total').html(d.total.formated_goods_price);
+						$('#surplus').val('0.00');
+					},'json');
+				}
+			});
+
 			
 		},
-
+		
+		//使用10位数的现金券 直接在本页面充值的
 		chargeInPage:function(){
+			var canUse = false;
+			var Bonus_sn;
+			$('#voucher_label').click(function(){
+				if($('#voucher')[0].checked&&Bonus_sn){
+					$('#bonus_sn').val(Bonus_sn);
+				}else{
+					$('#bonus_sn').val('请输入10位现金券券号');
+				}
+			});
+			
+			//输入这个cash code
 			$('#cash_code').blur(function(){
 				$('#no').hide();
 				var bonus_sn = $('#cash_code').val();
@@ -406,9 +493,33 @@
 					$('#no').show();
 					return;
 				}
-				$.get('flow.php?step=validate_bonus&bonus_sn='+bonus_sn,function(d){
-							
+				$.get('flow.php?step=validate_bonus&bonus_sn='+bonus_sn,{
+					_tc:Math.random()
+				},function(d){
+					if(d.error){
+						$('#no').show();
+					}else{
+					
+						Bonus_sn = bonus_sn;
+						$('#yes').show();
+						
+						//折扣金额
+						$('#disaccount').html(d.total.bonus_formated);
+						
+						//最终价格
+						$('#final_total').html(d.total.amount_formated);
+
+						canUse = true;
+
+						if($('#voucher')[0].checked){
+							$('#bonus_sn').val(bonus_sn);
+						}
+					}
 				},'json');
+			});
+			$('#cash_code').focus(function(){
+				$('#no').hide();
+				$('#yes').hide();
 			});
 		}
 

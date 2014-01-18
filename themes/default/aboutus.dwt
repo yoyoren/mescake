@@ -14,6 +14,7 @@
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 {insert_scripts files="jquery.min.js"}
 <!--head特效-->
+<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {insert_scripts files="header_spec.js"}
 	<style type="text/css">
 		.aboutus p,h3{font-size:13px;color:#4A0605;line-height:25px;text-align:justify; text-justify:inter-ideograph;}
@@ -22,11 +23,10 @@
 </head>
 <body>
     
-     <!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
-	 {insert name='member_info'}
-	 <div style="height:60px;"></div>
+     <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
+
 	 {if $step=='aboutus'}
-	<div class='aboutus' style='width:954px;border:0 solid;background:#FEF9D9;'> <br/>
+	<div class='aboutus' style='width:960px; border:0 solid;background:#f9f9f9; padding:20px 0;'> <br/>
 	<div style="width:850px;margin:auto;border:0px solid;">
 		   <center><h2>北京艾平弗雷食品有限公司简介</h2></center><br/>
 
@@ -48,7 +48,6 @@
 		</div>
 	
 	{/if}
-	<br/>
    <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
    
    

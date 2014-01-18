@@ -162,6 +162,8 @@ class MES_User{
 		}
 		
 	}
+
+	//检测用户是否可以重新设置密码
 	public static function is_unset_password_user(){
 		if($_SESSION['user_auto_register'] == '11'){
 			return json_encode(array('code'=>'0','msg'=>true));
@@ -169,12 +171,15 @@ class MES_User{
 			return json_encode(array('code'=>'0','msg'=>false));
 		}
 	}
-
+	
+	//获得一个订单的详情
 	public static function get_user_order_detail($order_id){
 		include_once(ROOT_PATH . 'includes/lib_transaction.php');
 	    include_once(ROOT_PATH . 'includes/lib_payment.php');
 	    include_once(ROOT_PATH . 'includes/lib_order.php');
 	    include_once(ROOT_PATH . 'includes/lib_clips.php');
+		
+		GLOBAL $db;
 
 		$order_id = addslashes($order_id);
 	    $user_id = addslashes($_SESSION['user_id']);
@@ -189,6 +194,10 @@ class MES_User{
 
 	    /* 订单商品 */
 	    $goods_list = order_goods($order_id);
+
+		//true 只返回支付的地址 不需要返回给我们其他代码
+	    $order_detail = get_order_detail($order_id,$user_id,true);
+	   
 	    foreach ($goods_list AS $key => $value){
 	        $goods_list[$key]['market_price'] = price_format($value['market_price'], false);
 	        $goods_list[$key]['goods_price']  = price_format($value['goods_price'], false);
@@ -202,30 +211,52 @@ class MES_User{
 	        {
 	            $user = user_info($order['user_id']);
 	            if ($user['user_money'] + $user['credit_line'] > 0){
-	                //$smarty->assign('allow_edit_surplus', 1);
-	                //$smarty->assign('max_surplus', sprintf($_LANG['max_surplus'], $user['user_money']));
+					$order['allow_edit_surplus'] = 1;
+					$order['max_surplus'] = sprintf($_LANG['max_surplus'], $user['user_money']);
 	            }
 	        }
 	    }
 
 
 
-	    /* 订单 支付 配送 状态语言项 */
+	    //订单 支付 配送 状态语言项
 	    $order['order_status'] = $_LANG['os'][$order['order_status']];
 	    $order['pay_status'] = $_LANG['ps'][$order['pay_status']];
 	    $order['shipping_status'] = $_LANG['ss'][$order['shipping_status']];
-		return json_encode(array('code' =>'0','order'=>$order,'goods_list'=>$goods_list));		
+
+		$city=$db->getOne("select region_name from ship_region where region_id={$order['city']}");
+		$order['cityName'] = $city;
+
+		return json_encode(array(
+			'code' =>'0',
+			'order'=>$order,
+			'goods_list'=>$goods_list,
+			'pay_online'=>$order_detail['pay_online']
+		));		
 	}
 
 
 	//获得一个用户所有的订单
 	public static function get_user_order_list(){
 		include_once(ROOT_PATH . 'includes/lib_transaction.php');
+		include_once(ROOT_PATH . 'includes/lib_payment.php');
+	    include_once(ROOT_PATH . 'includes/lib_order.php');
+	    include_once(ROOT_PATH . 'includes/lib_clips.php');
 		global $db;
 		global $ecs;
 		$user_id = $_SESSION['user_id'];
 	    $orders = $db->getAll("SELECT * FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id'");
-	    return json_encode(array('code' =>'0','orders'=>$orders));
+		$res=array();
+		foreach($orders as $v){
+			$order_id = $v['order_id'];
+			$order_detail = $db->getAll("SELECT * FROM " .$ecs->table('order_goods'). " WHERE order_id = '$order_id'");
+
+			$v['detail'] = $order_detail;
+			$v['pay_online'] = get_order_detail($order_id,$user_id,true)['pay_online'];
+			array_push($res,$v);
+		}
+		
+	    return json_encode(array('code' =>'0','orders'=>$res));
 	}
 
 	public static function del_one_order($order_id){
@@ -233,8 +264,11 @@ class MES_User{
 		global $db;
 		global $ecs;
 		$order_id = addslashes($order_id);
+
 		$user_id = $_SESSION['user_id'];
-	    $orders = $db->query("delete FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id' and order_id = '$order_id'");
+		$sql = "delete from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'";
+	    
+	    $orders = $db->query($sql);
 	    return json_encode(array('code' =>'0'));
 	}
 	

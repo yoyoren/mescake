@@ -28,7 +28,9 @@
 	});
 
 	//设置一下UI 上的展示效果
-	$.get('route.php?action=get_auto_register_mobile&mod=account',function(d){
+	$.get('route.php?action=get_auto_register_mobile&mod=account',{
+		_tc:Math.random()
+	},function(d){
 		if(d.code == 0){
 			$('#moblie_number').html(d.msg);
 		}

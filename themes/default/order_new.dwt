@@ -22,18 +22,22 @@
         </div>
       </div>
       <form>
-          <dl class="global-form-container clearfix" id="new_address_form" style="display:none">
+          <dl class="global-form-container total-form-container clearfix" id="new_address_form" style="display:none">
             <dt class="l-title">送货地址：</dt>
             <dd class="r-con clearfix">
               <a href="javascript:void(0);" class="area-intro space">
                 北京市
                 <em class="area-intro-ico"></em>
-                <span class="ai-intro">北京市五环内免费送货，五环外不送货。</span>
+                <span class="ai-intro">目前仅针对北京开展送货业务，请见谅</span>
               </a>
               <select id="region_sel">
                 <option value="0">请选择区域</option>
               </select>
-              <span class="tips-container" style="display:none">请选择一个送货区域</span>
+	      <select id="dis_district" style="display:none">
+                <option value="0">选择送货街道</option>
+              </select>
+              <span class="ct-commit">带*号区域需要加收10元送货费</span>
+              <span class="error-tip" style="display:none">请选择一个送货区域</span>
               <br>
               <div class="check-container big-check-container" style="margin-top:10px;">
                 <input type="text" class="global-input" placeholder="详细地址" id="new_address">
@@ -51,7 +55,7 @@
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel">
-                <span class="tips-container" style="display:none">请提供收货人手机号码</span><!-- 错误信息容器,出现2秒后消失 -->
+                <span class="tips-container" style="display:none">手机号码必须是5位以上数字</span><!-- 错误信息容器,出现2秒后消失 -->
               </div>
             </dd>
             <dt class="l-title lh-input">&nbsp;</dt>
@@ -64,7 +68,7 @@
           <dl class="global-form-container clearfix" style="margin-top:20px;">
             <dt class="l-title lh-input">送货时间：</dt>
             <dd class="r-con clearfix" style="margin-bottom:20px;">
-              <input type="text" id="date_picker" readonly="true" class="global-input" style="width:80px;" />
+              <input type="text" id="date_picker" readonly="true" class="global-input vt-a" style="width:80px;" />
               <select id="hour_picker">
                 <option value="0">小时</option>
               </select>
@@ -116,15 +120,21 @@
             <label for="alipay_radio" id="alipay" class="space"><input type="radio" name="payStyle" id="alipay_radio" class="radio-item">支付宝</label>
             <label for="kuaiqian_radio" id="kuaiqian"><input type="radio" name="payStyle" id="kuaiqian_radio" class="radio-item">快钱</label>
           </div>
-          <div class="check-money-area clearfix" id="money_card_frame" style="display:none">
-            <div class="money-style">
+          <div class="check-money-area clearfix" >
+            <div class="money-style"id="money_card_frame" style="display:none">
             <label for="voucher"  id="voucher_label"><input type="checkbox" id="voucher" class="checkbox-item">使用现金券</label>
             <br>
-            <div style="margin-left:20px;">
+            <div style="margin-left:20px;display:none" id="money_card_input_frame">
               请输入10位现金券券号:&nbsp;&nbsp;<input type="text" class="global-input vt-a" id="cash_code"><em style="display:none" class="error-ico" id="no">x</em><em style="display:none" id="yes" class="suc-ico">√</em>
             </div>
             <label for="balance" id="blance_label"><input type="checkbox" id="balance" class="checkbox-item">活动赠送/礼金卡<span class="overage-area"><span id="balance_display" style="display:none">可用余额（50元）</span><a class="btn" target="_blank" href="user.php?act=charge">充值</a></span></label><br>
             <!-- 可用余额是戳了radio以后再显示出来。 -->
+            </div>
+	    <div class="total-money">
+              <p><em>商品总计：</em><b class="order_total">0元</b></p>
+              <p id="shipping_fee_display" style="display:none"><em>配送费：</em><b>10元</b></p>
+              <p><em>优惠折扣：</em><b id="disaccount">0元</b></p>
+              <p class="total-p"><em>您总共需要支付：</em><b class="order_total" id="final_total">0元</b></p>
             </div>
           </div>
           <div class="tl-r" style="display:none" id="vaild_code_frame">
@@ -139,6 +149,7 @@
         </form>
         <form action="flow.php" method="post" id="submit_form">
           <input type="hidden" name="pay_id" value="1" id="pay_id">
+	  <input type="hidden" name="surplus" value="0.00" id="surplus">
           <input type="hidden" name="bonus_sn" value="请输入10位现金券券号"  id="bonus_sn">
           <input type="hidden" name="shipping_fee" value="￥0.00"  id="shipping_fee">
           <input type="hidden" name="x" value="97">

@@ -11,7 +11,9 @@
 		});
 	});
 
-	$.get('route.php?mod=account&action=get_users_info',{},function(d){
+	$.get('route.php?mod=account&action=get_users_info',{
+		_tc:Math.random()
+	},function(d){
 		if(d.code == 0){
 			$('#my_current_number').html(d.info[0].mobile_phone);
 			$('#my_name').val(d.info[0].rea_name);

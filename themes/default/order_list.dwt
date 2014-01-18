@@ -17,7 +17,7 @@
       <table class="order-table" id="order_list">
         <tr>
           <th width="140">订单号</th>
-          <th width="120">时间</th>
+          <th width="120">送货时间</th>
           <th width="160">商品</th>
           <th width="100">总金额</th>
           <th width="160">状态</th>

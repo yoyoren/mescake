@@ -2,6 +2,7 @@ define(['ui/dialog'],function(Dialog){
 	var Confirm = function(text,cb){
 		var me = this;
 		var opt= {};
+		var cb = cb||function(){};
 		opt.body = '<p class="dia-st-tip">'+text+'</p>';
 		opt.title = '提示';
 		opt.onconfirm = function(){

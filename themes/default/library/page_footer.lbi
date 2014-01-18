@@ -1,10 +1,9 @@
 ﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<div id="footer">
- <div class="text" >
-  订购专线：4000 600 700| 客服邮箱：services@mescake.com  &nbsp;&nbsp;京ICP备13036207号 <br/>
-  <a href="aboutus.php?aboutus=companyadr">地址：东城区东直门香河园路当代MOMA一号楼801</a>
- </div>
-</div>
+<div class="footer">
+     <div class="text">
+      订购专线：4000 600 700 &nbsp;|&nbsp; 客服邮箱：services@mescake.com&nbsp; | &nbsp;<a href="aboutus.php?aboutus=aboutus">关于我们</a><br>京ICP备13036207号 
+     </div>
+  </div>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

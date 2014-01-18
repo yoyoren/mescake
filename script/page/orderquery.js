@@ -49,10 +49,14 @@
 				});
 			}else{
 				require(['ui/confirm'],function(confirm){
-					if(d.user_type == 0){
-						new confirm('您的手机号已经注册，请直接登陆后查询订单状态',function(){});
+					//用户存在 注册
+					if(d.user_type === '0'){
+						new confirm('您的手机号已经注册，请直接登陆后查询订单状态',function(){
+							require(["ui/login"], function(login) {login.show();});
+						});
 					}else{
-						new confirm('您所使用的手机号没有查询到订单信息',function(){});
+					//没有订单记录
+						new confirm('您所使用的手机号没有查询到相关订单记录');
 					}
 				});
 			}

@@ -110,7 +110,7 @@
 			<br/>
 					<div id="login2" style="display:none;">{$u_name}{$u_name2}</div>
 					<div class="addgou"><img src="images/paynow.png" id="order_now_btn" style="cursor:pointer;"></div><br/>
-					<div class="addgou"><img src="images/addshopcar.png" id="add_to_cart_btn" style="cursor:pointer;"></div>
+					<div class="addgou"><a href="#" id="add_to_cart_btn" class="add-to-car">加入购物车</a></div>
 					
 					
 			

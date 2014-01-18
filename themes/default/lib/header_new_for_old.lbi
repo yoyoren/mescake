@@ -2,7 +2,7 @@
 {insert_scripts files="header_spec2.js"}
  <div class="mes-head">
     <div class="clearfix">
-      <a href="/" class="main-logo fl-l"><img src="img/mes-logo.png"></a>
+      <a href="index.php" class="main-logo fl-l"><img src="img/mes-logo.png"></a>
       <div class="mh-login-area fl-r">
         <a href="#" class="mes_login" id="header_login">登录</a><a href="#" id="header_logout" style="display:none">注销</a> |
   

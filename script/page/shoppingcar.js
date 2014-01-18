@@ -5,8 +5,12 @@
 		          <div class="or-main-container">\
 		            <span class="or-name">\
 		              <a href="#">\
-		              	<img src="themes/default/images/sgoods/<%=data[i].goods_sn.replace(/11$/,"")%>.png" class="or-name-img"/>\
-		              	<sapn class="or-name-intro"><%=data[i].goods_name%>（<%=data[i].goods_attr%>）</span></a>\
+						<%if(data[i].goods_id==61){%>\
+						<img style="background-color:#fff;height: auto" src="img/lazhu.png" class="or-name-img"/>\
+						<% } else {%>\
+		              	<img style="height: auto" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.png" class="or-name-img"/>\
+						<% } %>\
+		              	<span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%>（<%=data[i].goods_attr%>）<% } %></span></a>\
 		            </span>\
 		            <span class="or-price"><%=data[i].goods_price%></span>\
 		            <span class="or-num">\
@@ -16,13 +20,13 @@
 		            </span>\
 		            <span class="or-total">\
 						<span id="sub_total_<%=data[i].rec_id%>"><%=data[i].subtotal%></span>\
-						<em class="or-close order_cancel" data-id="<%=data[i].rec_id%>">x</em>\
 					</span>\
+					<a href="#" class="or-handle order_cancel" data-id="<%=data[i].rec_id%>">删除</a>\
 		          </div>\
 				  <%if(data[i].goods_id!=61){%>\
 		          <div class="or-child-container">\
 		            <span class="or-name">\
-		              <img src="img/canju.png" class="or-child-img"/><sapn class="or-name-intro">配套餐具</span>\
+		              <img src="img/canju.png" class="or-child-img"/><span class="or-name-intro">配套餐具</span>\
 		            </span>\
 		            <span class="or-price" id="fork_price_<%=data[i].rec_id%>">\
 						<%if(data[i].extra_fork){%>0.5\
@@ -33,11 +37,11 @@
 		            <span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork+data[i].extra_fork%>人份</span>\
 					<em class="or-add order_add_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">+</em>\
 					</span>\
-		            <span class="or-total" id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</sapn>\
+		            <span class="or-total" id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</span>\
 		          </div>\
 		          <div class="or-child-container">\
-		            <span class="or-name">\
-                      <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro">添加一个生日牌</span></span><input type="text" style="display:none;" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
+		            <span class="or-name" style="height:44px; overflow:hidden;">\
+                      <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro brith_brand">添加一个生日牌</span></span><input type="text" style="display:none;" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
 		            </span>\
 		            <span class="or-price">免费</span>\
 		          </div>\
@@ -51,9 +55,11 @@
    var Order = {
    		getOrderList : function(){
 			 $.get('route.php',{
+				_tc:Math.random(),
 				mod:'order',
 				action:'get_order_list'
 			 },function(d){
+	
 				if(!d.goods_list.length){
 					location.href="route.php?mod=order&action=empty";
 					return false;
@@ -80,7 +86,7 @@
 				step:'update_cart',
 				number:number,
 				'rec_id':id,
-				'_tc':Math.random()
+				_tc:Math.random()
 			},function(d){
 
 			},'json');
@@ -92,7 +98,8 @@
 					id:id,
 					num:num,
 					mod:'order',
-					action:'update_cart'
+					action:'update_cart',
+					_tc:Math.random()
 				},function(d){
 					$('#sub_total_'+id).html(d.result);
 
@@ -142,8 +149,8 @@
 				var id=_this.data('id');
 				var num =parseInt( _this.next().html(),10);
 				num-=1;
-				if(num<0){
-					num = 0;
+				if(num<1){
+					num = 1;
 				}
 				_this.next().html(num);
 				updateCart(id,num);
@@ -153,6 +160,7 @@
 				require(['ui/confirm'],function(confirm){
 					new confirm('确认取消这个子订单吗？',function(){
 						$.get('route.php',{
+							_tc:Math.random(),
 							id:id,
 							mod:'order',
 							action:'drop_shopcart'
@@ -200,47 +208,65 @@
 		},
 
 		bind:function(){
+			$('#voucher_label').click(function(){
+				 if($('#voucher')[0].checked){
+					$('#money_card_input_frame').show();
+				 }else{
+					$('#money_card_input_frame').hide();
+				 }
+			});
+			var lock = false;
 			$('#birth_title').click(function(){
 				  //取消蜡烛
-				  if($('#birth_chk')[0].checked){
-					 var id = BRITH_ORDER_ID;
-					 $('#birth_chk')[0].checked = false;
-					 $.get('route.php',{
-							id:id,
-							mod:'order',
-							action:'drop_shopcart'
-						},function(d){
-							//重新结算帐单价格
-							$('#sub_order_'+id).remove();
-							$('.order_total').html(d.total);
-						},'json');
-				  }else{
-					 $('#birth_chk')[0].checked = true;
-					  var goods        = new Object();
-					  var spec_arr     = new Array();
-					  var fittings_arr = new Array();
-					  var number       = 1;
-					  var quick		   = 0;
-
-					  //商品重量
-					  goods.spec     = spec_arr;
-					  goods.goods_id = 61;
-					  //数量
-					  goods.number   = number;
-					  goods.parent   = 0;//(typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
-					  $.post('route.php?mod=order&action=add_to_cart', {
-						goods:$.toJSON(goods),
-						goods_id:60
-					  }, function(d){
-							var html = mstmpl(orderListTmpl,{
-								data:[d.data]
-							});
-
-							$('#order_list').after(html);
-							BRITH_ORDER_ID = d.data.rec_id;
-					  },'json');
+				  if(lock){
+					return false;
 				  }
-				  
+				  lock = true;
+				 
+				  setTimeout(function(){
+					  if(!$('#birth_chk')[0].checked){
+						 var id = BRITH_ORDER_ID;
+						 //$('#birth_chk')[0].checked = false;
+						 $.get('route.php',{
+								_tc:Math.random(),
+								id:id,
+								mod:'order',
+								action:'drop_shopcart'
+							},function(d){
+								//重新结算帐单价格
+								$('#sub_order_'+id).remove();
+								$('.order_total').html(d.total);
+							},'json');
+					  }else{
+						 //$('#birth_chk')[0].checked = true;
+						  var goods        = new Object();
+						  var spec_arr     = new Array();
+						  var fittings_arr = new Array();
+						  var number       = 1;
+						  var quick		   = 0;
+
+						  //商品重量
+						  goods.spec     = spec_arr;
+						  goods.goods_id = 61;
+						  //数量
+						  goods.number   = number;
+						  goods.parent   = 0;//(typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
+						  $.post('route.php?mod=order&action=add_to_cart', {
+							goods:$.toJSON(goods),
+							goods_id:60
+						  }, function(d){
+								var html = mstmpl(orderListTmpl,{
+									data:[d.data]
+								});
+
+								$('#order_list').after(html);
+								BRITH_ORDER_ID = d.data.rec_id;
+						  },'json');
+					  }
+					  setTimeout(function(){
+						lock = false;
+					  },100);
+				  },100);
 			});
 		}
 	}

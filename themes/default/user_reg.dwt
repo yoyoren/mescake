@@ -15,14 +15,15 @@
 {insert_scripts files='common.js,user.js,transport.js,utils.js'}
 {insert_scripts files="login_register.js"}
 {insert_scripts files='jquery.min.js,jquery.json-1.3.js'}
+<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 <body>
 <div id="fullbg"></div>
-<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
 <!--当前位置 start-->
 <form action="user.php" method="post" name="formUser" id="formUser">
 <input name="act" type="hidden" value="act_register" >
 	<div class="block box">
-	 <div class="regmain">
+	 <div class="regmain" style="margin-top:20px; height:380px;">
 			<span style="position:absolute;right:35px;top:10px;cursor:pointer;"><img src="images/closelogin2.png" onclick="closeregister2()"/></span>
 			<div class="regc" style='padding-top:45px;'>
 				<table  border="0" id="regtable" cellspacing="0" cellpadding="0" onKeydown="checkenter3()">

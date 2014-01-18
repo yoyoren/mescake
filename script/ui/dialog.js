@@ -5,7 +5,7 @@ define(function(){
 	
 	//相当于id
 	var index = 0;
-
+	var jqWIN = $(window);
 	var _html = '<div id="dialog_<%=index%>" class="dialog" style="margin:0;display:none;z-index:<%=zIndex%>">\
       <div class="dialog-head">\
         <%if(title){%><p class="dia-title"><%=title%></p><% } %>\
@@ -82,22 +82,28 @@ define(function(){
 			if(!$('body').find('.dialog_bg').length){
 				$('body').append('<div class="gray-bg dialog_bg"></div>');
 			}
+			$('body').css('overflow','hidden');
+			$('body').find('.dialog_bg').css('height',jqWIN.height()+jqWIN.scrollTop());
 			this.el.show();
 			this._reposition();
 		},
 		_reposition:function(){
 			this.el.css({
-				top:($(window).height()-this.el.height())/2,
-				left:($(window).width()-this.el.width())/2
+				top:(jqWIN.height()-this.el.height())/2+jqWIN.scrollTop(),
+				left:(jqWIN.width()-this.el.width())/2
 			});
 		},
+
 		hide:function(){
 			this.el.hide();
 			$('body').find('.dialog_bg').remove();
+			$('body').css('overflow','auto');
 		},
+
 		close:function(){
 			this.el.remove();
 			$('body').find('.dialog_bg').remove();
+			$('body').css('overflow','auto');
 		}
 	}
 	return _dialog;

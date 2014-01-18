@@ -1,6 +1,7 @@
 <?php
 
 require_once('lib/user.php');
+require_once('lib/fee.php');
 class MES_Order{
 	public static function get_order_address(){
 		GLOBAL $db;
@@ -12,7 +13,7 @@ class MES_Order{
 				$address[$i]['cityName'] = $city;
 			}
 		}else{
-			$address = [];
+			$address = array();
 		}
 		return json_encode($address);
 	}
@@ -21,13 +22,16 @@ class MES_Order{
 		GLOBAL $db;
 		$sql="delete from ecs_user_address where address_id={$address_id}";
 		$address=$db->query($sql);
-		return json_encode(array('msg'=>'ok','code'=>'0'));
+		return json_encode(array(
+			'code'=>'0',
+			'msg'=>'ok'
+		));
 	}
 
 
-	public static function update_order_address($address_id,$country,$city,$contact,$address,$tel){
+	public static function update_order_address($address_id,$country,$city,$contact,$address,$tel,$district=0){
 		GLOBAL $db;
-		$db->query("update ecs_user_address set country={$country},city={$city},consignee='{$contact}',address='{$address}',mobile='{$tel}'
+		$db->query("update ecs_user_address set country={$country},city={$city},district={$district},consignee='{$contact}',address='{$address}',mobile='{$tel}'
 			where user_id={$_SESSION['user_id']} and address_id={$address_id}");
 
 
@@ -43,12 +47,12 @@ class MES_Order{
 
 
    //收货人,城市,地区,地质,和电话
-	public static function add_order_address($contact,$country,$city,$address,$tel){
+	public static function add_order_address($contact,$country,$city,$address,$tel,$district=0){
 		GLOBAL $db;
 		$db->query("INSERT INTO ecs_user_address(address_name, user_id, consignee, country, province, city, district, address, tel, mobile, money_address, route_id, ExchangeState, ExchangeState2)
-		VALUES('',{$_SESSION['user_id']},'{$contact}','{$country}','0', '{$city}', '0', '{$address}', '', '{$tel}', NULL, '0', '0', '0')");
+		VALUES('',{$_SESSION['user_id']},'{$contact}','{$country}','0', '{$city}', '{$district}', '{$address}', '', '{$tel}', NULL, '0', '0', '0')");
 		
-		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} limit 0,1";	
+		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} and address={$address} limit 0,1";	
 		$address=$db->getRow($sql);
 		
 		//get cityname from anther table;
@@ -92,7 +96,7 @@ class MES_Order{
 	        $row['subtotal']     = price_format($row['goods_price'] * $row['goods_number'], false);
 	        $row['goods_price']  = $row['goods_price'];
 	        $row['market_price'] = price_format($row['market_price'], false);
-
+			$row['url'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
 	        /* 统计实体商品和虚拟商品的个数 */
 	        if ($row['is_real']){
 	            $real_goods_count++;
@@ -145,6 +149,11 @@ class MES_Order{
 		GLOBAL $db;
 		$district_list=$db->getAll('select * from ship_region where parent_id=501');
 		return json_encode($district_list);
+	}
+
+	public static function get_district($city){
+		$district = MES_Fee::get_fee_region()[$city];
+		return json_encode(array('code'=>'0','data'=>$district));
 	}
 	
 	//更新购物车里面的商品数量
@@ -363,9 +372,11 @@ class MES_Order{
 			      $free_fork_num =  $val['goods_number']* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 			}
 		}		
-		//var_dump($free_fork_num);
+		
 		if($free_fork_num>$num){
-			return json_encode(array('code'=>'1'));
+			return json_encode(array(
+				'code'=>'1'
+			));
 		}else{
 			//have extra fork
 
@@ -374,7 +385,13 @@ class MES_Order{
 
 			$price = ($num-$free_fork_num)/2;
 			$total += $price;
-			return json_encode(array('code'=>'0','num'=>$num,'price'=>$price,'total'=>$total,'extra'=>$extra));
+			return json_encode(array(
+				'code'=>'0',
+				'num'=>$num,
+				'price'=>$price,
+				'total'=>$total,
+				'extra'=>$extra
+			));
 		}
 		
 	}
@@ -413,6 +430,7 @@ class MES_Order{
 		GLOBAL $db;
 		$res = array();
     	//取得购物类型
+    	
     	$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
 
     	//团购标志
@@ -434,7 +452,7 @@ class MES_Order{
 	        "AND parent_id = 0 AND is_gift = 0 AND rec_type = '$flow_type'";
 
 	    if ($db->getOne($sql) == 0){
-	        show_message($_LANG['no_goods_in_cart'], '', '', 'warning');
+	    	return json_encode(array('code' =>1 ,'msg'=> $_LANG['no_goods_in_cart']));
 	    }
 
 	    /*
@@ -444,17 +462,16 @@ class MES_Order{
 	     */
 	    if (empty($_SESSION['direct_shopping']) && $_SESSION['user_id'] == 0){
 	        /* 用户没有登录且没有选定匿名购物，转向到登录页面 */
-	        ecs_header("Location: flow.php?step=login\n");
-	        exit;
+	        //ecs_header("Location: flow.php?step=login\n");
+	        //exit;
 	    }
 
 		$country   = "北京市 ";
 		$id= $_SESSION[flow_consignee][city];
 		
-		$card_message=($_POST['card_message']);
 
-		foreach($card_message as $key=>$v){
-			$card_message[$key]=$v=='文字内容(八个字内)' ? null : $v;
+		for($i=0;$i<count($card_message);$i++){
+			$card_message[$i]=$card_message[$i]=='添加一个生日牌' ? '无' : $card_message[$i];
 		}
 
 		$numbe1=count($card_message);
@@ -471,8 +488,10 @@ class MES_Order{
 
 		$cardname=implode(";",$cardname);
 		$card_message=implode(";",$card_message);
-
+		
+		//生日卡 最后一步 执行done的时候会存入订单的数据库
 		$_SESSION['card_message']=$card_message;
+		
 		$_SESSION['card_name']=$cardname;
 		
 	    $city = $db->getOne("SELECT region_name FROM ".$ecs->table('region')." WHERE region_id={$id}");
@@ -507,12 +526,13 @@ class MES_Order{
 		$order['orderman']=$user_info['user_name'];
 		$order['mobile']=$user_info['mobile_phone'];
 		$order['email']=$user_info['email'];
-	
+		$my_info = array();
 
 	    if ( $_SESSION['user_id'] > 0&& $user_info['user_money'] >= 0){
 	        // 能使用余额
 	        //$smarty->assign('allow_use_surplus', 1);
 	        //$smarty->assign('your_surplus', $user_info['user_money']);
+	        $my_info['user_money'] = $user_info['user_money'];
 	    }
 
 	    /* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
@@ -521,14 +541,29 @@ class MES_Order{
 	        && $user_info['pay_points'] > 0
 	        && ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
 	    {
-	        // 能使用积分
-	        //$smarty->assign('allow_use_integral', 1);
+	        
 	        //$smarty->assign('order_max_integral', flow_available_points());  // 可用积分
 	        //$smarty->assign('your_integral',      $user_info['pay_points']); // 用户积分
+	        $my_info['order_max_integral'] = flow_available_points();
+	        $my_info['your_integral'] = $user_info['pay_points'];
 	    }
 
 	    $_SESSION['flow_order'] = $order;
-	    return json_encode(array('order' => $order,'total'=> $total,'goods'=>$cart_goods));
+	    return json_encode(array(
+	    	'code'=>0,
+	    	'order' => $order,
+	    	'total'=> $total,
+	    	'goods'=>$cart_goods,
+	    	'my_info'=>$my_info
+	    ));
+	}
+
+	public static function shipping_fee_cal($city,$district){
+	   $need = MES_Fee::cal_fee($city,$district);
+	   if($need){
+			return json_encode(array('code'=>'0','fee'=>'10.00'));
+	   }
+	   return json_encode(array('code'=>'0','fee'=>'0'));
 	}
 
 	public static function add_to_cart($goods,$goods_id){
@@ -635,7 +670,7 @@ class MES_Order{
 	    return json_encode($result);
 	}
 
-
+ 
 }
 
 ?>

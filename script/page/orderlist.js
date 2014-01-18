@@ -1,20 +1,29 @@
 (function(){
+$('#my_order_frame').show();
   var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
 						<tr id="orderitem_<%=data[i].order_id%>">\
 						  <td><%=data[i].order_sn%></td>\
 						  <td><%=data[i].best_time.split(" ")[0]%></td>\
-						  <td><img src=""></td>\
+						  <td>\
+							<%for(var j=0;j<1;j++){%>\
+							<%if(data[i].detail[j].goods_sn!=61){%>\
+							<a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>">\
+								<img src="themes/default/images/sgoods/<%=data[i].detail[j].goods_sn.substring(0,3)%>.png">\
+							</a>\
+							<% } %><% } %></td>\
 						  <td><%=data[i].order_amount%></td>\
 						  <td>\
-							<%if(data[i].pay_id<3){%>货到付款<%} else {%>\
+							<%if(data[i].pay_id==4){%>货到付款<%} else {%>\
 						    <%if(data[i].pay_status==0){%>未付款<%}else{%>已付款<%}%>\
 							<% } %>\
 						  </td>\
 						  <td><a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>" class="td-u link-color">查看</a><br>\
-						  <a href="#" class="td-u link-color cancel_order" data-id="<%=data[i].order_id%>">取消订单</a></td>\
+						  <%if(data[i].shipping_status==0){%>\
+						  	<a href="#" class="td-u link-color cancel_order" data-id="<%=data[i].order_id%>">取消订单</a></td>\
+						  <% } %>\
 						  <td>\
-						  <%if(data[i].pay_id>2&&data[i].pay_status==0){%>\
-						  <a href="#" class="btn pay_order" data-id="<%=data[i].order_id%>">\
+						  <%if(data[i].pay_id<4&&data[i].pay_status==0){%>\
+						  <a href="<%=data[i].pay_online%>" class="btn pay_order" data-id="<%=data[i].order_id%>">\
 						  	去付款\
 						  </a>\
 						  <% } %>\
@@ -24,6 +33,7 @@
  var OrderList = {
 	render:function(){
 	  $.get('route.php',{
+		  _tc:Math.random(),
 		  action:'get_user_order_list',
 		  mod:'account'
 	  },function(d){
@@ -32,7 +42,9 @@
 	  },'json');
 	},
 	checksetPassword:function(){
-		$.get('route.php?action=is_unset_password_user&mod=account',function(d){
+		$.get('route.php?action=is_unset_password_user&mod=account',{
+			_tc:Math.random()
+		},function(d){
 			if(d.msg){
 				$('#order_login_tip').show();
 				$('#set_password').click(function(){
@@ -43,7 +55,8 @@
 	},
 
 	bind:function(){
-		$(document).delegate('.cancel_order','click',function(){
+		//pay_order
+		$('body').delegate('.cancel_order','click',function(){
 			var _id = $(this).data('id');
 			require(['ui/confirm'],function(confirm){
 				new confirm('确认取消该订单吗？取消后将无法恢复！',function(){
@@ -52,11 +65,19 @@
 					},function(d){
 						if(d.code == 0){
 							$('#orderitem_'+_id).remove();
-
 						}
 					},'json');
 				});
 			});
+		}).delegate('.pay_order','click',function(){
+			var payUrl = $(this).attr('href');
+			var f = window.open(payUrl);
+			if(f==null){
+				require(['ui/confirm'],function(confirm){
+					new confirm("您的浏览器启用拦截支付宝弹出窗口过滤功能！\n\n请暂时先关闭此功能以完成支付！")
+				});
+			}
+			return false;
 		});
 
 	}

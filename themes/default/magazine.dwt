@@ -10,14 +10,14 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {* 包含脚本文件 *}
 {insert_scripts files='jquery.min.js,common.js'}
 </head>
 <body>
-<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
-{insert name='member_info'}
+<!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
 <div class="block box">
-	<div class="blank20"></div><div class="blank20"></div><div class="blank20"></div>
+	<div class="blank20"></div>
    {if $id eq 1}
         <img src="images/m1.png" border="0" usemap="#Map1" />      
 <map name="Map1" id="Map1">
@@ -40,5 +40,6 @@
 <area shape="poly" coords="507,461,498,792,930,798,915,609" href="goods.php?id=3" />
 </map>
    {/if}</div>
+   <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
 </body>
 </html>

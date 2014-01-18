@@ -47,12 +47,20 @@ switch ($mod) {
 			$tel= $_POST['tel'];
 			echo MES_Order::update_order_address($id,$country,$city,$contact,$address,$tel);
 		}else if($action == 'get_region'){
+			
+			//获得二级区域的信息
 			echo MES_Order::get_region();
+		}else if($action == 'get_district'){
+			$city = $_GET['city'];
+			//获得送货的收费区信息
+			echo MES_Order::get_district($city);
 		}else if($action == 'update_cart'){
+			
 			$id =  $_GET['id'];
 			$num =  $_GET['num'];
 			echo MES_Order::update_cart($num,$id);
 		}else if($action == 'drop_shopcart'){
+			
 			$id =  $_GET['id'];
 			echo MES_Order::drop_shopcart($id);
 		}else if($action == 'update_fork'){
@@ -80,12 +88,18 @@ switch ($mod) {
 			echo MES_Order::save_consignee($consignee);
 		}else if($action == 'checkout'){
 			//checkout and cal total price
-			echo MES_Order::checkout();
+			$card_message =  $_POST['card_message'];
+			if(!$card_message){
+				$card_message = '';
+			}else{
+				$card_message = explode("|",$card_message);
+			}
+			echo MES_Order::checkout($card_message);
 		}else if($action == 'add_to_cart'){
 			//add an cake or fork to your cart
 			
-			 $_POST['goods']=strip_tags(urldecode($_POST['goods']));
-   			 $_POST['goods'] = json_str_iconv($_POST['goods']);
+			 $_POST['goods']= strip_tags(urldecode($_POST['goods']));
+   			 $_POST['goods']= json_str_iconv($_POST['goods']);
 			$goods = $_POST['goods'];
 			if (!empty($_REQUEST['goods_id']) && empty($goods)){
 		        if (!is_numeric($_REQUEST['goods_id']) || intval($_REQUEST['goods_id']) <= 0){
@@ -96,6 +110,10 @@ switch ($mod) {
 		    }
 
 			echo MES_Order::add_to_cart($goods,$_REQUEST['goods_id']);
+		}else if($action == 'shipping_fee_cal'){
+			$city = $_GET['city'];
+			$district = $_GET['district'];
+			echo MES_Order::shipping_fee_cal($city,$district);
 		}
 
 		
