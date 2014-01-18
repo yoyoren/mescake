@@ -2278,6 +2278,7 @@ elseif ($_REQUEST['step'] == 'validate_bonus')
         }
 
         $result['content'] = $smarty->fetch('library/order_total.lbi');
+		$result['total'] =$total;
     }
 	if($order['bonus_id']!='') $result['bonus_id'] = $order['bonus_id'];
     $json = new JSON();
@@ -2336,6 +2337,8 @@ elseif ($_REQUEST['step'] == 'validate_gift')
     }
 	
     $result['surplus'] = $order['surplus'];
+	$result['total'] = $total;
+	$result['user_money'] = $user_info['user_money'];
     $json = new JSON();
     die($json->encode($result));
 }

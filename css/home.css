@@ -13,9 +13,12 @@ table {
 .clearfix:after{display:block;content:"\20";height:0;clear:both;overflow:hidden;visibility:hidden;}
 .clearfix{*zoom:1;}
 /* 如果弹框背景动态计算的话可以取消100%和position */
-html,body{height: 100%; width: 100%;  font-size: 14px; color: #333;}
+/*html,body{height: 100%; width: 100%;  font-size: 14px; color: #333;}
 html{overflow: hidden;}
 body{overflow: auto; *position:relative;} /* 针对ie6body里面有position的bug。*/
+html,body{ height: 100%; width: 100%; font-size: 14px; color: #333;}
+html{}
+body{*position:relative;} /* 针对ie6body里面有position的bug。*/
 .tl-c{text-align: center;}
 .tl-r{text-align: right;}
 .td-u{text-decoration: underline;}/* 针对有下划线的链接 */
@@ -27,10 +30,34 @@ body{overflow: auto; *position:relative;} /* 针对ie6body里面有position的bu
 .fl-l{float: left;}
 .fl-r{float: right;}
 .vt-a{*vertical-align: middle;}
+.error-tip{color: #ff7e00;}
 /* 这个是为了让系统组件之间对齐和有空隙 */
 .checkbox-item{margin-right: 10px; vertical-align: middle;}
 .radio-item{margin-right: 10px;}
 .space{margin-right: 20px; *margin-right:10px; _margin-right:0px;}
+
+.turn-btn{
+display: inline-block;
+width: 31px;
+height: 46px;
+background: url(../themes/default/images/btn.png);
+position: absolute;
+opacity: 0;
+filter: alpha(opacity:0);
+z-index: 9;
+}
+.btn_l {left:10px; top:175px; z-index:10;}
+.btn_r {right:10px; top:175px; background-position:-45px 0;/* z-index:10; */}
+.add-to-car{
+	text-decoration: underline;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	color: #070707;
+}
+.blank60{height: 20px; line-height: 20px;}
+.brandlist1{height: auto;}
 
 .v-btn,
 .btn,
@@ -90,7 +117,7 @@ a.vert-btn{*vertical-align:32px!important;}
 .global-input:focus{box-shadow: inset 0 0 8px #eaeaea;}
 .small-check-container .global-input{width: 120px;}
 /* 头部区域 */
-.mes-head{background: #fef9d9; width: 960px; height: 150px;}
+.mes-head{background: #fef9d9; width: 960px; height: 155px;}
 .main-logo{display: block; padding:24px 0 40px 32px;}
 .mh-login-area{text-align: right; padding: 20px 24px 0 0; color: #3f3a39; }
 .mh-login-area a{color: #3f3a39; font-size: 12px; margin: 0 4px;}
@@ -101,7 +128,7 @@ a.vert-btn{*vertical-align:32px!important;}
 .ico-shop{width:23px; height:18px; background: url(img/shop-ico.png) 0 -3px no-repeat;}
 .ico-phone{width:22px; height:22px; background: url(img/tel-ico.png) 0 0 no-repeat;}
 
-.head-nav{overflow: hidden; padding: 0 0 12px 36px;}
+.head-nav{overflow: hidden; padding: 0 0 12px 36px; height: 26px;}
 .hn-item{float: left; display:block; zoom:1; margin-right: 24px; background: url(img/nav-li-bg.png) right center no-repeat; height: 26px; line-height: 26px;}
 .head-nav .last{background: none;}
 .hn-item a{color: #3f3a39; font-size: 14px; height: 26px; margin-right: 40px; font-weight: bold; width: auto;}
@@ -143,7 +170,7 @@ height: 16px; width: 16px; background: url(img/close-ico.png) 0 0 no-repeat; tex
 /* 注册　*/
 .layout{width: 960px; margin: 0 auto; background: #f9f9f9;}
 .header{height:156px;background:#fef9d9 url("http://www.mescake.com/images/bj.jpg") no-repeat; position:relative; }
-.head-line{height: 4px; overflow: hidden; background: #2e730f;}
+.head-line{height: 4px; overflow: hidden; background: #2e730f; clear: both;}
 .content{min-height: 500px; _height:500px;}
 .register-container{padding: 40px;}
 .content-title{font-size: 16px; padding-bottom: 20px;}
@@ -152,7 +179,7 @@ height: 16px; width: 16px; background: url(img/close-ico.png) 0 0 no-repeat; tex
 .register-container .global-form-container{width: 500px;}
 .register-container .r-con{width: 400px;}
 .register-container .big-btn{padding:0 40px;}
-.footer{color: #999; font-size: 12px; background: #fff; padding: 20px 0;}
+.footer{color: #999; font-size: 12px; background: #fff; padding: 20px 0; width:960px; height:auto; margin:0 auto;}
 .footer a{color: #999;}
 
 /*　用手机查询 */
@@ -202,7 +229,7 @@ height: 16px; width: 16px; background: url(img/close-ico.png) 0 0 no-repeat; tex
 .or-name-intro{color: #333;}
 .add-pai-area{cursor: pointer;}
 .or-child-img{width: 38px; height: 38px; background: #fff; margin:0 10px 0 20px; border:1px solid #ccc; vertical-align: middle;}
-.or-child-pai{width: 24px; height: 24px; background: url(img/add-pai.png) 0 0 no-repeat; margin: 0 8px 0 38px; vertical-align: middle;}
+.or-child-pai{width: 24px; height: 24px; background: url(img/add-pai.png) 0 0 no-repeat; margin: 0 8px 0 38px; vertical-align: -6px;}
 .or-name .global-input{margin-bottom: 0;}
 .or-child-container{margin-top: 10px; padding-top: 10px; border-top: 1px dotted #ccc;
 line-height: 40px; overflow: hidden; clear:both;}
@@ -232,8 +259,8 @@ line-height: 40px; overflow: hidden; clear:both;}
 
 .check-money-area{padding: 20px; background: #ececec; margin-bottom: 20px;}
 .money-style{width: 600px; float: left;}
-.total-money{float: right; width: 170px; line-height: 1.5;}
-.total-money b{font-weight: normal; width: 50px; text-align:right; display: inline-block; *display: inline; zoom:1;}
+.total-money{float: right; width: 220px; line-height: 1.5;}
+.total-money b{font-weight: normal; width: 100px; text-align:right; display: inline-block; *display: inline; zoom:1;}
 .total-money em{display: inline-block; *display: inline; zoom:1; width: 80px; padding-left: 40px;}
 .total-p{margin-top: 10px;}
 .total-p b{font-weight: bold;}
