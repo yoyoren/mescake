@@ -220,9 +220,9 @@ class MES_User{
 
 
 	    //订单 支付 配送 状态语言项
-	    $order['order_status'] = $_LANG['os'][$order['order_status']];
-	    $order['pay_status'] = $_LANG['ps'][$order['pay_status']];
-	    $order['shipping_status'] = $_LANG['ss'][$order['shipping_status']];
+	    //$order['order_status'] = $_LANG['os'][$order['order_status']];
+	    //$order['pay_status'] = $_LANG['ps'][$order['pay_status']];
+	    //$order['shipping_status'] = $_LANG['ss'][$order['shipping_status']];
 
 		$city=$db->getOne("select region_name from ship_region where region_id={$order['city']}");
 		$order['cityName'] = $city;
@@ -245,14 +245,15 @@ class MES_User{
 		global $db;
 		global $ecs;
 		$user_id = $_SESSION['user_id'];
-	    $orders = $db->getAll("SELECT * FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id'");
+	    $orders = $db->getAll("SELECT * FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id' order by order_id DESC");
 		$res=array();
 		foreach($orders as $v){
 			$order_id = $v['order_id'];
 			$order_detail = $db->getAll("SELECT * FROM " .$ecs->table('order_goods'). " WHERE order_id = '$order_id'");
 
 			$v['detail'] = $order_detail;
-			$v['pay_online'] = get_order_detail($order_id,$user_id,true)['pay_online'];
+			$pay_online = get_order_detail($order_id,$user_id,true);
+			$v['pay_online']=$pay_online;
 			array_push($res,$v);
 		}
 		

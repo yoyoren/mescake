@@ -140,7 +140,6 @@ class MES_Order{
 	    $total['real_goods_count']    = $real_goods_count;
 	    $total['virtual_goods_count'] = $virtual_goods_count;
 	    $cart_goods = array('goods_list' => $goods_list, 'total' => $total);
-
 		return json_encode($cart_goods);
 	}
 	
@@ -152,7 +151,8 @@ class MES_Order{
 	}
 
 	public static function get_district($city){
-		$district = MES_Fee::get_fee_region()[$city];
+		$district = MES_Fee::get_fee_region();
+		$district = $district[$city];
 		return json_encode(array('code'=>'0','data'=>$district));
 	}
 	
@@ -399,6 +399,8 @@ class MES_Order{
 	//收货人信息保存到session
 	public static function save_consignee($consignee){
 		
+		include_once('includes/check_order.php');
+		include_once('includes/lib_order.php');
 
         if ($_SESSION['user_id'] > 0){
             include_once(ROOT_PATH . 'includes/lib_transaction.php');
@@ -408,20 +410,31 @@ class MES_Order{
 
         //收货人信息保存到session
         $_SESSION['flow_consignee'] = stripslashes_deep($consignee);
-		include_once('includes/check_order.php');
-		include_once('includes/lib_order.php');
-		$result = array('code' => 0, 'message' => '', 'content' => '');
+		
+		$result = array(
+			'code' => 0, 
+			'message' => '', 
+			'content' => ''
+		);
 		$cart_goods = cart_goods(0);
-
+		
+		//有二级城市 就必须要选择 否则返回错误
+		$fee_city_hash = MES_Fee::get_fee_region();
+		$city = $consignee['city'];
+		if($fee_city_hash[$city]&&!$consignee['district']){
+			$result['code']=1;
+			return json_encode($result);
+		}
 		//在服务器检查订单是否合法
 		$meg = check_order($consignee, $cart_goods); 
 		if($meg) {
-				$result['code']=1;
-				$result['message']= $meg;
+			$result['code']=2;
+			$result['message']= $meg;
+			return json_encode($result);
 		}
 
 		$result['data'] = $consignee;
-		echo json_encode($result);	
+		return json_encode($result);	
 	}
 
 	public static function checkout($card_message){
