@@ -80,7 +80,7 @@ define(function(){
 		
 		show:function(){
 			if(!$('body').find('.dialog_bg').length){
-				$('body').append('<div class="gray-bg dialog_bg"></div>');
+				$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');
 			}
 			$('body').css('overflow','hidden');
 			$('body').find('.dialog_bg').css('height',jqWIN.height()+jqWIN.scrollTop());
