@@ -18,7 +18,6 @@ class MES_User{
 			$result['content'] = $_LANG['login_failure'];
 			return $json->encode($result);
 		}
-
 		if ($user->login11($username, $password)){
 			$ucdata = empty($user->ucdata)? "" : $user->ucdata;
 			$result['ucdata'] = $ucdata;
@@ -245,6 +244,10 @@ class MES_User{
 		global $db;
 		global $ecs;
 		$user_id = $_SESSION['user_id'];
+		if(!$user_id){
+			return json_encode(array('code' =>'1','msg'=>'user_id not exsit'));
+		}
+
 	    $orders = $db->getAll("SELECT * FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id' order by order_id DESC");
 		$res=array();
 		foreach($orders as $v){
@@ -390,11 +393,19 @@ class MES_User{
 	public static function change_password($old,$new){
 		global $db;
 		$user_name = addslashes($_SESSION['uuid']);
-		$old = md5(addslashes($old));
-		$new = md5(addslashes($new));
-		$username_in_db=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where user_name='$user_name' and password='$old'");
-		if($username_in_db==$user_name){
-			$db->query("update ecs_users set password='$new' where user_name='$user_name'");
+		
+		$old = md5($old);
+		$new = md5($new);
+		//$salt_password = md5($old.'ec_salt');
+		//var_dump($salt_password);
+		$password_in_db =$db->getOne("select password from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+		$salt_in_db =$db->getOne("select ec_salt from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+		$salt_password = md5($old.$salt_in_db);
+
+
+		if($password_in_db==$salt_password){
+			$new_password = md5($new.$salt_in_db);
+			$db->query("update ecs_users set password='$new_password' where user_name='$user_name'");
 			return json_encode(array('code' =>'0'));
 		}else{
 			return json_encode(array('code' =>'1'));

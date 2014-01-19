@@ -59,7 +59,6 @@
 				mod:'order',
 				action:'get_order_list'
 			 },function(d){
-	
 				if(!d.goods_list.length){
 					location.href="route.php?mod=order&action=empty";
 					return false;
@@ -171,7 +170,8 @@
 						},'json');
 					});
 				});
-				
+				return false;
+
 			}).delegate('.order_des_fork','click',function(){
 				//减少餐具
 				var _this = $(this);
@@ -182,6 +182,7 @@
 					num = 0;
 				}
 				updateFork(id,num);
+				return false;
 			}).delegate('.order_add_fork','click',function(){
 				//增加餐具
 				var _this = $(this);
@@ -204,6 +205,7 @@
 				_this.hide();
 				_this.prev().find('.or-name-intro').html(text).show();
 				_this.val('');
+				return false;
 			});
 		},
 
@@ -255,6 +257,8 @@
 							goods:$.toJSON(goods),
 							goods_id:60
 						  }, function(d){
+						  		//第一次加蜡烛没有总价
+						  		d.data.subtotal = '￥5.00';
 								var html = mstmpl(orderListTmpl,{
 									data:[d.data]
 								});

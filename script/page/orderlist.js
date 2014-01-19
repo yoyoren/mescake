@@ -14,11 +14,20 @@ $('#my_order_frame').show();
 						  <td><%=data[i].order_amount%></td>\
 						  <td>\
 							<%if(data[i].pay_id==4){%>货到付款<%} else {%>\
-						    <%if(data[i].pay_status==0){%>未付款<%}else{%>已付款<%}%>\
+						    <%if(data[i].pay_status==0){%>未付款\
+						    <%}else if(data[i].pay_status==1){%>付款中\
+						    <%}else {%>已付款<%}%>\
 							<% } %>\
+							( <%if(data[i].shipping_status==0){%>未发货\
+							<%}else if(data[i].shipping_status==1){%>已发货\
+							<%}else if(data[i].shipping_status==2){%>已收货\
+							<%}else if(data[i].shipping_status==3){%>备货中\
+							<%}else if(data[i].shipping_status==4){%>已发货(部分商品)\
+							<%}else if(data[i].shipping_status==5){%>发货中(处理分单)\
+						    <%}else {%>已发货(部分商品)<%}%>)\
 						  </td>\
 						  <td><a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>" class="td-u link-color">查看</a><br>\
-						  <%if(data[i].shipping_status==0){%>\
+						  <%if(data[i].order_status==0){%>\
 						  	<a href="#" class="td-u link-color cancel_order" data-id="<%=data[i].order_id%>">取消订单</a></td>\
 						  <% } %>\
 						  <td>\

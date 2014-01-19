@@ -32,14 +32,17 @@
 	}
 	$('#order_now_btn').click(function(){
 		addToCart(window.GOOD_ID,function(){
-			location.href="route.php?mod=order&action=step2";
+			MES.reload("route.php?mod=order&action=step2");
 		});
 	});
 
 	$('#add_to_cart_btn').click(function(){
 		addToCart(window.GOOD_ID,function(){
-			alert('该商品已经添加到购物车');
+			require(['ui/confirm'],function(confirm){
+				new confirm('该商品已经添加到购物车');
+			});
 		});
+		return false;
 	})
 
 })();

@@ -1,6 +1,6 @@
 (function(){
 
-   var addressTmpl = '<%for(var i=0;i<data.length;i++){%>\
+   window.addressTmpl = '<%for(var i=0;i<data.length;i++){%>\
 						<div class="ama-item address_item <%if(i==0){%>ama-item-current<%}%>" id="address_<%=data[i].address_id%>"\
 							data-id="<%=data[i].address_id%>"\
 							data-address="<%=data[i].address%>"\
@@ -22,7 +22,7 @@
 						<% }　%>'
   
    //current selected address id
-   var CURRENT_ADDRESS_ID;
+   window.CURRENT_ADDRESS_ID;
 
    //current modifiy address id
    var CURRENT_ID;
@@ -98,6 +98,7 @@
 						},'json');
 					});
 				});
+				return false;
 			}).delegate('.addr_edit','click',function(){
 				//edit address info
 				var _this =$(this);
@@ -116,6 +117,7 @@
 				$('#save_address').hide();
 				$('#mod_address').show();
 				$('#new_address_form').show();
+				return false;
 			});
 
 
@@ -131,7 +133,10 @@
 
 			//show create address in UI
 			$('#add_new_address').click(function(){
-
+				require(['ui/newaddress'],function(newaddress){
+					newaddress.show();
+				});
+				return;
 				//button switch
 				$('#save_address').show();
 				$('#mod_address').hide();
@@ -141,6 +146,8 @@
 
 				//show it
 				$('#new_address_form').show();
+
+				return false;
 
 			});
 
@@ -319,6 +326,7 @@
 			if(hour>22||hour<10){
 				return false;
 			}
+			
 
 			var minute = $('#minute_picker').val();
 			if(minute!=0&&minute!=30){
@@ -549,6 +557,16 @@
    		//})
    		
    	});
+
+	//22:30这个是不送货的
+	$('#hour_picker').change(function(){
+		if($(this).val()==22){
+			$('#minute_picker').html('<option value="0">0</option>');
+		}else{
+			$('#minute_picker').html('<option value="0">0</option><option value="30">30</option>');
+		}
+	});
+
    	MES.checkLogin(function(){
 		//login
    		$('#login_tip').hide();

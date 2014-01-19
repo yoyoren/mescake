@@ -11,12 +11,12 @@
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 {* 包含脚本文件 *}
+<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {insert_scripts files='common.js,jquery-1.4.js,shopping_flow.js'}
 
 </head>
 <body>
-<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
-{insert name='member_info'}
+<!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
 <!--当前位置 start-->
 <div class="block box">
  <div id="ur_here">
