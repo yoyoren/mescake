@@ -38,7 +38,7 @@ define(function(){
 			zIndex:zIndex++
 		});
 		$('body').append(html);
-		$('body').append('<div class="gray-bg dialog_bg"></div>');
+		$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');
 		this.el = $('#dialog_'+_index);
 		
 	    //没有底部的结构就不需要事件绑定
