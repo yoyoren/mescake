@@ -41,14 +41,14 @@ $('#my_order_frame').show();
 						<% } %>';
  var OrderList = {
 	render:function(){
-	  $.get('route.php',{
-		  _tc:Math.random(),
-		  action:'get_user_order_list',
-		  mod:'account'
-	  },function(d){
-		  var html = mstmpl(orderListTmpl,{data:d.orders});
-		  $('#order_list').append(html);
-	  },'json');
+		MES.get({
+			mod:'account',
+			action:'get_user_order_list',
+			callback:function(d){
+				var html = mstmpl(orderListTmpl,{data:d.orders});
+				$('#order_list').append(html);
+			}
+		});
 	},
 	checksetPassword:function(){
 		$.get('route.php?action=is_unset_password_user&mod=account',{

@@ -86,9 +86,11 @@ class MES_User{
 	public static function server_check_login(){
 		global $db;
 		$token = $_COOKIE['serviceToken'];
+		$uname = $_SESSION['uuid'];
 		$res = false;
-		if($token&&$_SESSION['serviceToken'] == $token){
-			//$username = $db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
+		if($uname&&$token&&$_SESSION['serviceToken'] == $token){
+			//$password = $db->getOne("select password from". $GLOBALS['ecs']->table("users")."where email='$uname' or mobile_phone='$uname'");
+			//$token = md5($uname.$password.'_mescake');
 			$res = true;
 		}
 		return $res;

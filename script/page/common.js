@@ -9,7 +9,11 @@
 	   var param = opt.param||{};
 	   param['_tc'] = Math.random();
 	   $[method||'get']('route.php?mod='+mod+'&action='+action,param,function(d){
-		    if(callback){
+		    if(d.code == 10005){
+				require(["ui/login"], function(login) {login.show();});
+			}
+
+			if(callback){
 				callback(d);
 				return;
 			}

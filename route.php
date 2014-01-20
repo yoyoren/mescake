@@ -6,11 +6,42 @@ if ((DEBUG_MODE & 2) != 2){
     $smarty->caching = true;
 }
 require_once(ROOT_PATH . 'lib/safe.php');
-
+require_once(ROOT_PATH . 'lib/user.php');
 //路由分发的依据
 $action = ANTI_SPAM($_GET['action']);
 $mod = ANTI_SPAM($_GET['mod']);
 
+//需要登录的操作
+$need_login_action = array(
+	'order'=>array(
+		'get_order_address',
+		'del_order_address',
+		'update_order_address',
+	),
+	'account'=>array(
+		'logout',
+		'get_user_order_detail',
+		'get_user_order_list',
+		'del_one_order',
+		'set_password',
+		'change_mobile',
+		'get_user_mobile_number',
+		'change_password',
+		'get_users_info',
+		'change_sex',
+		'change_real_name',
+	)
+);
+$_action_list = $need_login_action[$mod];
+
+//验证必须登录的操作
+if(in_array($action,$_action_list)){
+ 
+ if(!MES_User::server_check_login()){
+	echo json_encode(array('code'=>'10005'));
+	exit;
+ }
+}
 switch ($mod) {
     case 'order':
     
@@ -147,8 +178,6 @@ switch ($mod) {
 		//
 		require_once(ROOT_PATH . 'includes/lib_order.php');
 
-		//ÖØ¹¹ºóµÄÓÃ»§Ä£¿é
-		require_once(ROOT_PATH . 'lib/user.php');
 
 		//JSONÐòÁÐ»¯
 		require_once(ROOT_PATH .'includes/cls_json.php');
