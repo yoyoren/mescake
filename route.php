@@ -132,6 +132,11 @@ switch ($mod) {
 			$city = ANTI_SPAM($_GET['city']);
 			$district = ANTI_SPAM($_GET['district']);
 			echo MES_Order::shipping_fee_cal($city,$district);
+		}else if($action == 'if_address_need_fee'){
+
+			//计算配一个地址id是否需要加收配送费
+			$address_id = ANTI_SPAM($_GET['address_id']);
+			echo MES_Order::if_address_need_fee($address_id);
 		}
 
 		

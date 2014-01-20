@@ -46,12 +46,20 @@
               </div>\
             </li>\
 			<% } %>\
+			<li class="order-item">\
+              <div class="or-main-container">\
+                <span class="or-name">\
+					<img src="img/yunshu.gif" class="or-name-img"><span class="or-name-intro">运费</span>\
+                </span>\
+                <span class="or-price"><%=order.formated_shipping_fee%></span>\
+              </div>\
+            </li>\
           </ul>\
           <div class="odc-adress-area">\
             <p class="send-to">送至：</p>\
             <p>\
               <%=order.consignee%>，<%=order.mobile%><br>\
-              北京市 <%=order.cityName%> <%=order.address%><br>\
+              北京市 <%=order.cityName%> <%=order.districtName%> <%=order.address%><br>\
               将于<b><%=order.best_time%></b> 送至\
             </p>\
           </div>\
@@ -96,6 +104,10 @@
 					},function(d){
 						if(d.code == 0){
 							location.href="route.php?mod=account&action=order_list";
+						}else{
+							require(['ui/confirm'],function(confirm){
+								new confirm("订单取消失败！可能是该订单已经确认，将不能取消");
+							});
 						}
 					},'json');
 				});

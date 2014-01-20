@@ -1,7 +1,19 @@
 <?php
 
-
+require_once('lib/fee.php');
 class MES_User{
+
+	//获得街道的地址
+	private static function _get_distruct_name($city,$district){
+		$hash = MES_Fee::get_fee_region();
+		if($hash[$city]&&$city){
+			if($hash[$city][$district]){
+				return  $hash[$city][$district]['name'];
+			}
+		}
+		return '';
+	}
+
 	public static function ajax_login($username,$password){
 		global $db;
 		global $_LANG;
@@ -223,8 +235,10 @@ class MES_User{
 	    //$order['pay_status'] = $_LANG['ps'][$order['pay_status']];
 	    //$order['shipping_status'] = $_LANG['ss'][$order['shipping_status']];
 
-		$city=$db->getOne("select region_name from ship_region where region_id={$order['city']}");
-		$order['cityName'] = $city;
+		$city_name=$db->getOne("select region_name from ship_region where region_id={$order['city']}");
+
+		$order['cityName'] = $city_name;
+		$order['districtName'] = MES_User::_get_distruct_name($order['city'],$order['district']);
 
 		return json_encode(array(
 			'code' =>'0',
@@ -267,13 +281,17 @@ class MES_User{
 		include_once(ROOT_PATH . 'includes/lib_transaction.php');
 		global $db;
 		global $ecs;
-		$order_id = addslashes($order_id);
-
 		$user_id = $_SESSION['user_id'];
-		$sql = "delete from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'";
-	    
-	    $orders = $db->query($sql);
-	    return json_encode(array('code' =>'0'));
+		
+		//只有没有确认的订单才可以取消
+		$order_status = $db->getOne("select order_status from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'");
+		if($order_status==0){
+			$sql = "delete from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'";
+			$orders = $db->query($sql);
+			return json_encode(array('code' =>'0'));
+		}else{
+			return json_encode(array('code' =>'1'));
+		}
 	}
 	
 	public static function get_password_moblie($mobile){

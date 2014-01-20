@@ -74,6 +74,10 @@ $('#my_order_frame').show();
 					},function(d){
 						if(d.code == 0){
 							$('#orderitem_'+_id).remove();
+						}else{
+							require(['ui/confirm'],function(confirm){
+								new confirm("订单取消失败！可能是该订单已经确认，将不能取消");
+							});
 						}
 					},'json');
 				});

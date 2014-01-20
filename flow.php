@@ -1426,7 +1426,7 @@ elseif ($_REQUEST['step'] == 'done')
     $_POST['inv_payee'] = isset($_POST['inv_payee']) ? compile_str($_POST['inv_payee']) : '';
     $_POST['inv_content'] = isset($_POST['inv_content']) ? compile_str($_POST['inv_content']) : '';
     $_POST['postscript'] = isset($_POST['postscript']) ? compile_str($_POST['postscript']) : '';
-    $shipping_fee=$_POST['shipping_fee'];
+    $shipping_fee=$_SESSION['need_shipping_fee'];//$_POST['shipping_fee'];
     $shipping_fee=str_replace("￥"," ",$shipping_fee);
     $shipping_fee= trim($shipping_fee);
 
@@ -1589,7 +1589,9 @@ elseif ($_REQUEST['step'] == 'done')
         //$shipping = shipping_info($order['shipping_id']);
         $order['shipping_name'] = '配送';
     }
-	$total['shipping_fee']=0;
+
+	//不能无脑设置没有运费阿
+	$total['shipping_fee']= $_SESSION['need_shipping_fee'];
     $order['shipping_fee'] = $total['shipping_fee'];
     //$order['insure_fee']   = $total['shipping_insure'];
 	
@@ -1610,9 +1612,9 @@ elseif ($_REQUEST['step'] == 'done')
     }*/
     $order['pack_fee'] = $total['pack_fee'];
 	 
-    
+    $total['amount'] += $total['shipping_fee'];
     $order['order_amount']  = number_format($total['amount'], 2, '.', '');
-
+	
     /* 如果全部使用余额支付，检查余额是否足够 */
     if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0)
     {
@@ -1991,6 +1993,7 @@ elseif ($_REQUEST['step'] == 'done')
     unset($_SESSION['flow_consignee']); // 清除session中保存的收货人信息
     unset($_SESSION['flow_order']);
     unset($_SESSION['direct_shopping']);
+	unset($_SESSION['need_shipping_fee']);
 }
 
 /*------------------------------------------------------ */

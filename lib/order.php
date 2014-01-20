@@ -3,14 +3,60 @@
 require_once('lib/user.php');
 require_once('lib/fee.php');
 class MES_Order{
+	
+	//获得街道的地址
+	private static function _get_distruct_name($city,$district){
+		$hash = MES_Fee::get_fee_region();
+		if($hash[$city]&&$city){
+			if($hash[$city][$district]){
+				return  $hash[$city][$district]['name'];
+			}
+		}
+		return '';
+	}
+
+	//根据地址id判断一个地址是否需要加送运费
+	public static function if_address_need_fee($address_id){
+		GLOBAL $db;
+		$sql="select * from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";	
+		$address=$db->getAll($sql);
+		$address = $address[0];
+		if($address){
+			$region_id = $address['city'];
+			$district_id = $address['district'];
+			$need_fee = MES_Fee::cal_fee($region_id,$district_id);
+	
+			if($need_fee){
+				$_SESSION['need_shipping_fee'] = '10.00';
+			}else{
+				$_SESSION['need_shipping_fee'] = '0.00';
+			}
+			return json_encode(array(
+				'code'=>'0',
+				'fee'=>$_SESSION['need_shipping_fee']
+			));
+		}
+
+		return json_encode(array(
+			'code'=>'1',
+			'fee'=>'1'
+		));
+		
+	}
+
+	//获得一个用户所有的地址信息
 	public static function get_order_address(){
 		GLOBAL $db;
 		if(MES_User::server_check_login()){;
 			$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']}";	
 			$address=$db->getAll($sql);
+			
 			for($i=0;$i<count($address);$i++){
-				$city=$db->getOne("select region_name from ship_region where region_id={$address[$i]['city']}");
-				$address[$i]['cityName'] = $city;
+				$region_id = $address[$i]['city'];
+				$district_id = $address[$i]['district'];
+				$city_name = $db->getOne("select region_name from ship_region where region_id={$address[$i]['city']}");
+				$address[$i]['cityName'] = $city_name;
+				$address[$i]['districtName'] = MES_Order::_get_distruct_name($region_id,$district_id);		
 			}
 		}else{
 			$address = array();
@@ -20,7 +66,7 @@ class MES_Order{
 
 	public static function del_order_address($address_id){
 		GLOBAL $db;
-		$sql="delete from ecs_user_address where address_id={$address_id}";
+		$sql="delete from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";
 		$address=$db->query($sql);
 		return json_encode(array(
 			'code'=>'0',
@@ -31,6 +77,7 @@ class MES_Order{
 
 	public static function update_order_address($address_id,$country,$city,$contact,$address,$tel,$district=0){
 		GLOBAL $db;
+		//根据用户id来更新地址
 		$db->query("update ecs_user_address set country={$country},city={$city},district={$district},consignee='{$contact}',address='{$address}',mobile='{$tel}'
 			where user_id={$_SESSION['user_id']} and address_id={$address_id}");
 
@@ -40,8 +87,9 @@ class MES_Order{
 		$address=$db->getRow($sql);
 		
 		//get cityname from anther table;
-		$city=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
-		$address['cityName'] = $city;
+		$city_name=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
+		$address['cityName'] = $city_name;
+		$address['districtName'] = MES_Order::_get_distruct_name($city,$district);
 		return json_encode(array('msg'=>'ok','code'=>'0','data'=>$address));
 	}
 
@@ -52,13 +100,13 @@ class MES_Order{
 		$db->query("INSERT INTO ecs_user_address(address_name, user_id, consignee, country, province, city, district, address, tel, mobile, money_address, route_id, ExchangeState, ExchangeState2)
 		VALUES('',{$_SESSION['user_id']},'{$contact}','{$country}','0', '{$city}', '{$district}', '{$address}', '', '{$tel}', NULL, '0', '0', '0')");
 		
-		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} and address={$address} limit 0,1";	
+		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} and address='{$address}' limit 0,1";	
 		$address=$db->getRow($sql);
 		
 		//get cityname from anther table;
-		$city=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
-		$address['cityName'] = $city;
-
+		$city_name=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
+		$address['cityName'] = $city_name;
+		$address['districtName'] = MES_Order::_get_distruct_name($city,$district);
 		return json_encode(array('msg'=>'ok','code'=>'0','data'=>$address));
 	}
 

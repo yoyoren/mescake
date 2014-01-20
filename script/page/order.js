@@ -7,11 +7,12 @@
 							data-tel="<%=data[i].mobile%>"\
 							data-contact="<%=data[i].consignee%>"\
 							data-city="<%=data[i].city%>"\
+							data-district="<%=data[i].district%>"\
 						>\
 						  <p class="ama-name-area"><b class="fl-l"><%=data[i].consignee%></b><span class="fl-r"><%=data[i].mobile%></span></p>\
 						  <p class="address-area">\
 							<span class="city">北京市</span>\
-							<span class="area"><%=data[i].cityName%></span><br>\
+							<span class="area"><%=data[i].cityName%> <%=data[i].districtName%></span><br>\
 							<span class="address"><%=data[i].address%></span>\
 						  </p>\
 						  <div class="clearfix handle-area">\
@@ -22,7 +23,7 @@
 						<% }　%>'
   
    //current selected address id
-   window.CURRENT_ADDRESS_ID;
+   window.CURRENT_ADDRESS_ID=null;
 
    //current modifiy address id
    var CURRENT_ID;
@@ -58,7 +59,8 @@
 						district:$(this).val()
 					},
 					callback:function(d){
-						if(d.code == 0){
+						//没有登录的情况下 这里才需要重新结算运费
+						if(d.code == 0&&!window.IS_LOGIN){
 							if(d.fee){
 								$('#shipping_fee_display').show();
 							}else{
@@ -80,8 +82,10 @@
 				//set current id
 				CURRENT_ADDRESS_ID = _this.data('id');
 				
+				//计算一个地址是否需要运送费
+				me.ifAddressNeedFee();
 			}).delegate('.addr_del','click',function(){
-			//delete an address info if you want
+				//delete an address info if you want
 				var _this =$(this);
 				var id = _this.data('id');
 					
@@ -92,6 +96,10 @@
 							id:id
 						},function(d){
 							if(d.code == 0){
+								//把当前选中的送货地址删除了 就要更新这个id
+								if( window.CURRENT_ADDRESS_ID == id){
+									window.CURRENT_ADDRESS_ID = null;
+								}
 								//remove it from UI
 								$('#address_'+id).remove();
 							}
@@ -103,10 +111,24 @@
 				//edit address info
 				var _this =$(this);
 				var id = _this.data('id');
-
+				_this = $('#address_'+id);
 				//update current mod ID
 				CURRENT_ID = id;
-
+				require(['ui/newaddress'],function(newaddress){
+					newaddress.show({
+						mod:true,
+						id:id,
+						data:{
+							city:_this.data('city'),
+							address:_this.data('address'),
+							tel:_this.data('tel'),
+							contact:_this.data('contact'),
+							district:_this.data('district')
+						}
+					});
+				});
+				return false;
+				/*
 				_this = $('#address_'+id);
 				$('#region_sel').val(_this.data('city'));
 				$('#new_address').val(_this.data('address'));
@@ -118,6 +140,7 @@
 				$('#mod_address').show();
 				$('#new_address_form').show();
 				return false;
+				*/
 			});
 
 
@@ -136,17 +159,6 @@
 				require(['ui/newaddress'],function(newaddress){
 					newaddress.show();
 				});
-				return;
-				//button switch
-				$('#save_address').show();
-				$('#mod_address').hide();
-
-				//clear the form
-				me.clearAddressForm();
-
-				//show it
-				$('#new_address_form').show();
-
 				return false;
 
 			});
@@ -157,6 +169,7 @@
 				var address = $('#new_address').val();
 				var tel = $('#new_tel').val();
 				var contact = $('#new_contact').val();
+				var district = $('#dis_district').val();
 				if(!me.vaildAddressForm()){
 					return
 				}
@@ -165,7 +178,8 @@
 					city:city,
 					address:address,
 					tel:tel,
-					contact:contact
+					contact:contact,
+					district:district
 				},function(d){
 					if(d.code==0){
 						var html = mstmpl(addressTmpl,{
@@ -186,6 +200,7 @@
 
 			//mod address event
 			$('#mod_address').click(function(){
+				
 				var city = $('#region_sel').val();
 				var address = $('#new_address').val();
 				var tel = $('#new_tel').val();
@@ -222,8 +237,16 @@
 
 			//submit this order to server
 			$('#submit_order_btn').click(function(){
+		
 				var jqThis = $('#address_'+CURRENT_ADDRESS_ID);
+				if(jqThis.length==0&&window.IS_LOGIN){
+					require(['ui/confirm'],function(confirm){
+						new confirm('请先选择或添加一个送货地址！');
+					});
+				}else{
 					me.saveconsignee(jqThis);
+				}
+					
 			});
 		},
 		
@@ -278,8 +301,28 @@
 			$('#new_contact').val('');
 		},
 
+		ifAddressNeedFee:function(){
+			MES.get({
+				mod:'order',
+				action:'if_address_need_fee',
+				param:{
+				 'address_id':CURRENT_ADDRESS_ID
+				},
+				callback:function(d){
+					if(d.code == 0){
+						if(parseInt(d.fee)){
+							$('#shipping_fee_display').show();
+						}else{
+							$('#shipping_fee_display').hide();
+						}
+						$('#shipping_fee').val(d.fee);
+					} 
+				}
+			})
+		},
 		//init address UI
 		getAddress:function(){
+			var me = this;
 			$.get('route.php',{
 				mod:'order',
 				action:'get_order_address',
@@ -295,6 +338,7 @@
 
 					//index 0 is the current address
 					CURRENT_ADDRESS_ID = d[0].address_id;
+					me.ifAddressNeedFee();
 				}else{
 					//no address ,show address form
 					$('#new_address_form').show();
@@ -344,6 +388,7 @@
 						country:501,
 						city:_this.data('city'),
 						address:_this.data('address'),
+						district:_this.data('district'),
 						mobile:_this.data('tel'),
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
@@ -356,6 +401,7 @@
 						country:501,
 						city:$('#region_sel').val(),
 						address:$('#new_address').val(),
+						district:$('#dis_district').val(),
 						mobile:$('#new_tel').val(),
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),

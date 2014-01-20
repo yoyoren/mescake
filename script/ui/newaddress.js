@@ -2,17 +2,20 @@ define(['ui/dialog'],function(Dialog){
 	var body = '<dl class="global-form-container clearfix">\
           <dt class="l-title">送货地址：</dt>\
           <dd class="r-con clearfix">\
+			 <div class="check-container">\
             <a href="javascript:void(0);" class="area-intro space">\
                 北京市\
                 <em class="area-intro-ico"></em>\
                <span class="ai-intro">目前仅针对北京开展送货业务，请见谅</span>\
             </a>\
             <select id="region_sel_popup">\
-              <option>请选择区域</option>\
+              <option value="0">请选择区域</option>\
             </select>\
 			<select id="dis_district_popup" style="display:none">\
                 <option value="0">选择送货街道</option>\
             </select>\
+			  <span class="tips-container" style="display:none">请选择送货地址</span>\
+			  </div>\
 			<br>\
             <div class="check-container mart-10">\
               <textarea class="text-area" placeholder="详细地址" id="new_address_popup"></textarea>\
@@ -36,11 +39,47 @@ define(['ui/dialog'],function(Dialog){
           <dt class="l-title">&nbsp;</dt>\
           <dd class="r-con clearfix">\
              <input class="btn green-btn" type="button" value="保存" id="save_address_popup">\
+			  <input class="btn green-btn" type="button" value="修改" id="mod_address_popup">\
               <input class="btn" type="button" value="取消" id="cancel_address_popup"">\
           </dd></dl>'
 
-	
+	var CURRENT_ID;
 	var single;
+	var getDistrictInfo = function(city,callback){
+		MES.get({
+				mod:'order',
+				action:'get_district',
+				param:{city:city},
+				callback:function(d){
+					if(d.code == 0){
+						var html = '<option value="0">选择送货街道</option>';
+						if(d.data){
+							for(var i in d.data){
+								html+='<option value="'+i+'">'+d.data[i].name+'</option>'
+							}
+							$('#dis_district_popup').html(html).show();
+							callback&&callback();
+						}else{
+							$('#dis_district_popup').html(html).hide();
+						}
+					}	
+				}
+			});
+	}
+
+	//把表单当中的内容清理掉
+	var clearForm  = function(){
+		var jqRegionSel = $('#region_sel_popup');
+		var jqDistrictSel = $('#dis_district_popup');
+		var jqNewAddressInput = $('#new_address_popup');
+		var jqNewContactInput =  $('#new_contact_popup');
+		var jqNewTelInput =  $('#new_tel_popup');
+			jqRegionSel.val(0);
+			jqDistrictSel.val(0).hide();
+			jqNewAddressInput.val('');
+			jqNewContactInput.val('');
+			jqNewTelInput.val('');
+	}
 	var changemobile = {
 		
 		init:function(){
@@ -51,21 +90,57 @@ define(['ui/dialog'],function(Dialog){
 						title:'添加新地址',
 						bottom:' ',
 						body:body,
-						afterRender:function(){
-							$.get('route.php',{
-								_tc:Math.random(),
-								mod:'order',
-								action:'get_region'
-							},function(d){
-								var html='';
-								for(var i=0;i<d.length;i++){
-									html+='<option value="'+d[i].region_id+'">'+d[i].region_name+'</option>'
+						onclose:function(){
+							clearForm();
+						},
+						onshow:function(d){
+							//修改和新增由不同的按钮来完成
+							if(d&&d.mod){
+								CURRENT_ID = d.id;
+								$('#mod_address_popup').show();
+								$('#save_address_popup').hide();
+								
+								$('#region_sel_popup').val(d.data.city);
+								if(d.data.district){
+									getDistrictInfo(d.data.city,function(){
+										$('#dis_district_popup').val(d.data.district);
+									});
+								}else{
+									$('#dis_district_popup').hide();
 								}
-								$('#region_sel_popup').append(html);
-							},'json');
+								$('#new_address_popup').val(d.data.address);
+								$('#new_contact_popup').val(d.data.contact);
+								$('#new_tel_popup').val(d.data.tel);
+							}else{
+								$('#mod_address_popup').hide();
+								$('#save_address_popup').show();
+							}
+						},
+						afterRender:function(){
+							//获得地址信息
+							
+							var jqRegionSel = $('#region_sel_popup');
+							var jqDistrictSel = $('#dis_district_popup');
+							var jqNewAddressInput = $('#new_address_popup');
+							var jqNewContactInput =  $('#new_contact_popup');
+							var jqNewTelInput =  $('#new_tel_popup');
+							var getRegionInfo = function(){
+								MES.get({
+									mod:'order',
+									action:'get_region',
+									callback:function(d){
+										var html='';
+										for(var i=0;i<d.length;i++){
+											html+='<option value="'+d[i].region_id+'">'+d[i].region_name+'</option>'
+										}
+										jqRegionSel.append(html);
+									}
+								 });
+							}
+							getRegionInfo();
 
-
-							$('#region_sel_popup').change(function(){
+							//获得二级地理信息
+							jqRegionSel.change(function(){
 								$.get('route.php?mod=order&action=get_district',{
 									_tc:Math.random(),
 									city:$(this).val()
@@ -76,59 +151,123 @@ define(['ui/dialog'],function(Dialog){
 											for(var i in d.data){
 												html+='<option value="'+i+'">'+d.data[i].name+'</option>'
 											}
-											$('#dis_district_popup').html(html).show();
+											jqDistrictSel.html(html).show();
 										}else{
-											$('#dis_district_popup').html(html).hide();
+											jqDistrictSel.html(html).hide();
 										}
 									}	
 								},'json');
 							});
+							
+							
+
+							//地址表单的验证
 							var vaildForm = function(){
+								
 									if($.trim($('#region_sel_popup').val())==0){
-										require(['ui/confirm'],function(confirm){
-											new confirm('请选择一个送货的区域！');
-										});
+										jqDistrictSel.next().show();
+										setTimeout(function(){
+											jqDistrictSel.next().hide();
+										},2000);
 										return false;
 									}
 
-									if($.trim($('#new_address_popup').val())==''){
-										$('#new_address_popup').next().show();
+									if($.trim(jqDistrictSel.val())==0&&jqDistrictSel.css('display')!='none'){
+										jqDistrictSel.next().show();
 										setTimeout(function(){
-											$('#new_address_popup').next().hide();
-										},2000)
+											jqDistrictSel.next().hide();
+										},2000);
 										return false;
 									}
 
-									if($.trim($('#new_contact_popup').val())==''){
-										$('#new_contact').next().show();
+									if($.trim(jqNewAddressInput.val())==''){
+										jqNewAddressInput.next().show();
 										setTimeout(function(){
-											$('#new_contact_popup').next().hide();
-										},2000)
+											jqNewAddressInput.next().hide();
+										},2000);
 										return false;
 									}
-									var tel = $.trim($('#new_tel_popup').val());
+
+									if($.trim(jqNewContactInput.val())==''){
+										jqNewContactInput.next().show();
+										setTimeout(function(){
+											jqNewContactInput.next().hide();
+										},2000);
+										return false;
+									}
+
+									var tel = $.trim(jqNewTelInput.val());
 									if(!/\d{5,}/.test(tel)){
-										$('#new_tel_popup').next().show();
+										jqNewTelInput.next().show();
 										setTimeout(function(){
-											$('#new_tel_popup').next().hide();
+											jqNewTelInput.next().hide();
 										},2000)
 										return false;
 									}
 
 									return true;
 							}
-							$('#save_address_popup').click(function(){
+
+							//取消
+							$('#cancel_address_popup').click(function(){
 								single.hide();
+								clearForm();
 							});
 							
-							$('#save_address_popup').click(function(){
-								var city = $('#region_sel_popup').val();
-								var address = $('#new_address_popup').val();
-								var tel = $('#new_tel_popup').val();
-								var contact = $('#new_contact_popup').val();
+
+							$('#mod_address_popup').click(function(){
+								var city = jqRegionSel.val();
+								var district = jqDistrictSel.val();
+								var address = jqNewAddressInput.val();
+								var tel = jqNewTelInput.val();
+								var contact = jqNewContactInput.val();
+								
+								//表单验证失败
 								if(!vaildForm()){
-									return
+									return;
 								}
+								
+								MES.post({
+									mod:'order',
+									action:'update_order_address',
+									param:{
+										country:501,
+										city:city,
+										address:address,
+										district:district,
+										tel:tel,
+										contact:contact,
+										id:CURRENT_ID
+									},
+									callback:function(d){
+										if(d.code==0){
+											var html = mstmpl(addressTmpl,{
+												data:[d.data]
+											});
+											$('#address_'+CURRENT_ID).replaceWith(html);
+											single.hide();
+											clearForm();
+	
+										}
+									}
+								});
+							});
+
+
+
+							//确认新增地址
+							$('#save_address_popup').click(function(){
+								var city = jqRegionSel.val();
+								var district = jqDistrictSel.val();
+								var address = jqNewAddressInput.val();
+								var tel = jqNewTelInput.val();
+								var contact = jqNewContactInput.val();
+								
+								//表单验证失败
+								if(!vaildForm()){
+									return;
+								}
+
 								MES.post({
 									mod:'order',
 									action:'add_order_address',
@@ -136,6 +275,7 @@ define(['ui/dialog'],function(Dialog){
 										country:501,
 										city:city,
 										address:address,
+										district:district,
 										tel:tel,
 										contact:contact
 									},
@@ -151,6 +291,7 @@ define(['ui/dialog'],function(Dialog){
 
 											//hide new form area and clear it
 											single.hide();
+											clearForm();
 											//me.clearAddressForm();
 										}
 									}

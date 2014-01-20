@@ -46,9 +46,11 @@ define(function(){
 			this.cancelButton = $('#dialog_cancel_'+_index);
 			this.confirmButton = $('#dialog_confirm_'+_index);
 		}
-
+		this.onshow = opt.onshow||function(){};
+		this.onclose = opt.onclose||function(){};
 		this.closeButton = $('#close_'+_index);
 		this.bind().show();
+
 
 		///渲染后可以自己定义一些自定义事件
 		setTimeout(function(){
@@ -78,7 +80,7 @@ define(function(){
 			return this;
 		},
 		
-		show:function(){
+		show:function(d){
 			if(!$('body').find('.dialog_bg').length){
 				$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');
 			}
@@ -86,6 +88,7 @@ define(function(){
 			$('body').find('.dialog_bg').css('height',jqWIN.height()+jqWIN.scrollTop());
 			this.el.show();
 			this._reposition();
+			this.onshow(d);
 		},
 		_reposition:function(){
 			this.el.css({
@@ -102,8 +105,10 @@ define(function(){
 
 		close:function(){
 			this.el.remove();
+			this.onclose();
 			$('body').find('.dialog_bg').remove();
 			$('body').css('overflow','auto');
+
 		}
 	}
 	return _dialog;
