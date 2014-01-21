@@ -106,7 +106,7 @@ jQuery(function($){
                  url: 'route.php?action=add&mod=huodong',
                  data: {
 		   name:$('#name').val(),
-		   weibo:$('#weibo').val(),
+		   my_weibo:$('#weibo').val(),
 		   his_weibo:$('#his_weibo').val(),
 		   address:$('#address').val(),
 		   mobile:$('#mobile').val(),
