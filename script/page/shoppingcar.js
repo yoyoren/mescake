@@ -1,6 +1,7 @@
 (function(){
 
    var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
+				 <%if(data[i].goods_id!=60){%>\
    				<li class="order-item" id="sub_order_<%=data[i].rec_id%>">\
 		          <div class="or-main-container">\
 		            <span class="or-name">\
@@ -47,6 +48,7 @@
 		          </div>\
 				  <% } %>\
 		        </li>\
+				<% } %>\
 		      <% } %>' 
 
 	//记录一个蜡烛的id
@@ -101,7 +103,6 @@
 					_tc:Math.random()
 				},function(d){
 					$('#sub_total_'+id).html(d.result);
-					debugger
 					//update free fork number;
 					$('#fork_num_'+id).html(d.free_fork+d.extra_fork+'人份');
 					$('#fork_num_'+id).prev().attr('free-num',d.free_fork);

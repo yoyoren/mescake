@@ -170,7 +170,7 @@ class MES_Order{
 				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['rec_id']];
 				
 				//add extra money for order
-				$total['goods_price']+=$row['extra_fork']*0.5;
+				//$total['goods_price']+=$row['extra_fork']*0.5;
 			}else{
 				$row['extra_fork'] = 0;
 			}
@@ -264,7 +264,7 @@ class MES_Order{
 		$row = $GLOBALS['db']->getRow($sql);
 
 		//删除额外餐具
-		unset($_SESSION['extra_fork']);
+		unset($_SESSION['extra_fork'][$id]);
 		if ($row){
 			//如果是超值礼包
 			if ($row['extension_code'] == 'package_buy')
@@ -408,20 +408,16 @@ class MES_Order{
 		GLOBAL $db;
 		GLOBAL $ecs;
 		GLOBAL $_LANG;
-
+		include_once('includes/lib_order.php');
 		$price_fork_pre_cake = 0.5;
 		$free_fork_pre_cake = 5;
 		$free_fork_num = 0;
 		$total = 0;
+		
+		//计算额外餐具数量
 		$sql = "select rec_id,goods_price,goods_number,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
 		foreach($goods as $val){
-			$total += $val['goods_price'] * $val['goods_number'];
-			//$current_extra = $_SESSION['extra_fork_'.$val['rec_id']];
-		
-			//if($current_extra>0){
-			//	$total +=$current_extra*0.5;
-			//}
 			if($val['rec_id']==$id){
 			      $free_fork_num =  $val['goods_number']* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 			}
@@ -450,11 +446,27 @@ class MES_Order{
 				}
 				
 			}
-
-			 
+			
+			//额外的餐具加到购物车里面
+			if($total_extra&&$total_extra>0){
+				addto_cart(60,$total_extra);
+			}else{
+				//如果没有额外餐具就删了
+				$sql = "select rec_id from " . $ecs->table('cart') . " WHERE goods_id=60 and session_id='" . SESS_ID . "'";
+				$rec_id = $db->getOne($sql);
+				MES_Order::drop_shopcart($rec_id);
+			}
+			
 			$price = $extra/2;
 			$total_price = $total_extra/2;
-			$total += $total_price;
+
+			//重新计算价格
+			$sql = "select rec_id,goods_price,goods_number,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
+			$goods = $db->getAll($sql);
+			foreach($goods as $val){
+				$total += $val['goods_price'] * $val['goods_number'];
+			}	
+			//$total += $total_price;
 			return json_encode(array(
 				'code'=>'0',
 				'num'=>$num,
@@ -600,7 +612,7 @@ class MES_Order{
 
 	    //计算订单的费用
 	    $total = order_fee($order, $cart_goods, $consignee);
-
+		
 	    //取得配送列表
 	    $region            = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district']);
 	    $insure_disabled   = true;
@@ -642,6 +654,7 @@ class MES_Order{
 	    ));
 	}
 
+	//给出运送地点是否要运费
 	public static function shipping_fee_cal($city,$district){
 	   $need = MES_Fee::cal_fee($city,$district);
 	   if($need){
@@ -752,6 +765,91 @@ class MES_Order{
 		}	
 	    $result['confirm_type'] = !empty($_CFG['cart_confirm']) ? $_CFG['cart_confirm'] : 2;
 	    return json_encode($result);
+	}
+			
+	//获得额外的餐具数量
+	private static function get_extra_fork_num(){
+		$forks = $_SESSION['extra_fork'];
+		foreach ($forks as $value){
+			$total+=$value;
+		}
+		return $total;
+	}
+	
+	//获得购物车里面的总价
+	public static function get_total_price_in_cart(){
+		GLOBAL $db;
+		GLOBAL $ecs;
+		include_once('includes/lib_order.php');
+    	//取得购物类型
+    	
+    	$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+
+    	//团购标志
+    	if ($flow_type == CART_GROUP_BUY_GOODS){
+	        //$smarty->assign('is_group_buy', 1);
+	    }
+	    //积分兑换商品 
+	    elseif ($flow_type == CART_EXCHANGE_GOODS)
+	    {
+	        //$smarty->assign('is_exchange_goods', 1);
+	    }else{
+	        //正常购物流程  清空其他购物流程情况
+	        $_SESSION['flow_order']['extension_code'] = '';
+	    }
+
+	    //检查购物车中是否有商品
+	    $sql = "SELECT COUNT(*) FROM " . $ecs->table('cart') .
+	        " WHERE session_id = '" . SESS_ID . "' " .
+	        "AND parent_id = 0 AND is_gift = 0 AND rec_type = '$flow_type'";
+
+	    if ($db->getOne($sql) == 0){
+	    	return false;
+	    }
+
+	    
+
+	    /* 对商品信息赋值 */
+	    $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+	    
+	    $order = flow_order_info();
+		$order['best_time']=$_SESSION['flow_consignee']['best_time'];
+	
+	    //计算折扣
+	    if ($flow_type != CART_EXCHANGE_GOODS && $flow_type != CART_GROUP_BUY_GOODS){
+	        $discount = compute_discount();
+	        $favour_name = empty($discount['name']) ? '' : join(',', $discount['name']);
+	    }
+
+	    //计算订单的费用
+	    $total = order_fee($order, $cart_goods, $consignee);
+		return $total;
+		
+		/*
+		//蛋糕
+		$sql = "select * from " . $ecs->table('cart') . " WHERE  session_id='" . SESS_ID . "'";
+		$goods = $db->getAll($sql);
+		$total = 0;
+		foreach($goods as $val){
+			$total += $val['goods_price'] * $val['goods_number'];
+		}
+		
+		//餐具
+		if($_SESSION['extra_fork']==NULL){
+		   //$_SESSION['extra_fork'] = array();
+		}else{
+			$forks = $_SESSION['extra_fork'];
+			foreach ($forks as $value){
+				$total+=($value*0.5);
+			}
+		}
+
+		//运费
+		if($_SESSION['need_shipping_fee']){
+			$total+=$_SESSION['need_shipping_fee'];
+		}
+		return $total;
+		*/
 	}
 
  

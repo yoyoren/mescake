@@ -1615,7 +1615,7 @@ elseif ($_REQUEST['step'] == 'done')
     }*/
     $order['pack_fee'] = $total['pack_fee'];
 	 
-    $total['amount'] += $total['shipping_fee'];
+    //$total['amount'] += $total['shipping_fee'];
     $order['order_amount']  = number_format($total['amount'], 2, '.', '');
 	
     /* 如果全部使用余额支付，检查余额是否足够 */
@@ -1997,6 +1997,7 @@ elseif ($_REQUEST['step'] == 'done')
     unset($_SESSION['flow_order']);
     unset($_SESSION['direct_shopping']);
 	unset($_SESSION['need_shipping_fee']);
+	unset($_SESSION['extra_fork']);
 }
 
 /*------------------------------------------------------ */

@@ -35,7 +35,11 @@
 					<%if(goods[i].goods_id == 61){%>\
 						<img src="img/lazhu.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%></span>\
 					<%}else if(goods[i].goods_id == 60){%>\
-						<img src="img/canju.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%></span>\
+						<%if(goods[i].subtotal.replace("￥","") > 0){%>\
+						<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">收费餐具</span>\
+						<% } else {%>\
+						<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">免费餐具</span>\
+						<% } %>\
 					<%}else{%>\
 						<a target="_blank" href="goods.php?id=<%=goods[i].goods_id%>">\
 						  <img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%>（<%=goods[i].goods_attr%>）</span>\

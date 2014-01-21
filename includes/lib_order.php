@@ -714,6 +714,12 @@ function order_fee($order, $goods, $consignee)
 	$sql="SELECT shipping_fee FROM ecs_shipping_fee WHERE locate(address,'{$address}') > 0 and address=(SELECT max(address) FROM ecs_shipping_fee WHERE locate(address,'{$address}') > 0)";
 	$shipping_fee=$GLOBALS['db']->getOne($sql);
 	if($shipping_fee>0) $total['shipping_fee']=$shipping_fee;
+	
+	//新的运费计算
+	if($_SESSION['need_shipping_fee']){
+		$total['shipping_fee']=$_SESSION['need_shipping_fee'];
+	}
+
     $total['shipping_fee_formated']    = price_format($total['shipping_fee'], false);
     $total['shipping_insure_formated'] = price_format($total['shipping_insure'], false);
 
@@ -729,7 +735,8 @@ function order_fee($order, $goods, $consignee)
     }
     else
     {
-        $total['amount'] = $total['goods_price'] - $total['discount'] + $total['tax'] + $total['pack_fee'] + $total['card_fee'] +
+        //总价计算
+		$total['amount'] = $total['goods_price'] - $total['discount'] + $total['tax'] + $total['pack_fee'] + $total['card_fee'] +
             $total['shipping_fee'] + $total['shipping_insure'] + $total['cod_fee'];
 
         // 减去红包金额
@@ -1121,6 +1128,11 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
     $goods['market_price'] += $spec_price;
     $goods_attr             = get_goods_attr_info($spec);
     $goods_attr_id          = join(',', $spec);
+	
+	//如果是餐具 呵呵 悲剧了
+	if($goods_id == 60){
+		$goods_price = $num*0.5;
+	}
 	if(strpos($goods_attr,'磅'))
 	{
 	    $res_attr =substr($goods_attr,0,strpos($goods_attr,'.')).'.0磅';
@@ -1241,8 +1253,11 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
         if($row) //如果购物车已经有此物品，则更新
         {
-            $num += $row['goods_number'];
-            if(is_spec($spec) && !empty($prod) )
+			//餐具我已经算了额外的总数 所以不需要累加了
+			if($goods_id !=60){
+				$num += $row['goods_number'];
+            }
+			if(is_spec($spec) && !empty($prod) )
             {
              $goods_storage=$product_info['product_number'];
             }

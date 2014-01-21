@@ -168,6 +168,10 @@ switch ($mod) {
 			//计算配一个地址id是否需要加收配送费
 			$address_id = ANTI_SPAM($_GET['address_id']);
 			echo MES_Order::if_address_need_fee($address_id);
+		}else if($action == 'get_total_price_in_cart'){
+
+			//计算购物车里面的商品总价
+			echo MES_Order::get_total_price_in_cart();
 		}
 
 		
