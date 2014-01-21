@@ -41,7 +41,7 @@
               </div>（Ta的微博ID）<br /><br/>
               Ta的地址是
               <div class="act-check-container">
-                <input type="text" class="act-input check_item" style="width:400px;" isRequire="true" id="address"/>
+                <input type="text" class="act-input check_item" style="width:400px;" isRequire="true"/>
                 <span class="empty-tip" style="display:none;"  >请填写Ta的地址<br /></span>
                 <span class="error-tip" style="display:none;">输入错误<br /></span>
               </div>
@@ -78,6 +78,23 @@ jQuery(function($){
     frm.submit(function (ev) {
         $('.check_item').each(function(){
             var me = $(this);
+            var parent = me.parent();
+            var errorTip = parent.find('.error-tip').html();
+            var emptyTip = parent.find('.empty-tip').html();
+            var meVal = $.trim(me.val());
+            var Rule = me.attr('regRule');
+            var require = me.attr('isRequire');
+            if(require && meVal == ''){
+                frm.addClass('errorF');
+                str += emptyTip;
+            }else if(Rule && meVal != ''){
+                var ruleReg = new RegExp( Rule );
+                if(!ruleReg.test(meVal)){
+                    frm.addClass('errorF');
+                    str += errorTip;
+                }
+            }
+        });
         if(frm.hasClass('errorF')){
             conBox.html(str);
             diaBox.show();
@@ -89,7 +106,7 @@ jQuery(function($){
                  url: 'route.php?action=add&mod=huodong',
                  data: {
 		   name:$('#name').val(),
-		   my_weibo:$('#weibo').val(),
+		   weibo:$('#weibo').val(),
 		   his_weibo:$('#his_weibo').val(),
 		   address:$('#address').val(),
 		   mobile:$('#mobile').val(),

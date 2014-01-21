@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>活动页后台</title>
+    <link rel="stylesheet" href="css/active.css">
+    <script src="script/jquery-1.10.min.js"></script>
+    <style type="text/css">
+    html,body{background: #fff;}  
+    </style>
+  </head>
+  <body>
+  	<table class="act-table" id="container">
+      <tr >
+      	<th width="14%">时间</th>
+      	<th width="20%">报名人</th>
+      	<th width="26%">送给</th>
+      	<th width="40%">故事</th>
+      </tr>
+      
+  	</table>
+	<script src="script/jquery-1.10.min.js"></script>
+	<script>
+		$.get('route.php',{
+			mod:'huodong',
+			action:'get_all',
+			tc:Math.random()
+		},function(d){
+			var data = d.data;
+			var html = '';
+			for(var i=0;i<data.length;i++){
+				html+='<tr><td>2014-01-21</td>\
+				<td><span class="spe-col">'+data[i].name+'</span>微博@<span class="spe-col">'+data[i].my_weibo+'</span>，手机<span class="spe-col">'+data[i].mobile+'</span></td>\
+				<td><span class="spe-col">@'+data[i].his_weibo+'</span>，地址：<span class="spe-col">'+data[i].address+'</span></td>\
+				<td>'+data[i].comment+'</td>\
+			      </tr>';
+			}
+			$('#container').append(html);
+		},'json')
+	</script>
+  </body>
+  </html>

@@ -6,7 +6,8 @@ class MES_Lover{
 	public static function get_all(){
 		GLOBAL $db;
 		$sql= "select * from love_motive";
-		$db->getAll($sql);
+		$data = $db->getAll($sql);
+		return json_encode(array('data'=>$data));
 	}
 
 	public static function add($name,$my_weibo,$mobile,$his_weibo,$address,$comment){

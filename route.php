@@ -331,8 +331,9 @@ switch ($mod) {
 		}else if($action == 'get_all'){
 			echo MES_Lover::get_all();
 		}else if($action == 'page'){
-		
 			$smarty->display('huodongpage.dwt');
+		}else if($action == 'admin'){
+			$smarty->display('huodongadmin.dwt');
 		}
 		break;
     default:
