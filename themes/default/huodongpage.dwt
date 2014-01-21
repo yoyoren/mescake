@@ -41,7 +41,7 @@
               </div>（Ta的微博ID）<br /><br/>
               Ta的地址是
               <div class="act-check-container">
-                <input type="text" class="act-input check_item" style="width:400px;" isRequire="true"/>
+                <input type="text" class="act-input check_item" style="width:400px;" isRequire="true" id="address"/>
                 <span class="empty-tip" style="display:none;"  >请填写Ta的地址<br /></span>
                 <span class="error-tip" style="display:none;">输入错误<br /></span>
               </div>
