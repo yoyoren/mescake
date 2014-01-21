@@ -101,7 +101,7 @@
 					_tc:Math.random()
 				},function(d){
 					$('#sub_total_'+id).html(d.result);
-
+					debugger
 					//update free fork number;
 					$('#fork_num_'+id).html(d.free_fork+d.extra_fork+'人份');
 					$('#fork_num_'+id).prev().attr('free-num',d.free_fork);

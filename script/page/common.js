@@ -63,6 +63,7 @@
    }
 
 	var binded;
+	/*
     MES.checkLogin(function(uname){
 		if(('#header_login').length){
 			binded = true;
@@ -71,7 +72,7 @@
 			$('#header_logout').before('<a href="route.php?mod=account&action=account">'+uname+', </a>');
 		}
 	},function(){ });
-
+	*/
    //一部分header的逻辑，从后端放到前段控制
    $(window).ready(function(){
 	   

@@ -193,6 +193,7 @@ class cls_template
                         $hash_dir = $this->cache_dir . '/' . substr(md5($cachename), 0, 1);
                         if (!is_dir($hash_dir))
                         {
+							error_reporting(0);
                             mkdir($hash_dir);
                         }
                        /* if (file_put_contents($hash_dir . '/' . $cachename . '.php', '<?php exit;?>' . $data . $out, LOCK_EX) === false)
@@ -285,7 +286,7 @@ class cls_template
             $source = $this->smarty_prefilter_preCompile($source);
         }
 
-        if(preg_match_all('~(<\?(?:\w+|=)?|\?>|language\s*=\s*[\"\']?php[\"\']?)~is', $source, $sp_match))
+       if(preg_match_all('~(<\?(?:\w+|=)?|\?>|language\s*=\s*[\"\']?php[\"\']?)~is', $source, $sp_match))
         {
             $sp_match[1] = array_unique($sp_match[1]);
             for ($curr_sp = 0, $for_max2 = count($sp_match[1]); $curr_sp < $for_max2; $curr_sp++)
@@ -297,6 +298,7 @@ class cls_template
                  $source= str_replace('%%%SMARTYSP'.$curr_sp.'%%%', '<?php echo \''.str_replace("'", "\'", $sp_match[1][$curr_sp]).'\'; ?>'."\n", $source);
             }
          }
+         error_reporting(0);
          return preg_replace("/{([^\}\{\n]*)}/e", "\$this->select('\\1');", $source);
     }
 
@@ -1067,6 +1069,7 @@ class cls_template
             /* 将模板中所有library替换为链接 */
             $pattern     = '/<!--\s#BeginLibraryItem\s\"\/(.*?)\"\s-->.*?<!--\s#EndLibraryItem\s-->/se';
             $replacement = "'{include file='.strtolower('\\1'). '}'";
+             error_reporting(0);
             $source      = preg_replace($pattern, $replacement, $source);
 
             /* 检查有无动态库文件，如果有为其赋值 */

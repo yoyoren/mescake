@@ -6,7 +6,7 @@
 	$('#change_password').click(function(){
 		var password = $('#password_input').val();
 		//检测一下密码的长度
-		if(!password||password.split('').length<7){
+		if(!password||password.split('').length<6){
 			$('#set_warn').show();
 			return;
 		}

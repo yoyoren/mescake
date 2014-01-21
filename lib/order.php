@@ -2,6 +2,7 @@
 
 require_once('lib/user.php');
 require_once('lib/fee.php');
+
 class MES_Order{
 	
 	//获得街道的地址
@@ -165,8 +166,8 @@ class MES_Order{
 	        $row['goods_attr_real']= intval($row['goods_attr'],10);
 
 	        $row['free_fork'] = $row['goods_attr_real']*$row['goods_number']*$free_fork_pre_cake;
-			if($_SESSION['extra_fork_'.$row['rec_id']]){
-				$row['extra_fork'] =  $_SESSION['extra_fork_'.$row['rec_id']];
+			if($_SESSION['extra_fork'][$row['rec_id']]){
+				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['rec_id']];
 				
 				//add extra money for order
 				$total['goods_price']+=$row['extra_fork']*0.5;
@@ -224,8 +225,8 @@ class MES_Order{
 			$total += $val['goods_price'] * $val['goods_number'];
 			
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork_'.$val['rec_id']]){
-				$total += $_SESSION['extra_fork_'.$val['rec_id']]/2;
+			if($_SESSION['extra_fork'][$val['rec_id']]){
+				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
 			}
 
 			if($val['rec_id']==$id){
@@ -235,8 +236,8 @@ class MES_Order{
 			      $res['free_fork'] =  $number* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 
 				  //获得额外的餐具 
-				  if( $_SESSION['extra_fork_'.$id]){
-					$res['extra_fork'] =  $_SESSION['extra_fork_'.$id];
+				  if( $_SESSION['extra_fork'][$id]){
+					$res['extra_fork'] =  $_SESSION['extra_fork'][$id];
 				  }else{
 					$res['extra_fork'] = 0;	
 				  }
@@ -263,7 +264,7 @@ class MES_Order{
 		$row = $GLOBALS['db']->getRow($sql);
 
 		//删除额外餐具
-		unset($_SESSION['extra_fork_'.$id]);
+		unset($_SESSION['extra_fork']);
 		if ($row){
 			//如果是超值礼包
 			if ($row['extension_code'] == 'package_buy')
@@ -315,8 +316,8 @@ class MES_Order{
 			$total += $val['goods_price'] * $val['goods_number'];
 			
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork_'.$val['rec_id']]){
-				$total += $_SESSION['extra_fork_'.$val['rec_id']]/2;
+			if($_SESSION['extra_fork'][$val['rec_id']]){
+				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
 			}
 
 			if($val['rec_id']==$id){
@@ -326,8 +327,8 @@ class MES_Order{
 			      $res['free_fork'] =  $number* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 
 				  //获得额外的餐具 
-				  if( $_SESSION['extra_fork_'.$id]){
-					$res['extra_fork'] =  $_SESSION['extra_fork_'.$id];
+				  if( $_SESSION['extra_fork'][$id]){
+					$res['extra_fork'] =  $_SESSION['extra_fork'][$id];
 				  }else{
 					$res['extra_fork'] = 0;	
 				  }
@@ -416,6 +417,11 @@ class MES_Order{
 		$goods = $db->getAll($sql);
 		foreach($goods as $val){
 			$total += $val['goods_price'] * $val['goods_number'];
+			//$current_extra = $_SESSION['extra_fork_'.$val['rec_id']];
+		
+			//if($current_extra>0){
+			//	$total +=$current_extra*0.5;
+			//}
 			if($val['rec_id']==$id){
 			      $free_fork_num =  $val['goods_number']* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 			}
@@ -429,16 +435,33 @@ class MES_Order{
 			//have extra fork
 
 			//cal number of extra fork
-			$extra = $_SESSION['extra_fork_'.$id] = $num-$free_fork_num;
+			$extra = $_SESSION['extra_fork'][$id] = $num-$free_fork_num;
+			if($extra<1){
+			   $extra = 0;
+			}
 
-			$price = ($num-$free_fork_num)/2;
-			$total += $price;
+			$total_extra = 0;
+			if($_SESSION['extra_fork']==NULL){
+			   $_SESSION['extra_fork'] = array();
+			}else{
+			    $forks = $_SESSION['extra_fork'];
+				foreach ($forks as $value){
+					$total_extra+=$value;
+				}
+				
+			}
+
+			 
+			$price = $extra/2;
+			$total_price = $total_extra/2;
+			$total += $total_price;
 			return json_encode(array(
 				'code'=>'0',
 				'num'=>$num,
 				'price'=>$price,
 				'total'=>$total,
-				'extra'=>$extra
+				'extra'=>$extra,
+				'total_extra'=>$total_extra
 			));
 		}
 		
@@ -718,8 +741,8 @@ class MES_Order{
 			$total += $val['goods_price'] * $val['goods_number'];
 			
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork_'.$val['rec_id']]){
-				$total += $_SESSION['extra_fork_'.$val['rec_id']]/2;
+			if($_SESSION['extra_fork'][$val['rec_id']]){
+				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
 			}
 			//蜡烛这玩意 需要在order页面返回给前端添加到订单里，其他商品不需要这么做
 			if($val['goods_id']==61){
