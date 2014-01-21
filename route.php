@@ -316,6 +316,25 @@ switch ($mod) {
 		}
 
         break;
+	//账户相关的请求
+
+    case 'huodong':
+		require_once(ROOT_PATH . 'lib/lover.php');
+		if($action == 'add'){
+			$name = ANTI_SPAM($_POST['name']);
+			$my_weibo = ANTI_SPAM($_POST['my_weibo']);
+			$mobile = ANTI_SPAM($_POST['mobile']);
+			$his_weibo = ANTI_SPAM($_POST['his_weibo']);
+			$address = ANTI_SPAM($_POST['address']);
+			$comment = ANTI_SPAM($_POST['comment']);
+			echo MES_Lover::add($name,$my_weibo,$mobile,$his_weibo,$address,$comment);
+		}else if($action == 'get_all'){
+			echo MES_Lover::get_all();
+		}else if($action == 'page'){
+		
+			$smarty->display('huodongpage.dwt');
+		}
+		break;
     default:
         break;
 }
