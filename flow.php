@@ -1426,7 +1426,10 @@ elseif ($_REQUEST['step'] == 'done')
     $_POST['inv_payee'] = isset($_POST['inv_payee']) ? compile_str($_POST['inv_payee']) : '';
     $_POST['inv_content'] = isset($_POST['inv_content']) ? compile_str($_POST['inv_content']) : '';
     $_POST['postscript'] = isset($_POST['postscript']) ? compile_str($_POST['postscript']) : '';
-    $shipping_fee=$_SESSION['need_shipping_fee'];//$_POST['shipping_fee'];
+    if(!$_SESSION['need_shipping_fee']){
+		$_SESSION['need_shipping_fee'] = '0.00';
+	}
+	$shipping_fee=$_SESSION['need_shipping_fee'];//$_POST['shipping_fee'];
     $shipping_fee=str_replace("￥"," ",$shipping_fee);
     $shipping_fee= trim($shipping_fee);
 
