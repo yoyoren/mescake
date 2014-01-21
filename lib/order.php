@@ -671,9 +671,14 @@ class MES_Order{
 	public static function shipping_fee_cal($city,$district){
 	   $need = MES_Fee::cal_fee($city,$district);
 	   if($need){
-			return json_encode(array('code'=>'0','fee'=>'10.00'));
+				$_SESSION['need_shipping_fee'] = '10.00';
+			}else{
+				$_SESSION['need_shipping_fee'] = '0.00';
+			}
+	   if($need){
+			return json_encode(array('code'=>'0','fee'=>'10.00','order_total'=>MES_Order::get_total_price_in_cart()));
 	   }
-	   return json_encode(array('code'=>'0','fee'=>'0'));
+	   return json_encode(array('code'=>'0','fee'=>'0','order_total'=>MES_Order::get_total_price_in_cart()));
 	}
 
 	//增加到购物车

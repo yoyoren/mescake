@@ -48,6 +48,16 @@
                 </span>\
                 <span class="or-price"><%=goods[i].goods_price%> x<%=goods[i].goods_number%></span>\
               </div>\
+			  <%if(goods[i].goods_id != 61&&goods[i].goods_id != 60){%>\
+				<%if(goods[i].card_message!="无"){%>\
+				  <div class="or-child-container">\
+					<span class="or-name">\
+					  <img src="img/pai-con2.png" class="or-child-img"><span class="or-name-intro"><%=goods[i].card_message%></span>\
+					</span>\
+					<span class="or-price">x<%=goods[i].goods_number%></span>\
+				  </div>\
+				 <% } %>\
+			  <% } %>\
             </li>\
 			<% } %>\
 			<li class="order-item">\
@@ -76,9 +86,20 @@
 				order_id:orderId
 			},function(d){
 				if(d.code == 0){
+					var goods = d.goods_list;
+					var order = d.order;
+					
+					var cardmessage = order.card_message.split(';');
+					for(var i=0,j=0;i<goods.length;i++){
+						if(goods[i].goods_id!=60&&goods[i].goods_id!=61){
+							goods[i].card_message = cardmessage[j];
+							j++;
+						}
+					}
 					var html = mstmpl(detailTmpl,{
-						goods:d.goods_list,
-						order:d.order
+						goods:goods,
+						order:order,
+						cardmessage:cardmessage
 					});
 					$('#order_container').prepend(html);
 					OrderDetail.bind();

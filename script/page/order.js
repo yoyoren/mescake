@@ -27,51 +27,11 @@
 
    //current modifiy address id
    var CURRENT_ID;
-
+   var Serect = false;
    var Order = {
-		bind:function(){
+
+		delegate:function(){
 			var me = this;
-			$('#region_sel').change(function(){
-				$.get('route.php?mod=order&action=get_district',{
-					_tc:Math.random(),
-					city:$(this).val()
-				},function(d){
-					if(d.code == 0){
-						var html = '<option value="0">选择送货街道</option>';
-						if(d.data){
-							for(var i in d.data){
-								html+='<option value="'+i+'">'+d.data[i].name+'</option>'
-							}
-							$('#dis_district').html(html).show();
-						}else{
-							$('#dis_district').html(html).hide();
-						}
-					}	
-				},'json');
-			});
-
-			$('#dis_district').change(function(){
-				MES.get({
-					mod:'order',
-					action:'shipping_fee_cal',
-					param:{
-						city:$('#region_sel').val(),
-						district:$(this).val()
-					},
-					callback:function(d){
-						//没有登录的情况下 这里才需要重新结算运费
-						if(d.code == 0&&!window.IS_LOGIN){
-							if(d.fee){
-								$('#shipping_fee_display').show();
-							}else{
-								$('#shipping_fee_display').hide();
-							}
-							$('#shipping_fee').val(d.fee);
-						}
-					}
-				})
-			});
-
 			//UI changed when you select an address
 			$('#address_container').delegate('.address_item','click',function(){
 				
@@ -129,20 +89,77 @@
 					});
 				});
 				return false;
-				/*
-				_this = $('#address_'+id);
-				$('#region_sel').val(_this.data('city'));
-				$('#new_address').val(_this.data('address'));
-				$('#new_tel').val(_this.data('tel'));
-				$('#new_contact').val(_this.data('contact'));
-
-				//button switch;
-				$('#save_address').hide();
-				$('#mod_address').show();
-				$('#new_address_form').show();
-				return false;
-				*/
 			});
+		},
+
+		bind:function(){
+			var me = this;
+			
+			//对于没有登录的用户 可以使用这个
+			$('#serect_check').click(function(){
+				var chkbox = $('#serect_checkbox')[0];
+				if(chkbox.checked){
+					Serect = true;
+					$('#my_phone_title').show();
+					$('#my_phone_frame').show();
+				}else{
+					Serect = false;
+					$('#my_phone_title').hide();
+					$('#my_phone_frame').hide();
+				}
+				
+			});
+
+
+			$('#region_sel').change(function(){
+				MES.get({
+					mod:'order',
+					action:'get_district',
+					param:{
+						city:$(this).val()
+					},
+					callback:function(d){
+						//没有登录的情况下 这里才需要重新结算运费
+						if(d.code == 0){
+							var html = '<option value="0">选择送货街道</option>';
+							if(d.data){
+								for(var i in d.data){
+									html+='<option value="'+i+'">'+d.data[i].name+'</option>'
+								}
+								$('#dis_district').html(html).show();
+							}else{
+								$('#dis_district').html(html).hide();
+							}
+						}	
+					}
+				});
+			});
+
+			//需要在未登录的时候重新计算运费
+			$('#dis_district').change(function(){
+				MES.get({
+					mod:'order',
+					action:'shipping_fee_cal',
+					param:{
+						city:$('#region_sel').val(),
+						district:$(this).val()
+					},
+					callback:function(d){
+						//没有登录的情况下 这里才需要重新结算运费
+						if(d.code == 0&&!window.IS_LOGIN){
+							if(d.fee!=0){
+								$('#shipping_fee_display').show();
+							}else{
+								$('#shipping_fee_display').hide();
+							}
+							$('#shipping_fee').val(d.fee);
+							MES.updateTotalPriceDisplay(d);
+						}
+					}
+				});
+			});
+
+			
 
 
 			//tax ticket 
@@ -383,8 +400,9 @@
 		//save it in session
 		saveconsignee:function(_this){
 			var me = this;
+			var data;
 			if(window.IS_LOGIN){
-				var data = {
+				data = {
 						address_id:_this.data('id'),
 						consignee:_this.data('contact'),
 						country:501,
@@ -397,14 +415,14 @@
 						minute:$('#minute_picker').val()
 				};
 			}else{
-				var data = {
+				data = {
 						address_id:0,
 						consignee:$('#new_contact').val(),
 						country:501,
 						city:$('#region_sel').val(),
 						address:$('#new_address').val(),
 						district:$('#dis_district').val(),
-						mobile:$('#new_tel').val(),
+						mobile:Serect?$('#my_phone_input').val():$('#new_tel').val(),
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
 						minute:$('#minute_picker').val()
@@ -420,6 +438,8 @@
 				});
 				return;
 			}
+
+			//保存订单
 			$.post('route.php?action=save_consignee&mod=order',data||{},function(d){
 			
 				if(window.IS_LOGIN){
@@ -441,10 +461,15 @@
 							
 						}else{
 							//给这个用户注册一个账户 并且帮他登录
+							var username = data.mobile;
+							if(data.serect){
+								username = data.myphone;
+							}
 							$.post('route.php?action=auto_register&mod=account',{
-								username:$('#new_tel').val()
+								username:username
 							},function(d){
 								if(d.code == 0){
+									//注册成功后给这个用户结帐
 									me.checkout();
 								}
 							},'json');
@@ -460,7 +485,12 @@
 			var brithCard = $('.brith_brand');
 			var card_message = [];
 			for(var i=0;i<brithCard.length;i++){
-				card_message.push(brithCard[i].innerHTML);
+				var text = brithCard[i].innerHTML;
+				if(text.split('').length>10){
+					new confirm('您添加的生日牌不能超过10个字');
+					return;
+				}
+				card_message.push(text);
 			}
 			$.post('route.php?action=checkout&mod=order',{
 				card_message:card_message.join('|')
@@ -585,33 +615,34 @@
 
 
    Order.bind();
+   Order.delegate();
    Order.getAddress();
    Order.getRegion();
    Order.changePayMethod();
    Order.getSurplus();
    Order.chargeInPage();
+
    $(window).ready(function(){
 	 
 
 	var _html='';
-	
+	var jqHourSel = $('#hour_picker');
+	var jqMinuteSel = $('#minute_picker');
 	for(var i=10;i<=22;i++){
 		_html+='<option value="'+i+'">'+i+'</option>'
 	}
-	$('#hour_picker').append(_html);
+	jqHourSel.append(_html);
+
    	$('#date_picker').click(function(){
-   		//require(['datepicker/WdatePicker'],function(datePicker){
    		WdatePicker({minDate:'%y-%M-{%d}'});
-   		//})
-   		
    	});
 
 	//22:30这个是不送货的
-	$('#hour_picker').change(function(){
+	jqHourSel.change(function(){
 		if($(this).val()==22){
-			$('#minute_picker').html('<option value="0">0</option>');
+			jqMinuteSel.html('<option value="0">0</option>');
 		}else{
-			$('#minute_picker').html('<option value="0">0</option><option value="30">30</option>');
+			jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
 		}
 	});
 
@@ -620,18 +651,22 @@
    		$('#login_tip').hide();
 		$('#login_address_operate').show();
 		$('#add_new_address').show();
+
 		//显示登陆后的礼金操作地址
 		$('#money_card_frame').show();
+		$('#serect_check').hide();
 		window.IS_LOGIN = true;
    	},function(){
 		//unlogin
    		$('#login_tip').show();
 		$('#add_new_address').hide();
 		$('#login_address_operate').hide();
+
    		$('.user_login').click(function(){
 			require(["ui/login"], function(login) {login.show();});
    		});
 		$('#money_card_frame').hide();
+		$('#serect_check').show();
 		window.IS_LOGIN = false;
    	})
    	

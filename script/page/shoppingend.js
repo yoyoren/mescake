@@ -10,6 +10,7 @@
 			$('#set_warn').show();
 			return;
 		}
+	
 		$.post('route.php?mod=account&action=change_unregister_password',{
 			password:password
 		},function(d){
@@ -22,7 +23,7 @@
 			}else if(d.code == 1){
 				$('#set_warn').show();
 			}else{
-				alert('系统错误！');
+				new confirm('系统错误！');
 			}
 		},'json');
 	});

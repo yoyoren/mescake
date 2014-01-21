@@ -10,7 +10,9 @@ require_once(ROOT_PATH . 'lib/user.php');
 //路由分发的依据
 $action = ANTI_SPAM($_GET['action']);
 $mod = ANTI_SPAM($_GET['mod']);
-
+function error_exit(){
+	return json_encode(array('code'=>2,'msg'=>'param error'));
+}
 //需要登录的操作
 $need_login_action = array(
 	'order'=>array(
@@ -141,6 +143,12 @@ switch ($mod) {
 			}else{
 				$card_message = explode("|",$card_message);
 			}
+			for($i=0;$i<count($card_message);$i++){
+				if(strlen($card_message[$i])>10){
+					$error_exit();
+					exit;
+				}
+			}
 			echo MES_Order::checkout($card_message);
 		}else if($action == 'add_to_cart'){
 			//add an cake or fork to your cart
@@ -233,7 +241,8 @@ switch ($mod) {
 			
 			//删除一个订单
 			$order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
-			echo MES_User::del_one_order(ANTI_SPAM($order_id));
+			$order_id = ANTI_SPAM($order_id);
+			echo MES_User::del_one_order($order_id);
 		}else if($action=="order_list"){
 
 			//order list page

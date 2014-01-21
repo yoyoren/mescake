@@ -195,9 +195,16 @@
 				updateFork(id,num);
 			}).delegate('.add_brith_brand','click',function(){
 				//触发生日牌的修改
-				$(this).find('.or-name-intro').hide();
-				$(this).next().show();
-				$(this).next().focus();
+				var _this = $(this);
+				var text = _this.find('.or-name-intro')[0].innerHTML;
+				_this.find('.or-name-intro').hide();
+
+				//一些细节
+				if($.trim(text) !== '添加一个生日牌'){
+					_this.next().val(text);
+				}
+				_this.next().show();
+				_this.next().focus();
 			}).delegate('.brith_brand_input','blur',function(){
 				var _this = $(this);
 				var text = _this.val();
@@ -205,8 +212,17 @@
 				if($.trim(text) == ''){
 					text = '添加一个生日牌';
 				}
+				
+				//验证生日牌
+				if($.trim(text).split('').length>10){
+					require(['ui/confirm'],function(confirm){
+						new confirm('生日牌不能超过10个字');
+					});
+					return;
+				}
+
 				_this.hide();
-				_this.prev().find('.or-name-intro').html(text).show();
+				_this.prev().find('.or-name-intro').text(text).show();
 				_this.val('');
 				return false;
 			});
