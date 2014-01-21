@@ -84,6 +84,7 @@
 				
 				//计算一个地址是否需要运送费
 				me.ifAddressNeedFee();
+				
 			}).delegate('.addr_del','click',function(){
 				//delete an address info if you want
 				var _this =$(this);
@@ -316,6 +317,7 @@
 							$('#shipping_fee_display').hide();
 						}
 						$('#shipping_fee').val(d.fee);
+						MES.updateTotalPriceDisplay(d);
 					} 
 				}
 			})

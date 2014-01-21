@@ -61,8 +61,14 @@
 			}
 	   });
    }
-
-	var binded;
+   
+   MES.updateTotalPriceDisplay = function(d){
+			d = d.order_total;
+			$('.order_total').html('￥'+(parseFloat(d.goods_price,10)+parseFloat(d.pack_fee,10)));
+			$('#final_total').html(d.amount_formated);
+	}
+	
+    var binded;
 	/*
     MES.checkLogin(function(uname){
 		if(('#header_login').length){

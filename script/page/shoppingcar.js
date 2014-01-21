@@ -56,6 +56,7 @@
    var BRITH_ORDER_ID;
    var Order = {
    		getOrderList : function(){
+			 var me = this;
 			 $.get('route.php',{
 				_tc:Math.random(),
 				mod:'order',
@@ -78,7 +79,7 @@
 					}
 				}
 				$('#order_list').after(html);
-				$('.order_total').html(d.total.goods_price);
+				MES.updateTotalPriceDisplay(d);
 			 },'json');
 		},
 
@@ -93,6 +94,7 @@
 			},'json');
 		},
 		eventDelegate:function(){
+			var me = this;
 			var container = $('#order_list').parent();
 			var updateCart = function(id,num){
 				$.get('route.php',{
@@ -109,7 +111,7 @@
 					$('#fork_num_'+id).next().attr('free-num',d.free_fork);
 
 					//update total price
-					$('.order_total').html(d.total);
+					MES.updateTotalPriceDisplay(d);
 				},'json');
 			}
 
@@ -130,7 +132,7 @@
 						//update free fork number;
 						$('#fork_num_'+id).html(d.num+'人份');
 						//update total price
-						$('.order_total').html(d.total);
+						MES.updateTotalPriceDisplay(d);
 					}
 				},'json');
 			}
@@ -167,7 +169,7 @@
 						},function(d){
 							//重新结算帐单价格
 							$('#sub_order_'+id).remove();
-							$('.order_total').html('￥'+d.total);
+							MES.updateTotalPriceDisplay(d);
 						},'json');
 					});
 				});
@@ -238,7 +240,7 @@
 							},function(d){
 								//重新结算帐单价格
 								$('#sub_order_'+id).remove();
-								$('.order_total').html(d.total);
+								MES.updateTotalPriceDisplay(d);
 							},'json');
 					  }else{
 						 //$('#birth_chk')[0].checked = true;

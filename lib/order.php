@@ -16,34 +16,22 @@ class MES_Order{
 		return '';
 	}
 
-	//根据地址id判断一个地址是否需要加送运费
-	public static function if_address_need_fee($address_id){
-		GLOBAL $db;
-		$sql="select * from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";	
-		$address=$db->getAll($sql);
-		$address = $address[0];
-		if($address){
-			$region_id = $address['city'];
-			$district_id = $address['district'];
-			$need_fee = MES_Fee::cal_fee($region_id,$district_id);
-	
-			if($need_fee){
-				$_SESSION['need_shipping_fee'] = '10.00';
-			}else{
-				$_SESSION['need_shipping_fee'] = '0.00';
-			}
-			return json_encode(array(
-				'code'=>'0',
-				'fee'=>$_SESSION['need_shipping_fee']
-			));
-		}
 
-		return json_encode(array(
-			'code'=>'1',
-			'fee'=>'1'
-		));
-		
+	//获得地区列表
+	public static function get_region(){
+		GLOBAL $db;
+		$district_list=$db->getAll('select * from ship_region where parent_id=501');
+		return json_encode($district_list);
 	}
+
+	//仅仅是获得区域的id
+	public static function get_district($city){
+		$district = MES_Fee::get_fee_region();
+		$district = $district[$city];
+		return json_encode(array('code'=>'0','data'=>$district));
+	}
+
+	
 
 	//获得一个用户所有的地址信息
 	public static function get_order_address(){
@@ -64,7 +52,8 @@ class MES_Order{
 		}
 		return json_encode($address);
 	}
-
+	
+	//删除送货地址
 	public static function del_order_address($address_id){
 		GLOBAL $db;
 		$sql="delete from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";
@@ -75,7 +64,7 @@ class MES_Order{
 		));
 	}
 
-
+	//更新送货的地址
 	public static function update_order_address($address_id,$country,$city,$contact,$address,$tel,$district=0){
 		GLOBAL $db;
 		//根据用户id来更新地址
@@ -95,7 +84,7 @@ class MES_Order{
 	}
 
 
-   //收货人,城市,地区,地质,和电话
+   //收货人,城市,地区,地质,和电话和街道，增加地址
 	public static function add_order_address($contact,$country,$city,$address,$tel,$district=0){
 		GLOBAL $db;
 		$db->query("INSERT INTO ecs_user_address(address_name, user_id, consignee, country, province, city, district, address, tel, mobile, money_address, route_id, ExchangeState, ExchangeState2)
@@ -110,7 +99,8 @@ class MES_Order{
 		$address['districtName'] = MES_Order::_get_distruct_name($city,$district);
 		return json_encode(array('msg'=>'ok','code'=>'0','data'=>$address));
 	}
-
+	
+	//获得订单列表
 	public static function get_order_list(){
 		//require(ROOT_PATH . 'includes/lib_order.php');
 		//require(ROOT_PATH . 'includes/lib_transaction.php');
@@ -188,21 +178,43 @@ class MES_Order{
 	    $total['market_price'] = price_format($total['market_price'], false);
 	    $total['real_goods_count']    = $real_goods_count;
 	    $total['virtual_goods_count'] = $virtual_goods_count;
-	    $cart_goods = array('goods_list' => $goods_list, 'total' => $total);
+	    $cart_goods = array(
+			'goods_list' => $goods_list, 
+			'total' => $total,
+			'order_total'=>MES_Order::get_total_price_in_cart()
+		);
 		return json_encode($cart_goods);
 	}
 	
-	//获得地区列表
-	public static function get_region(){
+	//根据地址id判断一个地址是否需要加送运费
+	public static function if_address_need_fee($address_id){
 		GLOBAL $db;
-		$district_list=$db->getAll('select * from ship_region where parent_id=501');
-		return json_encode($district_list);
-	}
+		$sql="select * from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";	
+		$address=$db->getAll($sql);
+		$address = $address[0];
+		if($address){
+			$region_id = $address['city'];
+			$district_id = $address['district'];
+			$need_fee = MES_Fee::cal_fee($region_id,$district_id);
+	
+			if($need_fee){
+				$_SESSION['need_shipping_fee'] = '10.00';
+			}else{
+				$_SESSION['need_shipping_fee'] = '0.00';
+			}
+			return json_encode(array(
+				'code'=>'0',
+				'fee'=>$_SESSION['need_shipping_fee'],
+				'order_total'=>MES_Order::get_total_price_in_cart()
+			));
+		}
 
-	public static function get_district($city){
-		$district = MES_Fee::get_fee_region();
-		$district = $district[$city];
-		return json_encode(array('code'=>'0','data'=>$district));
+		return json_encode(array(
+			'code'=>'1',
+			'fee'=>'1',
+			
+		));
+		
 	}
 	
 	//更新购物车里面的商品数量
@@ -247,7 +259,7 @@ class MES_Order{
 		//var_dump($_LANG['shopping_money']);
         $res['total'] = price_format($total,false);
 		$res['rec'] = "sub_".$id;
-	    
+	    $res['order_total'] = MES_Order::get_total_price_in_cart();
 		return json_encode($res);
 	}
 	
@@ -336,7 +348,7 @@ class MES_Order{
 			}
 		}		
         $result['total'] = price_format($total,false);
-
+		$result['order_total'] = MES_Order::get_total_price_in_cart();
 		MES_Order::flow_clear_cart_alone();
 		return json_encode($result);
 	}
@@ -473,7 +485,8 @@ class MES_Order{
 				'price'=>$price,
 				'total'=>$total,
 				'extra'=>$extra,
-				'total_extra'=>$total_extra
+				'total_extra'=>$total_extra,
+				'order_total'=>MES_Order::get_total_price_in_cart()
 			));
 		}
 		
@@ -663,6 +676,7 @@ class MES_Order{
 	   return json_encode(array('code'=>'0','fee'=>'0'));
 	}
 
+	//增加到购物车
 	public static function add_to_cart($goods,$goods_id){
 		GLOBAL $db;
 		GLOBAL $ecs;
@@ -764,6 +778,7 @@ class MES_Order{
 			}
 		}	
 	    $result['confirm_type'] = !empty($_CFG['cart_confirm']) ? $_CFG['cart_confirm'] : 2;
+		$result['order_total'] = MES_Order::get_total_price_in_cart();
 	    return json_encode($result);
 	}
 			
