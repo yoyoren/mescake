@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>情人节，小飞帮你送礼物给Ta</title>
+    <link rel="stylesheet" href="css/active.css">
+    <script src="script/jquery-1.10.min.js"></script>
+  </head>
+  <body>
+    <div class="act-layout">
+      <p class="act-title tl-c">情人节，小飞帮你送礼物给Ta</p>
+      <div class="act-container">
+        <div class="act-form">
+          <form action="index.php" method="post" id="act_form">
+            <div class="act-f-top">
+              <b>我叫</b>
+              <div class="act-check-container">
+                <input type="text" class="act-input check_item" isRequire="true" id="name"/>
+                <span class="empty-tip" style="display:none;" >请输入你的姓名<br /></span>
+                <span class="error-tip" style="display:none;">输入错误<br /></span>
+              </div> ，微博ID是
+              <div class="act-check-container">
+                <input type="text" class="act-input check_item" isRequire="true" id="weibo"/><br />
+                <span class="empty-tip" style="display:none;"  >请输入你的微博ID<br /></span>
+                <span class="error-tip" style="display:none;">输入错误<br /></span>
+              </div><br/><br/>
+              我的手机是
+              <div class="act-check-container">
+                <input type="text" class="act-input check_item" regRule="^1[3|4|5|8]\d{9}$" isRequire="true" id="mobile"/>
+                <span class="empty-tip" style="display:none;"  >请输入你的手机号码<br /></span>
+                <span class="error-tip" style="display:none;">手机号码格式错误<br /></span>
+              </div>
+            </div>
+            <div class="act-f-mid">
+              <b>我想送礼物给</b>
+              <div class="act-check-container">
+                <input type="text" class="act-input check_item" isRequire="true" id="his_weibo"/>
+                <span class="empty-tip" style="display:none;"  >请填写你心上人的微博ID<br /></span>
+                <span class="error-tip" style="display:none;">输入错误<br /></span>
+              </div>（Ta的微博ID）<br /><br/>
+              Ta的地址是
+              <div class="act-check-container">
+                <input type="text" class="act-input check_item" style="width:400px;" isRequire="true" id="address"/>
+                <span class="empty-tip" style="display:none;"  >请填写Ta的地址<br /></span>
+                <span class="error-tip" style="display:none;">输入错误<br /></span>
+              </div>
+            </div>
+            <div class="act-f-bot">
+              <b>关于我和Ta是怎么认识的：）</b><br />
+              <div class="act-check-container">
+                <textarea class="act-textarea check_item area_item" maxLength="140" isRequire="true"  id="comment"></textarea>
+                <span class="empty-tip" style="display:none;">别忘记说说你们俩是怎么认识的：）<br/></span>
+                <span class="error-tip" style="display:none;">输入错误<br /></span>
+              </div>
+              <p class="input-tip">你还可输入<b class="act-area-num">140</b>字</b></p>
+            </div>
+            <input type="submit" class="act-sub" value="提交" />
+          </form>
+        </div>
+        <p class="act-suc-tip" id="act_suc_tip" style="display:none;"><b>谢谢你的故事：)</b><br/><br/>我们会电话联系选中的朋友，同时先预祝你情人节快乐~</p>
+      </div>
+    </div>
+    <div class="act-dia" id="act-dia" style="display:none;">
+      <div class="gray-bg"></div>
+      <div class="act-dia-con tl-c">
+        <p id="act_tip_con"></p><br />
+        <em class="act-close-btn" id="act_close_btn">关闭</em>
+      </div>
+    </div>
+  </body>
+<script>
+jQuery(function($){
+    var frm = $("#act_form");
+    var conBox = $("#act_tip_con");
+    var diaBox = $('#act-dia');
+    var str ='';
+    frm.submit(function (ev) {
+        $('.check_item').each(function(){
+            var me = $(this);
+        if(frm.hasClass('errorF')){
+            conBox.html(str);
+            diaBox.show();
+            return false;
+        }else{
+            var data = frm.serialize();
+            $.ajax({
+                 type: 'post',
+                 url: 'route.php?action=add&mod=huodong',
+                 data: {
+		   name:$('#name').val(),
+		   my_weibo:$('#weibo').val(),
+		   his_weibo:$('#his_weibo').val(),
+		   address:$('#address').val(),
+		   mobile:$('#mobile').val(),
+		   comment:$('#comment').val()
+		 },
+                 success: function (data) {
+                    $('#act_suc_tip').show();
+		    frm.hide();
+		    $('#act_suc_tip').show();
+                 }
+            });
+        }
+        ev.preventDefault();
+    });
+    $('.check_item').bind('focus',function(){
+        str='';
+        conBox.html('');
+        frm.removeClass('errorF');
+    });
+    var numTip = $('.act-area-num');
+    var num = 140;
+    $('.area_item').bind('keyup',function(){
+      var me = $(this);
+      var areaVal = me.val();
+      var Length = areaVal.length;
+      var limitVal = areaVal.substr(0,140)
+      numTip.removeClass('red-error');
+      num = 140 - Length;
+      if(num > 0){
+        numTip.html(num);
+      }else{
+        me.val(limitVal);
+        numTip.addClass('red-error');
+        numTip.html('0');
+      }
+    });
+    $('#act_close_btn').bind('click',function(){
+      str ='';
+      diaBox.hide();
+    });
+});
+</script>
+  </html>
