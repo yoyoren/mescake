@@ -29,36 +29,52 @@
           </div>\
           <ul class="order-ul">\
 			<%for(var i=0;i<goods.length;i++){%>\
-            <li class="order-item">\
-              <div class="or-main-container">\
-                <span class="or-name">\
-					<%if(goods[i].goods_id == 61){%>\
-						<img src="img/lazhu.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%></span>\
-					<%}else if(goods[i].goods_id == 60){%>\
-						<%if(goods[i].subtotal.replace("￥","") > 0){%>\
-						<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">收费餐具</span>\
-						<% } else {%>\
-						<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">免费餐具</span>\
-						<% } %>\
-					<%}else{%>\
-						<a target="_blank" href="goods.php?id=<%=goods[i].goods_id%>">\
-						  <img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%>（<%=goods[i].goods_attr%>）</span>\
-						</a>\
-					<% } %>\
-                </span>\
-                <span class="or-price"><%=goods[i].goods_price%> x<%=goods[i].goods_number%></span>\
-              </div>\
-			  <%if(goods[i].goods_id != 61&&goods[i].goods_id != 60){%>\
-				<%if(goods[i].card_message!="无"){%>\
-				  <div class="or-child-container">\
-					<span class="or-name">\
-					  <img src="img/pai-con2.png" class="or-child-img"><span class="or-name-intro"><%=goods[i].card_message%></span>\
-					</span>\
-					<span class="or-price">x<%=goods[i].goods_number%></span>\
-				  </div>\
-				 <% } %>\
-			  <% } %>\
-            </li>\
+				<%if(goods[i].goods_id != 60){%>\
+					<li class="order-item">\
+					  <div class="or-main-container">\
+						<span class="or-name">\
+							<%if(goods[i].goods_id == 61){%>\
+								<img src="img/lazhu.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%></span>\
+							<%}else if(goods[i].goods_id == 60){%>\
+								<%if(goods[i].subtotal.replace("￥","") > 0){%>\
+								<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">收费餐具</span>\
+								<% } else {%>\
+								<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">免费餐具</span>\
+								<% } %>\
+							<%}else{%>\
+								<a target="_blank" href="goods.php?id=<%=goods[i].goods_id%>">\
+								  <img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%>（<%=goods[i].goods_attr%>）</span>\
+								</a>\
+							<% } %>\
+						</span>\
+						<span class="or-price"><%=goods[i].goods_price%> x<%=goods[i].goods_number%></span>\
+					  </div>\
+					  <%if(goods[i].goods_id != 61&&goods[i].goods_id != 60){%>\
+						<%if(goods[i].card_message!="无"){%>\
+						  <div class="or-child-container">\
+							<span class="or-name">\
+							  <img src="img/pai-con2.png" class="or-child-img"><span class="or-name-intro"><%=goods[i].card_message%></span>\
+							</span>\
+							<span class="or-price">x<%=goods[i].goods_number%></span>\
+						  </div>\
+						 <% } %>\
+						<%if(order.fork_message&&order.fork_message[goods[i].goods_id]){%>\
+							<div class="or-child-container">\
+							<span class="or-name">\
+							  <img src="img/canju.png" class="or-child-img"><span class="or-name-intro">收费餐具<span class="color-999"></span></span>\
+							</span>\
+							<span class="or-price">￥0.50x<%=order.fork_message[goods[i].goods_id]%></span>\
+						  </div>\
+						 <% } %>\
+						<div class="or-child-container">\
+							<span class="or-name">\
+							  <img src="img/canju.png" class="or-child-img"><span class="or-name-intro">免费配套餐具<span class="color-999"></span></span>\
+							</span>\
+							<span class="or-price">￥0.00x<%=goods[i].goods_number*parseInt(goods[i].goods_attr)*5%></span>\
+						 </div>\
+					  <% } %>\
+					</li>\
+				<% } %>\
 			<% } %>\
 			<li class="order-item">\
               <div class="or-main-container">\

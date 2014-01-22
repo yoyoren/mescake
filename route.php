@@ -68,28 +68,88 @@ switch ($mod) {
 		}else if($action == 'add_order_address'){
 
 			//增加新的地址信息
-			$contact= ANTI_SPAM($_POST['contact']);
-			$country= ANTI_SPAM($_POST['country']);
-			$city= ANTI_SPAM($_POST['city']);
-			$address= ANTI_SPAM($_POST['address']);
-			$district= ANTI_SPAM($_POST['district']);
-			$tel= ANTI_SPAM($_POST['tel']);
+
+			$contact= ANTI_SPAM($_POST['contact'],array(
+				'minLength'=>1,
+				'maxLength'=>100
+			));
+
+			$country= ANTI_SPAM($_POST['country'],array(
+				'values'=>array(501)
+			));
+
+			$city= ANTI_SPAM($_POST['city'],array(
+				'minValue'=>543,
+				'maxValue'=>572,
+				'type'=>'number'
+			));
+			
+			$address= ANTI_SPAM($_POST['address'],array(
+				'minLength'=>1,
+				'maxLength'=>200
+			));
+
+			$district= ANTI_SPAM($_POST['district'],array(
+				'minValue'=>0,
+				'maxValue'=>20,
+				'type'=>'number',
+				'empty'=>true
+			));
+
+			$tel= ANTI_SPAM($_POST['tel'],array(
+				'minLength'=>5,
+				'maxLength'=>20
+			));
+
 			echo MES_Order::add_order_address($contact,$country,$city,$address,$tel,$district);
 		}else if($action == 'del_order_address'){
 
 			//删除地址
-			$id = ANTI_SPAM($_POST['id']);
+			$id = ANTI_SPAM($_POST['id'],array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number',
+			));
 			echo MES_Order::del_order_address($id);
 		}else if($action == 'update_order_address'){
 
 			//更新地址信息
-			$id = ANTI_SPAM($_POST['id']);
-			$contact= ANTI_SPAM($_POST['contact']);
-			$country= ANTI_SPAM($_POST['country']);
-			$city= ANTI_SPAM($_POST['city']);
-			$address= ANTI_SPAM($_POST['address']);
-			$district= ANTI_SPAM($_POST['district']);
-			$tel= ANTI_SPAM($_POST['tel']);
+			$id = ANTI_SPAM($_POST['id'],array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number',
+			));
+			$contact= ANTI_SPAM($_POST['contact'],array(
+				'minLength'=>1,
+				'maxLength'=>100
+			));
+			$country= ANTI_SPAM($_POST['country'],array(
+				'values'=>array(501)
+			));
+
+			$city= ANTI_SPAM($_POST['city'],array(
+				'minValue'=>543,
+				'maxValue'=>572,
+				'type'=>'number'
+			));
+
+			$address= ANTI_SPAM($_POST['address'],array(
+				'minLength'=>1,
+				'maxLength'=>200
+			));
+			
+			$district= ANTI_SPAM($_POST['district'],array(
+				'minValue'=>0,
+				'maxValue'=>20,
+				'type'=>'number',
+				'empty'=>true
+			));
+
+			$tel= ANTI_SPAM($_POST['tel'],array(
+				'minLength'=>5,
+				'maxLength'=>20
+			));
+			
 			echo MES_Order::update_order_address($id,$country,$city,$contact,$address,$tel,$district);
 		}else if($action == 'get_region'){
 			
@@ -97,27 +157,60 @@ switch ($mod) {
 			echo MES_Order::get_region();
 		}else if($action == 'get_district'){
 
-			$city = ANTI_SPAM($_GET['city']);
+			$city = ANTI_SPAM($_GET['city'],array(
+				'minValue'=>543,
+				'maxValue'=>572,
+				'type'=>'number'
+			));
+
 			//获得送货的收费区信息
 			echo MES_Order::get_district($city);
 		}else if($action == 'update_cart'){
 			
-			$id = ANTI_SPAM($_GET['id']);
-			$num = ANTI_SPAM($_GET['num']);
+			$id = ANTI_SPAM($_GET['id'],array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number',
+			));
+			
+			//最多的订购需要限额
+			$num = ANTI_SPAM($_GET['num'],array(
+				'minValue'=>0,
+				'maxValue'=>99,
+				'type'=>'number',
+			));
+
 			echo MES_Order::update_cart($num,$id);
 		}else if($action == 'drop_shopcart'){
 			
 			//删除购物车
-			$id = ANTI_SPAM($_GET['id']);
+			$id = ANTI_SPAM($_GET['id'],array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number',
+			));
+
 			echo MES_Order::drop_shopcart($id);
 		}else if($action == 'update_fork'){
 
 			//更新餐具
-			$id =  ANTI_SPAM($_POST['id']);
-			$num =  ANTI_SPAM($_POST['num']);
+			$id =  ANTI_SPAM($_POST['id'],array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number',
+			));
+
+			//餐具限制最高上限10000个
+			$num =  ANTI_SPAM($_POST['num'],array(
+				'minValue'=>0,
+				'maxValue'=>10000,
+				'type'=>'number',
+			));
+
 			echo MES_Order::update_fork($id,$num);
 		}else if($action == 'save_consignee'){
 			//save consignee when user select a address!
+			/*
 			$consignee = array(
 		            'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
 		            'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
@@ -134,21 +227,75 @@ switch ($mod) {
 		            'best_time'     => $_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00",
 					
 		        );
-			echo MES_Order::save_consignee($consignee);
+				*/
+				$address_id = ANTI_SPAM($_POST['address_id'],array(
+										'minLength'=>1,
+										'maxLength'=>12,
+										'type'=>'number',
+							));
+				$consignee = ANTI_SPAM($_POST['consignee']);
+				$country = ANTI_SPAM($_POST['country'],array(
+										'values'=>array(501)
+							));
+				$province = ANTI_SPAM($_POST['province'],array(
+										'empty'=>true
+							));
+				$city = ANTI_SPAM($_POST['city'],array(
+										'minValue'=>543,
+										'maxValue'=>572,
+										'type'=>'number'
+									));
+				$district = ANTI_SPAM($_POST['district'],array(
+										'minValue'=>0,
+										'maxValue'=>20,
+										'type'=>'number',
+										'empty'=>true
+									));
+				$email = ANTI_SPAM($_POST['email'],array(
+										'empty'=>true
+									));
+				$address = ANTI_SPAM($_POST['address']);
+				$zipcode = ANTI_SPAM($_POST['zipcode'],array(
+										'empty'=>true
+							));
+				$tel = ANTI_SPAM($_POST['tel']);
+				$mobile = ANTI_SPAM($_POST['mobile']);
+				$sign_building = ANTI_SPAM($_POST['sign_building'],array(
+										'empty'=>true
+								));
+				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
+				$data = array(
+		            'address_id'    =>$address_id,
+		            'consignee'     =>$consignee,
+		            'country'       =>$country,
+		            'province'      =>$province,
+		            'city'          =>$city,
+		            'district'      =>$district,
+		            'email'         =>$email,
+		            'address'       =>$address,
+		            'zipcode'       =>$zipcode,
+		            'tel'           =>$tel,
+		            'mobile'        =>$mobile,
+		            'sign_building' =>$sign_building,
+		            'best_time'     =>$best_time,
+		        );
+			echo MES_Order::save_consignee($data);
 		}else if($action == 'checkout'){
 			//checkout and cal total price
-			$card_message =  ANTI_SPAM($_POST['card_message']);
+			$card_message =  $_POST['card_message'];
 			if(!$card_message){
 				$card_message = '';
 			}else{
-				$card_message = explode("|",$card_message);
+				//$card_message = explode("|",$card_message);
 			}
+
 			for($i=0;$i<count($card_message);$i++){
-				if(strlen($card_message[$i])>10){
-					$error_exit();
-					exit;
-				}
+				ANTI_SPAM($card_message[$i],array(
+					'minLength'=>0,
+					'maxLength'=>10,
+				));
 			}
+
 			echo MES_Order::checkout($card_message);
 		}else if($action == 'add_to_cart'){
 			//add an cake or fork to your cart
@@ -168,13 +315,28 @@ switch ($mod) {
 		}else if($action == 'shipping_fee_cal'){
 
 			//计算配送的费用
-			$city = ANTI_SPAM($_GET['city']);
-			$district = ANTI_SPAM($_GET['district']);
+			$city = ANTI_SPAM($_GET['city'],array(
+				'minValue'=>543,
+				'maxValue'=>572,
+				'type'=>'number'
+			));
+
+			$district = ANTI_SPAM($_GET['district'],array(
+				'minValue'=>0,
+				'maxValue'=>20,
+				'type'=>'number',
+				'empty'=>true
+			));
+			
 			echo MES_Order::shipping_fee_cal($city,$district);
 		}else if($action == 'if_address_need_fee'){
 
 			//计算配一个地址id是否需要加收配送费
-			$address_id = ANTI_SPAM($_GET['address_id']);
+			$address_id = ANTI_SPAM($_GET['address_id'],array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number',
+			));
 			echo MES_Order::if_address_need_fee($address_id);
 		}else if($action == 'get_total_price_in_cart'){
 
@@ -345,8 +507,13 @@ switch ($mod) {
 			$smarty->display('huodongadmin.dwt');
 		}
 		break;
-    default:
+    case 'test':
+		$str = ANTI_SPAM($_GET['str']);
+		PARAM_VAILD($str,array('max'=>10,'type'=>'number','values'=>[1,2,4]));
+		break;
+	default:
         break;
+
 }
 
 

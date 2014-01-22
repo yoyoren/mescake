@@ -241,7 +241,11 @@ class MES_User{
 
 		$order['cityName'] = $city_name;
 		$order['districtName'] = MES_User::_get_distruct_name($order['city'],$order['district']);
-
+		
+		if($order['fork_message']){
+		   $order['fork_message'] = json_decode($order['fork_message']);
+		}
+		
 		return json_encode(array(
 			'code' =>'0',
 			'order'=>$order,

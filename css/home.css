@@ -85,6 +85,7 @@ z-index: 9;
 .error-ico,
 .suc-ico,
 .close-ico,
+.ct-commit,
 .global-input{display: inline-block; *display: inline; zoom:1;}
 .v-btn,
 .btn{padding: 0 20px; margin-right:10px; height: 30px; line-height:30px; font-size:12px; color:#333; background:none; border:0 none; text-align:center; border: 1px solid #b8b6a7; background: #e7e7e7; border-radius: 4px;

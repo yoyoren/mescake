@@ -1,0 +1,1 @@
+﻿ALTER TABLE `ecs_order_info` ADD `fork_message` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' AFTER `card_message` 

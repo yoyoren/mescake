@@ -156,11 +156,8 @@ class MES_Order{
 	        $row['goods_attr_real']= intval($row['goods_attr'],10);
 
 	        $row['free_fork'] = $row['goods_attr_real']*$row['goods_number']*$free_fork_pre_cake;
-			if($_SESSION['extra_fork'][$row['rec_id']]){
-				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['rec_id']];
-				
-				//add extra money for order
-				//$total['goods_price']+=$row['extra_fork']*0.5;
+			if($_SESSION['extra_fork'][$row['goods_id']]){
+				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['goods_id']];
 			}else{
 				$row['extra_fork'] = 0;
 			}
@@ -231,14 +228,14 @@ class MES_Order{
 
 	    $sql = "UPDATE " . $ecs->table('cart') . " SET goods_number = '$number' WHERE rec_id = '$id' and session_id='" . SESS_ID . "'";
         $db->query($sql);
-		$sql = "select rec_id,goods_price,goods_number,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
+		$sql = "select rec_id,goods_price,goods_number,goods_attr,goods_id from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
 		foreach($goods as $val){
 			$total += $val['goods_price'] * $val['goods_number'];
 			
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork'][$val['rec_id']]){
-				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
+			if($_SESSION['extra_fork'][$val['goods_id']]){
+				$total += $_SESSION['extra_fork'][$val['goods_id']]/2;
 			}
 
 			if($val['rec_id']==$id){
@@ -246,10 +243,10 @@ class MES_Order{
 
 			      //cal free fork number;
 			      $res['free_fork'] =  $number* intval($val['goods_attr'],10)*$free_fork_pre_cake;
-
+				  $goods_id=$val['goods_id'];
 				  //获得额外的餐具 
-				  if( $_SESSION['extra_fork'][$id]){
-					$res['extra_fork'] =  $_SESSION['extra_fork'][$id];
+				  if( $_SESSION['extra_fork'][$goods_id]){
+					$res['extra_fork'] =  $_SESSION['extra_fork'][$goods_id];
 				  }else{
 					$res['extra_fork'] = 0;	
 				  }
@@ -276,7 +273,7 @@ class MES_Order{
 		$row = $GLOBALS['db']->getRow($sql);
 
 		//删除额外餐具
-		unset($_SESSION['extra_fork'][$id]);
+		unset($_SESSION['extra_fork'][$row['goods_id']]);
 		if ($row){
 			//如果是超值礼包
 			if ($row['extension_code'] == 'package_buy')
@@ -321,15 +318,15 @@ class MES_Order{
 		}
 
 		//重新结算帐单的总额
-		$sql = "select rec_id,goods_price,goods_number,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
+		$sql = "select rec_id,goods_price,goods_number,goods_attr,goods_id from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
 		$total = 0;
 		foreach($goods as $val){
 			$total += $val['goods_price'] * $val['goods_number'];
-			
+			$goods_id = $val['goods_id'];
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork'][$val['rec_id']]){
-				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
+			if($_SESSION['extra_fork'][$goods_id]){
+				$total += $_SESSION['extra_fork'][$goods_id]/2;
 			}
 
 			if($val['rec_id']==$id){
@@ -339,8 +336,8 @@ class MES_Order{
 			      $res['free_fork'] =  $number* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 
 				  //获得额外的餐具 
-				  if( $_SESSION['extra_fork'][$id]){
-					$res['extra_fork'] =  $_SESSION['extra_fork'][$id];
+				  if( $_SESSION['extra_fork'][$goods_id]){
+					$res['extra_fork'] =  $_SESSION['extra_fork'][$goods_id];
 				  }else{
 					$res['extra_fork'] = 0;	
 				  }
@@ -427,11 +424,12 @@ class MES_Order{
 		$total = 0;
 		
 		//计算额外餐具数量
-		$sql = "select rec_id,goods_price,goods_number,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
+		$sql = "select rec_id,goods_price,goods_number,goods_id,goods_attr from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
 		foreach($goods as $val){
 			if($val['rec_id']==$id){
-			      $free_fork_num =  $val['goods_number']* intval($val['goods_attr'],10)*$free_fork_pre_cake;
+				$goods_id = $val['goods_id'];
+			    $free_fork_num =  $val['goods_number']* intval($val['goods_attr'],10)*$free_fork_pre_cake;
 			}
 		}		
 		
@@ -443,7 +441,8 @@ class MES_Order{
 			//have extra fork
 
 			//cal number of extra fork
-			$extra = $_SESSION['extra_fork'][$id] = $num-$free_fork_num;
+			//var_dump($id);
+			$extra = $_SESSION['extra_fork'][$goods_id] = $num-$free_fork_num;
 			if($extra<1){
 			   $extra = 0;
 			}
@@ -773,8 +772,8 @@ class MES_Order{
 			$total += $val['goods_price'] * $val['goods_number'];
 			
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork'][$val['rec_id']]){
-				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
+			if($_SESSION['extra_fork'][$val['goods_id']]){
+				$total += $_SESSION['extra_fork'][$val['goods_id']]/2;
 			}
 			//蜡烛这玩意 需要在order页面返回给前端添加到订单里，其他商品不需要这么做
 			if($val['goods_id']==61){
