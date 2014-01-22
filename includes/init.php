@@ -99,6 +99,11 @@ if (!get_magic_quotes_gpc())
     $_REQUEST  = addslashes_deep($_REQUEST);
 }
 
+//$db_name = 'mescake';
+$db_host = '127.0.0.1';
+$db_user = 'root';
+$db_pass = '';
+
 /* 创建 ECSHOP 对象 */
 $ecs = new ECS($db_name, $prefix);
 define('DATA_DIR', $ecs->data_dir());
