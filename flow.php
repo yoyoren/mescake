@@ -1440,6 +1440,8 @@ elseif ($_REQUEST['step'] == 'done')
         'card_id'         => isset($_POST['card']) ? intval($_POST['card']) : 0,
 		'card_name'    => $_SESSION['card_name'],
         'card_message'    => trim($_SESSION['card_message']),
+		//订单中新增的餐具信息
+		'fork_message'    => trim(json_encode($_SESSION['extra_fork'])),
         'surplus'         => isset($_POST['surplus']) ? floatval($_POST['surplus']) : 0.00,
         'integral'        => isset($_POST['integral']) ? intval($_POST['integral']) : 0,
         'bonus_id'        => isset($_POST['bonus_id']) ? intval($_POST['bonus_id']) : 0,
