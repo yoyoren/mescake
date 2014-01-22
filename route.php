@@ -509,7 +509,7 @@ switch ($mod) {
 		break;
     case 'test':
 		$str = ANTI_SPAM($_GET['str']);
-		PARAM_VAILD($str,array('max'=>10,'type'=>'number','values'=>[1,2,4]));
+		PARAM_VAILD($str,array('max'=>10,'type'=>'number','values'=>array(1,2,4)));
 		break;
 	default:
         break;
