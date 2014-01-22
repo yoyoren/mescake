@@ -22,30 +22,32 @@
 		            <span class="or-total">\
 						<span id="sub_total_<%=data[i].rec_id%>"><%=data[i].subtotal%></span>\
 					</span>\
-					<a href="#" class="or-handle order_cancel" data-id="<%=data[i].rec_id%>">删除</a>\
+					<a href="#" class="or-handle order_cancel" data-id="<%=data[i].rec_id%>" data-goods="<%=data[i].goods_id%>">删除</a>\
 		          </div>\
 				  <%if(data[i].goods_id!=61){%>\
-		          <div class="or-child-container">\
-		            <span class="or-name">\
-		              <img src="img/canju.png" class="or-child-img"/><span class="or-name-intro">配套餐具</span>\
-		            </span>\
-		            <span class="or-price" id="fork_price_<%=data[i].rec_id%>">\
-						<%if(data[i].extra_fork){%>0.5\
-						<%}else{%>免费<% } %>\
-					</span>\
-					<span class="or-num">\
-					<em class="or-plus order_des_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">-</em>\
-		            <span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork+data[i].extra_fork%>人份</span>\
-					<em class="or-add order_add_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">+</em>\
-					</span>\
-		            <span class="or-total" id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</span>\
-		          </div>\
-		          <div class="or-child-container">\
-		            <span class="or-name" style="height:44px; overflow:hidden;">\
-                      <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro brith_brand">添加一个生日牌</span></span><input type="text" style="display:none;" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
-		            </span>\
-		            <span class="or-price">免费</span>\
-		          </div>\
+					  <div class="or-child-container">\
+						<span class="or-name">\
+						  <img src="img/canju.png" class="or-child-img"/><span class="or-name-intro">配套餐具</span>\
+						</span>\
+						<span class="or-price" id="fork_price_<%=data[i].rec_id%>">\
+							<%if(data[i].extra_fork){%>0.5\
+							<%}else{%>免费<% } %>\
+						</span>\
+						<span class="or-num">\
+						<em class="or-plus order_des_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">-</em>\
+						<span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork+data[i].extra_fork%>人份</span>\
+						<em class="or-add order_add_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">+</em>\
+						</span>\
+						<span class="or-total" id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</span>\
+					  </div>\
+					  <%if(!window.SHOPPING_CAR){%>\
+						  <div class="or-child-container">\
+							<span class="or-name" style="height:44px; overflow:hidden;">\
+							  <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro brith_brand">添加一个生日牌</span></span><input type="text" style="display:none;" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
+							</span>\
+							<span class="or-price">免费</span>\
+						  </div>\
+					  <% } %>\
 				  <% } %>\
 		        </li>\
 				<% } %>\
@@ -159,18 +161,25 @@
 			}).delegate('.order_cancel','click',function(){
 				var _this = $(this);
 				var id=_this.data('id');
+				var goods_id=_this.data('goods');
 				require(['ui/confirm'],function(confirm){
 					new confirm('确认取消这个子订单吗？',function(){
-						$.get('route.php',{
-							_tc:Math.random(),
-							id:id,
+						MES.get({
 							mod:'order',
-							action:'drop_shopcart'
-						},function(d){
-							//重新结算帐单价格
-							$('#sub_order_'+id).remove();
-							MES.updateTotalPriceDisplay(d);
-						},'json');
+							action:'drop_shopcart',
+							param:{
+								id:id
+							},
+							callback:function(d){
+								//蜡烛 删除的时候把复选框也给干掉
+								if(goods_id == 61){
+									$('#birth_chk')[0].checked = false;
+								}
+								//重新结算帐单价格
+								$('#sub_order_'+id).remove();
+								MES.updateTotalPriceDisplay(d);
+							}
+						});
 					});
 				});
 				return false;
