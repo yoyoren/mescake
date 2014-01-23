@@ -3,18 +3,20 @@ define(['ui/dialog'],function(Dialog){
           <dt class="l-title">送货地址：</dt>\
           <dd class="r-con clearfix">\
 			 <div class="check-container">\
-            <a href="javascript:void(0);" class="area-intro space">\
+            <a href="javascript:void(0);" class="area-intro">\
                 北京市\
                 <em class="area-intro-ico"></em>\
                <span class="ai-intro">目前仅针对北京开展送货业务，请见谅</span>\
             </a>\
+            <br />\
             <select id="region_sel_popup">\
               <option value="0">请选择区域</option>\
             </select>\
 			<select id="dis_district_popup" style="display:none">\
                 <option value="0">选择送货街道</option>\
             </select>\
-			  <span class="tips-container" style="display:none">请选择送货地址</span>\
+              <span class="ct-commit" style="margin-left:0;">带*号区域需要加收10元送货费，不在列表中的地区暂时不能提供送货服务</span>\
+              <span class="error-tip" style="display:none">请选择一个送货区域</span>\
 			  </div>\
 			<br>\
             <div class="check-container mart-10">\

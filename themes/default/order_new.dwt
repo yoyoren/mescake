@@ -69,17 +69,17 @@
               </div>
               <span class="ct-commit" style="margin:0; _margin-top:-40px;">我们将只会通过这个号码来确认订单和联系</span>
             </dd>
-            <dt class="l-title lh-input">&nbsp;</dt>
+            <dt class="l-title lh-input" id="login_address_operate_dt" style="display:none">&nbsp;</dt>
             <dd class="r-con clearfix" id="login_address_operate" style="display:none">
               <input class="btn green-btn" type="button" value="保存" id="save_address">
               <input class="btn green-btn" type="button" value="修改并保存" id="mod_address" style="display:none">
               <input class="btn" type="button" value="取消" id="cancel_address">
             </dd>
           </dl>
-          <dl class="global-form-container clearfix" style="margin-top:20px;">
+          <dl class="global-form-container clearfix">
             <dt class="l-title lh-input">送货时间：</dt>
-            <dd class="r-con clearfix" style="margin-bottom:20px;">
-              <input type="text" id="date_picker" readonly="true" class="global-input vt-a" style="width:80px;" />
+            <dd class="r-con clearfix">
+              <input type="text" id="date_picker" readonly="true" class="global-input vt-a" style="width:90px;" value="送货日期" />
               <select id="hour_picker">
                 <option value="0">小时</option>
               </select>
@@ -148,11 +148,13 @@
               <p class="total-p"><em>您总共需要支付：</em><b class="order_total" id="final_total">0元</b></p>
             </div>
           </div>
-          <div class="tl-r" style="display:none" id="vaild_code_frame">
+	  <!-- {if $checkout_times>3} -->
+          <div class="tl-r" id="vaild_code_frame">
             <span class="total-sub-tip">请输入验证码：</span>
-            <input type="text" class="global-input" style="width:80px;">
-            <img src="" class="check-code">
+            <input type="text" class="global-input" style="width:80px;" id="code_input">
+            <img src="captcha.php" class="check-code" id="code_image">
           </div>
+	  <!-- {/if} -->
           <div class="tl-r">
             <span class="total-sub-tip">请确认信息无误后下单</span>
             <input id="submit_order_btn" class="btn green-btn big-btn" type="button" style="margin-right:0;" value="提交订单">
@@ -161,10 +163,11 @@
         <form action="flow.php" method="post" id="submit_form">
           <input type="hidden" name="pay_id" value="1" id="pay_id">
 	  <input type="hidden" name="surplus" value="0.00" id="surplus">
-          <input type="hidden" name="bonus_sn" value="请输入10位现金券券号"  id="bonus_sn">
+          <input type="hidden" name="bonus_sn" value="请输入10位现金券券号" id="bonus_sn">
           <input type="hidden" name="shipping_fee" value="￥0.00"  id="shipping_fee">
           <input type="hidden" name="x" value="97">
           <input type="hidden" name="y" value="32">
+	  <input type="hidden" name="token" value="{$order_token}">
           <input type="hidden" name="step" value="done">
         </form>
     </div>

@@ -2,11 +2,21 @@
 define('IN_ECS', true);
 require(dirname(__FILE__) . '/includes/init.php');
 
+require_once(ROOT_PATH . 'lib/safe.php');
+require_once(ROOT_PATH . 'lib/user.php');
+
+require 'Predis/Autoloader.php';
+
+Predis\Autoloader::register();
+
+//开启一个全局的redis
+$REDIS_CLIENT = new Predis\Client();
+
 if ((DEBUG_MODE & 2) != 2){
     $smarty->caching = true;
 }
-require_once(ROOT_PATH . 'lib/safe.php');
-require_once(ROOT_PATH . 'lib/user.php');
+
+
 //路由分发的依据
 $action = ANTI_SPAM($_GET['action']);
 $mod = ANTI_SPAM($_GET['mod']);
@@ -52,7 +62,21 @@ switch ($mod) {
 			$smarty->display('shoppingcar_new.dwt');
 			return;
 		}else if($action == 'step2'){
+
+
+			//每次结算要记录一个ip防止被刷
+			$current_ip = GET_IP();
+			$_key = 'checkout_times_'.$current_ip;
+			$checkout_times = 0; 
 			
+			if($REDIS_CLIENT->exists($_key )){
+				$checkout_times = intval($REDIS_CLIENT->get($_key));
+			}
+
+			$_token =  GEN_MES_TOKEN();
+			$_SESSION['order_token'] = $_token;
+			$smarty->assign('order_token', $_token);
+			$smarty->assign('checkout_times', $checkout_times);
 			$smarty->display('order_new.dwt');
 			return;
 		}else if($action == 'empty'){
@@ -228,11 +252,14 @@ switch ($mod) {
 					
 		        );
 				*/
+				
 				$address_id = ANTI_SPAM($_POST['address_id'],array(
 										'minLength'=>1,
 										'maxLength'=>12,
 										'type'=>'number',
+										'empty'=>true,
 							));
+				
 				$consignee = ANTI_SPAM($_POST['consignee']);
 				$country = ANTI_SPAM($_POST['country'],array(
 										'values'=>array(501)
@@ -240,6 +267,7 @@ switch ($mod) {
 				$province = ANTI_SPAM($_POST['province'],array(
 										'empty'=>true
 							));
+				
 				$city = ANTI_SPAM($_POST['city'],array(
 										'minValue'=>543,
 										'maxValue'=>572,
@@ -254,15 +282,22 @@ switch ($mod) {
 				$email = ANTI_SPAM($_POST['email'],array(
 										'empty'=>true
 									));
+;
 				$address = ANTI_SPAM($_POST['address']);
 				$zipcode = ANTI_SPAM($_POST['zipcode'],array(
 										'empty'=>true
 							));
-				$tel = ANTI_SPAM($_POST['tel']);
-				$mobile = ANTI_SPAM($_POST['mobile']);
+
+				$tel = ANTI_SPAM($_POST['tel'],array(
+										'empty'=>true
+								));
+				$mobile = ANTI_SPAM($_POST['mobile'],array(
+										'empty'=>true
+								));
 				$sign_building = ANTI_SPAM($_POST['sign_building'],array(
 										'empty'=>true
 								));
+
 				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
 				$data = array(
 		            'address_id'    =>$address_id,
@@ -281,6 +316,28 @@ switch ($mod) {
 		        );
 			echo MES_Order::save_consignee($data);
 		}else if($action == 'checkout'){
+			$current_ip = GET_IP();
+			$_key = 'checkout_times_'.$current_ip;
+			$checkout_times = 0; 
+			if($REDIS_CLIENT->exists($_key )){
+				$checkout_times = intval($REDIS_CLIENT->get($_key));
+			}
+	
+			//大于三次的提交 才验证
+			if($checkout_times>3){
+				error_reporting(0);
+				
+				$vaild_code= ANTI_SPAM($_POST['vaild_code']);
+				include_once('includes/cls_captcha.php');
+				$validator = new captcha();
+				if (!$validator->check_word($vaild_code)){
+					echo json_encode(array(
+						'code'=>'10007',
+						'msg'=>'vaild error',
+					)); 
+					exit;
+				}
+			}
 			//checkout and cal total price
 			$card_message =  $_POST['card_message'];
 			if(!$card_message){
@@ -288,14 +345,28 @@ switch ($mod) {
 			}else{
 				//$card_message = explode("|",$card_message);
 			}
-
-			for($i=0;$i<count($card_message);$i++){
-				ANTI_SPAM($card_message[$i],array(
+			$card_message_arr = explode("|",$card_message);
+			for($i=0;$i<count($card_message_arr);$i++){
+				//var_dump(iconv_strlen($card_message,'utf-8'));
+				ANTI_SPAM($card_message_arr[$i],array(
 					'minLength'=>0,
 					'maxLength'=>10,
 				));
 			}
 
+			//每次结算要记录一个ip防止被刷
+			$current_ip = GET_IP();
+			$_key = 'checkout_times_'.$current_ip;
+			$_value; 
+			
+			if($REDIS_CLIENT->exists($_key )){
+				$_value = intval($REDIS_CLIENT->get($_key));
+				$_value+=1;
+				$REDIS_CLIENT->setex($_key,24*3600,$_value);
+			}else{
+				$REDIS_CLIENT->setex($_key,24*3600,1);
+			}
+			
 			echo MES_Order::checkout($card_message);
 		}else if($action == 'add_to_cart'){
 			//add an cake or fork to your cart
@@ -342,6 +413,8 @@ switch ($mod) {
 
 			//计算购物车里面的商品总价
 			echo MES_Order::get_total_price_in_cart();
+		}else{
+			header("Location: 404.html");
 		}
 
 		
@@ -484,6 +557,8 @@ switch ($mod) {
 			//change your real name
 			$name = ANTI_SPAM($_POST['name']);
 			echo MES_User::change_real_name($name);
+		}else{
+			header("Location: 404.html");
 		}
 
         break;
@@ -505,13 +580,19 @@ switch ($mod) {
 			$smarty->display('huodongpage.dwt');
 		}else if($action == 'admin'){
 			$smarty->display('huodongadmin.dwt');
+		}else{
+			header("Location: 404.html");
 		}
 		break;
     case 'test':
 		$str = ANTI_SPAM($_GET['str']);
 		PARAM_VAILD($str,array('max'=>10,'type'=>'number','values'=>array(1,2,4)));
 		break;
+	 case 'token':
+		echo GEN_MES_TOKEN();
+		break;
 	default:
+		header("Location: 404.html");
         break;
 
 }

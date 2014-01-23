@@ -84,8 +84,22 @@ define(function(){
 			if(!$('body').find('.dialog_bg').length){
 				$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');
 			}
-			$('body').css('overflow','hidden');
-			$('body').find('.dialog_bg').css('height',jqWIN.height()+jqWIN.scrollTop());
+			var bodyHeight = $(document).height(); 
+			var windowHeight = $(window).height();
+			function bgHeight(){
+			  var bodyHeight = $(document).height(); 
+			  var windowHeight = $(window).height();
+			  if(windowHeight < bodyHeight){
+			    $('body').find('.dialog_bg').height(bodyHeight);
+			  }else{
+			    $('body').find('.dialog_bg').height('100%');
+			  }
+			}
+			bgHeight();
+			$(window).resize(function() {
+			  bgHeight(); 
+			});
+			//$('body').find('.dialog_bg').css('height',jqWIN.height()+jqWIN.scrollTop());
 			this.el.show();
 			this._reposition();
 			this.onshow(d);
@@ -100,14 +114,12 @@ define(function(){
 		hide:function(){
 			this.el.hide();
 			$('body').find('.dialog_bg').remove();
-			$('body').css('overflow','auto');
 		},
 
 		close:function(){
 			this.el.remove();
 			this.onclose();
 			$('body').find('.dialog_bg').remove();
-			$('body').css('overflow','auto');
 
 		}
 	}

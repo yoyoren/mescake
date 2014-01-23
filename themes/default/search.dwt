@@ -10,10 +10,12 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="css/home.css">
 <!-- {if $cat_style} -->
 <link href="{$cat_style}" rel="stylesheet" type="text/css" />
+
 <!-- {/if} -->
+<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+
 {* 包含脚本文件 *}
 {insert_scripts files='jquery.min.js,jquery.json-1.3.js,common.js'}
 <style type="text/css">

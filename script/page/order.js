@@ -94,7 +94,10 @@
 
 		bind:function(){
 			var me = this;
-			
+			$('#code_image').click(function(){
+				$(this).attr('src','captcha.php?tc='+Math.random());
+			});
+
 			//对于没有登录的用户 可以使用这个
 			$('#serect_check').click(function(){
 				var chkbox = $('#serect_checkbox')[0];
@@ -440,7 +443,11 @@
 			}
 
 			//保存订单
-			$.post('route.php?action=save_consignee&mod=order',data||{},function(d){
+			MES.post({
+				action:'save_consignee',
+				mod:'order',
+				param:data||{},
+				callback:function(d){
 			
 				if(window.IS_LOGIN){
 					me.checkout();
@@ -450,7 +457,7 @@
 						_tc:Math.random(),
 						username:$('#new_contact').val()
 					},function(d){
-
+						
 						//用户已经存在于数据库中
 						if(d.exsit){
 							require(['ui/confirm'],function(confirm){
@@ -476,28 +483,52 @@
 						}
 					},'json')
 				}
+				}
 				
-			},'json');
+			});
 		},
 
 		//最终的结算
 		checkout:function(){
 			var brithCard = $('.brith_brand');
 			var card_message = [];
+			var jqVaildCode = $('#code_input');
+			
 			for(var i=0;i<brithCard.length;i++){
 				var text = brithCard[i].innerHTML;
 				if(text.split('').length>10){
-					new confirm('您添加的生日牌不能超过10个字');
+					require(['ui/confirm'],function(confirm){
+						new confirm('您添加的生日牌不能超过10个字');
+					});
 					return;
 				}
 				card_message.push(text);
 			}
-			$.post('route.php?action=checkout&mod=order',{
-				card_message:card_message.join('|')
-			},function(d){
-				//结算数据form submit
-				$('#submit_form').submit();
-			},'json');
+			if(jqVaildCode.length&&jqVaildCode.val().split('').length!=4){
+				require(['ui/confirm'],function(confirm){
+					new confirm('请输入正确的4位验证码！');
+				});
+			}
+			//直接提交数据到订购表单
+			MES.post({
+				mod:'order',
+				action:'checkout',
+				param:{
+					card_message:card_message.join('|'),
+					vaild_code:jqVaildCode.val()
+				},
+				callback:function(d){
+					//结算数据form submit
+					if(d.code == 0){
+					   $('#submit_form').submit();
+					}else if(d.code == 10007){
+						require(['ui/confirm'],function(confirm){
+							new confirm('您输入的验证码不正确！');
+						});
+						$('#code_image').attr('src','captcha.php?tc='+Math.random());
+					}
+				}	
+			});
 		},
 
 		//变更支付的方式
@@ -649,6 +680,7 @@
    	MES.checkLogin(function(){
 		//login
    		$('#login_tip').hide();
+   		$('#login_address_operate_dt').show();
 		$('#login_address_operate').show();
 		$('#add_new_address').show();
 
@@ -660,6 +692,7 @@
 		//unlogin
    		$('#login_tip').show();
 		$('#add_new_address').hide();
+		$('#login_address_operate_dt').hide();
 		$('#login_address_operate').hide();
 
    		$('.user_login').click(function(){
