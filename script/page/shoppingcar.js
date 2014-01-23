@@ -293,6 +293,7 @@
 
 								$('#order_list').after(html);
 								BRITH_ORDER_ID = d.data.rec_id;
+								MES.updateTotalPriceDisplay(d);
 						  },'json');
 					  }
 					  setTimeout(function(){

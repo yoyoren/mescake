@@ -260,19 +260,13 @@ class MES_Order{
 		return json_encode($res);
 	}
 	
-	//从购物车中删除一个商品
-	public static function drop_shopcart($id){
+
+	public static function drop_shopcart_server($id){
 		GLOBAL $db;
 		GLOBAL $ecs;
 		GLOBAL $_LANG;
-		
-		$result = array('err' => 0, 'message' => '删除成功');
-		
-		/* 取得商品id */
 		$sql = "SELECT * FROM " .$GLOBALS['ecs']->table('cart'). " WHERE rec_id = '$id'";
 		$row = $GLOBALS['db']->getRow($sql);
-
-		//删除额外餐具
 		unset($_SESSION['extra_fork'][$row['goods_id']]);
 		if ($row){
 			//如果是超值礼包
@@ -316,9 +310,50 @@ class MES_Order{
 
 			$GLOBALS['db']->query($sql);
 		}
+	}
+
+	private static function update_fork_in_shopcart(){
+		GLOBAL $db;
+		GLOBAL $ecs;
+		GLOBAL $_LANG;
+			$total_extra = 0;
+			if($_SESSION['extra_fork']!=NULL){
+				$forks = $_SESSION['extra_fork'];
+				foreach ($forks as $value){
+					$total_extra+=$value;
+				}
+			}else{
+				$_SESSION['extra_fork'] = array();
+			}
+
+			//额外的餐具加到购物车里面
+			if($total_extra&&$total_extra>0){
+				include_once('includes/lib_order.php');
+				addto_cart(60,$total_extra);
+			}else{
+				//如果没有额外餐具就删了
+				$sql = "select rec_id from " . $ecs->table('cart') . " WHERE goods_id=60 and session_id='" . SESS_ID . "'";
+				$rec_id = $db->getOne($sql);
+				if($rec_id){
+					MES_Order::drop_shopcart_server($rec_id);
+				}
+			}
+			return $total_extra;
+		
+	}
+
+	//从购物车中删除一个商品
+	public static function drop_shopcart($id){
+		GLOBAL $db;
+		GLOBAL $ecs;
+		GLOBAL $_LANG;
+		
+		$result = array('err' => 0, 'message' => '删除成功');
+		
+		MES_Order::drop_shopcart_server($id);
 
 		//重新结算帐单的总额
-		$sql = "select rec_id,goods_price,goods_number,goods_attr,goods_id from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
+		/*$sql = "select rec_id,goods_price,goods_number,goods_attr,goods_id from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
 		$total = 0;
 		foreach($goods as $val){
@@ -334,16 +369,21 @@ class MES_Order{
 
 			      //cal free fork number;
 			      $res['free_fork'] =  $number* intval($val['goods_attr'],10)*$free_fork_pre_cake;
-
+				  unset($_SESSION['extra_fork'][$goods_id]);
 				  //获得额外的餐具 
+
 				  if( $_SESSION['extra_fork'][$goods_id]){
 					$res['extra_fork'] =  $_SESSION['extra_fork'][$goods_id];
 				  }else{
 					$res['extra_fork'] = 0;	
 				  }
+			
 				 
 			}
-		}		
+		}
+		*/
+		$total_extra = MES_Order::update_fork_in_shopcart();
+			
         $result['total'] = price_format($total,false);
 		$result['order_total'] = MES_Order::get_total_price_in_cart();
 		MES_Order::flow_clear_cart_alone();
@@ -447,26 +487,7 @@ class MES_Order{
 			   $extra = 0;
 			}
 
-			$total_extra = 0;
-			if($_SESSION['extra_fork']==NULL){
-			   $_SESSION['extra_fork'] = array();
-			}else{
-			    $forks = $_SESSION['extra_fork'];
-				foreach ($forks as $value){
-					$total_extra+=$value;
-				}
-				
-			}
-			
-			//额外的餐具加到购物车里面
-			if($total_extra&&$total_extra>0){
-				addto_cart(60,$total_extra);
-			}else{
-				//如果没有额外餐具就删了
-				$sql = "select rec_id from " . $ecs->table('cart') . " WHERE goods_id=60 and session_id='" . SESS_ID . "'";
-				$rec_id = $db->getOne($sql);
-				MES_Order::drop_shopcart($rec_id);
-			}
+			$total_extra = MES_Order::update_fork_in_shopcart();
 			
 			$price = $extra/2;
 			$total_price = $total_extra/2;
