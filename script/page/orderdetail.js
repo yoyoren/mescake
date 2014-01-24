@@ -1,6 +1,6 @@
 (function(){
 	var detailTmpl = '<div class="order-detail-con">订单号：<b><%=order.order_sn%></b><span class="odc-date"> <%=order.formated_add_time%></span>\
-	    <%if(order.order_status==0){%>\
+	    <%if(order.order_status==0&&order.pay_status!==2){%>\
 	    	<a href="#" id="canel_order" class="td-u link-color fl-r">取消订单</a>\
 	    <%}%>\
 	    </div>\
@@ -8,23 +8,26 @@
           <div class="odc-title">\
             <p class="fl-l"><b><%=order.formated_total_fee%></b></p>\
             <p class="fl-r">状态：\
+			<%if(order.order_status==2){%>已取消\
+			<%} else {%>\
 							<%if(order.shipping_status==0){%>未发货\
 							<%}else if(order.shipping_status==1){%>已发货\
 							<%}else if(order.shipping_status==2){%>已收货\
 							<%}else if(order.shipping_status==3){%>备货中\
 							<%}else if(order.shipping_status==4){%>已发货(部分商品)\
 							<%}else if(order.shipping_status==5){%>发货中(处理分单)\
-						    <%}else {%>已发货(部分商品)<%}%>\
-            <%if(order.pay_id==4){%>货到付款\
-            <% } else {%>\
-            	<%if(order.pay_status==0||!order.pay_status){%>\
-            	<a href="#" id="pay_online" class="btn">付款</a>\
-            	<% }else if(order.pay_status==1){%>\
-            	<a href="#" id="" class="btn">付款中</a>\
-            	<% } else {%>\
-            	<a href="#" id="" class="btn">已付款</a>\
-            	<% } %>\
-            <% } %>\
+						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%>\
+				<%if(order.pay_id==4){%>货到付款\
+				<% } else {%>\
+					<%if(order.pay_status==0||!order.pay_status){%>\
+					<a href="#" id="pay_online" class="btn">付款</a>\
+					<% }else if(order.pay_status==1){%>\
+					<a href="#" id="" class="btn">付款中</a>\
+					<% } else {%>\
+					<a href="#" id="" class="btn">已付款</a>\
+					<% } %>\
+				<% } %>\
+			<%}%>\
             </p>\
           </div>\
           <ul class="order-ul">\
@@ -144,7 +147,8 @@
 						'order_id':orderId
 					},function(d){
 						if(d.code == 0){
-							location.href="route.php?mod=account&action=order_list";
+							location.reload();
+							//location.href="route.php?mod=account&action=order_list";
 						}else{
 							require(['ui/confirm'],function(confirm){
 								new confirm("订单取消失败！可能是该订单已经确认，将不能取消");

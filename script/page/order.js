@@ -28,6 +28,7 @@
    //current modifiy address id
    var CURRENT_ID;
    var Serect = false;
+   var SubmitLock = false;
    var Order = {
 
 		delegate:function(){
@@ -91,7 +92,11 @@
 				return false;
 			});
 		},
-
+		_submitFail:function(){
+			var jqButton = $('#submit_order_btn');
+				jqButton.addClass('green-btn');
+				jqButton.html('提交订单');
+		},
 		bind:function(){
 			var me = this;
 			$('#code_image').click(function(){
@@ -227,7 +232,7 @@
 				var tel = $('#new_tel').val();
 				var contact = $('#new_contact').val();
 				if(!me.vaildAddressForm()){
-					return
+					return;
 				}
 				$.post('route.php?mod=order&action=update_order_address',{
 					country:501,
@@ -255,15 +260,24 @@
 				$('#new_address_form').hide();
 				me.clearAddressForm();
 			});
-
+			
 			//submit this order to server
 			$('#submit_order_btn').click(function(){
-		
+				if(SubmitLock){
+					return false;
+				}
+				SubmitLock = true;
+				var jqButton = $(this);
+				jqButton.removeClass('green-btn');
+				jqButton.html('正在提交...');
 				var jqThis = $('#address_'+CURRENT_ADDRESS_ID);
 				if(jqThis.length==0&&window.IS_LOGIN){
 					require(['ui/confirm'],function(confirm){
 						new confirm('请先选择或添加一个送货地址！');
 					});
+					SubmitLock = false;
+					me._submitFail();
+
 				}else{
 					me.saveconsignee(jqThis);
 				}

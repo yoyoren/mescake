@@ -12,12 +12,9 @@ table {
 }
 .clearfix:after{display:block;content:"\20";height:0;clear:both;overflow:hidden;visibility:hidden;}
 .clearfix{*zoom:1;}
-/* 如果弹框背景动态计算的话可以取消100%和position */
-/*html,body{height: 100%; width: 100%;  font-size: 14px; color: #333;}
-html{overflow: hidden;}
-body{overflow: auto; *position:relative;} /* 针对ie6body里面有position的bug。*/
-html,body{ height: 100%; width: 100%; font-size: 14px; color: #333;}
-html{}
+html,body{ font-size: 14px; color: #333;}
+html{height: 100%;}/* 针对ie6弹框背景出来了高度不够加的 */
+body{height: 100%;}/* 针对ie6弹框背景出来了高度不够加的 */
 body{*position:relative;} /* 针对ie6body里面有position的bug。*/
 .tl-c{text-align: center;}
 .tl-r{text-align: right;}

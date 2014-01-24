@@ -23,6 +23,7 @@ define(['ui/dialog'],function(Dialog){
 						body:body,
 						bottom:bottom,
 						afterRender:function(){
+							//$("input[placeholder]").miPlaceholder("#ccc");
 							$('#popup_login_container').find('input','focus',function(){
 								$('#popup_login_container').find('.tips-container').hide();
 							});
@@ -59,7 +60,6 @@ define(['ui/dialog'],function(Dialog){
 			}
 		}
 	}
-
 	login.init();
 	return single;
 })

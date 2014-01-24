@@ -290,9 +290,9 @@ class MES_User{
 		$user_id = $_SESSION['user_id'];
 		
 		//只有没有确认的订单才可以取消
-		$order_status = $db->getOne("select order_status from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'");
-		if($order_status==0){
-			$sql = "delete from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'";
+		$current_order = $db->getRow("select order_status,pay_status from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'");
+		if($current_order['order_status']==OS_UNCONFIRMED&&$current_order['pay_status']!=PS_PAYED){
+			$sql = "update ecs_order_info set order_status =".OS_CANCELED." where user_id = '$user_id' and order_id = '$order_id'";
 			$orders = $db->query($sql);
 			return json_encode(array('code' =>'0'));
 		}else{

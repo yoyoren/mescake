@@ -12,7 +12,9 @@ $('#my_order_frame').show();
 							</a>\
 							<% } %><% } %></td>\
 						  <td><%=data[i].order_amount%></td>\
-						  <td>\
+						  <td class="order_status">\
+							<%if(data[i].order_status==2){%>已取消\
+							<%} else {%>\
 							<%if(data[i].pay_id==4){%>货到付款<%} else {%>\
 						    <%if(data[i].pay_status==0){%>未付款\
 						    <%}else if(data[i].pay_status==1){%>付款中\
@@ -25,9 +27,10 @@ $('#my_order_frame').show();
 							<%}else if(data[i].shipping_status==4){%>已发货(部分商品)\
 							<%}else if(data[i].shipping_status==5){%>发货中(处理分单)\
 						    <%}else {%>已发货(部分商品)<%}%>)\
+							<%}%>\
 						  </td>\
 						  <td><a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>" class="td-u link-color">查看</a><br>\
-						  <%if(data[i].order_status==0){%>\
+						  <%if(data[i].order_status==0&&data[i].pay_status!==2){%>\
 						  	<a href="#" class="td-u link-color cancel_order" data-id="<%=data[i].order_id%>">取消订单</a></td>\
 						  <% } %>\
 						  <td>\
@@ -66,6 +69,7 @@ $('#my_order_frame').show();
 	bind:function(){
 		//pay_order
 		$('body').delegate('.cancel_order','click',function(){
+			var _jqThis = $(this);
 			var _id = $(this).data('id');
 			require(['ui/confirm'],function(confirm){
 				new confirm('确认取消该订单吗？取消后将无法恢复！',function(){
@@ -73,7 +77,8 @@ $('#my_order_frame').show();
 						'order_id':_id
 					},function(d){
 						if(d.code == 0){
-							$('#orderitem_'+_id).remove();
+							$('#orderitem_'+_id).find('.order_status').html('已取消');
+							_jqThis.hide();
 						}else{
 							require(['ui/confirm'],function(confirm){
 								new confirm("订单取消失败！可能是该订单已经确认，将不能取消");
@@ -82,6 +87,7 @@ $('#my_order_frame').show();
 					},'json');
 				});
 			});
+			return false;
 		}).delegate('.pay_order','click',function(){
 			var payUrl = $(this).attr('href');
 			var f = window.open(payUrl);

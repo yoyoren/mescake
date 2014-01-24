@@ -451,23 +451,37 @@ switch ($mod) {
 		}else if($action == 'check_user_exsit'){
 			
 			//检测一个用户是否存在
-			$username = ANTI_SPAM($_GET['username']);
+			$username = ANTI_SPAM($_GET['username'],array(
+				'minLength'=>1,
+				'maxLength'=>20,
+			));
 			echo MES_User::check_user_exsit($username);
 		}else if($action == 'auto_register'){
 
 			//自动注册其实用的就是那个手机号码
-			$username = ANTI_SPAM($_POST['username']);
+			$username = ANTI_SPAM($_POST['username'],array(
+				'minLength'=>1,
+				'maxLength'=>20,
+			));
 			echo MES_User::auto_register($username);
 		}else if($action=="change_unregister_password"){
 			
 			//修改未注册但是曾经下单用户的密码
-			$password = ANTI_SPAM($_POST['password']);
+			$password = ANTI_SPAM($_POST['password'],array(
+				'minLength'=>6,
+				'maxLength'=>30,
+			));
 			echo MES_User::change_unregister_password($password);
 		}else if($action=="get_user_order_detail"){
 			
 			//获得一个用户订单的详情
 			$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-			echo MES_User::get_user_order_detail(ANTI_SPAM($order_id));
+			$order_id = ANTI_SPAM($order_id,array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number'
+			));
+			echo MES_User::get_user_order_detail($order_id);
 		}else if($action=="get_user_order_list"){
 			
 			//获得一个用户所有的订单
@@ -476,7 +490,11 @@ switch ($mod) {
 			
 			//删除一个订单
 			$order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
-			$order_id = ANTI_SPAM($order_id);
+			$order_id = ANTI_SPAM($order_id,array(
+				'minLength'=>1,
+				'maxLength'=>12,
+				'type'=>'number'
+			));
 			echo MES_User::del_one_order($order_id);
 		}else if($action=="order_list"){
 

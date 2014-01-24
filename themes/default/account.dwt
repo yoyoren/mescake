@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>我的账户</title>
   <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+  <script type="text/javascript" src="script/placeholder.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -40,4 +41,7 @@
   <script src="script/page/account.js"></script>
 </div>
 </body>
+<script type="text/javascript">
+$("input[placeholder]").miPlaceholder("#ccc");
+</script>
 </html>
