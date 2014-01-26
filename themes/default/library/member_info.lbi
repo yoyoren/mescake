@@ -2,6 +2,6 @@
 {if $user_info}
  <a href="user.php?act=logout">{$lang.user_logout}</a>
 {else}
- <a href="user.php">登陆</a><a href="user.php?act=register">注册</a>
+ <a href="user.php">登录</a><a href="user.php?act=register">注册</a>
  
 {/if}

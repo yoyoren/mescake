@@ -9,7 +9,7 @@
 			{if $user_info}
 			<a href="user.php">我的MES信息中心</a>&nbsp;<img src="images/ico.gif" align="absmiddle" />&nbsp;<a href="user.php?act=logout">退出</a>
 			{else}
-			<a onclick="showBg();" href="javascript:void(0)">登陆</a><a href="user.php?act=register">注册</a>
+			<a onclick="showBg();" href="javascript:void(0)">登录</a><a href="user.php?act=register">注册</a>
 			{/if}
 			<span class="lcolse" onClick="closel('logink')"></span>
 			</p> 		          
@@ -18,7 +18,7 @@
 		 {if $user_info eq NULL}
 		<div class="sidebar-vips" id="vip">
 		 <div class="sidebar-vip"><p>VIP客户进入端口</p></div>
-		 <div class="sidebar-vip-login"><p><a onclick="showBg();" href="javascript:void(0)">礼金卡客户登陆</a><span class="lcolse" onClick="closel('vip')"></span></p></div>
+		 <div class="sidebar-vip-login"><p><a onclick="showBg();" href="javascript:void(0)">礼金卡客户登录</a><span class="lcolse" onClick="closel('vip')"></span></p></div>
 		</div><!--vips-->
 		{/if}
     </div><!--denglu-->
