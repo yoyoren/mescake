@@ -16,12 +16,13 @@
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 {* 包含脚本文件 *}
 {insert_scripts files='common.js'}
+<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 <style type="text/css">
 p a{color:#006acd; text-decoration:underline;}
 </style>
 </head>
 <body>
-<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
 
 <div class="blank"></div>
 <div class="block">

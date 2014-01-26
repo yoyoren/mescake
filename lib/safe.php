@@ -9,6 +9,11 @@ function PARAM_VAILD($str='',$option=array()){
 		echo $res;
 		exit;
 	}
+	
+	//如果是可以为空且是空值 那么不验证
+	if($option['empty']&&empty($str)){
+		return true;
+	}
 
 	//最大长度
 	if($option['maxLength']&&$length>$option['maxLength']){

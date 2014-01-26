@@ -58,6 +58,10 @@ z-index: 9;
 
 #ur_here{display: none;}
 
+.regmain{background: #fef8d9;}/* 注册页的活动配图取消 */
+.gname{overflow: hidden; height: 40px;}/* 清除ie6搜索结果页的浮动 */
+.gname .dright{_margin-top:-30px;}
+
 .ie6-tip{display: inline-block; *display: inline; zoom:1; *vertical-align: 20px; *margin-top: -24px;}
 .place-item{display: inline-block; *display:inline; zoom:1; position: absolute; font-size:12px; top:12px; left: 0; padding-left: 12px; }
 .v-btn,
@@ -130,7 +134,7 @@ a.vert-btn{*vertical-align:32px!important;}
 .ico-shop{width:23px; height:18px; background: url(img/shop-ico.png) 0 -3px no-repeat;}
 .ico-phone{width:22px; height:22px; background: url(img/tel-ico.png) 0 0 no-repeat;}
 
-.head-nav{overflow: hidden; padding: 0 0 12px 36px; height: 26px;}
+.head-nav{overflow: hidden; padding: 0 0 12px 36px; height: 26px; width: 948px; *width:924px;}
 .hn-item{float: left; display:block; zoom:1; margin-right: 24px; background: url(img/nav-li-bg.png) right center no-repeat; height: 26px; line-height: 26px;}
 .head-nav .last{background: none;}
 .hn-item a{color: #3f3a39; font-size: 14px; height: 26px; margin-right: 40px; font-weight: bold; width: auto;}
@@ -220,6 +224,7 @@ height: 16px; width: 16px; background: url(img/close-ico.png) 0 0 no-repeat; tex
 .or-num{width: 190px; cursor:default; -webkit-user-select:none;-moz-user-select:  -moz-none;-khtml-user-select: none;-ms-user-select:none;-o-user-select:none; user-select: none;}
 }
 .or-num-ico{_padding-top: 20px;}/* 针对有加减的图标又不对齐的ie6bug */
+.or-num-ico2{_padding-top:10px;}
 .or-total{width: 100px;}
 .or-handle{width: 80px;}
 .or-close{position: absolute; right: 10px;top: 28px;}

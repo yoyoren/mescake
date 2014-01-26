@@ -407,7 +407,7 @@ class MES_User{
 	public static function get_users_info(){
 		global $db;
 		$user_name = addslashes($_SESSION['uuid']);
-		$info=$db->getAll("select mobile_phone,rea_name,sex from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+		$info=$db->getAll("select mobile_phone,rea_name,sex,user_money from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
 		return json_encode(array('code' =>'0','info'=>$info));
 	}
 

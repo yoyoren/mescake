@@ -14,7 +14,7 @@
 		              	<span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%>（<%=data[i].goods_attr%>）<% } %></span></a>\
 		            </span>\
 		            <span class="or-price"><%=data[i].goods_price%></span>\
-		            <span class="or-num">\
+		            <span class="or-num or-num-ico">\
 		              <em class="or-plus order_des" data-id="<%=data[i].rec_id%>">-</em>\
 		              <span class="or-num-num"><%=data[i].goods_number%></span>\
 		              <em class="or-add order_add" data-id="<%=data[i].rec_id%>">+</em>\
@@ -33,7 +33,7 @@
 							<%if(data[i].extra_fork){%>0.5\
 							<%}else{%>免费<% } %>\
 						</span>\
-						<span class="or-num">\
+						<span class="or-num or-num-ico2">\
 						<em class="or-plus order_des_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">-</em>\
 						<span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork+data[i].extra_fork%>人份</span>\
 						<em class="or-add order_add_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">+</em>\

@@ -507,7 +507,9 @@
 		</div>
         <div class="imgShowSmall">
 		{foreach from=$goods_list item=goods}
-		<img src="images/sgoods/{$goods.goodsimg}.png" width="50" height="33" alt="" />
+			{if $goods.goodsimg!=''}
+			<img src="images/sgoods/{$goods.goodsimg}.png" width="50" height="33" alt="" />
+			{/if}
 		{/foreach}
 		</div>
     </div>

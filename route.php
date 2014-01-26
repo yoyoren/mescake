@@ -318,6 +318,34 @@ switch ($mod) {
 		            'sign_building' =>$sign_building,
 		            'best_time'     =>$best_time,
 		        );
+
+			//地址id为空可以，但是内容不能为空
+			if(empty($address_id)&&(empty($city)||empty($district)||empty($address))){
+				echo json_encode(array(
+						'code'=>'10006',
+						'msg'=>'address error',
+				));
+				exit;
+			}
+
+			//自己的手机和联系人的手机 至少写一个
+			if(empty($tel)&&empty($mobile)){
+				echo json_encode(array(
+						'code'=>'10006',
+						'msg'=>'tel empty',
+				));
+				exit;
+			}
+
+			//如果送货时间小于当前时间5小时 不能送
+			if(time()>(strtotime($best_time)-5*3600)){
+				echo json_encode(array(
+						'code'=>'10006',
+						'msg'=>'time error',
+				));
+				exit;
+			}
+
 			echo MES_Order::save_consignee($data);
 		}else if($action == 'checkout'){
 			$current_ip = GET_IP();

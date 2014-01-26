@@ -81,7 +81,7 @@
 							<td>&nbsp;</td><td colspan='2' style='padding-left:0px;'><input type="button" name="Submit" class="bt"  value="&nbsp;" onclick="register();" style="width:174px;height:30px;cursor:pointer;border:0;"/></td>
 						</tr>
 						<tr>
-							<td>&nbsp;</td><td colspan='2' style='padding-left:250px;font-size:12px;color:black;'>金额有效期至2014年1月31日</td>
+							<td>&nbsp;</td><td colspan='2' style='padding-left:250px;font-size:12px;color:black; display:none;'>金额有效期至2014年1月31日</td>
 						</tr>
 				</table>
 			</div>	 
