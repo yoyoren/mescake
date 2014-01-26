@@ -16,7 +16,6 @@
 {insert_scripts files="login_register.js"}
 {insert_scripts files='jquery.min.js,jquery.json-1.3.js'}
 <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
-<script src="script/placeholder.js"></script>
 <body>
 <div id="fullbg"></div>
 <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->

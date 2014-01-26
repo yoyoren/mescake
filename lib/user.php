@@ -159,7 +159,7 @@ class MES_User{
 
 		
 		$password = md5($password);
-		$password = md5($password.'0');
+		//$password = md5($password.'0');
 		$mobile = $_SESSION['user_auto_register_moblie'];
 		$username = 'W' . $mobile . "@fal.com";
 		

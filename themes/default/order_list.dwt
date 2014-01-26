@@ -13,8 +13,8 @@
   <div class="content" style="display:none" id="my_order_frame">
     <div class="my-order">
       <p class="need-login-tip" id="order_login_tip" style="display:none">您还没有设置访问密码，建议<a href="#" class="td-u" id="set_password">设置</a>以完成注册，方便查看订单信息。</p>
-      <h4 class="content-title">我的订单</h4>
-      <table class="order-table" id="order_list">
+      <h4 class="content-title" id="order_title">我的订单</h4>
+      <table class="order-table" style="display:none">
         <tr>
           <th width="140">订单号</th>
           <th width="120">送货时间</th>

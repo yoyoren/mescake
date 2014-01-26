@@ -105,6 +105,59 @@
 		},
 		bind:function(){
 			var me = this;
+			var jqDate = $('#date_picker');
+			var jqHour = $('#hour_picker');
+			jqHour.mousedown(function(){
+				var html = ''
+				if(!/\d{4}-\d{2}-\d{2}/.test(jqDate.val())){
+					require(['ui/confirm'],function(confirm){
+						new confirm('选择送货时间前，请先选择送货日期！');
+					});
+					return false;
+				}else{
+					var endHour = 22;
+					var beginHour = 10;
+					var selDate = jqDate.val().split('-').join('');
+					var temp = CURRENT_TIME.split('-').join('').split(' ');
+					var currentDate = temp[0];
+					var hour = parseInt(temp[1].split(':')[0],10);
+					hour+=5;
+		
+					if(currentDate == selDate){
+						
+						if(hour>endHour){
+							require(['ui/confirm'],function(confirm){
+								new confirm('配送需要5小时时间，预定今天送货的时间已过，请重新选择送货日期！');
+							});
+							return false;
+							//html = '<option>今日已不能送货！</option>';
+						}else if(hour<beginHour){
+							for(var i=beginHour;i<=endHour;i++){
+								html+=('<option>'+i+'</option>');
+							}	
+						}else{
+							for(var i=hour;i<=endHour;i++){
+								html+=('<option>'+i+'</option>');
+							}
+						}
+					}else{
+						for(var i=beginHour;i<=endHour;i++){
+							html+=('<option>'+i+'</option>');
+						}
+					}
+					jqHour.html(html);
+				}
+			});
+
+			$('#minute_picker').mousedown(function(){
+				if(!/\d{4}-\d{2}-\d{2}/.test(jqDate.val())){
+					require(['ui/confirm'],function(confirm){
+						new confirm('选择送货时间前，请先选择送货日期！');
+					});
+					return false;
+				}
+			});
+
 			$('#code_image').click(function(){
 				$(this).attr('src','captcha.php?tc='+Math.random());
 			});

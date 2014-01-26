@@ -1,5 +1,6 @@
 <?php
 define('IN_ECS', true);
+
 require(dirname(__FILE__) . '/includes/init.php');
 
 require_once(ROOT_PATH . 'lib/safe.php');
@@ -77,6 +78,9 @@ switch ($mod) {
 			$_SESSION['order_token'] = $_token;
 			$smarty->assign('order_token', $_token);
 			$smarty->assign('checkout_times', $checkout_times);
+			date_default_timezone_set("Etc/GMT-8");
+			$time = date('Y-m-d H:i:s',time());
+			$smarty->assign('current_time', $time);
 			$smarty->display('order_new.dwt');
 			return;
 		}else if($action == 'empty'){

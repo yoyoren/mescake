@@ -48,8 +48,17 @@ $('#my_order_frame').show();
 			mod:'account',
 			action:'get_user_order_list',
 			callback:function(d){
+				
 				var html = mstmpl(orderListTmpl,{data:d.orders});
-				$('#order_list').append(html);
+				$('#order_title').after('<table class="order-table"><tr>\
+										  <th width="140">订单号</th>\
+										  <th width="120">送货时间</th>\
+										  <th width="160">商品</th>\
+										  <th width="100">总金额</th>\
+										  <th width="160">状态</th>\
+										  <th width="100">操作</th>\
+										  <th width="100">&nbsp;</th>\
+										</tr>'+html+'</table>');
 			}
 		});
 	},
