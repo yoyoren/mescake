@@ -39,7 +39,7 @@ if ($this->_foreach['cart_goods_list']['total'] > 0):
 		</ul>
 		<?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 		<p class="amount">总计/Total<span><?php echo $this->_var['total']['goods_price']; ?></span></p>
-		<h4><a href="flow.php?step=cart">去付款 Next</a></h4>
+		<h4><a href="route.php?mod=order&action=step1">去付款 Next</a></h4>
 	</div>
 
 

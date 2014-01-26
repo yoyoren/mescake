@@ -153,13 +153,13 @@ class MES_User{
 		
 		$password = addslashes($password);
 		//密码验证
-		if(empty($password)||strlen($password)<7){
+		if(empty($password)||strlen($password)<6){
 			return json_encode(array('code'=>'1','msg'=>'fail'));
 		}
 
 		
 		$password = md5($password);
-
+		$password = md5($password.'0');
 		$mobile = $_SESSION['user_auto_register_moblie'];
 		$username = 'W' . $mobile . "@fal.com";
 		
@@ -340,7 +340,7 @@ class MES_User{
 		return $authnum;
 	}
 
-	//使用手机号码查询验证码的登陆
+	//使用手机号码查询验证码的登录
 	public static function query_login($username,$password){
 		global $db;
 		global $_LANG;
@@ -361,7 +361,7 @@ class MES_User{
 
 		if ($user->login_for_auto_register($username, $password)){
 			$_SESSION['usermsg']= get_user_info();
-			//这种用户都是自动注册登陆 要区别对待
+			//这种用户都是自动注册登录 要区别对待
 			$_SESSION['user_auto_register'] = '11';
 			$_SESSION['user_auto_register_moblie'] = $mobile;
 		}else{

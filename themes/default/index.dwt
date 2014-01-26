@@ -13,10 +13,9 @@
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
-{insert_scripts files="jquery.min.js"}
 <!--head特效-->
 {insert_scripts files="header_spec.js"}
-<script type="text/javascript" src="script/placeholder.js"></script>
+
 </head>
 <body>
     
@@ -31,19 +30,18 @@
 		
 		<li><a href="goods.php?id=26" target="_blank"><h4 class="display_none">许愿</h4><img src="images/lunbo2.jpg" width="954px" height="400px" alt="爱的期许"/></a> 
 				<p class="display_none">希望能并肩在屋檐下躲雨 能眯缝着眼看眼光下的你 能一起走过日落晚风 爱的许愿定格成待放的样子</p></li>
-		<li>
+		<!-- <li>
       <a href="goods.php?id=30" target="_blank">
         <h4 class="display_none">致爱</h4>
         <img src="images/love-for-me.png" width="954px" height="400" alt="致爱"/>
     </a>
     <p class="display_none">即日起至2月14日订购，即可拥有“爱的味道”主题相框（每日限量50个）</p>
-				</li>
+				</li> -->
 		</ul>
 		<a href="javascript:;" class="turn-btn btn_l"></a>
 		<a href="javascript:;" class="turn-btn btn_r"></a>
         <ol>
         <li class="active"></li>
-        <li ></li>
         <li ></li>
         <li ></li>
         </ol>
@@ -109,7 +107,6 @@
 {/if}
 </div>
    <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
-   
    
 </body>
 </html>

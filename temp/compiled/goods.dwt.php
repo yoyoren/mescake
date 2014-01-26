@@ -11,20 +11,13 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="<?php echo $this->_var['ecs_css_path']; ?>" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="css/home.css" />
 
-<?php echo $this->smarty_insert_scripts(array('files'=>'jquery.min.js,jquery.json-1.3.js,login_register.js,transport.js,common.js,utils.js')); ?>
-<script src="script/require.js"></script>
-<script src="script/page/common.js"></script>
+<?php echo $this->fetch('lib/head_script.lbi'); ?>
+<?php echo $this->smarty_insert_scripts(array('files'=>'jquery.json-1.3.js,login_register.js,transport.js,common.js,utils.js')); ?>
 </head>
 <body>
-<?php echo $this->fetch('library/page_header.lbi'); ?>
- <?php 
-$k = array (
-  'name' => 'member_info',
-);
-echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
-?>
+<?php echo $this->fetch('lib/header_new_for_old.lbi'); ?>
+
    
    <div class="block box">
    <div class="blank60"></div>
@@ -122,7 +115,7 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
 			<br/>
 					<div id="login2" style="display:none;"><?php echo $this->_var['u_name']; ?><?php echo $this->_var['u_name2']; ?></div>
 					<div class="addgou"><img src="themes/default/images/paynow.png" id="order_now_btn" style="cursor:pointer;"></div><br/>
-					<div class="addgou"><img src="themes/default/images/addshopcar.png" id="add_to_cart_btn" style="cursor:pointer;"></div>
+					<div class="addgou"><a href="#" id="add_to_cart_btn" class="add-to-car">加入购物车</a></div>
 					
 					
 			

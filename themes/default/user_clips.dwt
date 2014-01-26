@@ -10,10 +10,10 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="css/home.css">
 <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {* 包含脚本文件 *}
 {insert_scripts files='jquery.min.js,jquery.json-1.3.js,transport.js,common.js,user.js'}
+<script src="script/placeholder.js"></script>
 </head>
 <body>
 <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->

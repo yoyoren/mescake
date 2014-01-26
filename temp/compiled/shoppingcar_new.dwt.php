@@ -4,6 +4,7 @@
 <meta name="Generator" content="ECSHOP v2.7.3" />
   <title>购物车中的商品</title>
   <?php echo $this->fetch('lib/head_script.lbi'); ?>
+  <script src="script/placeholder.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -19,6 +20,10 @@
       </div>
     </div>
   </div>
+  <script>
+	window.SHOPPING_CAR = true;
+  </script>
+  <script src="js/jquery.json-1.3.js"></script>
   <script src="script/page/shoppingcar.js"></script>
   <?php echo $this->fetch('lib/footer_new.lbi'); ?>
 </div>

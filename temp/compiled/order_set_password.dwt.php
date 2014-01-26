@@ -2,15 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="Generator" content="ECSHOP v2.7.3" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>设置登录密码完成注册</title>
-   <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+   <?php echo $this->fetch('lib/head_script.lbi'); ?>
    <script src="script/placeholder.js"></script>
 </head>
 <body>
-{$pay_online}
+<?php echo $this->_var['pay_online']; ?>
 <div class="layout">
-  <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
+  <?php echo $this->fetch('lib/header_new.lbi'); ?>
   <div class="head-line"></div>
   <div class="content">
     <div class="suc-container tl-c">
@@ -26,7 +27,7 @@
     </div>
   </div>
   <script src="script/page/shoppingend.js"></script>
-  <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
+  <?php echo $this->fetch('lib/footer_new.lbi'); ?>
 </div>
 </body>
 <script type="text/javascript">

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="Generator" content="ECSHOP v2.7.3" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>我的订单列表</title>
+  <?php echo $this->fetch('lib/head_script.lbi'); ?>
+  <script src="script/placeholder.js"></script>
+</head>
+<body>
+<div class="layout">
+  <?php echo $this->fetch('lib/header_new.lbi'); ?>
+  <div class="head-line"></div>
+  <div class="content" style="display:none" id="my_order_frame">
+    <div class="my-order">
+      <p class="need-login-tip" id="order_login_tip" style="display:none">您还没有设置访问密码，建议<a href="#" class="td-u" id="set_password">设置</a>以完成注册，方便查看订单信息。</p>
+      <h4 class="content-title">我的订单</h4>
+      <table class="order-table" id="order_list">
+        <tr>
+          <th width="140">订单号</th>
+          <th width="120">送货时间</th>
+          <th width="160">商品</th>
+          <th width="100">总金额</th>
+          <th width="160">状态</th>
+          <th width="100">操作</th>
+          <th width="100">&nbsp;</th>
+        </tr>
+      </table>
+      <p>看不到我的订单？试试<a href="route.php?action=query_order&mod=account" class="td-u link-color" id="get_by_phone">用手机号码查询</a></p>
+      <!-- <div class="order-btn-area clearfix">
+        <a href="" class="btn big-btn fl-l">继续购物</a>
+        <input class="btn green-btn big-btn fl-r" type="submit" value="提交订单"/>
+      </div> -->
+    </div>
+  </div>
+  <script src="script/page/orderlist.js"></script>
+  <?php echo $this->fetch('lib/footer_new.lbi'); ?>
+</div>
+</body>
+</html>

@@ -11,19 +11,12 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="<?php echo $this->_var['ecs_css_path']; ?>" rel="stylesheet" type="text/css" />
+<?php echo $this->fetch('lib/head_script.lbi'); ?>
 
-<?php echo $this->smarty_insert_scripts(array('files'=>'jquery.min.js,common.js')); ?>
-
+<?php echo $this->smarty_insert_scripts(array('files'=>'common.js')); ?>
 </head>
 <body'>
-
-<?php echo $this->fetch('library/page_header.lbi'); ?>
-<?php 
-$k = array (
-  'name' => 'member_info',
-);
-echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
-?>
+<?php echo $this->fetch('lib/header_new_for_old.lbi'); ?>
 <div class="block box">
 <div class="blank60"></div>
   <div class="brandleft">

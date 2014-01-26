@@ -5,8 +5,8 @@ $('#my_order_frame').show();
 						  <td><%=data[i].order_sn%></td>\
 						  <td><%=data[i].best_time.split(" ")[0]%></td>\
 						  <td>\
-							<%for(var j=0;j<1;j++){%>\
-							<%if(data[i].detail[j].goods_sn!=61){%>\
+							<%for(var j=0;j<data[i].detail.length;j++){%>\
+							<%if(data[i].detail[j].goods_id!=61&&data[i].detail[j].goods_id!=60){%>\
 							<a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>">\
 								<img src="themes/default/images/sgoods/<%=data[i].detail[j].goods_sn.substring(0,3)%>.png">\
 							</a>\
@@ -35,7 +35,7 @@ $('#my_order_frame').show();
 						  <% } %>\
 						  <td>\
 						  <%if(data[i].pay_id<4&&data[i].pay_status==0){%>\
-						  <a href="<%=data[i].pay_online%>" class="btn pay_order" data-id="<%=data[i].order_id%>">\
+						  <a href="<%=data[i].pay_online.pay_online%>" class="btn pay_order" data-id="<%=data[i].order_id%>">\
 						  	去付款\
 						  </a>\
 						  <% } %>\

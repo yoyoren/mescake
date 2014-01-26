@@ -13,20 +13,14 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="<?php echo $this->_var['ecs_css_path']; ?>" rel="stylesheet" type="text/css" />
-<?php echo $this->smarty_insert_scripts(array('files'=>'jquery.min.js')); ?>
+<?php echo $this->fetch('lib/head_script.lbi'); ?>
 
 <?php echo $this->smarty_insert_scripts(array('files'=>'header_spec.js')); ?>
 
 </head>
 <body>
     
-     <?php echo $this->fetch('library/page_header.lbi'); ?>
-	 <?php 
-$k = array (
-  'name' => 'member_info',
-);
-echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
-?><br/>
+     <?php echo $this->fetch('lib/header_new_for_old.lbi'); ?><br/>
 	  <div class="block clearfix"> 
      <div class="banner">
 		<ul>
@@ -37,11 +31,16 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
 		
 		<li><a href="goods.php?id=26" target="_blank"><h4 class="display_none">许愿</h4><img src="themes/default/images/lunbo2.jpg" width="954px" height="400px" alt="爱的期许"/></a> 
 				<p class="display_none">希望能并肩在屋檐下躲雨 能眯缝着眼看眼光下的你 能一起走过日落晚风 爱的许愿定格成待放的样子</p></li>
-		<!--<li><a href="goods.php?id=30" target="_blank"><h4 class="display_none">纪念日款</h4><img src="themes/default/images/lunbo3.jpg" width="954px" height="400px" alt="某一天的纪念"/></a>
-				<p class="display_none">某一天的纪念 星很亮的那一天 雨很急的那一天 刻在生命里 成了纪念</p></li>-->
+		<!-- <li>
+      <a href="goods.php?id=30" target="_blank">
+        <h4 class="display_none">致爱</h4>
+        <img src="themes/default/images/love-for-me.png" width="954px" height="400" alt="致爱"/>
+    </a>
+    <p class="display_none">即日起至2月14日订购，即可拥有“爱的味道”主题相框（每日限量50个）</p>
+				</li> -->
 		</ul>
-		<a href="javascript:;" class="btn btn_l"></a>
-		<a href="javascript:;" class="btn btn_r"></a>
+		<a href="javascript:;" class="turn-btn btn_l"></a>
+		<a href="javascript:;" class="turn-btn btn_r"></a>
         <ol>
         <li class="active"></li>
         <li ></li>
@@ -56,14 +55,14 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
           <li>
 	   		<a href="brand.php?id=2" target="_blank"><img src="themes/default/images/index2.jpg" alt="独一份的爱 "><p class="display_none">送出一朵花，迷恋一个人一份礼物也是一份承诺，爱是唯一</p></li></a>
 	      </li>				
-		  <li>
+		  <li style="*margin-left:15px;">
 	   		<a href="brand.php?id=3" target="_blank"><img src="themes/default/images/index3.jpg" alt="歌剧魅影 "><p class="display_none">奏响半世纪的舌尖乐章，回溯50年前的法式经典，演绎舌尖与食材的交响</p></li></a>	
 	      </li>		
      	</ul>
      </div>	
     <div class="pictrue-b"><a href="magazine.php?id=1" target="_blank"><img src="themes/default/images/zz1.jpg" alt="永恒"></a><p class="display_none">能牵手的时候不要只是肩并肩，能拥抱的时候不要只是牵手</p></li></div>
      <div class="pictrue-c"><a href="magazine.php?id=2" target="_blank"><img src="themes/default/images/zz2.jpg" alt="戒不掉的男人味"></a><p class="display_none">一生中至少有两次冲动，一次奋不顾身爱，一次说走就走的旅行</p></li></div>
-     <div class="pictrue-d"><a href="magazine.php?id=3" target="_blank"><img src="themes/default/images/zz3.jpg" alt="荔枝与茉莉的约会"></a><p class="display_none">把这一刻的清凉和荔枝香气包裹在琥珀里，每次回忆起今天，记忆中都夹着荔枝的香甜</p></li></div>
+     <div class="pictrue-d"><a href="magazine.php?id=3" target="_blank" style="display:block; background:#c9e8f1; overflow:hidden;"><img src="themes/default/images/zz3.jpg" style="margin-left:-2px; alt="荔枝与茉莉的约会"/></a><p class="display_none">把这一刻的清凉和荔枝香气包裹在琥珀里，每次回忆起今天，记忆中都夹着荔枝的香甜</p></li></div>
      <div class="product">
         <h3>产品销售排行</h3>
           <div class="left ml0px"><a href="goods.php?id=1" target="_blank"><h4 class="display_none">冰珀荔枝</h4><img src="themes/default/images/top/D05.jpg" alt=" 冰珀荔枝"></a><p class="display_none">泰国最美的少女会在榴莲收获的季节，用自己最美的一面换一位痴迷，同样爱上榴莲的人又怎会忘记</p></li></div>
@@ -113,7 +112,7 @@ if ($this->_foreach['searchkeywords']['total'] > 0):
 <?php endif; ?>
 </div>
    <?php echo $this->fetch('library/page_footer.lbi'); ?>
-   
+   <script src="script/placeholder.js"></script>
    
 </body>
 </html>

@@ -14,7 +14,7 @@
 {insert_scripts files='common.js,shopping_flow.js'}
 </head>
 <body>
-<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
 {insert name='member_info'}
 <!--当前位置 start-->
 <div class="block box">
@@ -342,7 +342,7 @@
     </div>
 	<div class="donetext">
 	您选择的{$goods.name},订单号为{$order.order_sn}，蛋糕正在制作。<br/>
-	我们的特别派送员将在预订时间 送达贵处，再次感谢您的预定<br><br>
+	我们的特别派送员将在预订时间 送达贵处，再次感谢您的预定<br>
 	如需帮助请致电4000 600 700
 	</div>
 </div>

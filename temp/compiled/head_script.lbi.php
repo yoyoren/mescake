@@ -3,3 +3,4 @@
 <script src="script/jquery-1.10.min.js"></script>
 <script src="script/require.js"></script>
 <script src="script/page/common.js"></script>
+

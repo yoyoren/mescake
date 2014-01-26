@@ -82,7 +82,7 @@
 			<li class="order-item">\
               <div class="or-main-container">\
                 <span class="or-name">\
-					<img src="img/yunshu.gif" class="or-name-img"><span class="or-name-intro">运费</span>\
+					<span class="or-name-intro"><b>运费</b></span>\
                 </span>\
                 <span class="or-price"><%=order.formated_shipping_fee%></span>\
               </div>\

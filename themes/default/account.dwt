@@ -5,12 +5,10 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>我的账户</title>
   <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
-  <script type="text/javascript" src="script/placeholder.js"></script>
 </head>
 <body>
 <div class="layout">
-  <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
-  <div class="head-line"></div>
+  <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
   <div class="content">
     <div class="register-container account-container clearfix">
       <h4 class="content-title">我的账户</h4>
@@ -22,8 +20,11 @@
           <a href="#" class="btn" id="change_password">修改登录密码</a>
         </dd>
         <dt class="l-title lh-input">请您称呼我为：</dt>
-        <dd class="r-con clearfix" style="position:relative">
-          <input type="text" class="global-input" placeholder="我的姓名" id="my_name"/><span class="tips-container" id="mod_tip" style="display:none">修改成功</span><br />
+        <dd class="r-con clearfix">
+          <div class="check-container">
+            <input type="text" class="global-input" placeholder="我的姓名" id="my_name"/><span class="tips-container" id="mod_tip" style="display:none">修改成功</span>
+          </div>
+          <br />
           <label for="man" class="space" id="man" ><input type="radio" name="female" class="radio-item" checked="checked" />男士</label>
           <label for="lady" id="lady"><input type="radio"  name="female" class="radio-item" />女士</label>
         </dd>
@@ -41,7 +42,4 @@
   <script src="script/page/account.js"></script>
 </div>
 </body>
-<script type="text/javascript">
-$("input[placeholder]").miPlaceholder("#ccc");
-</script>
 </html>

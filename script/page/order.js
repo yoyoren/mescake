@@ -46,6 +46,11 @@
 				//计算一个地址是否需要运送费
 				me.ifAddressNeedFee();
 				
+			}).delegate('.address_item','mouseover',function(){
+				//给ie6加上hover效果来修改地址等操作
+                $(this).addClass('hover');
+            }).delegate('.address_item','mouseleave',function(){
+                $(this).removeClass('hover');
 			}).delegate('.addr_del','click',function(){
 				//delete an address info if you want
 				var _this =$(this);
@@ -95,7 +100,8 @@
 		_submitFail:function(){
 			var jqButton = $('#submit_order_btn');
 				jqButton.addClass('green-btn');
-				jqButton.html('提交订单');
+				jqButton.val('提交订单');
+				SubmitLock = false;
 		},
 		bind:function(){
 			var me = this;
@@ -266,16 +272,18 @@
 				if(SubmitLock){
 					return false;
 				}
+
 				SubmitLock = true;
 				var jqButton = $(this);
 				jqButton.removeClass('green-btn');
-				jqButton.html('正在提交...');
+				//jqButton.html('正在提交...');
+
 				var jqThis = $('#address_'+CURRENT_ADDRESS_ID);
 				if(jqThis.length==0&&window.IS_LOGIN){
 					require(['ui/confirm'],function(confirm){
 						new confirm('请先选择或添加一个送货地址！');
 					});
-					SubmitLock = false;
+					
 					me._submitFail();
 
 				}else{
@@ -446,6 +454,7 @@
 				}
 
 				if(!me.vaildAddressForm()){
+					me._submitFail();
 					return;
 				}
 			}
@@ -453,6 +462,7 @@
 				require(['ui/confirm'],function(confirm){
 					new confirm('您选择的送货日期不正确，请重新选择',function(){});
 				});
+				me._submitFail();
 				return;
 			}
 
@@ -479,7 +489,7 @@
 									require(["ui/login"], function(login) {login.show();});
 								});
 							});
-							
+							me._submitFail();
 						}else{
 							//给这个用户注册一个账户 并且帮他登录
 							var username = data.mobile;
@@ -492,6 +502,8 @@
 								if(d.code == 0){
 									//注册成功后给这个用户结帐
 									me.checkout();
+								}else{
+									me._submitFail();
 								}
 							},'json');
 						}
@@ -504,16 +516,17 @@
 
 		//最终的结算
 		checkout:function(){
+			var me = this;
 			var brithCard = $('.brith_brand');
 			var card_message = [];
 			var jqVaildCode = $('#code_input');
-			
 			for(var i=0;i<brithCard.length;i++){
 				var text = brithCard[i].innerHTML;
 				if(text.split('').length>10){
 					require(['ui/confirm'],function(confirm){
 						new confirm('您添加的生日牌不能超过10个字');
 					});
+					me._submitFail();
 					return;
 				}
 				card_message.push(text);
@@ -522,6 +535,7 @@
 				require(['ui/confirm'],function(confirm){
 					new confirm('请输入正确的4位验证码！');
 				});
+				me._submitFail();
 			}
 			//直接提交数据到订购表单
 			MES.post({
@@ -535,11 +549,14 @@
 					//结算数据form submit
 					if(d.code == 0){
 					   $('#submit_form').submit();
-					}else if(d.code == 10007){
-						require(['ui/confirm'],function(confirm){
-							new confirm('您输入的验证码不正确！');
-						});
-						$('#code_image').attr('src','captcha.php?tc='+Math.random());
+					}else {
+						if(d.code == 10007){
+							require(['ui/confirm'],function(confirm){
+								new confirm('您输入的验证码不正确！');
+							});
+							$('#code_image').attr('src','captcha.php?tc='+Math.random());
+						}
+						me._submitFail();
 					}
 				}	
 			});
@@ -698,7 +715,7 @@
 		$('#login_address_operate').show();
 		$('#add_new_address').show();
 
-		//显示登陆后的礼金操作地址
+		//显示登录后的礼金操作地址
 		$('#money_card_frame').show();
 		$('#serect_check').hide();
 		window.IS_LOGIN = true;

@@ -45,14 +45,17 @@
 		},function(d){
 			if(d.code == 0){
 				require(['ui/confirm'],function(confirm){
-					new confirm('登陆验证码已经发送至您的手机！',function(){});
+					new confirm('登录验证码已经发送至您的手机！',function(){});
 				});
 			}else{
 				require(['ui/confirm'],function(confirm){
 					//用户存在 注册
 					if(d.user_type === '0'){
-						new confirm('您的手机号已经注册，请直接登陆后查询订单状态',function(){
-							require(["ui/login"], function(login) {login.show();});
+						new confirm('您的手机号已经注册，请直接登录后查询订单状态',function(){
+							setTimeout(function(){
+								require(["ui/login"], function(login) {login.show();});
+							},100);
+							
 						});
 					}else{
 					//没有订单记录

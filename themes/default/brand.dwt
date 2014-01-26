@@ -12,8 +12,7 @@
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {* 包含脚本文件 *}
-{insert_scripts files='jquery.min.js,common.js'}
-
+{insert_scripts files='common.js'}
 </head>
 <body'>
 <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->

@@ -13,7 +13,6 @@
 {* 包含脚本文件 *}
 <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {insert_scripts files='common.js,jquery-1.4.js,shopping_flow.js'}
-
 </head>
 <body>
 <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
@@ -516,7 +515,7 @@
 	<table style="text-align:left;margin:auto;font-size:12px;">
 		<tr>
 			<td>您选择的{$goods.name},订单号为{$order.order_sn}，蛋糕正在制作。<br/>
-			我们的特别派送员将在预订时间送达贵处，再次感谢您的预订。<br><br>
+			我们的特别派送员将在预订时间送达贵处，再次感谢您的预订。<br>
 		<div style="text-align:center;">如需帮助请致电4000 600 700</div></td>
 		</tr>
 		

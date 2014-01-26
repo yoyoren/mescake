@@ -51,7 +51,8 @@
 				if(!d.res){
 					fail&&fail();
 				}else{
-					success&&success(d.uname);
+					var name = d.uname||'';
+					success&&success(name.replace(/W/,'').replace('@fal.com',''));
 				}
 			}
 	   });

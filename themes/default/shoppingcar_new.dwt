@@ -3,6 +3,7 @@
 <head>
   <title>购物车中的商品</title>
   <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+  <script src="script/placeholder.js"></script>
 </head>
 <body>
 <div class="layout">

@@ -152,7 +152,7 @@
           <div class="tl-r" id="vaild_code_frame">
             <span class="total-sub-tip">请输入验证码：</span>
             <input type="text" class="global-input" style="width:80px;" id="code_input">
-            <img src="captcha.php" class="check-code" id="code_image">
+            <img src="captcha.php" class="check-code" style="*margin-top:-20px;" id="code_image">
           </div>
 	  <!-- {/if} -->
           <div class="tl-r">

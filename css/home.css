@@ -56,6 +56,10 @@ z-index: 9;
 .blank60{height: 20px; line-height: 20px;}
 .brandlist1{height: auto;}
 
+#ur_here{display: none;}
+
+.ie6-tip{display: inline-block; *display: inline; zoom:1; *vertical-align: 20px; *margin-top: -24px;}
+.place-item{display: inline-block; *display:inline; zoom:1; position: absolute; font-size:12px; top:12px; left: 0; padding-left: 12px; }
 .v-btn,
 .btn,
 .text-area,
@@ -213,7 +217,8 @@ height: 16px; width: 16px; background: url(img/close-ico.png) 0 0 no-repeat; tex
 .or-total{float: left;}
 .or-name{width: 380px; padding-left: 20px;}
 .or-price{width: 100px;}
-.or-num{width: 190px;}
+.or-num{width: 190px; cursor:default; -webkit-user-select:none;-moz-user-select:  -moz-none;-khtml-user-select: none;-ms-user-select:none;-o-user-select:none; user-select: none;}
+}
 .or-num-ico{_padding-top: 20px;}/* 针对有加减的图标又不对齐的ie6bug */
 .or-total{width: 100px;}
 .or-handle{width: 80px;}
@@ -278,9 +283,7 @@ line-height: 40px; overflow: hidden; clear:both;}
 .account-mes-area{overflow: hidden;  margin-bottom: 20px;}
 .ama-item{display: inline-block; *display: inline; zoom:1; border-radius: 6px; width: 238px; padding:20px; margin: 0 10px 20px 0; float: left; border: 1px solid #ccc; background: #fff;}
 .ama-item:hover{border: 3px solid #c4d79f; background: #fff; padding: 18px;}
-/*.ama-item:hover .ama-name-area{border-bottom: 1px solid #c4d79f;}*/
 .ama-item-current{border: 3px solid #c4d79f; background: #fff; padding: 18px;}
-/*.ama-item-current .ama-name-area{border-bottom: 1px solid #c4d79f;}*/
 .ama-name-area{overflow: hidden; padding-bottom: 10px; margin-bottom: 10px; height: 22px;border-bottom: 1px solid #ccc; }
 .address-area{height: 70px; line-height: 1.5;}
 .handle-area{height: 20px; line-height: 20px; visibility: hidden;}
@@ -289,7 +292,9 @@ line-height: 40px; overflow: hidden; clear:both;}
 .ama-delete{width: 16px; height: 16px; background: url(img/delete-co.png) 0 -20px no-repeat; 
 	text-indent: -100px; overflow: hidden;}
 .ama-delete:hover{background-position: 0 0;}
+
 .ama-item:hover .handle-area{visibility: visible;}
+.hover .handle-area{visibility: visible;}
 .ama-add-address{clear: both;}
 .add-ico{width: 16px; height:20px; _height: 34px; font-weight:bold; margin-right:4px; vertical-align: middle; background: url(img/add-little.png) 0 0 no-repeat; line-height:100px; overflow: hidden; _line-height:32px; _background:none;}
 

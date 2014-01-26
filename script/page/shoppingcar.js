@@ -43,7 +43,11 @@
 					  <%if(!window.SHOPPING_CAR){%>\
 						  <div class="or-child-container">\
 							<span class="or-name" style="height:44px; overflow:hidden;">\
-							  <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro brith_brand">添加一个生日牌</span></span><input type="text" style="display:none;" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
+							  <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro brith_brand">添加一个生日牌</span></span>\
+							  <div class="check-container" id="brith_input_container" style="display:none;">\
+							    <input type="text" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
+							    <span class="tips-container" style="display:none">生日牌不能超过10个字</span>\
+							  </div>\
 							</span>\
 							<span class="or-price">免费</span>\
 						  </div>\
@@ -204,16 +208,17 @@
 				updateFork(id,num);
 			}).delegate('.add_brith_brand','click',function(){
 				//触发生日牌的修改
+
 				var _this = $(this);
 				var text = _this.find('.or-name-intro')[0].innerHTML;
 				_this.find('.or-name-intro').hide();
-
 				//一些细节
 				if($.trim(text) !== '添加一个生日牌'){
-					_this.next().val(text);
+					_this.next().find('input').val(text);
 				}
+
 				_this.next().show();
-				_this.next().focus();
+				$('.brith_brand_input').focus();
 			}).delegate('.brith_brand_input','blur',function(){
 				var _this = $(this);
 				var text = _this.val();
@@ -224,16 +229,21 @@
 				
 				//验证生日牌
 				if($.trim(text).split('').length>10){
-					require(['ui/confirm'],function(confirm){
-						new confirm('生日牌不能超过10个字');
-					});
+					_this.next().show();
 					return;
+					// require(['ui/confirm'],function(confirm){
+					// 	new confirm('生日牌不能超过10个字');
+					// });
+					// return;
 				}
 
-				_this.hide();
-				_this.prev().find('.or-name-intro').text(text).show();
+				_this.parent().hide();
+				//这里加了个父级容器来显示错误和placeholder，由于focus了，提示就暂时没有了。
+				_this.parent().prev().find('.or-name-intro').text(text).show();
 				_this.val('');
 				return false;
+			}).delegate('.brith_brand_input','focus',function(){
+				$(this).next().hide();
 			});
 		},
 
@@ -248,6 +258,7 @@
 			var lock = false;
 			$('#birth_title').click(function(){
 				  //取消蜡烛
+				  setTimeout(function(){
 				  if(lock){
 					return false;
 				  }
@@ -300,6 +311,7 @@
 						lock = false;
 					  },100);
 				  },100);
+				 },0);
 			});
 		}
 	}

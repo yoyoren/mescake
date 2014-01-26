@@ -2,7 +2,7 @@ define(['ui/dialog'],function(Dialog){
 	var body = '<div class="check-container" id="popup_login_container">\
             <input type="text" class="global-input" id="popup_login_id" placeholder="手机号码">\
 			<span class="tips-container" style="display:none">用户名不能为空</span>\
-          </div>\
+          </div><br>\
           <div class="check-container">\
             <input type="password" class="global-input" id="popup_login_password" placeholder="用户密码">\
 			<span class="tips-container" style="display:none">密码不能为空</span>\
@@ -23,7 +23,6 @@ define(['ui/dialog'],function(Dialog){
 						body:body,
 						bottom:bottom,
 						afterRender:function(){
-							//$("input[placeholder]").miPlaceholder("#ccc");
 							$('#popup_login_container').find('input','focus',function(){
 								$('#popup_login_container').find('.tips-container').hide();
 							});

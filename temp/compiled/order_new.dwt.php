@@ -5,6 +5,7 @@
 <meta name="Generator" content="ECSHOP v2.7.3" />
   <title>购物车中的商品</title>
   <?php echo $this->fetch('lib/head_script.lbi'); ?>
+  <script src="script/placeholder.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -18,39 +19,59 @@
       <h4 class="content-title">送货信息<span class="ct-commit">*为保证送货准确性，请您填写正确无误的信息</span></h4>
       <p class="need-login-tip" id="login_tip" style="display:none">如果您之前注册购买过，请<a href="#" class="td-u user_login">登录</a>以读取地址信息，并积累积分</p>
       <div class="account-mes-area" id="address_container">
-        <div class="ama-add-address">
-           <a href="#" class="btn" id="add_new_address">+添加新地址</a>
+        <div class="ama-add-address" id="add_new_address">
+           <a href="#" class="btn"><em class="add-ico">+</em>添加新地址</a>
         </div>
       </div>
       <form>
-          <dl class="global-form-container clearfix" id="new_address_form" style="display:none">
+          <dl class="global-form-container total-form-container clearfix" id="new_address_form" style="display:none">
             <dt class="l-title">送货地址：</dt>
             <dd class="r-con clearfix">
-              北京市
-              <em class="area-intro"></em>
+              <a href="javascript:void(0);" class="area-intro" style="margin-right:10px;">
+                北京市
+                <em class="area-intro-ico"></em>
+                <span class="ai-intro">目前仅针对北京开展送货业务，请见谅</span>
+              </a>
               <select id="region_sel">
                 <option value="0">请选择区域</option>
-              </select><br>
+              </select>
+	            <select id="dis_district" style="display:none">
+                <option value="0">选择送货街道</option>
+              </select>
+              <span class="ct-commit">带*号区域需要加收10元送货费，不在列表中的地区暂时不能提供送货服务</span>
+              <span class="error-tip" style="display:none">请选择一个送货区域</span>
+              <br>
               <div class="check-container big-check-container" style="margin-top:10px;">
                 <input type="text" class="global-input" placeholder="详细地址" id="new_address">
-                <span class="tips-container" style="display:none">输入错误</span>
+                <span class="tips-container" style="display:none">请输入一个详细地址</span>
               </div>
             </dd>
             <dt class="l-title lh-input">收货人：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
                 <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact">
-                <span class="tips-container" style="display:none">输入错误</span>
+                <span class="tips-container" style="display:none">请提供收货人姓名</span>
               </div>
             </dd>
-            <dt class="l-title lh-input">联系手机：</dt>
+            <dt class="l-title lh-input">收货人手机：</dt>
             <dd class="r-con clearfix">
               <div class="check-container">
-                <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel">
-                <span class="tips-container" style="display:none">输入错误</span>
+                <input type="text" class="global-input" placeholder="收货人的手机号码" id="new_tel">
+                <span class="tips-container" style="display:none">手机号码必须是5位以上数字</span>  
               </div>
+              <label style="_margin-top:-50px; display:inline; zoom:1;" id="serect_check">
+                <input type="checkbox" class="checkbox-item" id="serect_checkbox"/><span class="ct-commit" style="margin:0; vertical-align:middle;">我想悄悄送给Ta</span>
+              </label>
             </dd>
-            <dt class="l-title lh-input">&nbsp;</dt>
+            <dt class="l-title lh-input" id="my_phone_title" style="display:none">我的手机：</dt>
+            <dd class="r-con clearfix" id="my_phone_frame" style="display:none">
+              <div class="check-container">
+                <input type="text" class="global-input" placeholder="请输入您的手机号码" id="my_phone_input">
+                <span class="tips-container" style="display:none">手机号码必须是5位以上数字</span>
+              </div>
+              <span class="ct-commit" style="margin:0; _margin-top:-40px;">我们将只会通过这个号码来确认订单和联系</span>
+            </dd>
+            <dt class="l-title lh-input" id="login_address_operate_dt" style="display:none">&nbsp;</dt>
             <dd class="r-con clearfix" id="login_address_operate" style="display:none">
               <input class="btn green-btn" type="button" value="保存" id="save_address">
               <input class="btn green-btn" type="button" value="修改并保存" id="mod_address" style="display:none">
@@ -58,9 +79,9 @@
             </dd>
           </dl>
           <dl class="global-form-container clearfix">
-            <dt class="l-title">送货时间：</dt>
-            <dd class="r-con clearfix" style="margin-bottom:20px;">
-              <input type="text" id="date_picker">
+            <dt class="l-title lh-input">送货时间：</dt>
+            <dd class="r-con clearfix">
+              <input type="text" id="date_picker" readonly="true" class="global-input vt-a" style="width:90px;" value="送货日期" />
               <select id="hour_picker">
                 <option value="0">小时</option>
               </select>
@@ -107,53 +128,48 @@
           </dl>
           <h4 class="content-title">付款方式</h4>
           <div class="payStyle">
-            <label for="cashon"><input type="radio" name="payStyle" id="cashon" class="radio-item">货到付款</label>
-            <select style="margin:0 10px;"><option>现金付款</option><option>POS机刷卡</option></select>
-            <label for="alipay" class="space"><input type="radio" name="payStyle" id="alipay" class="radio-item">支付宝</label>
-            <label for="kuaiqian"><input type="radio" name="payStyle" id="kuaiqian" class="radio-item">快钱</label>
+            <label for="cash_radio" id="cash"><input type="radio" checked="true" name="payStyle" id="cash_radio" class="radio-item">货到付款</label>
+            <select style="margin:0 10px;" id="cash_sel"><option value="1">现金付款</option><option value="2">POS机刷卡</option></select>
+            <label for="alipay_radio" id="alipay" class="space"><input type="radio" name="payStyle" id="alipay_radio" class="radio-item">支付宝</label>
+            <label for="kuaiqian_radio" id="kuaiqian"><input type="radio" name="payStyle" id="kuaiqian_radio" class="radio-item">快钱</label>
           </div>
-          <div class="check-money-area clearfix">
-            <div class="money-style">
-            <label for="voucher"><input type="checkbox" id="voucher" class="checkbox-item">使用代金券</label><br>
-            <div style="margin-left:20px;">
-              请输入代金券密码:
-              <style type="text/css">
-.more-input-area .global-input{width: 40px; margin-bottom: 10px;}
-              </style>
-              <div class="more-input-area">
-                <input type="text" class="global-input"> -
-                <input type="text" class="global-input"> -
-                <input type="text" class="global-input"> -
-                <input type="text" class="global-input"> 
-                <em class="error-ico">x</em>
-                <em class="suc-ico">v</em>
-              </div>
+          <div class="check-money-area clearfix" >
+            <div class="money-style"id="money_card_frame" style="display:none">
+            <label for="voucher"  id="voucher_label"><input type="checkbox" id="voucher" class="checkbox-item">使用现金券</label>
+            <br>
+            <div style="margin-left:20px;display:none" id="money_card_input_frame">
+              请输入10位现金券券号:&nbsp;&nbsp;<input type="text" class="global-input vt-a" id="cash_code"><em style="display:none" class="error-ico" id="no">x</em><em style="display:none" id="yes" class="suc-ico">√</em>
             </div>
-            <label for="balance"><input type="checkbox" id="balance" class="checkbox-item">使用账户余额（0元）</label><br>
+            <label for="balance" id="blance_label"><input type="checkbox" id="balance" class="checkbox-item">活动赠送/礼金卡<span class="overage-area"><span id="balance_display" style="display:none">可用余额（50元）</span><a class="btn" target="_blank" href="user.php?act=charge">充值</a></span></label><br>
+            
             </div>
-            <div class="total-money">
-              <p><em>商品总计：</em><b class="total order_total">0元</b></p>
-              <p><em>配送费：</em><b>0元</b></p>
-              <p><em>优惠折扣：</em><b>0元</b></p>
-              <p class="total-p"><em>您总共需要支付：</em><b class="total">0元</b></p>
+	    <div class="total-money">
+              <p><em>商品总计：</em><b class="order_total">0元</b></p>
+              <p id="shipping_fee_display" style="display:none"><em>配送费：</em><b>10元</b></p>
+              <p><em>优惠折扣：</em><b id="disaccount">0元</b></p>
+              <p class="total-p"><em>您总共需要支付：</em><b class="order_total" id="final_total">0元</b></p>
             </div>
           </div>
-          <div class="tl-r">
+	  <?php if ($this->_var['checkout_times'] > 3): ?>
+          <div class="tl-r" id="vaild_code_frame">
             <span class="total-sub-tip">请输入验证码：</span>
-            <input type="text" class="global-input" style="width:80px;">
-            <img src="" class="check-code">
+            <input type="text" class="global-input" style="width:80px;" id="code_input">
+            <img src="captcha.php" class="check-code" style="*margin-top:-20px;" id="code_image">
           </div>
+	  <?php endif; ?>
           <div class="tl-r">
             <span class="total-sub-tip">请确认信息无误后下单</span>
             <input id="submit_order_btn" class="btn green-btn big-btn" type="button" style="margin-right:0;" value="提交订单">
           </div>
         </form>
         <form action="flow.php" method="post" id="submit_form">
-          <input type="hidden" name="pay_id" value="3" id="pay_id">
-          <input type="hidden" name="bonus_sn" value="请输入10位现金券券号"  id="bonus_sn">
+          <input type="hidden" name="pay_id" value="1" id="pay_id">
+	  <input type="hidden" name="surplus" value="0.00" id="surplus">
+          <input type="hidden" name="bonus_sn" value="请输入10位现金券券号" id="bonus_sn">
           <input type="hidden" name="shipping_fee" value="￥0.00"  id="shipping_fee">
           <input type="hidden" name="x" value="97">
           <input type="hidden" name="y" value="32">
+	  <input type="hidden" name="token" value="<?php echo $this->_var['order_token']; ?>">
           <input type="hidden" name="step" value="done">
         </form>
     </div>
@@ -165,5 +181,8 @@
   <script src="script/datepicker/WdatePicker.js"></script>
   <?php echo $this->fetch('lib/footer_new.lbi'); ?>
 </div>
+<script type="text/javascript">
+$("input[placeholder]").miPlaceholder("#ccc");
+</script>
 </body>
 </html>

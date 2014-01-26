@@ -101,7 +101,6 @@ define(['ui/dialog'],function(Dialog){
 								CURRENT_ID = d.id;
 								$('#mod_address_popup').show();
 								$('#save_address_popup').hide();
-								
 								$('#region_sel_popup').val(d.data.city);
 								if(d.data.district){
 									getDistrictInfo(d.data.city,function(){
@@ -120,7 +119,6 @@ define(['ui/dialog'],function(Dialog){
 						},
 						afterRender:function(){
 							//获得地址信息
-							
 							var jqRegionSel = $('#region_sel_popup');
 							var jqDistrictSel = $('#dis_district_popup');
 							var jqNewAddressInput = $('#new_address_popup');
