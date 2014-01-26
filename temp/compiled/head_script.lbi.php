@@ -1,6 +1,0 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="css/home.css" />
-<script src="script/jquery-1.10.min.js"></script>
-<script src="script/require.js"></script>
-<script src="script/page/common.js"></script>
-
