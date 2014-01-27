@@ -32,7 +32,7 @@
         </dd> -->
       </dl>
       <p class="phone-check-tip"><b>我的账户中有<span id="my_money">0</span>元余额</b><br/>
-        <a href="user.php?act=charge" class="td-u">礼金卡充值</a><a href="user.php?act=charge" class="td-u">代金券充值</a>
+        <a href="user.php?act=charge" class="td-u">礼金卡充值</a><a href="user.php?act=charge" style="display:none" class="td-u">代金券充值</a>
       </p>
     </div>
   </div>

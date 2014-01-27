@@ -17,16 +17,20 @@
 							<%}else if(order.shipping_status==4){%>已发货(部分商品)\
 							<%}else if(order.shipping_status==5){%>发货中(处理分单)\
 						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%>\
-				<%if(order.pay_id==4){%>货到付款\
-				<% } else {%>\
-					<%if(order.pay_status==0||!order.pay_status){%>\
-					<a href="#" id="pay_online" class="btn">付款</a>\
-					<% }else if(order.pay_status==1){%>\
-					<a href="#" id="" class="btn">付款中</a>\
+					<%if(order.pay_id==4){%>货到付款\
 					<% } else {%>\
-					<a href="#" id="" class="btn">已付款</a>\
+						<%if(order.pay_status==0||!order.pay_status){%>\
+							<%if(order.pay_name=="快钱") {%>\
+								<a href="#" class="btn" onclick="document.forms[&quot;kqPay&quot;].submit();">付款</a>\
+							<%=order.pay_online.replace(/script/gi,"a")%><%} else {%>\
+								<a href="#" id="pay_online" class="btn">付款</a>\
+							<% } %>\
+						<% }else if(order.pay_status==1){%>\
+						<a href="#" id="" class="btn">付款中</a>\
+						<% } else {%>\
+						<a href="#" id="" class="btn">已付款</a>\
+						<% } %>\
 					<% } %>\
-				<% } %>\
 			<%}%>\
             </p>\
           </div>\

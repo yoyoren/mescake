@@ -107,6 +107,7 @@
 	
 	   $('#header_logout').click(function(){
 			MES.checkLogout(function(){
+				//location.href = "index.php";
 				location.reload();
 			});
 	   });

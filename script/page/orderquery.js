@@ -26,7 +26,10 @@
 			if(d.code == 0){
 				location.href= "route.php?action=order_list&mod=account";
 			}else{
-				new confirm('您的输入的验证码错误！',function(){});
+				require(['ui/confirm'],function(confirm){
+					new confirm('您的输入的验证码错误！');
+				});
+				
 			}
 		},'json');
 	});

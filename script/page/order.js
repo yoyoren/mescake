@@ -107,6 +107,7 @@
 			var me = this;
 			var jqDate = $('#date_picker');
 			var jqHour = $('#hour_picker');
+			var oldDate;
 			jqHour.mousedown(function(){
 				var html = ''
 				if(!/\d{4}-\d{2}-\d{2}/.test(jqDate.val())){
@@ -131,6 +132,42 @@
 							});
 							return false;
 							//html = '<option>今日已不能送货！</option>';
+						}else if(hour<beginHour){
+							for(var i=beginHour;i<=endHour;i++){
+								html+=('<option>'+i+'</option>');
+							}	
+						}else{
+							for(var i=hour;i<=endHour;i++){
+								html+=('<option>'+i+'</option>');
+							}
+						}
+					}else{
+						for(var i=beginHour;i<=endHour;i++){
+							html+=('<option>'+i+'</option>');
+						}
+					}
+				}
+			}).mouseover(function(){
+				var html = ''
+				if(!/\d{4}-\d{2}-\d{2}/.test(jqDate.val())){
+
+				}else{
+					if(jqHour.val()>9&&oldDate==jqDate.val()){
+						return;
+					}
+					oldDate = jqDate.val();
+					var endHour = 22;
+					var beginHour = 10;
+					var selDate = jqDate.val().split('-').join('');
+					var temp = CURRENT_TIME.split('-').join('').split(' ');
+					var currentDate = temp[0];
+					var hour = parseInt(temp[1].split(':')[0],10);
+					hour+=5;
+		
+					if(currentDate == selDate){
+						
+						if(hour>endHour){
+
 						}else if(hour<beginHour){
 							for(var i=beginHour;i<=endHour;i++){
 								html+=('<option>'+i+'</option>');
@@ -483,7 +520,7 @@
 				data = {
 						address_id:_this.data('id'),
 						consignee:_this.data('contact'),
-						country:501,
+						country:441,
 						city:_this.data('city'),
 						address:_this.data('address'),
 						district:_this.data('district'),
@@ -496,7 +533,7 @@
 				data = {
 						address_id:0,
 						consignee:$('#new_contact').val(),
-						country:501,
+						country:441,
 						city:$('#region_sel').val(),
 						address:$('#new_address').val(),
 						district:$('#dis_district').val(),
@@ -653,7 +690,7 @@
 						
 						//最终价格
 						$('#final_total').html(d.total.amount_formated);
-						$('#surplus').val();
+						$('#surplus').val(d.surplus);
 					},'json');
 				}
 				else{
@@ -665,7 +702,7 @@
 						$('#disaccount').html('￥0');
 						
 						//最终价格
-						$('#final_total').html(d.total.formated_goods_price);
+						$('#final_total').html(d.total.amount_formated);
 						$('#surplus').val('0.00');
 					},'json');
 				}

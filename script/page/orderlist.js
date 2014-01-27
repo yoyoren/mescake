@@ -34,10 +34,17 @@ $('#my_order_frame').show();
 						  	<a href="#" class="td-u link-color cancel_order" data-id="<%=data[i].order_id%>">取消订单</a></td>\
 						  <% } %>\
 						  <td>\
-						  <%if(data[i].pay_id<4&&data[i].pay_status==0){%>\
-						  <a href="<%=data[i].pay_online.pay_online%>" class="btn pay_order" data-id="<%=data[i].order_id%>">\
-						  	去付款\
-						  </a>\
+						  <%if(data[i].pay_id<4&&data[i].pay_status==0&&data[i].order_status!=2){%>\
+							  <%if(data[i].pay_name=="快钱"){%>\
+								  <a href="#" class="btn pay_order" data-type="kuaiqian" data-id="<%=data[i].order_id%>">\
+									去付款\
+								  </a>\
+								  <div style="display:none" id="pay_form_<%=data[i].order_id%>"><%=data[i].pay_online.pay_online.replace(/script/gi,"a")%></div>\
+							  <%}else{%>\
+								  <a href="<%=data[i].pay_online.pay_online%>" class="btn pay_order" data-id="<%=data[i].order_id%>">\
+									去付款\
+								  </a>\
+							  <% } %>\
 						  <% } %>\
 						  </td>\
 						</tr>\
@@ -87,6 +94,7 @@ $('#my_order_frame').show();
 					},function(d){
 						if(d.code == 0){
 							$('#orderitem_'+_id).find('.order_status').html('已取消');
+							$('#orderitem_'+_id).find('.pay_order').remove();
 							_jqThis.hide();
 						}else{
 							require(['ui/confirm'],function(confirm){
@@ -98,13 +106,20 @@ $('#my_order_frame').show();
 			});
 			return false;
 		}).delegate('.pay_order','click',function(){
-			var payUrl = $(this).attr('href');
-			var f = window.open(payUrl);
-			if(f==null){
-				require(['ui/confirm'],function(confirm){
-					new confirm("您的浏览器启用拦截支付宝弹出窗口过滤功能！\n\n请暂时先关闭此功能以完成支付！")
-				});
+			var _this = $(this);
+			var payUrl =_this.attr('href');
+			if(payUrl=='#'&&_this.data('type')=='kuaiqian'){
+				$('#pay_form_'+_this.data('id')).find('form')[0].submit();
+
+			}else{
+				var f = window.open(payUrl);
+				if(f==null){
+					require(['ui/confirm'],function(confirm){
+						new confirm("您的浏览器启用拦截支付宝弹出窗口过滤功能！\n\n请暂时先关闭此功能以完成支付！")
+					});
+				}
 			}
+
 			return false;
 		});
 

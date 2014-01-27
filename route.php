@@ -103,7 +103,7 @@ switch ($mod) {
 			));
 
 			$country= ANTI_SPAM($_POST['country'],array(
-				'values'=>array(501)
+				'values'=>array(441)
 			));
 
 			$city= ANTI_SPAM($_POST['city'],array(
@@ -152,7 +152,7 @@ switch ($mod) {
 				'maxLength'=>100
 			));
 			$country= ANTI_SPAM($_POST['country'],array(
-				'values'=>array(501)
+				'values'=>array(441)
 			));
 
 			$city= ANTI_SPAM($_POST['city'],array(
@@ -266,7 +266,7 @@ switch ($mod) {
 				
 				$consignee = ANTI_SPAM($_POST['consignee']);
 				$country = ANTI_SPAM($_POST['country'],array(
-										'values'=>array(501)
+										'values'=>array(441)
 							));
 				$province = ANTI_SPAM($_POST['province'],array(
 										'empty'=>true
@@ -320,7 +320,7 @@ switch ($mod) {
 		        );
 
 			//地址id为空可以，但是内容不能为空
-			if(empty($address_id)&&(empty($city)||empty($district)||empty($address))){
+			if(empty($address_id)&&(empty($city)||empty($address))){
 				echo json_encode(array(
 						'code'=>'10006',
 						'msg'=>'address error',
