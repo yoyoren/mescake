@@ -1392,6 +1392,13 @@ elseif ($_REQUEST['step'] == 'done')
 {
     include_once('includes/lib_clips.php');
     include_once('includes/lib_payment.php');
+	
+	//anti csrf
+	$order_token = $_POST['token'];
+	if($order_token!==$_SESSION['order_token']){
+		ecs_header("Location: 404.html");
+        exit;
+	}
 
     /* 取得购物类型 */
     $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
@@ -1767,7 +1774,15 @@ elseif ($_REQUEST['step'] == 'done')
 	$order['order_sn'] = $cc.date("Ymd") . substr($order['order_id'], -5);
 	include_once('includes/tender.php');
 	tender($order['order_id'],$order['user_id'],$order['pay_id'],$order['pay_note'],$order['order_amount'],$order['bonus'],$order['bonus_id'],$order['surplus'],$order['integral']);
-	
+	$dt=date("Y-m-d",$order['add_time']);
+   $bt=substr($order['best_time'],0,10);
+   $dtime=date("Y-m-d",time());
+   $xiangkuangnum=$db->getOne("select count(*) from ecs_order_info where from_unixtime(add_time,'%Y-%m-%d')=".$dtime." and (scts like '%相框%' or wsts like '%相框%') and (order_status=0 or order_status=1)");
+   if($dt>='2014-01-25'&&$dt<='2014-02-14'&&$bt>='2014-01-25'&&$bt<='2014-02-16'&&$order['bonus']==0&&$order['surplus']==0&&$_SESSION['activity_cake']==1&&$xiangkuangnum<50)
+   {
+     $order['scts'].="免费赠送爱的味道相框1个";
+     $order['wsts'].="免费赠送爱的味道相框1个";
+   }
 	$ba=$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('order_info'), $order, 'INSERT');
 	$user_id=$_SESSION['user_id'];
 	if($ba)
@@ -1883,6 +1898,7 @@ elseif ($_REQUEST['step'] == 'done')
     if ($order['user_id'] > 0 && $order['surplus'] > 0)
     {
         //log_account_change($order['user_id'], $order['surplus'] * (-1), 0, 0, 0, sprintf($_LANG['pay_order'], $order['order_sn']));
+		var_dump(1);
 		log_mcard_change($order['user_id'], $order['surplus'] * (-1),sprintf($_LANG['pay_order'], $order['order_sn']),0,$order['order_id'],1);
     }
     if ($order['user_id'] > 0 && $order['integral'] > 0)

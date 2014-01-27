@@ -885,11 +885,15 @@ function cart_goods($type = CART_GENERAL_GOODS)
             "AND rec_type = '$type'";
 
     $arr = $GLOBALS['db']->getAll($sql);
-
+	$_SESSION['activity_cake']=0;
     /* 格式化价格及礼包商品 */
     foreach ($arr as $key => $value)
     {
-        $arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
+        if($value['goods_id']==22||$value['goods_id']==25||$value['goods_id']==26||$value['goods_id']==27)
+		{
+			$_SESSION['activity_cake']=1;
+		}
+		$arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
         $arr[$key]['formated_goods_price']  = price_format($value['goods_price'], false);
         $arr[$key]['formated_subtotal']     = price_format($value['subtotal'], false);
 

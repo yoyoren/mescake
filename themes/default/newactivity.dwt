@@ -5,68 +5,50 @@
 <meta name="Keywords" content="{$keywords}" />
 <meta name="Description" content="{$description}" />
 <!-- TemplateBeginEditable name="doctitle" -->
-<title>Mes每实—精灵旅社</title>
+<title>MES每实——情人节,把你最浓烈的甜蜜献给Ta</title>
 <!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="css/home.css">
 <!-- {if $cat_style} -->
 <link href="{$cat_style}" rel="stylesheet" type="text/css" />
 <!-- {/if} -->
-<!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 {* 包含脚本文件 *}
 {insert_scripts files='jquery.min.js,jquery.json-1.3.js,common.js'}
-<style type="text/css">
-.searchg{width:774px;height:250px;margin-top:10px;position:relative;overflow:hidden;}
-.moremore{position:absolute;bottom:10px;right:40px;cursor:pointer;}
-</style>
+     <script src="http://land.xiaomi.net/res/42916/scripts/jquery-1.5.1.min.js"></script>
+<script src="http://s0.jmstatic.com/templates/jumei/js/jquery/jquery.selectui.min.js"></script>
+    <style type="text/css">
+*{padding: 0; margin: 0; }
+html,body{background:#fff;}
+body{font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; color: #5b4f5b;}
+a,label, :focus{outline:0 none;}
+img,a{display: block; border: 0 none;}
+.love-layout{width: 954px; margin:0 auto;}
+.love-img-list{padding: 40px 0; overflow: hidden;}
+.love-img-list a{display: inline-block; *display: inline; zoom:1; float: left; margin-right: 18px;}
+.love-img-list img{display: inline;}
+.love-tip{clear:both; color: #333; font-size: 14px; padding: 20px 0; text-align: center; font-weight: bold;}
+.footer{color: #999; font-size: 12px; background: #fff; padding: 20px 0; width:960px; height:auto; margin:0 auto;}
+.footer a{color: #999; display: inline-block; *display: inline; zoom:1;}
+    </style>
 </head>
 <body>
-<!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+
 <div class="block box">
-<div class="blank60"></div>
-  <!--left start-->
-   <div class="AreaL" id="search_goods_list">   
-	<a href="goods.php?id=27">
-		<div class="searchg" style="background:url(images/zhiai.jpg)">
-			<div class="moremore"><font color="white" size="4">立即订购</font>&nbsp;</div> 
-		</div>
-	</a>
-  <a href="goods.php?id=11">
-		<div class="searchg" style="background:url(images/xiehou.jpg)">
-			<div class="moremore"><font color="white" size="4">立即订购</font>&nbsp;</div> 
-		</div>
-  </a>
-   <a href="goods.php?id=21">
-		<div class="searchg" style="background:url(images/hawana.jpg)">
-			<div class="moremore"><font color="white" size="4">立即订购</font>&nbsp;</div> 
-		</div>
-  </a>
- <a href="goods.php?id=38">
-		<div class="searchg" style="background:url(images/napolun.jpg)">
-			<div class="moremore"><font color="white" size="4">立即订购</font>&nbsp;</div> 
-		</div>
-  </a>
-  
-  </div>  
-  <!--left end-->
-   <div class="top-right">
- 
-  <!-- #BeginLibraryItem "/library/search_form2.lbi" --><!-- #EndLibraryItem -->	
- {insert name='right_history'}
-  <div id="ECS_CARTINFO">
- {insert name='right_cart_info'}
- </div>
- </div>
-<div class="blank20"></div>
-<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
-<script>
-var select_spe = "{$lang.select_spe}";
-var btn_buy = "{$lang.btn_buy}";
-var is_cancel = "{$lang.is_cancel}";
-</script>
-  <!--浏览统计-->
-   <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000160405'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000160405%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-</body>
-</html>
+  	<div class="love-layout">
+	  	<div>
+	  	<a href="goods.php?id=27" target="_blank"><img src="images/love-for.png" alt="致爱" /></a>
+	    </div>
+	  	<div class="love-img-list">
+		<a href="goods.php?id=22" target="_blank"><img src="images/love-img1.png" alt="永恒" /></a>
+		<a href="goods.php?id=25" target="_blank"><img src="images/love-img2.png" alt="唯一" /></a>
+		<a href="goods.php?id=26" target="_blank" style="margin-right:0;"><img src="images/love-img3.png" alt="许愿" /></a>
+	    </div>
+	    <p class="love-tip">即日起至2月14日订购以上任意玫瑰蛋糕，即刻拥有“爱的味道”主题相框（每日限量50个）</p>
+		<img src="images/love-img4.png" alt="爱的味道" />
+		   <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+	</div>
+  	
+  </body>
+  </html>

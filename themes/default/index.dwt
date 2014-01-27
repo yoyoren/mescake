@@ -23,20 +23,15 @@
 	  <div class="block clearfix"> 
      <div class="banner">
 		<ul>
-		<li><a href="user.php?act=register" target="_blank"><h4 class="display_none">致爱</h4><img src="images/lunbo6.jpg" width="954px" height="400px" alt="我愿意"/></a> 
-				<p class="display_none">人的一生会遇到2900万人，千分之一的驻足，致爱，致唯一</p></li>
-		<li><a href="newactivity.php" target="_blank"><h4 class="display_none">MES每实--精灵旅社</h4><img src="images/lunbo5.jpg" width="954px" height="400px" alt="MES每实--精灵旅社"/></a>
-				<p class="display_none"></p></li>
-		
+		<!--<li><a href="goods.php?id=27" target="_blank"><h4 class="display_none">致爱</h4><img src="images/lunbo1.jpg" width="954px" height="400px" alt="我愿意"/></a> 
+				<p class="display_none">人的一生会遇到2900万人，千分之一的驻足，致爱，致唯一</p></li> -->
+		 <li><!--<a href="newactivity.php" target="_blank"><h4 class="display_none">MES每实--精灵旅社</h4><img src="images/lunbo5.jpg" width="954px" height="400px" alt="MES每实--精灵旅社"/></a>-->
+         <a href="newactivity.php" target="_blank"><h4 class="display_none">MES每实——致爱</h4><img src="images/love-for-me.png" width="954px" height="400px" alt="MES每实——致爱"/></a>
+				<p class="display_none"></p></li>		
 		<li><a href="goods.php?id=26" target="_blank"><h4 class="display_none">许愿</h4><img src="images/lunbo2.jpg" width="954px" height="400px" alt="爱的期许"/></a> 
 				<p class="display_none">希望能并肩在屋檐下躲雨 能眯缝着眼看眼光下的你 能一起走过日落晚风 爱的许愿定格成待放的样子</p></li>
-		<!-- <li>
-      <a href="goods.php?id=30" target="_blank">
-        <h4 class="display_none">致爱</h4>
-        <img src="images/love-for-me.png" width="954px" height="400" alt="致爱"/>
-    </a>
-    <p class="display_none">即日起至2月14日订购，即可拥有“爱的味道”主题相框（每日限量50个）</p>
-				</li> -->
+		<li><a href="goods.php?id=30" target="_blank"><h4 class="display_none">纪念日款</h4><img src="images/lunbo3.jpg" width="954px" height="400px" alt="某一天的纪念"/></a>
+				<p class="display_none">某一天的纪念 星很亮的那一天 雨很急的那一天 刻在生命里 成了纪念</p></li>
 		</ul>
 		<a href="javascript:;" class="turn-btn btn_l"></a>
 		<a href="javascript:;" class="turn-btn btn_r"></a>
