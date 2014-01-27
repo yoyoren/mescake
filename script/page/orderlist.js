@@ -11,7 +11,7 @@ $('#my_order_frame').show();
 								<img src="themes/default/images/sgoods/<%=data[i].detail[j].goods_sn.substring(0,3)%>.png">\
 							</a>\
 							<% } %><% } %></td>\
-						  <td><%=data[i].order_amount%></td>\
+						  <td><%=parseFloat(data[i].order_amount,10)%></td>\
 						  <td class="order_status">\
 							<%if(data[i].order_status==2){%>已取消\
 							<%} else {%>\

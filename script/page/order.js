@@ -717,9 +717,9 @@
 			var Bonus_sn;
 			$('#voucher_label').click(function(){
 				if($('#voucher')[0].checked&&Bonus_sn){
-					$('#bonus_sn').val(Bonus_sn);
+					$('#bonus_id').val(Bonus_sn);
 				}else{
-					$('#bonus_sn').val('请输入10位现金券券号');
+					$('#bonus_id').val('请输入10位现金券券号');
 				}
 			});
 			
@@ -750,7 +750,7 @@
 						canUse = true;
 
 						if($('#voucher')[0].checked){
-							$('#bonus_sn').val(bonus_sn);
+							$('#bonus_id').val(bonus_sn);
 						}
 					}
 				},'json');
