@@ -133,7 +133,7 @@
           </div>
           <div class="check-money-area clearfix" >
             <div class="money-style"id="money_card_frame" style="display:none">
-            <label for="voucher"  id="voucher_label"><input type="checkbox" id="voucher" class="checkbox-item">使用现金券</label>
+            <label for="voucher" style="display:none"  id="voucher_label"><input type="checkbox" id="voucher" class="checkbox-item">使用现金券</label>
             <br>
             <div style="margin-left:20px;display:none" id="money_card_input_frame">
               请输入10位现金券券号:&nbsp;&nbsp;<input type="text" class="global-input vt-a" id="cash_code"><em style="display:none" class="error-ico" id="no">x</em><em style="display:none" id="yes" class="suc-ico">√</em>
