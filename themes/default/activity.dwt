@@ -133,7 +133,7 @@
 <!--{/if}-->
 <!--友情链接 end-->
 <div class="blank"></div>
-<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+ <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
   
 </body>
 </html>

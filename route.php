@@ -103,7 +103,7 @@ switch ($mod) {
 			));
 
 			$country= ANTI_SPAM($_POST['country'],array(
-				'values'=>array(441)
+				'values'=>array(441,501)
 			));
 
 			$city= ANTI_SPAM($_POST['city'],array(
@@ -152,7 +152,7 @@ switch ($mod) {
 				'maxLength'=>100
 			));
 			$country= ANTI_SPAM($_POST['country'],array(
-				'values'=>array(441)
+				'values'=>array(441,501)
 			));
 
 			$city= ANTI_SPAM($_POST['city'],array(
@@ -266,7 +266,7 @@ switch ($mod) {
 				
 				$consignee = ANTI_SPAM($_POST['consignee']);
 				$country = ANTI_SPAM($_POST['country'],array(
-										'values'=>array(441)
+										'values'=>array(441,501)
 							));
 				$province = ANTI_SPAM($_POST['province'],array(
 										'empty'=>true
