@@ -47,8 +47,7 @@ img,a{display: block; border: 0 none;}
 	    </div>
 	    <p class="love-tip">即日起至2月14日订购以上任意玫瑰蛋糕，即刻拥有“爱的味道”主题相框（每日限量50个）</p>
 		<img src="images/love-img4.png" alt="爱的味道" />
-		   <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
 	</div>
-  	
+    <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->	
   </body>
   </html>
