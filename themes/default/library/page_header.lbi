@@ -3,7 +3,7 @@
 
    <div class="header">
 	<div style="position:absolute;top:38px;left:74px;width:840px;"><a href="index.php"><img src="images/logo.jpg"/></a>
-		<div style='width:100px;position:absolute;right:0;top:35px;;margin-top:0px;'><a href='shopcar.php'><img src='images/gcar.png' /></a></div></div>
+		<div style='width:100px;position:absolute;right:0;top:35px;;margin-top:0px;'><a href='route.php?action=step1&mod=order'><img src='images/gcar.png' /></a></div></div>
    		<h1 class="display_none">蛋糕订购</h1>
 		<img src="images/head4.png" border="0" usemap="#Map" />
 		<h2 class="display_none">即刻分享</h2>
