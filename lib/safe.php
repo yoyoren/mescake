@@ -2,7 +2,7 @@
 
 function PARAM_VAILD($str='',$option=array()){
 	$length = iconv_strlen($str,'utf-8');
-	$res = json_encode(array('code'=>10006));
+	$res = json_encode(array('code'=>RES_PARAM_INVAILD));
 
 	//有些字段可以被设置为空 则要通过验证
 	if(!$option['empty']&&empty($str)){

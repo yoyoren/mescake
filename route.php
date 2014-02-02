@@ -51,7 +51,7 @@ $_action_list = $need_login_action[$mod];
 if(in_array($action,$_action_list)){
  
  if(!MES_User::server_check_login()){
-	echo json_encode(array('code'=>'10005'));
+	echo json_encode(array('code'=>RES_NEED_LOGIN));
 	exit;
  }
 }
@@ -60,6 +60,8 @@ switch ($mod) {
     
 		require_once(ROOT_PATH . 'lib/order.php');
         if($action == 'step1'){
+			$order_list = MES_Order::get_order_list();
+			$smarty->assign('order_list', $order_list);
 			$smarty->display('shoppingcar_new.dwt');
 			return;
 		}else if($action == 'step2'){
@@ -322,7 +324,7 @@ switch ($mod) {
 			//地址id为空可以，但是内容不能为空
 			if(empty($address_id)&&(empty($city)||empty($address))){
 				echo json_encode(array(
-						'code'=>'10006',
+						'code'=>RES_PARAM_INVAILD,
 						'msg'=>'address error',
 				));
 				exit;
@@ -331,7 +333,7 @@ switch ($mod) {
 			//自己的手机和联系人的手机 至少写一个
 			if(empty($tel)&&empty($mobile)){
 				echo json_encode(array(
-						'code'=>'10006',
+						'code'=>RES_PARAM_INVAILD,
 						'msg'=>'tel empty',
 				));
 				exit;
@@ -340,7 +342,7 @@ switch ($mod) {
 			//如果送货时间小于当前时间5小时 不能送
 			if(time()>(strtotime($best_time)-5*3600)){
 				echo json_encode(array(
-						'code'=>'10006',
+						'code'=>RES_PARAM_INVAILD,
 						'msg'=>'time error',
 				));
 				exit;
@@ -364,7 +366,7 @@ switch ($mod) {
 				$validator = new captcha();
 				if (!$validator->check_word($vaild_code)){
 					echo json_encode(array(
-						'code'=>'10007',
+						'code'=>RES_CAPTACH_INVAILD,
 						'msg'=>'vaild error',
 					)); 
 					exit;

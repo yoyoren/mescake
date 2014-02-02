@@ -28,7 +28,7 @@ class MES_Order{
 	public static function get_district($city){
 		$district = MES_Fee::get_fee_region();
 		$district = $district[$city];
-		return json_encode(array('code'=>'0','data'=>$district));
+		return json_encode(array('code'=>RES_SUCCSEE,'data'=>$district));
 	}
 
 	
@@ -59,7 +59,7 @@ class MES_Order{
 		$sql="delete from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";
 		$address=$db->query($sql);
 		return json_encode(array(
-			'code'=>'0',
+			'code'=>RES_SUCCSEE,
 			'msg'=>'ok'
 		));
 	}
@@ -80,7 +80,10 @@ class MES_Order{
 		$city_name=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
 		$address['cityName'] = $city_name;
 		$address['districtName'] = MES_Order::_get_distruct_name($city,$district);
-		return json_encode(array('msg'=>'ok','code'=>'0','data'=>$address));
+		return json_encode(array(
+			'msg'=>'ok',
+			'code'=>RES_SUCCSEE,
+			'data'=>$address));
 	}
 
 
@@ -97,11 +100,11 @@ class MES_Order{
 		$city_name=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
 		$address['cityName'] = $city_name;
 		$address['districtName'] = MES_Order::_get_distruct_name($city,$district);
-		return json_encode(array('msg'=>'ok','code'=>'0','data'=>$address));
+		return json_encode(array('msg'=>'ok','code'=>RES_SUCCSEE,'data'=>$address));
 	}
 	
 	//获得订单列表
-	public static function get_order_list(){
+	public static function get_order_list($service_side=false){
 		//require(ROOT_PATH . 'includes/lib_order.php');
 		//require(ROOT_PATH . 'includes/lib_transaction.php');
 		
@@ -180,7 +183,13 @@ class MES_Order{
 			'total' => $total,
 			'order_total'=>MES_Order::get_total_price_in_cart()
 		);
-		return json_encode($cart_goods);
+
+		if($service_side){
+			return $cart_goods;
+		}else{
+			return json_encode($cart_goods);
+		}
+		
 	}
 	
 	//根据地址id判断一个地址是否需要加送运费
@@ -200,14 +209,14 @@ class MES_Order{
 				$_SESSION['need_shipping_fee'] = '0.00';
 			}
 			return json_encode(array(
-				'code'=>'0',
+				'code'=>RES_SUCCSEE,
 				'fee'=>$_SESSION['need_shipping_fee'],
 				'order_total'=>MES_Order::get_total_price_in_cart()
 			));
 		}
 
 		return json_encode(array(
-			'code'=>'1',
+			'code'=>RES_FAIL,
 			'fee'=>'1',
 			
 		));
@@ -475,7 +484,7 @@ class MES_Order{
 		
 		if($free_fork_num>$num){
 			return json_encode(array(
-				'code'=>'1'
+				'code'=>RES_FAIL
 			));
 		}else{
 			//have extra fork
@@ -500,7 +509,7 @@ class MES_Order{
 			}	
 			//$total += $total_price;
 			return json_encode(array(
-				'code'=>'0',
+				'code'=>RES_SUCCSEE,
 				'num'=>$num,
 				'price'=>$price,
 				'total'=>$total,
@@ -528,7 +537,7 @@ class MES_Order{
         $_SESSION['flow_consignee'] = stripslashes_deep($consignee);
 		
 		$result = array(
-			'code' => 0, 
+			'code' => RES_SUCCSEE, 
 			'message' => '', 
 			'content' => ''
 		);
@@ -538,7 +547,7 @@ class MES_Order{
 		$fee_city_hash = MES_Fee::get_fee_region();
 		$city = $consignee['city'];
 		if($fee_city_hash[$city]&&!$consignee['district']){
-			$result['code']=1;
+			$result['code']=RES_FAIL;
 			return json_encode($result);
 		}
 		//在服务器检查订单是否合法
@@ -581,7 +590,7 @@ class MES_Order{
 	        "AND parent_id = 0 AND is_gift = 0 AND rec_type = '$flow_type'";
 
 	    if ($db->getOne($sql) == 0){
-	    	return json_encode(array('code' =>1 ,'msg'=> $_LANG['no_goods_in_cart']));
+	    	return json_encode(array('code' =>RES_FAIL ,'msg'=> $_LANG['no_goods_in_cart']));
 	    }
 
 	    /*
@@ -679,7 +688,7 @@ class MES_Order{
 
 	    $_SESSION['flow_order'] = $order;
 	    return json_encode(array(
-	    	'code'=>0,
+	    	'code'=>RES_SUCCSEE,
 	    	'order' => $order,
 	    	'total'=> $total,
 	    	'goods'=>$cart_goods,
@@ -696,9 +705,9 @@ class MES_Order{
 				$_SESSION['need_shipping_fee'] = '0.00';
 			}
 	   if($need){
-			return json_encode(array('code'=>'0','fee'=>'10.00','order_total'=>MES_Order::get_total_price_in_cart()));
+			return json_encode(array('code'=>RES_SUCCSEE,'fee'=>'10.00','order_total'=>MES_Order::get_total_price_in_cart()));
 	   }
-	   return json_encode(array('code'=>'0','fee'=>'0','order_total'=>MES_Order::get_total_price_in_cart()));
+	   return json_encode(array('code'=>RES_SUCCSEE,'fee'=>'0','order_total'=>MES_Order::get_total_price_in_cart()));
 	}
 
 	//增加到购物车

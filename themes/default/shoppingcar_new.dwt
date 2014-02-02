@@ -5,6 +5,13 @@
   <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 </head>
 <body>
+ <script>
+	window.SHOPPING_CAR = true;
+	window.ORDER_LIST = {$order_list};
+	if(!ORDER_LIST.goods_list.length){
+	   location.href="route.php?mod=order&action=empty";
+	}
+ </script>
 <div class="layout">
   <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
   <div class="head-line"></div>
@@ -18,9 +25,7 @@
       </div>
     </div>
   </div>
-  <script>
-	window.SHOPPING_CAR = true;
-  </script>
+
   <script src="js/jquery.json-1.3.js"></script>
   <script src="script/page/shoppingcar.js"></script>
   <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->

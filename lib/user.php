@@ -22,11 +22,15 @@ class MES_User{
 		$password = addslashes($password);
 
 		$json = new JSON;
-		$result   = array('code' => 0, 'content' => 'login successs');
+		$result   = array(
+			'code' => RES_SUCCSEE, 
+			'content' => 'login successs'
+		);
+
 		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
 
 		if(empty($username)){
-			$result['code']   = 1;
+			$result['code'] = RES_FAIL;
 			$result['content'] = $_LANG['login_failure'];
 			return $json->encode($result);
 		}
@@ -36,8 +40,8 @@ class MES_User{
 			$_SESSION['usermsg']= get_user_info();
 		}else{
 			$_SESSION['login_fail']++;
-			$result['error']   = 1;
-			$result['code']   = 1;
+			$result['error'] = 1;
+			$result['code'] = RES_FAIL;
 			$result['content'] = $_LANG['login_failure'];
 		}
 		return $json->encode($result);
@@ -65,7 +69,7 @@ class MES_User{
 	public static function logout(){
 		global $user;
 		$user->logout();
-		return json_encode(array('code'=>'0','msg'=>'success'));
+		return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success'));
 	}
 
 	public static function check_login(){
@@ -79,7 +83,7 @@ class MES_User{
 				$uname =$_SESSION['uuid'];
 			}
 		}
-		return json_encode(array('code'=>'0','msg'=>'success','res'=>$res,'uname'=>$uname));
+		return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success','res'=>$res,'uname'=>$uname));
 	}
 
 	//服务器端用于检查是否登录的方法
@@ -100,7 +104,7 @@ class MES_User{
 	public static function check_user_exsit($username){
 		//global $user;
 		global $db;
-		$res = array('code'=>0);
+		$res = array('code'=>RES_SUCCSEE);
 		$username = addslashes($username);
 		$username = $db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
 		if($username==''){
@@ -139,11 +143,11 @@ class MES_User{
 		//标记一下这个用户是这次自动注册的
 		$_SESSION['user_auto_register'] = '11';
 		$_SESSION['user_auto_register_moblie'] = $mobile;
-		return json_encode(array('code' =>'0','msg'=>$msg));
+		return json_encode(array('code' =>RES_SUCCSEE,'msg'=>$msg));
 	}
 
 	public static function get_auto_register_mobile(){
-		return json_encode(array('code' =>'0','msg'=>$_SESSION['user_auto_register_moblie']));
+		return json_encode(array('code' =>RES_SUCCSEE,'msg'=>$_SESSION['user_auto_register_moblie']));
 	}
 
 	//帮没有设置密码的用户
@@ -154,7 +158,7 @@ class MES_User{
 		$password = addslashes($password);
 		//密码验证
 		if(empty($password)||strlen($password)<6){
-			return json_encode(array('code'=>'1','msg'=>'fail'));
+			return json_encode(array('code'=>RES_FAIL,'msg'=>'fail'));
 		}
 
 		
@@ -169,9 +173,9 @@ class MES_User{
 			$db->query("update ecs_users set user_type=0,password='$password' where user_name='$username'");
 			unset($_SESSION['user_auto_register']);
 			unset($_SESSION['user_auto_register_moblie']);
-			return json_encode(array('code'=>'0','msg'=>'success'));
+			return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success'));
 		}else{
-			return json_encode(array('code'=>'2','msg'=>'fail'));
+			return json_encode(array('code'=>RES_FAIL,'msg'=>'fail'));
 		}
 		
 	}
@@ -179,9 +183,9 @@ class MES_User{
 	//检测用户是否可以重新设置密码
 	public static function is_unset_password_user(){
 		if($_SESSION['user_auto_register'] == '11'){
-			return json_encode(array('code'=>'0','msg'=>true));
+			return json_encode(array('code'=>RES_SUCCSEE,'msg'=>true));
 		}else{
-			return json_encode(array('code'=>'0','msg'=>false));
+			return json_encode(array('code'=>RES_SUCCSEE,'msg'=>false));
 		}
 	}
 	
@@ -196,12 +200,12 @@ class MES_User{
 
 		$order_id = addslashes($order_id);
 	    $user_id = addslashes($_SESSION['user_id']);
-	    $res = array('code' =>'0');
+	    $res = array('code' =>RES_SUCCSEE);
 	    /* 订单详情 */
 	    $order = get_order_detail($order_id, $user_id);
 
 	    if ($order === false){
-	    	$res['code'] = 1;
+	    	$res['code'] = RES_FAIL;
 	        return json_encode($res);
 	    }
 
@@ -247,7 +251,7 @@ class MES_User{
 		}
 		
 		return json_encode(array(
-			'code' =>'0',
+			'code' =>RES_SUCCSEE,
 			'order'=>$order,
 			'goods_list'=>$goods_list,
 			'pay_online'=>$order_detail['pay_online']
@@ -265,7 +269,7 @@ class MES_User{
 		global $ecs;
 		$user_id = $_SESSION['user_id'];
 		if(!$user_id){
-			return json_encode(array('code' =>'1','msg'=>'user_id not exsit'));
+			return json_encode(array('code' =>RES_FAIL,'msg'=>'user_id not exsit'));
 		}
 
 	    $orders = $db->getAll("SELECT * FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id' order by order_id DESC");
@@ -280,7 +284,7 @@ class MES_User{
 			array_push($res,$v);
 		}
 		
-	    return json_encode(array('code' =>'0','orders'=>$res));
+	    return json_encode(array('code' =>RES_SUCCSEE,'orders'=>$res));
 	}
 
 	public static function del_one_order($order_id){
@@ -294,9 +298,9 @@ class MES_User{
 		if($current_order['order_status']==OS_UNCONFIRMED&&$current_order['pay_status']!=PS_PAYED){
 			$sql = "update ecs_order_info set order_status =".OS_CANCELED." where user_id = '$user_id' and order_id = '$order_id'";
 			$orders = $db->query($sql);
-			return json_encode(array('code' =>'0'));
+			return json_encode(array('code' =>RES_SUCCSEE));
 		}else{
-			return json_encode(array('code' =>'1'));
+			return json_encode(array('code' =>RES_FAIL));
 		}
 	}
 	
@@ -304,7 +308,7 @@ class MES_User{
 	   global $db;
 	   $mobile = addslashes($mobile);
 	   if(strlen($mobile)<5){
-		   return json_encode(array('code' =>'2'));
+		   return json_encode(array('code' =>RES_FAIL));
 	   }
 	   $user_type=$db->getOne("select user_type from". $GLOBALS['ecs']->table("users")."where email='$mobile' or mobile_phone='$mobile'");
 	   if($user_type == 11){
@@ -323,9 +327,9 @@ class MES_User{
 		   
 		   file_get_contents($url);
 		   
-		   return json_encode(array('code' =>'0'));
+		   return json_encode(array('code' =>RES_SUCCSEE));
 	   }else{
-		   return json_encode(array('code' =>'1','user_type' =>$user_type));
+		   return json_encode(array('code' =>RES_FAIL,'user_type' =>$user_type));
 	   }
 	}
 
@@ -349,12 +353,12 @@ class MES_User{
 		$password = addslashes($password);
 		$mobile = $username;
 		$json = new JSON;
-		$res  = array('code' => 0, 'content' => 'login successs');
+		$res  = array('code' =>RES_SUCCSEE, 'content' => 'login successs');
 
 		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where mobile_phone='$username'");
 
 		if(empty($username)||empty($password)){
-			$res['code']   = 1;
+			$res['code']   = RES_FAIL;
 			$res['content'] = $_LANG['login_failure'];
 			return $json->encode($result);
 		}
@@ -365,7 +369,7 @@ class MES_User{
 			$_SESSION['user_auto_register'] = '11';
 			$_SESSION['user_auto_register_moblie'] = $mobile;
 		}else{
-			$res['code']   = 1;
+			$res['code']   = RES_FAIL;
 			$res['content'] = $_LANG['login_failure'];
 		}
 		return $json->encode($res);
@@ -374,13 +378,13 @@ class MES_User{
 	public static function change_mobile($mobile,$code){
 		global $db;
 		if($_SESSION['change_mobile']!=$mobile||$_SESSION['change_mobile_code']!=$code){
-			return json_encode(array('code' =>'1'));
+			return json_encode(array('code' =>RES_FAIL));
 		}else{
 			$user_name = $_SESSION['uuid'];
 			$db->query("update ecs_users set mobile_phone='$mobile' where user_name='$user_name'");
 			unset($_SESSION['change_mobile']);
 			unset($_SESSION['change_mobile_code']);
-			return json_encode(array('code' =>'0','mobile'=>$mobile));
+			return json_encode(array('code' =>RES_SUCCSEE,'mobile'=>$mobile));
 		}
 	}
 
@@ -392,7 +396,7 @@ class MES_User{
 		file_get_contents($url);
 		$_SESSION['change_mobile'] = $mobile;
 		$_SESSION['change_mobile_code'] = $rand_password;
-		return json_encode(array('code' =>'0'));
+		return json_encode(array('code' =>RES_SUCCSEE));
 	}
 
 	//获得用户正在使用的电话号码
@@ -400,7 +404,10 @@ class MES_User{
 		global $db;
 		$user_name = addslashes($_SESSION['uuid']);
 		$mobile=$db->getOne("select mobile_phone from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
-		return json_encode(array('code' =>'0','mobile'=>$mobile));
+		return json_encode(array(
+			'code' =>RES_SUCCSEE,
+			'mobile'=>$mobile
+		));
 	}
 
 	//获得用户正在使用的电话号码
@@ -408,7 +415,10 @@ class MES_User{
 		global $db;
 		$user_name = addslashes($_SESSION['uuid']);
 		$info=$db->getAll("select mobile_phone,rea_name,sex,user_money from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
-		return json_encode(array('code' =>'0','info'=>$info));
+		return json_encode(array(
+			'code' =>RES_SUCCSEE,
+			'info'=>$info
+		));
 	}
 
 
@@ -430,21 +440,21 @@ class MES_User{
 		if($password_in_db==$salt_password){
 			$new_password = md5($new.$salt_in_db);
 			$db->query("update ecs_users set password='$new_password' where user_name='$user_name'");
-			return json_encode(array('code' =>'0'));
+			return json_encode(array('code' =>RES_SUCCSEE));
 		}else{
-			return json_encode(array('code' =>'1'));
+			return json_encode(array('code' =>RES_FAIL));
 		}
 	}
 
 	public static function change_sex($sex){
 		global $db;
 		if($sex!=0&&$sex!=1){
-			return json_encode(array('code' =>'1'));
+			return json_encode(array('code' =>RES_FAIL));
 		}
 		$user_name = addslashes($_SESSION['uuid']);
 		$sex = addslashes($sex);
 		$db->query("update ecs_users set sex='$sex' where user_name='$user_name'");
-		return json_encode(array('code' =>'0'));
+		return json_encode(array('code' =>RES_SUCCSEE));
 	}
 
 	public static function change_real_name($name){
@@ -452,7 +462,7 @@ class MES_User{
 		$user_name = addslashes($_SESSION['uuid']);
 		$name = addslashes($name);
 		$db->query("update ecs_users set rea_name='$name' where user_name='$user_name'");
-		return json_encode(array('code' =>'0'));
+		return json_encode(array('code' =>RES_SUCCSEE));
 	}
 	
 }

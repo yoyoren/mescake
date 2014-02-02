@@ -238,4 +238,9 @@ define('LICENSE_VERSION', '1.0');
 /* 配送方式 */
 define('SHIP_LIST', 'cac|city_express|ems|flat|fpd|post_express|post_mail|presswork|sf_express|sto_express|yto|zto');
 
+define('RES_SUCCSEE','0');
+define('RES_FAIL','1');
+define('RES_NEED_LOGIN','10005');
+define('RES_PARAM_INVAILD','10006');
+define('RES_CAPTACH_INVAILD','10007');
 ?>

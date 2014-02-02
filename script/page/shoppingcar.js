@@ -62,13 +62,23 @@
    var BRITH_ORDER_ID;
    var Order = {
    		getOrderList : function(){
-			 var me = this;
+			  var me = this;
+			 if(window.ORDER_LIST){
+				me._renderOrderList(ORDER_LIST);
+				return;
+			 }
+			
 			 $.get('route.php',{
 				_tc:Math.random(),
 				mod:'order',
 				action:'get_order_list'
 			 },function(d){
-				if(!d.goods_list.length){
+				me._renderOrderList(d);
+			 },'json');
+		},
+
+		_renderOrderList:function(d){
+			if(!d.goods_list.length){
 					location.href="route.php?mod=order&action=empty";
 					return false;
 				}
@@ -86,7 +96,6 @@
 				}
 				$('#order_list').after(html);
 				MES.updateTotalPriceDisplay(d);
-			 },'json');
 		},
 
 		updateCakeNum:function(number,id){
