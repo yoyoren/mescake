@@ -1,5 +1,5 @@
 *{padding: 0; margin: 0;}
-body,input{font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;}
+body,input,textarea{font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;}
 a,label, :focus {outline: 0 none;}
 a,img {border: 0 none;}
 a{text-decoration: none;}
@@ -12,36 +12,35 @@ table {
 }
 .clearfix:after{display:block;content:"\20";height:0;clear:both;overflow:hidden;visibility:hidden;}
 .clearfix{*zoom:1;}
-html,body{ height: 100%; width: 100%; font-size: 14px; color: #333; background:#fcb3ad;}
+html,body{height:100%; font-size: 14px; color: #333; background:#ededed;}
 html{overflow: hidden;}
 body{overflow: auto;}
 .tl-c{text-align: center;}
 
-      .act-layout{width: 100%; height: 100%; overflow: auto; background:#fcb3ad; color: #333; position: relative;}
-      .act-input{height: 24px; line-height: 24px; padding: 0px 10px 2px 10px; width: 170px; background: none; border:0 none; background: url(img/area-bg.png) 0 bottom repeat-x;
-font-size: 14px; 
-      }
+      .act-layout{ width:960px; background:url(img/active-bg1.png) top center no-repeat; margin: 0 auto; color: #333;}
+      .act-input{height: 26px; line-height: 26px; padding: 0px 10px 2px 10px; width: 170px; border:0 none; background: url(img/ac_input_bg2.png) 0 bottom repeat-x;
+font-size: 20px; display: inline-block; *display: inline; zoom:1;}
 
-      .act-container{ width: 776px; height:660px; padding-top: 40px; margin:0 auto; 
-background: url(img/active-bg.png) center 0 no-repeat;
+      .act-container{
+background:url(img/active-bg2.png) center bottom no-repeat; padding-bottom: 300px; 
       }
-.act-title{padding-top: 40px; font-size: 18px; height: 20px; font-weight: bold; position: relative; z-index: 10; margin-bottom: -40px;}
-.act-form{ padding-left: 120px; width: 500px; line-height: 1.5;}
-.act-f-top{padding: 70px 0 60px 0;}
+.act-title{padding: 160px 0 20px 0; font-size: 30px; height: 1.2; font-weight: bold; color: #5e5e5e;}
+.act-form{box-shadow: 0 4px 4px #ddd; background: #fff; width: 570px; padding:0 50px 0 80px; margin:0 auto; font-size:20px; line-height: 1.5; background: #fff;}
+.act-form form{padding: 80px 0 50px 0;}
+.act-f-top{padding: 0 0 60px 0;}
 .act-f-mid{padding: 0 0 60px 0;}
 
-.act-textarea{display: block; width: 500px; height: 180px; line-height: 30px; overflow: auto; background: none; border: 0 none; background: url(img/area-bg.png) repeat; font-size: 14px;}
+.act-textarea{display: block; width: 540px; height: 176px; line-height: 44px; overflow: auto; background: none; border: 0 none; background: url(img/ac_input_bg2.png) repeat; font-size: 20px;}
 
 .act-sub,
-.act-close-btn{padding: 10px 40px; display: inline-block; *display: inline; zoom:1; margin-top:10px; background: #a48536; border: 0 none; font-size: 16px; color: #fff; 
+.act-close-btn{padding: 10px 40px; display: inline-block; *display: inline; zoom:1; margin-top:10px; background: #57ce7a; border: 0 none; font-size: 16px; color: #fff; 
 	font-weight: bold; text-align: center; border-radius: 6px; cursor: pointer;}
-.act-close-btn{background:#408219;}
 
 	.act-check-container{display: inline-block; *display: inline; zoom:1; vertical-align: middle;}
 
-.input-tip{text-align: right; padding-top: 4px;}
+.input-tip{text-align: right; padding: 10px 30px 0 0;}
 	.red-error{color: red;}
-.act-suc-tip{text-align: center; padding-top: 260px;}
+.act-suc-tip{text-align: center; padding: 260px 0; width: 700px; margin: 0 auto; background: #fff; box-shadow:0 4px 4px #ddd; font-size: 20px; }
 	    .gray-bg{background:#222; opacity:0.9; filter:alpha(opacity=90); position:absolute; top:0; left:0; *zoom:1; width:100%; height:100%; min-height:740px;}
 .act-dia-con{position: absolute; top:100px; left: 50%; margin-left: -200px; width: 400px; background:#fff; border-radius: 10px; padding:20px 0; font-size: 16px; text-align: center; line-height: 1.5; color: #ff7e00;}
 
