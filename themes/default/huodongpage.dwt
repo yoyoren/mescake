@@ -58,7 +58,7 @@
             <input type="submit" class="act-sub" value="提交" />
           </form>
         </div>
-        <p class="act-suc-tip" id="act_suc_tip" style="display:none;"><b>谢谢你的故事：)</b><br/><br/>我们会电话联系选中的朋友，同时先预祝你情人节快乐~</p>
+        <p class="act-suc-tip" id="act_suc_tip" style="display:none;"><b>谢谢你的故事：)</b><br/><br/>我们会电话联系选中的朋友，同时先预祝你情人节快乐~<br/>3秒后将跳转到首页</p>
       </div>
     </div>
     <div class="act-dia" id="act-dia" style="display:none;">
@@ -116,6 +116,9 @@ jQuery(function($){
                     $('#act_suc_tip').show();
 		    frm.hide();
 		    $('#act_suc_tip').show();
+		    setTimeout(function(){
+			location.href="index.php";
+		    },3000);
                  }
             });
         }
