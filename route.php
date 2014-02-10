@@ -577,7 +577,10 @@ switch ($mod) {
 		}else if($action == 'change_mobile_get_code'){
 
 			//修改手机的验证码
-			$mobile = ANTI_SPAM($_POST['mobile']);
+			$mobile = ANTI_SPAM($_POST['mobile'],array(
+				'minLength'=>6,
+				'maxLength'=>30
+			));
 			echo MES_User::change_mobile_get_code($mobile);
 		}else if($action == 'change_mobile'){
 
@@ -595,6 +598,25 @@ switch ($mod) {
 			$old = ANTI_SPAM($_POST['old']);
 			$new = ANTI_SPAM($_POST['new']);
 			echo MES_User::change_password($old,$new);
+		}else if($action == 'forget_password_step1'){
+
+			//change your password when your forget it
+			$mobile = ANTI_SPAM($_POST['mobile']);
+			$code = ANTI_SPAM($_POST['code']);
+			echo MES_User::forget_password_step1($mobile,$code);
+		}else if($action == 'forget_password_step2'){
+
+			//change your password when your forget it
+			$mobile = ANTI_SPAM($_POST['mobile']);
+			$password = ANTI_SPAM($_POST['password']);
+			echo MES_User::forget_password_step2($mobile,$password);
+
+		}else if($action == 'forget_password_page'){
+			$smarty->display('change_password.dwt');
+		}else if($action == 'get_forget_password_code'){
+			//change your password when your forget it
+			$mobile = ANTI_SPAM($_POST['mobile']);
+			echo MES_User::get_forget_password_code($mobile);
 		}else if($action == 'get_users_info'){
 
 			//get name,tel and sex

@@ -423,7 +423,7 @@ class MES_User{
 
 
 	
-
+	//已经登录用户修改密码
 	public static function change_password($old,$new){
 		global $db;
 		$user_name = addslashes($_SESSION['uuid']);
@@ -445,6 +445,50 @@ class MES_User{
 			return json_encode(array('code' =>RES_FAIL));
 		}
 	}
+   
+    //忘记密码找回第一步验证这个是否可以
+	public static function forget_password_step1($mobile,$code){
+		if($_SESSION['forget_mobile_code'] == $code){
+			$_SESSION['forget_mobile_vaild'] = true;
+			return json_encode(array('code' =>RES_SUCCSEE));
+		}else{
+			$_SESSION['forget_mobile_vaild'] = false;
+			return json_encode(array('code' =>RES_FAIL));
+		}
+	}
+
+	//忘记密码找回第一步验证这个是否可以
+	public static function forget_password_step2($mobile,$password){
+		global $db;
+		if($_SESSION['forget_mobile_vaild']){
+			$salt_in_db = $db->getOne("select ec_salt from". $GLOBALS['ecs']->table("users")."where mobile_phone='$mobile'");
+			$password = md5($password);
+			$new_password = md5($password.$salt_in_db);
+			$db->query("update ecs_users set password='$new_password' where mobile_phone='$mobile'");
+			return json_encode(array('code' =>RES_SUCCSEE));
+		}else{
+			return json_encode(array('code' =>RES_FAIL));
+		}
+	}
+
+	public static function get_forget_password_code($mobile){
+		
+		global $db;
+		$mobile_phone = $db->getOne("select mobile_phone from". $GLOBALS['ecs']->table("users")."where mobile_phone='$mobile'");
+		if($mobile_phone){
+			$rand_password = MES_User::rand_num();
+			$c = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+			$content=urlencode($c);
+			$url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$content.'&sendTime=';
+			file_get_contents($url);
+			$_SESSION['forget_mobile'] = $mobile;
+			$_SESSION['forget_mobile_code'] = $rand_password;
+			return json_encode(array('code' =>RES_SUCCSEE));
+		}else{
+			return json_encode(array('code' =>RES_FAIL));
+		}
+	}
+
 
 	public static function change_sex($sex){
 		global $db;

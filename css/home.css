@@ -178,7 +178,8 @@ height: 16px; width: 16px; background: url(img/close-ico.png) 0 0 no-repeat; tex
 .header{height:156px;background:#fef9d9 url("http://www.mescake.com/images/bj.jpg") no-repeat; position:relative; }
 .head-line{height: 4px; overflow: hidden; background: #2e730f; clear: both;}
 .content{min-height: 500px; _height:500px;}
-.register-container{padding: 40px;}
+.register-container,
+.forget-container{padding: 40px;}
 .content-title{font-size: 16px; padding-bottom: 20px;}
 .content-title a{color: #333;}
 .ct-commit{font-size: 12px; color: #999; font-weight: normal; margin-left: 10px;}
@@ -188,11 +189,19 @@ height: 16px; width: 16px; background: url(img/close-ico.png) 0 0 no-repeat; tex
 .footer{color: #999; font-size: 12px; background: #fff; padding: 20px 0; width:960px; height:auto; margin:0 auto;}
 .footer a{color: #999;}
 
+/* 新注册 */
+.new-register .global-form-container{width: auto;}
+.new-register .r-con{width: 580px;}
+/* 忘记密码 */
+.forget-container .r-con{width: 580px;}
+.forget-container .l-title{width: 200px;}
+
 /*　用手机查询 */
 .phone-check .global-form-container,
-.account-container .global-form-container{float:left; width: 520px; border-right: 1px solid #ccc; padding: 10px 0;}
+.account-container .global-form-container{float:left; width: 540px; border-right: 1px solid #ccc; padding: 10px 0;}
 .phone-check .l-title{width: 110px;}
-.phone-check-tip{float: left; width: 350px; line-height: 60px; font-size: 14px; text-align: center;}
+.phone-check .r-con{width: 420px;}
+.phone-check-tip{float: left; width: 330px; line-height: 60px; font-size: 14px; text-align: center;}
 .phone-check-tip a{color: #ff7e00; margin-left: 20px;}
 .phone-check-tip a:first-child{margin-left: 0;}
 
