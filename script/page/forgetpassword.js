@@ -119,7 +119,7 @@
 					require(['ui/confirm'],function(confirm){
 						new confirm('\
 									  <b>该手机号并未注册账户</b><br><br>\
-									  您可以现在就去<a href="" class="td-u">注册一个新账户</a><br>\
+									  您可以现在就去<a href="user.php?act=register" class="td-u">注册一个新账户</a><br>\
 									');
 					});
 					clearInterval(codeTimer);
