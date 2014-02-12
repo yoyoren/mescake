@@ -114,6 +114,7 @@ input.big-btn{height: 46px;}
 /* 针对按钮和输入框不对齐的状况加个class */
 input.vert-btn{*vertical-align:22px!important;}
 a.vert-btn{*vertical-align:32px!important;}
+.disabled{color: #999; cursor: default;}
 
 .global-input,
 .text-area{border:0 none; background: none; background: #fff; border:1px solid #ddd; border-radius: 4px; padding: 10px; color: #333;}

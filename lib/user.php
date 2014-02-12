@@ -143,11 +143,17 @@ class MES_User{
 		//标记一下这个用户是这次自动注册的
 		$_SESSION['user_auto_register'] = '11';
 		$_SESSION['user_auto_register_moblie'] = $mobile;
-		return json_encode(array('code' =>RES_SUCCSEE,'msg'=>$msg));
+		return json_encode(array(
+			'code' =>RES_SUCCSEE,
+			'msg'=>$msg
+		));
 	}
 
 	public static function get_auto_register_mobile(){
-		return json_encode(array('code' =>RES_SUCCSEE,'msg'=>$_SESSION['user_auto_register_moblie']));
+		return json_encode(array(
+			'code' =>RES_SUCCSEE,
+			'msg'=>$_SESSION['user_auto_register_moblie']
+		));
 	}
 
 	//帮没有设置密码的用户
@@ -448,7 +454,7 @@ class MES_User{
    
     //忘记密码找回第一步验证这个是否可以
 	public static function forget_password_step1($mobile,$code){
-		if($_SESSION['forget_mobile_code'] == $code){
+		if($_SESSION['forget_mobile_code'] == $code&&$_SESSION['forget_mobile'] == $mobile){
 			$_SESSION['forget_mobile_vaild'] = true;
 			return json_encode(array('code' =>RES_SUCCSEE));
 		}else{
@@ -460,11 +466,17 @@ class MES_User{
 	//忘记密码找回第一步验证这个是否可以
 	public static function forget_password_step2($mobile,$password){
 		global $db;
-		if($_SESSION['forget_mobile_vaild']){
+		if($_SESSION['forget_mobile_vaild']&&$_SESSION['forget_mobile'] == $mobile){
 			$salt_in_db = $db->getOne("select ec_salt from". $GLOBALS['ecs']->table("users")."where mobile_phone='$mobile'");
+			if(!$salt_in_db){
+				$salt_in_db = '8801';
+				$db->query("update ecs_users set ec_salt='$salt_in_db' where mobile_phone='$mobile'");
+			}
 			$password = md5($password);
 			$new_password = md5($password.$salt_in_db);
 			$db->query("update ecs_users set password='$new_password' where mobile_phone='$mobile'");
+			unset($_SESSION['forget_mobile']);
+			unset($_SESSION['forget_mobile_code']);
 			return json_encode(array('code' =>RES_SUCCSEE));
 		}else{
 			return json_encode(array('code' =>RES_FAIL));

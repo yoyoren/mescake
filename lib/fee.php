@@ -64,6 +64,10 @@ class MES_Fee{
 				'13'=>array('name'=>'空港开发区A区','free'=>true),
 				'14'=>array('name'=>'*五环外，六环内其他区域','free'=>false)
 			 ),
+			'572'=>array(
+				'1'=>array('name'=>'长阳','free'=>false),
+				'2'=>array('name'=>'良乡','free'=>false),
+			 ),
 		);
 		return $CITY_HASH;
 	}
