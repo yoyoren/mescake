@@ -216,11 +216,16 @@
 
 
 			$('#region_sel').change(function(){
+				var _val = $(this).val();
+				//默认没有选择
+				if(_val==0){
+					return;
+				}
 				MES.get({
 					mod:'order',
 					action:'get_district',
 					param:{
-						city:$(this).val()
+						city:_val
 					},
 					callback:function(d){
 						//没有登录的情况下 这里才需要重新结算运费
