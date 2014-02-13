@@ -18,76 +18,85 @@
 <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
 <body>
 <div id="fullbg"></div>
+<div class="layout">
 <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
 <!--当前位置 start-->
-<form action="user.php" method="post" name="formUser" id="formUser">
-<input name="act" type="hidden" value="act_register" >
-	<div class="block box">
-	 <div class="regmain" style="margin-top:20px; height:380px;">
-			<span style="position:absolute;right:35px;top:10px;cursor:pointer;"><img src="images/closelogin2.png" onclick="closeregister2()"/></span>
-			<div class="regc" style='padding-top:45px;'>
-				<table  border="0" id="regtable" cellspacing="0" cellpadding="0" onKeydown="checkenter3()">
-					
-					<tr>
-						<td>手<span style='Visibility:hidden;'>手</span>机<span style='Visibility:hidden;'>手</span>号:</td><td colspan="2"><input name="mobile_phone" type="text" style='width:170px;' onfocus="kuangcolor(1)" onblur="check_mobile(this.value);" maxlength="11" id="mobile_phone" /><font color="red">*</font><span id="mobile_notice1"></span></td>
-					</tr>
-					<tr>
-						<td>&nbsp; </td><td  colspan="2" id="mobile_notice" class='zcolor'>&nbsp;</td>
-					</tr>
-					<!--<tr>
-						<td>短信验证码: </td><td><input type="text" name="captcha" id="capt" style="width:75px;" />&nbsp;&nbsp;<input type="button" name="get_captcha" id="getCaptcha" value="&nbsp;"  onclick="getCode3()" /><font color="red">*</font></td><td><span id="send_status"></span></td>
-					</tr>
-					<tr>
-						<td colspan="3" id="captmes">&nbsp;</td>
-					</tr>
-					<tr>
-						<td colspan='3'><font size='2' color='grey'>如验证码送达延时,可直接致电客服4000 600 700注册订购。</font></td>
-					</tr>-->
-					<tr style='display:none;'>
-						<td id="regtd">邮箱: </td><td colspan="2"><input name="email" type="text" id="email" value='1111@ffalse.com' onfocus="kuangcolor(2)" onblur="checkEmail(this.value);" style='width:170px;' /><font color="red">*</font><span id="email_notice1"></span></td>
-					</tr>
-					<tr style='display:none;'>
-						<td>&nbsp;</td><td  colspan="2" id="email_notice" class='zcolor'>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>请设置密码: </td><td style="width:220px;"><input name="password" type="password" id="password" onkeyup="mimaqiangdu()" onfocus="kuangcolor(3)" onblur="check_password(this.value);"  style='width:170px;' /><font color="red">*</font><span  id="password_notice1"></span></td><td><span id="qiangdu"></span></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td><td colspan="2" id="password_notice" class='zcolor'>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>请确认密码:</td><td colspan="2"><input name="confirm_password" type="password" id="conform_password" onfocus="kuangcolor(4)" onblur="check_conform_password(this.value);" style='width:170px;' /><font color="red">*</font><span  id="conform_password_notice1"></span></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td><td colspan="2" id="conform_password_notice" class='zcolor'>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>昵<span style='Visibility:hidden;'>昵称呢</span>称:</td><td><input name="rea_name" type="text" style='width:170px;' id='rea_name' onfocus="kuangcolor(5)" onblur="check_rea_name()"/><span></span></td>
-						<td rowspan='2'>
-							<table style="margin-left:280px;visibility:hidden;" border="0" >
-								<tr>
-									<td><input type="button" name="Submit" class="bt"  value="&nbsp;" onclick="register();" style="width:120px;"/></td>
-									<td>&nbsp;&nbsp;&nbsp;</td>
-									<td><img align="absmiddle" src="images/shutdown.png" style="cursor:pointer;width:85px;height:30px;" onclick="closeregister2()"/></td>
-									<!--<td><img src="images/wangjimima.png" align="absmiddle" style="cursor:pointer;width:100px;height:25px;" onclick="showForget()" /></td>
-									-->
-								</tr>
-							</table>
-						</td>
-					</tr>
-						<tr><td>&nbsp;</td><td><div style="font-size:13px;color:grey;">欢迎注册，带&nbsp;<font color="red">*</font>&nbsp;的为必填项</div></td></tr>
-						<tr><td>&nbsp;</td></tr>
-						<tr>
-							<td>&nbsp;</td><td colspan='2' style='padding-left:0px;'><input type="button" name="Submit" class="bt"  value="&nbsp;" onclick="register();" style="width:174px;height:30px;cursor:pointer;border:0;"/></td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td><td colspan='2' style='padding-left:250px;font-size:12px;color:black; display:none;'>金额有效期至2014年1月31日</td>
-						</tr>
-				</table>
-			</div>	 
-		</div>
-	</div>
-</form>
+<style type="text/css">
+.check-container{width: 300px;}
+.zcolor{display: block; height: 20px; margin-top: -14px;
+margin-bottom: 10px;}
+</style>
+<div class="content">
+  <div class="register-container new-register"> 
+    <h4 class="content-title">新用户注册</h4>
+    <span style="position:absolute;right:35px;top:10px;cursor:pointer; display:none;"><img src="images/closelogin2.png" onclick="closeregister2()"/></span>
+    <form action="user.php" method="post" name="formUser" id="formUser">
+    	<input name="act" type="hidden" value="act_register" >
+    	<dl class="global-form-container clearfix" onKeydown="checkenter3()">
+        <dt class="l-title lh-input">手机号码：</dt>
+        <dd class="r-con clearfix">
+          <div class="check-container">
+            <input name="mobile_phone" type="text" class="global-input" onfocus="kuangcolor(1)" onblur="check_mobile(this.value);" maxlength="11" id="mobile_phone" placeholder="请输入手机号码" />
+            <!-- <span class="tips-container">请输入短信验证码</span> -->
+            <span id="mobile_notice1"></span><br />
+            <span id="mobile_notice" class='zcolor'></span>
+          </div>
+          <!--<tr>
+				<td>短信验证码: </td><td><input type="text" name="captcha" id="capt" style="width:75px;" />&nbsp;&nbsp;<input type="button" name="get_captcha" id="getCaptcha" value="&nbsp;"  onclick="getCode3()" /><font color="red">*</font></td><td><span id="send_status"></span></td>
+			</tr>
+			<tr>
+				<td colspan="3" id="captmes">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan='3'><font size='2' color='grey'>如验证码送达延时,可直接致电客服4000 600 700注册订购。</font></td>
+			</tr>-->
+			<div style='display:none;'>
+				<span id="regtd">邮箱: </span><span><input name="email" type="text" id="email" value='1111@ffalse.com' onfocus="kuangcolor(2)" onblur="checkEmail(this.value);" style='width:170px;' /><font color="red">*</font><span id="email_notice1"></span></span>
+			</div>
+			<div style='display:none;'>
+				<span  colspan="2" id="email_notice" class='zcolor'>&nbsp;</span>
+			</div>
+        </dd>
+        <dt class="l-title lh-input">请设置密码: </dt>
+        <dd class="r-con clearfix">
+          <div class="check-container">
+          	<input name="password" type="password" id="password" onkeyup="mimaqiangdu()" onfocus="kuangcolor(3)" onblur="check_password(this.value);"  class="global-input" placeholder="请设置密码" />
+          	<span  id="password_notice1"></span><br />
+          	<span id="password_notice" class='zcolor'></span>
+          </div>
+        </dd>
+        <dt class="l-title lh-input">请确认密码: </dt>
+        <dd class="r-con clearfix">
+          <div class="check-container">
+          	<input name="confirm_password" type="password" id="conform_password" onfocus="kuangcolor(4)" onblur="check_conform_password(this.value);" class="global-input" placeholder="请确认密码" />
+          	<span  id="conform_password_notice1"></span>
+          	<span id="conform_password_notice" class='zcolor'></span>
+          </div>
+        </dd>
+        <dt class="l-title lh-input">昵称（选填）: </dt>
+        <dd class="r-con clearfix">
+          <div class="check-container">
+          	<input name="rea_name" type="text" class="global-input" placeholder="请填写昵称" id='rea_name' onfocus="kuangcolor(5)" onblur="check_rea_name()"/><span></span>
+          	<table style="margin-left:280px;visibility:hidden;" border="0" >
+				<tr>
+					<td><input type="button" name="Submit" class="bt"  value="&nbsp;" onclick="register();" style="width:120px;"/></td>
+					<td>&nbsp;&nbsp;&nbsp;</td>
+					<td><img align="absmiddle" src="images/shutdown.png" style="cursor:pointer;width:85px;height:30px;" onclick="closeregister2()"/></td>
+					<!--<td><img src="images/wangjimima.png" align="absmiddle" style="cursor:pointer;width:100px;height:25px;" onclick="showForget()" /></td>
+					-->
+				</tr>
+			</table>
+          </div>
+        </dd>
+        <dt class="l-title lh-input">&nbsp;</dt>
+        <dd class="r-con clearfix">
+          <input type="button" name="Submit" class="v-btn green-btn"  value="立即注册" onclick="register();" />
+        </dd>
+      </dl>
+    </form>
+  </div>
+</div>
+</div>
 <!--登录窗口-->
 <div id="logindiv">
 <span><img onclick="closeBg();" src="images/closelogin2.png"></span>

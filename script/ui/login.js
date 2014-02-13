@@ -9,7 +9,7 @@ define(['ui/dialog'],function(Dialog){
 			<span class="tips-container" id="popup_login_error" style="display:none">用户名或密码错误</span>\
           </div><a href="route.php?action=forget_password_page&mod=account" class="vert-btn">忘记密码</a><br>'
 
-	var bottom = ' <input class="v-btn green-btn" type="submit" value="登录" id="popup_login"><a href="user.php?act=register" class="v-btn vert-btn">注册账户</a>';
+	var bottom = ' <input class="v-btn green-btn vert-btn" type="submit" value="登录" id="popup_login"><a href="user.php?act=register" class="v-btn vert-btn">注册账户</a>';
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
 	var login = {
