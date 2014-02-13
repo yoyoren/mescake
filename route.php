@@ -110,7 +110,7 @@ switch ($mod) {
 
 			$city= ANTI_SPAM($_POST['city'],array(
 				'minValue'=>543,
-				'maxValue'=>572,
+				'maxValue'=>573,
 				'type'=>'number'
 			));
 			
@@ -159,7 +159,7 @@ switch ($mod) {
 
 			$city= ANTI_SPAM($_POST['city'],array(
 				'minValue'=>543,
-				'maxValue'=>572,
+				'maxValue'=>573,
 				'type'=>'number'
 			));
 
@@ -189,7 +189,7 @@ switch ($mod) {
 
 			$city = ANTI_SPAM($_GET['city'],array(
 				'minValue'=>543,
-				'maxValue'=>572,
+				'maxValue'=>573,
 				'type'=>'number'
 			));
 
@@ -276,7 +276,7 @@ switch ($mod) {
 				
 				$city = ANTI_SPAM($_POST['city'],array(
 										'minValue'=>543,
-										'maxValue'=>572,
+										'maxValue'=>573,
 										'type'=>'number'
 									));
 				$district = ANTI_SPAM($_POST['district'],array(
@@ -422,7 +422,7 @@ switch ($mod) {
 			//计算配送的费用
 			$city = ANTI_SPAM($_GET['city'],array(
 				'minValue'=>543,
-				'maxValue'=>572,
+				'maxValue'=>573,
 				'type'=>'number'
 			));
 

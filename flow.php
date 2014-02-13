@@ -1446,7 +1446,7 @@ elseif ($_REQUEST['step'] == 'done')
         'pack_id'         => isset($_POST['pack']) ? intval($_POST['pack']) : 0,
         'card_id'         => isset($_POST['card']) ? intval($_POST['card']) : 0,
 		'card_name'    => $_SESSION['card_name'],
-        'card_message'    => trim($_SESSION['card_message']),
+        'card_message'    => trim(implode(";",$_SESSION['card_message'])),
 		//订单中新增的餐具信息
 		'fork_message'    => trim(json_encode($_SESSION['extra_fork'])),
         'surplus'         => isset($_POST['surplus']) ? floatval($_POST['surplus']) : 0.00,

@@ -606,8 +606,7 @@ class MES_Order{
 
 		$country   = "北京市 ";
 		$id= $_SESSION[flow_consignee][city];
-		
-
+		$card_message = explode('|',$card_message);
 		for($i=0;$i<count($card_message);$i++){
 			$card_message[$i]=$card_message[$i]=='添加一个生日牌' ? '无' : $card_message[$i];
 		}
@@ -625,11 +624,11 @@ class MES_Order{
 		
 
 		$cardname=implode(";",$cardname);
-		$card_message=implode(";",$card_message);
+		//$card_message=implode(";",$card_message);
 		
 		//生日卡 最后一步 执行done的时候会存入订单的数据库
 		$_SESSION['card_message']=$card_message;
-		
+		//var_dump($_SESSION['card_message']);
 		$_SESSION['card_name']=$cardname;
 		
 	    $city = $db->getOne("SELECT region_name FROM ".$ecs->table('region')." WHERE region_id={$id}");
