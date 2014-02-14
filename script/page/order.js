@@ -791,7 +791,22 @@
 	jqHourSel.append(_html);
 
    	$('#date_picker').click(function(){
-   		WdatePicker({minDate:'%y-%M-{%d}'});
+   		WdatePicker({
+			minDate:'%y-%M-{%d}',
+			onpicked:function(dp){
+				var date = dp.cal.getDateStr();
+				if(date == '2014-02-14'){
+					require(['ui/confirm'],function(confirm){
+						new confirm('由于小伙伴们太热情了，今日的蛋糕已经卖光，您可以选择别的送货日期');
+					});
+					$('#submit_order_btn').removeClass('green-btn');
+					SubmitLock = true;
+				}else{
+					$('#submit_order_btn').addClass('green-btn');
+					SubmitLock = false;
+				}
+			}
+		});
    	});
 
 	//22:30这个是不送货的
