@@ -797,7 +797,7 @@
 				var date = dp.cal.getDateStr();
 				if(date == '2014-02-14'){
 					require(['ui/confirm'],function(confirm){
-						new confirm('由于小伙伴们太热情了，今日的蛋糕已经卖光，您可以选择别的送货日期');
+						new confirm('由于小伙伴们太热情了，今日的蛋糕已经被抢光，您可以选择别的送货日期');
 					});
 					$('#submit_order_btn').removeClass('green-btn');
 					SubmitLock = true;
