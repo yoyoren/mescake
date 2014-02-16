@@ -155,34 +155,7 @@
 					if(jqHour.val()>9&&oldDate==jqDate.val()){
 						return;
 					}
-					oldDate = jqDate.val();
-					var endHour = 22;
-					var beginHour = 10;
-					var selDate = jqDate.val().split('-').join('');
-					var temp = CURRENT_TIME.split('-').join('').split(' ');
-					var currentDate = temp[0];
-					var hour = parseInt(temp[1].split(':')[0],10);
-					hour+=5;
-		
-					if(currentDate == selDate){
-						
-						if(hour>endHour){
-
-						}else if(hour<beginHour){
-							for(var i=beginHour;i<=endHour;i++){
-								html+=('<option>'+i+'</option>');
-							}	
-						}else{
-							for(var i=hour;i<=endHour;i++){
-								html+=('<option>'+i+'</option>');
-							}
-						}
-					}else{
-						for(var i=beginHour;i<=endHour;i++){
-							html+=('<option>'+i+'</option>');
-						}
-					}
-					jqHour.html(html);
+					
 				}
 			});
 
@@ -805,10 +778,51 @@
 					$('#submit_order_btn').addClass('green-btn');
 					SubmitLock = false;
 				}
+				var currDate = CURRENT_TIME.split(' ');
+				var currHour = currDate[1].split(':')[0];
+				var currTime = (new Date(currDate[0])).getTime();
+				var selTime = (new Date(date)).getTime();
+
+				//10点以后了 选择第二天的订单 只能是14点之后的
+				var _html='';
+				if(selTime - currTime == 3600*1000*24&&currHour>22){
+					for(var i=14;i<=22;i++){
+						_html+='<option value="'+i+'">'+i+'</option>';
+					}
+				}else{
+					//其他时间点下单
+					var endHour = 22;
+					var beginHour = 10;
+					var selDate = date.split('-').join('');
+					var temp = CURRENT_TIME.split('-').join('').split(' ');
+					var currentDate = temp[0];
+					var hour = parseInt(temp[1].split(':')[0],10);
+					hour+=5;
+					if(currentDate == selDate){
+						
+						if(hour>endHour){
+							_html+=('<option>制作需要5小时，今天已不能送货</option>');
+						}else if(hour<beginHour){
+							for(var i=beginHour;i<=endHour;i++){
+								_html+=('<option>'+i+'</option>');
+							}	
+						}else{
+							for(var i=hour;i<=endHour;i++){
+								_html+=('<option>'+i+'</option>');
+							}
+						}
+					}else{
+						for(var i=beginHour;i<=endHour;i++){
+							_html+=('<option>'+i+'</option>');
+						}
+					}
+				}
+				jqHourSel.html(_html);
+
 			}
 		});
    	});
-
+//(new Date('2013-08-30')).getTime()
 	//22:30这个是不送货的
 	jqHourSel.change(function(){
 		if($(this).val()==22){
