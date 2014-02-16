@@ -402,6 +402,11 @@ switch ($mod) {
 			}
 			
 			echo MES_Order::checkout($card_message);
+		}else if($action == 'done'){
+			$token = $_POST['token'];
+			$pay_id = $_POST['pay_id'];
+			
+			echo MES_Order::done($token,$pay_id);
 		}else if($action == 'add_to_cart'){
 			//add an cake or fork to your cart
 			

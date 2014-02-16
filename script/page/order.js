@@ -615,6 +615,16 @@
 				},
 				callback:function(d){
 					//结算数据form submit
+					//设置留言
+					var jqInput = $('#message_input');
+					if($('#leaveMes')[0].checked){
+						jqInput.show();
+						$('#leaving_message').val(jqInput.val());
+					 }else{
+						jqInput.hide();
+						$('#leaving_message').val('');
+					 }
+
 					if(d.code == 0){
 					   $('#submit_form').submit();
 					}else {

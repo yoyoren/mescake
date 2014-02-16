@@ -257,6 +257,19 @@
 		},
 
 		bind:function(){
+			$('#leave_message').click(function(){
+				setTimeout(function(){
+				 var jqInput = $('#message_input');
+				 if($('#leaveMes')[0].checked){
+					jqInput.show();
+					$('#leaving_message').val(jqInput.val());
+				 }else{
+					jqInput.hide();
+					$('#leaving_message').val('');
+				 }
+				},0);
+			});
+
 			$('#voucher_label').click(function(){
 				 if($('#voucher')[0].checked){
 					$('#money_card_input_frame').show();
