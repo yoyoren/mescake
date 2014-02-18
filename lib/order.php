@@ -83,7 +83,8 @@ class MES_Order{
 		return json_encode(array(
 			'msg'=>'ok',
 			'code'=>RES_SUCCSEE,
-			'data'=>$address));
+			'data'=>$address
+		));
 	}
 
 

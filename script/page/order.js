@@ -401,6 +401,15 @@
 				return false;
 			}
 
+			var myTel = $('#my_phone_input').val();
+			if($('#serect_checkbox')[0].checked&&!/\d{5,}/.test(myTel)){
+				$('#my_phone_input').next().show();
+				setTimeout(function(){
+					$('#my_phone_input').next().hide();
+				},2000)
+				return false;
+			}
+
 			return true;
 		},
 
@@ -545,11 +554,15 @@
 					me.checkout();
 				}else{
 					//检查没有登录的用户手机号码是否被注册了
+					var username = $('#new_tel').val();
+					if($('#serect_checkbox')[0].checked){
+						username = $('#my_phone_input').val();
+					}
+
 					$.get('route.php?action=check_user_exsit&mod=account',{
 						_tc:Math.random(),
-						username:$('#new_contact').val()
+						username:username
 					},function(d){
-						
 						//用户已经存在于数据库中
 						if(d.exsit){
 							require(['ui/confirm'],function(confirm){
@@ -567,6 +580,7 @@
 							$.post('route.php?action=auto_register&mod=account',{
 								username:username
 							},function(d){
+			
 								if(d.code == 0){
 									//注册成功后给这个用户结帐
 									me.checkout();

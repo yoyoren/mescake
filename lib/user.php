@@ -101,16 +101,26 @@ class MES_User{
 	}
 
 	//检查一个用户是否存在
-	public static function check_user_exsit($username){
+	public static function check_user_exsit($username,$serverside=false){
 		//global $user;
 		global $db;
 		$res = array('code'=>RES_SUCCSEE);
 		$username = addslashes($username);
-		$username = $db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
-		if($username==''){
-		   $res['exsit'] = false;
+		$user = $db->getAll("select * from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
+		$user = $user[0];
+		if($user['mobile_phone']==$username&&$user!=null){
+			if($user['user_type']==11){
+				$res['exsit'] = false;
+				$res['autoregister'] = true;
+			}else{
+				$res['exsit'] = true;
+			}
+			 
 		}else{
-		   $res['exsit'] = true;
+			 $res['exsit'] = false;
+		}
+		if($serverside){
+			return $res;
 		}
 		return json_encode($res);
 	}
@@ -119,6 +129,10 @@ class MES_User{
 	public static function auto_register($mobile){
 		global $db;
 		include_once(ROOT_PATH . 'includes/lib_passport.php');
+		$check_user = MES_User::check_user_exsit($mobile);
+		//if($check_user['autoregister']==true){
+		//}
+
 		$mobile = addslashes($mobile);
         $msg='';
 
@@ -137,7 +151,7 @@ class MES_User{
 			//密码必须名文 因为这个要发送给用户
 			$rand_password = MES_User::rand_num();
 			$db->query("update ecs_users set user_type=11,password='$rand_password' where user_name='$username'");//用户类型设置bisc
-			$_SESSION['user_msg']=$username;
+			$_SESSION['user_msg'] = $username;
 		}
 
 		//标记一下这个用户是这次自动注册的

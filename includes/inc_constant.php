@@ -243,4 +243,5 @@ define('RES_FAIL','1');
 define('RES_NEED_LOGIN','10005');
 define('RES_PARAM_INVAILD','10006');
 define('RES_CAPTACH_INVAILD','10007');
+define('RES_NEED_CHANGE_PASSWORD','10008');
 ?>
