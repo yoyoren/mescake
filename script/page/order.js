@@ -809,7 +809,7 @@
 
 				//10点以后了 选择第二天的订单 只能是14点之后的
 				var _html='';
-				if((selTime - currTime == 3600*1000*24&&currHour>22)||(selTime==currTime&&currHour<10)){
+				if((selTime - currTime == 3600*1000*24&&currHour>21)||(selTime==currTime&&currHour<10)){
 					for(var i=14;i<=22;i++){
 						_html+='<option value="'+i+'">'+i+'</option>';
 					}
