@@ -1,7 +1,7 @@
 <script>
 var VERSION_CONTROL_JS = {
-'jquery':'{VERSION}/mescakestatic/script/jquery-1.10.min.js',
-'require':'{VERSION}/mescakestatic/script/require.js',
+'jquery':'{e4ed162}/mescakestatic/script/jquery-1.10.min.js',
+'require':'{e4ed162}/mescakestatic/script/require.js',
 'page/common':{VERSION}/mescakestatic/script/page/common.js'
 }
 var VERSION_CONTROL_CSS = {}
