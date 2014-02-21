@@ -7,7 +7,7 @@ var VERSION_CONTROL_JS = {
 'page/common':{VERSION}/mescakestatic/script/page/common.js'
 }
 var VERSION_CONTROL_CSS = {}
-window.GET_VER = function(module,path){
+window.GET_VER = function(module,type){
  if(type == 'js'){
 	return root+VERSION_CONTROL_JS[module];
  }else{
@@ -15,7 +15,12 @@ window.GET_VER = function(module,path){
  }
 }
 })();
-
+window.LOAD_JS = function(module){
+return GET_VER(module,'js');
+}
+window.LOAD_CSS = function(){
+return GET_VER(module,'css');
+}
 </script>
 
 
