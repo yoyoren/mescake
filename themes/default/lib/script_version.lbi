@@ -5,7 +5,7 @@ var VERSION_CONTROL_JS = {
 'jquery':'{e4ed162}/mescakestatic/script/jquery-1.10.min.js',
 'placeholder':'{e4ed162}/mescakestatic/script/placeholder.js',
 'require':'{e4ed162}/mescakestatic/script/require.js',
-'page/account':{VERSION}/mescakestatic/script/page/account.js',
+'page/account':{e4ed162}/mescakestatic/script/page/account.js',
 'page/common':{VERSION}/mescakestatic/script/page/common.js',
 'page/forgetpassword':{VERSION}/mescakestatic/script/page/forgetpassword.js',
 'page/goodsdetail':{VERSION}/mescakestatic/script/page/goodsdetail.js',
