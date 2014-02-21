@@ -29,10 +29,12 @@ window.GET_VER = function(module,type){
 }
 })();
 window.LOAD_JS = function(module){
-return GET_VER(module,'js');
+var jspath = GET_VER(module,'js');
+document.write('<script src="'+jspath+'"></script>');
 }
 window.LOAD_CSS = function(){
-return GET_VER(module,'css');
+var csspath = GET_VER(module,'css');
+document.write('<link ref="stylesheet" type="text/css" href="'+csspath+'">');
 }
 </script>
 
