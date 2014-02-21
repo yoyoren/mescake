@@ -8,7 +8,7 @@ var VERSION_CONTROL_JS = {
 'page/account':{e4ed162}/mescakestatic/script/page/account.js',
 'page/common':{VERSION}/mescakestatic/script/page/common.js',
 'page/forgetpassword':{VERSION}/mescakestatic/script/page/forgetpassword.js',
-'page/goodsdetail':{VERSION}/mescakestatic/script/page/goodsdetail.js',
+'page/goodsdetail':{e4ed162}/mescakestatic/script/page/goodsdetail.js',
 'page/order':{VERSION}/mescakestatic/script/page/order.js',
 'page/orderdetail':{VERSION}/mescakestatic/script/page/orderdetail.js',
 'page/orderlist':{VERSION}/mescakestatic/script/page/orderlist.js',
