@@ -3,15 +3,28 @@
 var root = 'http://static.mescake.com/';
 var VERSION_CONTROL_JS = {
 'jquery':'{e4ed162}/mescakestatic/script/jquery-1.10.min.js',
+'placeholder':'{e4ed162}/mescakestatic/script/placeholder.js',
 'require':'{e4ed162}/mescakestatic/script/require.js',
-'page/common':{VERSION}/mescakestatic/script/page/common.js'
+'page/account':{VERSION}/mescakestatic/script/page/account.js',
+'page/common':{VERSION}/mescakestatic/script/page/common.js',
+'page/forgetpassword':{VERSION}/mescakestatic/script/page/forgetpassword.js',
+'page/goodsdetail':{VERSION}/mescakestatic/script/page/goodsdetail.js',
+'page/order':{VERSION}/mescakestatic/script/page/order.js',
+'page/orderdetail':{VERSION}/mescakestatic/script/page/orderdetail.js',
+'page/orderlist':{VERSION}/mescakestatic/script/page/orderlist.js',
+'page/orderquery':{VERSION}/mescakestatic/script/page/orderquery.js',
+'page/shoppingcar':{VERSION}/mescakestatic/script/page/shoppingcar.js',
+'page/shoppingend':{VERSION}/mescakestatic/script/page/shoppingend.js'
 }
-var VERSION_CONTROL_CSS = {}
+var VERSION_CONTROL_CSS = {
+'active':'{e4ed162}/mescakestatic/css/active.css',
+'home':'{e4ed162}/mescakestatic/css/home.css'
+}
 window.GET_VER = function(module,type){
  if(type == 'js'){
 	return root+VERSION_CONTROL_JS[module];
  }else{
-	return root+VERSION_CONTROL_JS[module];
+	return root+VERSION_CONTROL_CSS[module];
  }
 }
 })();
