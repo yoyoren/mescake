@@ -1,10 +1,21 @@
 <script>
+(function(){
+var root = 'http://static.mescake.com/';
 var VERSION_CONTROL_JS = {
 'jquery':'{e4ed162}/mescakestatic/script/jquery-1.10.min.js',
 'require':'{e4ed162}/mescakestatic/script/require.js',
 'page/common':{VERSION}/mescakestatic/script/page/common.js'
 }
 var VERSION_CONTROL_CSS = {}
+window.GET_VER = function(module,path){
+ if(type == 'js'){
+	return root+VERSION_CONTROL_JS[module];
+ }else{
+	return root+VERSION_CONTROL_JS[module];
+ }
+}
+})();
+
 </script>
 
 
