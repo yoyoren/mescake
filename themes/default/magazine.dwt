@@ -19,7 +19,7 @@
 <div class="block box">
 	<div class="blank20"></div>
    {if $id eq 1}
-        <img src="images/m1.png" border="0" usemap="#Map1" />      
+        <img src="images/mm1.jpg" border="0" usemap="#Map1" />      
 <map name="Map1" id="Map1">
   <area shape="poly" coords="503,5,942,4,934,214,525,318" href="goods.php?id=22" />
   <area shape="poly" coords="522,330,525,541,945,586,946,223" href="goods.php?id=27" />
@@ -33,7 +33,7 @@
 <area shape="poly" coords="506,586,497,783,941,787,933,485" href="goods.php?id=20" />
 </map>
    {else}
-      <img src="images/m3.png" border="0" usemap="#Map3" />
+      <img src="images/mm3.jpg" border="0" usemap="#Map3" />
 <map name="Map3" id="Map3">
   <area shape="poly" coords="503,10,502,257,924,206,941,11" href="goods.php?id=1" />
 <area shape="poly" coords="504,277,503,420,919,585,935,239" href="goods.php?id=4" />
