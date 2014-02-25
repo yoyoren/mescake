@@ -13,14 +13,7 @@ Template Type: type_0
 /* ====================
      公共样式
 ==================== */
-@font-face {
- font-family:'fzltRegular';
- src: url('images/fzlt.EOT');
- src: local('fzlt Regular'), 
-              local('fzlt'), 
-              url('images/fzlt.TTF') format('truetype')
-}  
-body{ font-size:12px; font-family:fzltRegular; line-height:150%; margin:0px 0 0 0; padding:0; color:#000;}
+body{ font-size:12px; line-height:150%; margin:0px 0 0 0; padding:0; color:#000;}
 div{margin:0 auto; padding:0;}
 h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{
 margin:0; padding:0; border:none; list-style-type:none;

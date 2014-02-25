@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="Keywords" content="mes,每实,蛋糕" />
-<meta name="Description" content="MES每实是一个食物,生活方式,艺术和文化的综合体,它钟情于创造任何让生活产生乐趣,品质和格调的食物产品,3大系列,38款产品,让你尽享美好." />
+<meta name="Keywords" content="mes,每实,蛋糕,北京蛋糕" />
+<meta name="Description" content="MES每实是一个食物,生活方式,艺术和文化的综合体,它钟情于创造任何让生活产生乐趣,品质和格调的食物产品,3大系列,38款产品,让你每时每刻尽享美好." />
 <!-- TemplateBeginEditable name="doctitle" -->
 <title>MES每实-尽享美好</title>
 <!-- TemplateEndEditable -->
@@ -33,7 +33,7 @@
 				<p class="display_none"></p></li>-->	
 		<li><a href="goods.php?id=26" target="_blank"><h4 class="display_none">许愿</h4><img src="images/lunbo2.jpg" width="954px" height="400px" alt="爱的期许"/></a> 
 				<p class="display_none">希望能并肩在屋檐下躲雨 能眯缝着眼看眼光下的你 能一起走过日落晚风 爱的许愿定格成待放的样子</p></li>
-		<li><a href="goods.php?id=30" target="_blank"><h4 class="display_none">纪念日款</h4><img src="images/lunbo3.jpg" width="954px" height="400px" alt="某一天的纪念"/></a>
+		<li><a href="goods.php?id=30" target="_blank"><h4 class="display_none">纪念日款</h4><img src="images/mlunbo3.jpg" width="954px" height="400px" alt="某一天的纪念"/></a>
 				<p class="display_none">某一天的纪念 星很亮的那一天 雨很急的那一天 刻在生命里 成了纪念</p></li>
 		</ul>
 		<a href="javascript:;" class="turn-btn btn_l"></a>

@@ -51,7 +51,7 @@
 			document.title="CLASSIC_MES每时尽享美好";
 		}
 		if(n==4){
-			document.getElementById('brandlogo').src='images/all.png';
+			document.getElementById('brandlogo').src='images/all.jpg';
 			document.title="ALL_MES每时尽享美好";
 		}
 	}
