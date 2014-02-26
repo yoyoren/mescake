@@ -12,6 +12,7 @@ if(SERVER_UID==MAIN_NGINX_SERVER){
 	$db_user = "yucheng";
 	$db_pass = "yucheng";
 
+
 }else if(SERVER_UID==CLUSTER_NGINX_SERVER){
 	$db_host = "210.51.166.148";
 	$db_name = "shop";
@@ -22,6 +23,11 @@ if(SERVER_UID==MAIN_NGINX_SERVER){
 	$db_name = "mescake";
 	$db_user = 'root';
 	$db_pass = '';
+	$redis_config = array(
+		'host' =>  '210.51.166.148',
+		'port' =>  6379,
+		'password'=>'yuchengmescake'
+	);
 }
 
 // table prefix
