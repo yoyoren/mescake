@@ -2,11 +2,11 @@
 // database host
 define('SERVER_UID',$_SERVER['SERVER_ADDR']);
 define('MAIN_NGINX_SERVER','210.51.166.148');
+define('MAIN_NGINX_SERVER_INNER','10.10.1.1');
 define('CLUSTER_NGINX_SERVER','210.51.166.149');
 define('TEST_SERVER','61.51.185.242');
 define('STAGING_SERVER','10.237.100.38');
-
-if(SERVER_UID==MAIN_NGINX_SERVER){
+if(SERVER_UID==MAIN_NGINX_SERVER||SERVER_UID==MAIN_NGINX_SERVER_INNER){
 	$db_host = "210.51.166.148";
 	$db_name = "shop";
 	$db_user = "yucheng";
