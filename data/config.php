@@ -11,22 +11,30 @@ if(SERVER_UID==MAIN_NGINX_SERVER){
 	$db_name = "shop";
 	$db_user = "yucheng";
 	$db_pass = "yucheng";
-
+	$redis_config = array(
+		'host' =>  '210.51.166.148',
+		'port' =>  6379,
+		'password'=>'yuchengmescake'
+	);
 
 }else if(SERVER_UID==CLUSTER_NGINX_SERVER){
 	$db_host = "210.51.166.148";
 	$db_name = "shop";
 	$db_user = "yucheng";
 	$db_pass = "yucheng138";
+	$redis_config = array(
+		'host' =>  '210.51.166.148',
+		'port' =>  6379,
+		'password'=>'yuchengmescake'
+	);
 }else {
 	$db_host = "127.0.0.1";
 	$db_name = "mescake";
 	$db_user = 'root';
 	$db_pass = '';
 	$redis_config = array(
-		'host' =>  '210.51.166.148',
-		'port' =>  6379,
-		'password'=>'yuchengmescake'
+		'host' =>  '127.0.0.1',
+		'port' =>  6379
 	);
 }
 
