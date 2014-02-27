@@ -11,7 +11,7 @@ require 'Predis/Autoloader.php';
 Predis\Autoloader::register();
 
 //开启一个全局的redis
-$REDIS_CLIENT = new Predis\Client();
+$REDIS_CLIENT = new Predis\Client($redis_config);
 
 if ((DEBUG_MODE & 2) != 2){
     $smarty->caching = true;

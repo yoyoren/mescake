@@ -1,15 +1,42 @@
 <?php
 // database host
-$db_host   = "210.51.166.148";
+define('SERVER_UID',$_SERVER['SERVER_ADDR']);
+define('MAIN_NGINX_SERVER','210.51.166.148');
+define('CLUSTER_NGINX_SERVER','210.51.166.149');
+define('TEST_SERVER','61.51.185.242');
+define('STAGING_SERVER','10.237.100.38');
 
-// database name
-$db_name   = "shop";
+if(SERVER_UID==MAIN_NGINX_SERVER){
+	$db_host = "210.51.166.148";
+	$db_name = "shop";
+	$db_user = "yucheng";
+	$db_pass = "yucheng";
+	$redis_config = array(
+		'host' =>  '210.51.166.148',
+		'port' =>  6379,
+		'password'=>'yuchengmescake'
+	);
 
-// database username
-$db_user   = "yucheng";
-
-// database password
-$db_pass   = "yucheng";
+}else if(SERVER_UID==CLUSTER_NGINX_SERVER){
+	$db_host = "210.51.166.148";
+	$db_name = "shop";
+	$db_user = "yucheng";
+	$db_pass = "yucheng138";
+	$redis_config = array(
+		'host' =>  '210.51.166.148',
+		'port' =>  6379,
+		'password'=>'yuchengmescake'
+	);
+}else {
+	$db_host = "127.0.0.1";
+	$db_name = "mescake";
+	$db_user = 'root';
+	$db_pass = '';
+	$redis_config = array(
+		'host' =>  '127.0.0.1',
+		'port' =>  6379
+	);
+}
 
 // table prefix
 $prefix    = "ecs_";
