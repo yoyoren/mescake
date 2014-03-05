@@ -783,7 +783,9 @@
 					var hour = parseInt(temp[1].split(':')[0],10);
 					hour+=5;
 					if(currentDate == selDate){
-						
+						if(minute>=30){
+							hour+=1;
+						}
 						if(hour>endHour){
 							_html+=('<option>制作需要5小时，今天已不能送货</option>');
 						}else if(hour<beginHour){
@@ -809,8 +811,22 @@
 //(new Date('2013-08-30')).getTime()
 	//22:30这个是不送货的
 	jqHourSel.change(function(){
+		var date = $('#date_picker').val();
+		var temp = CURRENT_TIME.split('-').join('').split(' ');
+		var currentDate = temp[0];
+		var hour = parseInt(temp[1].split(':')[0],10);
+		var minute = parseInt(temp[1].split(':')[1],10);
+		var selDate = date.split('-').join('');
+		var selHour=jqHourSel.val();
 		if($(this).val()==22){
 			jqMinuteSel.html('<option value="0">0</option>');
+		}else if(currentDate == selDate){
+			//下当日订单且当前时间不超过半点，送货时间最早为五小时以后的30分的节点，超过半点送货时间最早为六小时以后00分的时间节点
+			if(minute<30 && selHour==hour+5){
+				jqMinuteSel.html('<option value="0">30</option>');
+			}else{
+			jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
+			}
 		}else{
 			jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
 		}
