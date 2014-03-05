@@ -781,6 +781,7 @@
 					var temp = CURRENT_TIME.split('-').join('').split(' ');
 					var currentDate = temp[0];
 					var hour = parseInt(temp[1].split(':')[0],10);
+					var minute = parseInt(temp[1].split(':')[1],10);
 					hour+=5;
 					if(currentDate == selDate){
 						if(minute>=30){
