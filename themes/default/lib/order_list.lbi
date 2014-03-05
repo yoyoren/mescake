@@ -7,8 +7,8 @@
           <span class="or-handle">操作</span>
         </li>
         <li class="li-bg order-add-more">
-          <label for="birth_chk" id="birth_title"><input type="checkbox" id="birth_chk" class="checkbox-item">我要添加特别的生日蜡烛（+5元/份）</label><br>
-          <label for="leaveMes" id="leave_message"><input type="checkbox" class="checkbox-item" id="leaveMes">留言说明</label><br>
+          <label for="birth_chk" id="birth_title"><input type="checkbox"  id="birth_chk" class="checkbox-item">我要添加特别的生日蜡烛（+5元/份）</label><br>
+          <label for="leaveMes" id="leave_message"  style="display:none"><input type="checkbox" class="checkbox-item" id="leaveMes">留言说明</label><br>
           <textarea class="text-area" style="display:none" id="message_input"></textarea>
           <span class="order-total-price">总计<b class="order_total">0</b>元</span>
         </li>

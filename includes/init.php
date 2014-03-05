@@ -100,9 +100,6 @@ if (!get_magic_quotes_gpc())
 }
 
 //$db_name = 'mescake';
-$db_host = '127.0.0.1';
-$db_user = 'root';
-$db_pass = '';
 
 /* 创建 ECSHOP 对象 */
 $ecs = new ECS($db_name, $prefix);
