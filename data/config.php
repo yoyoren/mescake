@@ -30,6 +30,10 @@ if(SERVER_UID==MAIN_NGINX_SERVER){
 }else {
 	$db_host = "127.0.0.1";
 	$db_name = "mescake";
+	if(SERVER_UID==TEST_SERVER){
+		$db_name = "shop";
+	}
+	
 	$db_user = 'root';
 	$db_pass = '';
 	$redis_config = array(
@@ -37,6 +41,12 @@ if(SERVER_UID==MAIN_NGINX_SERVER){
 		'port' =>  6379
 	);
 }
+require 'Predis/Autoloader.php';
+
+Predis\Autoloader::register();
+
+//开启一个全局的redis
+$REDIS_CLIENT = new Predis\Client($redis_config);
 
 // table prefix
 $prefix    = "ecs_";
