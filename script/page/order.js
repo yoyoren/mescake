@@ -315,6 +315,7 @@
 					me._submitFail();
 
 				}else{
+
 					me.saveconsignee(jqThis);
 				}
 					
@@ -502,7 +503,10 @@
 				me._submitFail();
 				return;
 			}
-
+			var orderAlert;
+			require(['ui/alert'],function(alert){
+				orderAlert = new alert('您的订单正在提交处理中，请等待页面跳转...');
+			});
 			//保存订单
 			MES.post({
 				action:'save_consignee',
@@ -530,7 +534,9 @@
 									require(["ui/login"], function(login) {login.show();});
 								});
 							});
+							
 							me._submitFail();
+							orderAlert.close();
 						}else{
 							//给这个用户注册一个账户 并且帮他登录
 							var username = data.mobile;
