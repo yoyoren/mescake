@@ -166,7 +166,13 @@
 							var html = '<option value="0">选择送货街道</option>';
 							if(d.data){
 								for(var i in d.data){
-									html+='<option value="'+i+'">'+d.data[i].name+'</option>'
+									var name = d.data[i].name;
+									if(!d.data[i].free){
+										if(name.indexOf('*')<0){
+											name = '*'+name;
+										}
+									}
+									html+='<option value="'+i+'">'+name+'</option>'
 								}
 								$('#dis_district').html(html).show();
 							}else{
@@ -774,8 +780,9 @@
 				var selTime = (new Date(date)).getTime();
 
 				//10点以后了 选择第二天的订单 只能是14点之后的
-				var _html='';
+				var _html='<option value="0">小时</option>';
 				if((selTime - currTime == 3600*1000*24&&currHour>21)||(selTime==currTime&&currHour<10)){
+					
 					for(var i=14;i<=22;i++){
 						_html+='<option value="'+i+'">'+i+'</option>';
 					}
@@ -794,7 +801,7 @@
 							hour+=1;
 						}
 						if(hour>endHour){
-							_html+=('<option>制作需要5小时，今天已不能送货</option>');
+							_html=('<option>制作需要5小时，今天已不能送货</option>');
 						}else if(hour<beginHour){
 							for(var i=beginHour;i<=endHour;i++){
 								_html+=('<option>'+i+'</option>');
@@ -832,7 +839,7 @@
 			if(minute<30 && selHour==hour+5){
 				jqMinuteSel.html('<option value="0">30</option>');
 			}else{
-			jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
+				jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
 			}
 		}else{
 			jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
