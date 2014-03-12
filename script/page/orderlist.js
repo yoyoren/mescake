@@ -11,7 +11,7 @@ $('#my_order_frame').show();
 								<img src="themes/default/images/sgoods/<%=data[i].detail[j].goods_sn.substring(0,3)%>.png">\
 							</a>\
 							<% } %><% } %></td>\
-						  <td><%=data[i].pay_note%></td>\
+						  <td><%=parseFloat(data[i].order_amount,10)%></td>\
 						  <td class="order_status">\
 							<%if(data[i].order_status==2){%>已取消\
 							<%} else {%>\
@@ -61,7 +61,7 @@ $('#my_order_frame').show();
 										  <th width="140">订单号</th>\
 										  <th width="120">送货时间</th>\
 										  <th width="160">商品</th>\
-										  <th width="100">总金额</th>\
+										  <th width="100">需支付金额</th>\
 										  <th width="160">状态</th>\
 										  <th width="100">操作</th>\
 										  <th width="100">&nbsp;</th>\
