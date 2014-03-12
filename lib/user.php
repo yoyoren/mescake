@@ -306,23 +306,44 @@ class MES_User{
 		
 	    return json_encode(array('code' =>RES_SUCCSEE,'orders'=>$res));
 	}
-
+//取消订单
 	public static function del_one_order($order_id){
 		include_once(ROOT_PATH . 'includes/lib_transaction.php');
+		include_once(ROOT_PATH . 'includes/lib_common.php');
 		global $db;
 		global $ecs;
 		$user_id = $_SESSION['user_id'];
 		
 		//只有没有确认的订单才可以取消
-		$current_order = $db->getRow("select order_status,pay_status from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'");
+		$current_order = $db->getRow("select order_status,pay_status,bonus,surplus,bonus_id,order_sn from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'");
 		if($current_order['order_status']==OS_UNCONFIRMED&&$current_order['pay_status']!=PS_PAYED){
 			$sql = "update ecs_order_info set order_status =".OS_CANCELED." where user_id = '$user_id' and order_id = '$order_id'";
 			$orders = $db->query($sql);
+			if($orders)
+			{	
+				$change_desc="订单号:".$current_order['order_sn'];
+			//取消礼金卡支付的订单记录礼金卡账户变动
+				if($current_order['surplus']>0)
+				{
+					log_mcard_change($user_id, $current_order['surplus'], $change_desc,0,$order_id,3);
+				}
+			/*//取消现金券支付的订单改变现金券的使用状态
+				else if($current_order['bonus']>0)
+				{
+					$sql="update ecs_user_bonus set used_time = 0,user_id=0, order_id = 0 where bonus_id = '".$current_order['bonus_id']."'";
+					 $db->query($sql);
+				}*/	
+				else
+				{
+					log_account_change($user_id,0,0,0, 0, $change_desc);
+				}
+			}
 			return json_encode(array('code' =>RES_SUCCSEE));
 		}else{
 			return json_encode(array('code' =>RES_FAIL));
 		}
 	}
+
 	
 	public static function get_password_moblie($mobile){
 	   global $db;
