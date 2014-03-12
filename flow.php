@@ -1261,7 +1261,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	$shipping_fee = str_replace("￥", " ", $shipping_fee);
 	$shipping_fee = trim($shipping_fee);
 	
-	$leaving_message = isset($_POST['leaving_message']) ? ($_POST['leaving_message'] == "输入内容" ? "" : $_POST['leaving_message']) : "";
+	$leaving_message = isset($_POST['leaving_message']) ? $_POST['leaving_message']: "";
 	$order = array('shipping_id' => intval($_POST['shipping']), 'pay_id' => intval($pay_id), 'pack_id' => isset($_POST['pack']) ? intval($_POST['pack']) : 0, 'card_id' => isset($_POST['card']) ? intval($_POST['card']) : 0, 'card_name' => $_SESSION['card_name'], 'card_message' => trim(implode(";", $_SESSION['card_message'])),
 	
 	//订单中新增的餐具信息

@@ -72,9 +72,9 @@ switch ($mod) {
 			$_key = 'checkout_times_'.$current_ip;
 			$checkout_times = 0; 
 			
-			if($REDIS_CLIENT->exists($_key )){
+			/*if($REDIS_CLIENT->exists($_key )){
 				$checkout_times = intval($REDIS_CLIENT->get($_key));
-			}
+			}*/
 
 			$_token =  GEN_MES_TOKEN();
 			$_SESSION['order_token'] = $_token;
@@ -303,6 +303,9 @@ switch ($mod) {
 				$sign_building = ANTI_SPAM($_POST['sign_building'],array(
 										'empty'=>true
 								));
+				$message_input= ANTI_SPAM($_POST['message_input'],array(
+						'empty'=>true
+				));
 
 				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
 				$data = array(
@@ -319,6 +322,7 @@ switch ($mod) {
 		            'mobile'        =>$mobile,
 		            'sign_building' =>$sign_building,
 		            'best_time'     =>$best_time,
+					'message_input' =>$message_input,
 		        );
 
 			//地址id为空可以，但是内容不能为空
@@ -353,9 +357,9 @@ switch ($mod) {
 			$current_ip = GET_IP();
 			$_key = 'checkout_times_'.$current_ip;
 			$checkout_times = 0; 
-			if($REDIS_CLIENT->exists($_key )){
+			/*if($REDIS_CLIENT->exists($_key )){
 				$checkout_times = intval($REDIS_CLIENT->get($_key));
-			}
+			}*/
 	
 			//大于三次的提交 才验证
 			if($checkout_times>3){
@@ -393,13 +397,13 @@ switch ($mod) {
 			$_key = 'checkout_times_'.$current_ip;
 			$_value; 
 			
-			if($REDIS_CLIENT->exists($_key )){
+			/*if($REDIS_CLIENT->exists($_key )){
 				$_value = intval($REDIS_CLIENT->get($_key));
 				$_value+=1;
 				$REDIS_CLIENT->setex($_key,24*3600,$_value);
 			}else{
 				$REDIS_CLIENT->setex($_key,24*3600,1);
-			}
+			}*/
 			
 			echo MES_Order::checkout($card_message);
 		}else if($action == 'done'){

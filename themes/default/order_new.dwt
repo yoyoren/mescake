@@ -156,11 +156,12 @@
           </div>
 	  <!-- {/if} -->
           <div class="tl-r">
-            <span class="total-sub-tip">请确认信息无误后下单</span>
+            <span class="total-sub-tip">请确认信息无误后下单</span> 
             <input id="submit_order_btn" class="btn green-btn big-btn" type="button" style="margin-right:0;" value="提交订单">
           </div>
         </form>
         <form action="flow.php" method="post" id="submit_form">
+         <input type="hidden"  id="leaving_message" name="leaving_message">
           <input type="hidden" name="pay_id" value="1" id="pay_id">
 	  <input type="hidden" name="surplus" value="0.00" id="surplus">
           <input type="hidden" name="bonus_id" value="请输入10位现金券券号" id="bonus_id">
