@@ -491,6 +491,9 @@ switch ($mod) {
 			$attr_id = isset($_REQUEST['attr']) ? explode(',', $_REQUEST['attr']) : array();
 			$number = (isset($_REQUEST['number'])) ? intval($_REQUEST['number']) : 1;
 			echo MES_Goods::get_price_by_weight($goods_id, $attr_id, $number);
+		}else if ($action == 'goods_detail_page') {
+			$goods_id = ANTI_SPAM($_REQUEST['id']);
+			MES_Goods::goods_detail_page($goods_id);
 		}
 		break;
 	default :

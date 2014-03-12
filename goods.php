@@ -258,7 +258,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         //获取tag
         $tag_array = get_tags($goods_id);
         $smarty->assign('tags',                $tag_array);                                       // 商品的标记
-
+         var_dump($tag_array);
         //获取关联礼包
         $package_goods_list = get_package_goods_list($goods['goods_id']);
         $smarty->assign('package_goods_list',$package_goods_list);    // 获取关联礼包
