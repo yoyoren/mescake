@@ -481,7 +481,8 @@
 						mobile:_this.data('tel'),
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
-						minute:$('#minute_picker').val()
+						minute:$('#minute_picker').val(),
+						message_input:$('#message_input').val()
 				};
 			}else{
 				data = {
@@ -494,7 +495,8 @@
 						mobile:Serect?$('#my_phone_input').val():$('#new_tel').val(),
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
-						minute:$('#minute_picker').val()
+						minute:$('#minute_picker').val(),
+						message_input:$('#message_input').val()
 				}
 
 				if(!me.vaildAddressForm()){

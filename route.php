@@ -303,7 +303,9 @@ switch ($mod) {
 				$sign_building = ANTI_SPAM($_POST['sign_building'],array(
 										'empty'=>true
 								));
-
+				$message_input= ANTI_SPAM($_POST['message_input'],array(
+ 						'empty'=>true
+ 				));
 				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
 				$data = array(
 		            'address_id'    =>$address_id,
@@ -319,6 +321,7 @@ switch ($mod) {
 		            'mobile'        =>$mobile,
 		            'sign_building' =>$sign_building,
 		            'best_time'     =>$best_time,
+					'message_input' =>$message_input,
 		        );
 
 			//地址id为空可以，但是内容不能为空
