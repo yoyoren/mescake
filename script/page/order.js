@@ -166,7 +166,13 @@
 							var html = '<option value="0">选择送货街道</option>';
 							if(d.data){
 								for(var i in d.data){
-									html+='<option value="'+i+'">'+d.data[i].name+'</option>'
+									var name = d.data[i].name;
+									if(!d.data[i].free){
+										if(name.indexOf('*')<0){
+											name = '*'+name;
+										}
+									}
+									html+='<option value="'+i+'">'+name+'</option>'
 								}
 								$('#dis_district').html(html).show();
 							}else{
@@ -315,6 +321,7 @@
 					me._submitFail();
 
 				}else{
+
 					me.saveconsignee(jqThis);
 				}
 					
@@ -474,7 +481,8 @@
 						mobile:_this.data('tel'),
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
-						minute:$('#minute_picker').val()
+						minute:$('#minute_picker').val(),
+						message_input:$('#message_input').val()
 				};
 			}else{
 				data = {
@@ -487,7 +495,8 @@
 						mobile:Serect?$('#my_phone_input').val():$('#new_tel').val(),
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
-						minute:$('#minute_picker').val()
+						minute:$('#minute_picker').val(),
+						message_input:$('#message_input').val()
 				}
 
 				if(!me.vaildAddressForm()){
@@ -502,7 +511,10 @@
 				me._submitFail();
 				return;
 			}
-
+			var orderAlert;
+			require(['ui/alert'],function(alert){
+				orderAlert = new alert('您的订单正在提交处理中，请等待页面跳转...');
+			});
 			//保存订单
 			MES.post({
 				action:'save_consignee',
@@ -530,7 +542,9 @@
 									require(["ui/login"], function(login) {login.show();});
 								});
 							});
+							
 							me._submitFail();
+							orderAlert.close();
 						}else{
 							//给这个用户注册一个账户 并且帮他登录
 							var username = data.mobile;
@@ -768,8 +782,9 @@
 				var selTime = (new Date(date)).getTime();
 
 				//10点以后了 选择第二天的订单 只能是14点之后的
-				var _html='';
+				var _html='<option value="0">小时</option>';
 				if((selTime - currTime == 3600*1000*24&&currHour>21)||(selTime==currTime&&currHour<10)){
+					
 					for(var i=14;i<=22;i++){
 						_html+='<option value="'+i+'">'+i+'</option>';
 					}
@@ -788,7 +803,7 @@
 							hour+=1;
 						}
 						if(hour>endHour){
-							_html+=('<option>制作需要5小时，今天已不能送货</option>');
+							_html=('<option>制作需要5小时，今天已不能送货</option>');
 						}else if(hour<beginHour){
 							for(var i=beginHour;i<=endHour;i++){
 								_html+=('<option>'+i+'</option>');
@@ -826,7 +841,7 @@
 			if(minute<30 && selHour==hour+5){
 				jqMinuteSel.html('<option value="0">30</option>');
 			}else{
-			jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
+				jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');
 			}
 		}else{
 			jqMinuteSel.html('<option value="0">0</option><option value="30">30</option>');

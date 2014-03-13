@@ -148,42 +148,89 @@ switch ($mod) {
 		} else if ($action == 'save_consignee') {
 			//save consignee when user select a address!
 			/*
-			 $consignee = array(
-			 'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
-			 'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
-			 'country'       => empty($_POST['country'])    ? '' :   intval($_POST['country']),
-			 'province'      => empty($_POST['province'])   ? 502 :  intval($_POST['province']),
-			 'city'          => empty($_POST['city'])       ? '' :   intval($_POST['city']),
-			 'district'      => empty($_POST['district'])   ? '' :   intval($_POST['district']),
-			 'email'         => empty($_POST['email'])      ? '' :   compile_str($_POST['email']),
-			 'address'       => empty($_POST['address'])    ? '' :   compile_str($_POST['address']),
-			 'zipcode'       => empty($_POST['zipcode'])    ? '' :   compile_str(make_semiangle(trim($_POST['zipcode']))),
-			 'tel'           => empty($_POST['tel'])        ? '' :   compile_str(make_semiangle(trim($_POST['tel']))),
-			 'mobile'        => empty($_POST['mobile'])     ? '' :   compile_str(make_semiangle(trim($_POST['mobile']))),
-			 'sign_building' => empty($_POST['sign_building']) ? '' :compile_str($_POST['sign_building']),
-			 'best_time'     => $_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00",
+			$consignee = array(
+		            'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
+		            'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
+		            'country'       => empty($_POST['country'])    ? '' :   intval($_POST['country']),
+		            'province'      => empty($_POST['province'])   ? 502 :  intval($_POST['province']),
+		            'city'          => empty($_POST['city'])       ? '' :   intval($_POST['city']),
+		            'district'      => empty($_POST['district'])   ? '' :   intval($_POST['district']),
+		            'email'         => empty($_POST['email'])      ? '' :   compile_str($_POST['email']),
+		            'address'       => empty($_POST['address'])    ? '' :   compile_str($_POST['address']),
+		            'zipcode'       => empty($_POST['zipcode'])    ? '' :   compile_str(make_semiangle(trim($_POST['zipcode']))),
+		            'tel'           => empty($_POST['tel'])        ? '' :   compile_str(make_semiangle(trim($_POST['tel']))),
+		            'mobile'        => empty($_POST['mobile'])     ? '' :   compile_str(make_semiangle(trim($_POST['mobile']))),
+		            'sign_building' => empty($_POST['sign_building']) ? '' :compile_str($_POST['sign_building']),
+		            'best_time'     => $_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00",
+					
+		        );
+				*/
+				
+				$address_id = ANTI_SPAM($_POST['address_id'],array(
+										'minLength'=>1,
+										'maxLength'=>12,
+										'type'=>'number',
+										'empty'=>true,
+							));
+				
+				$consignee = ANTI_SPAM($_POST['consignee']);
+				$country = ANTI_SPAM($_POST['country'],array(
+										'values'=>array(441,501)
+							));
+				$province = ANTI_SPAM($_POST['province'],array(
+										'empty'=>true
+							));
+				
+				$city = ANTI_SPAM($_POST['city'],array(
+										'minValue'=>543,
+										'maxValue'=>573,
+										'type'=>'number'
+									));
+				$district = ANTI_SPAM($_POST['district'],array(
+										'minValue'=>0,
+										'maxValue'=>20,
+										'type'=>'number',
+										'empty'=>true
+									));
+				$email = ANTI_SPAM($_POST['email'],array(
+										'empty'=>true
+									));
+;
+				$address = ANTI_SPAM($_POST['address']);
+				$zipcode = ANTI_SPAM($_POST['zipcode'],array(
+										'empty'=>true
+							));
 
-			 );
-			 */
+				$tel = ANTI_SPAM($_POST['tel'],array(
+										'empty'=>true
+								));
+				$mobile = ANTI_SPAM($_POST['mobile'],array(
+										'empty'=>true
+								));
+				$sign_building = ANTI_SPAM($_POST['sign_building'],array(
+										'empty'=>true
+								));
+				$message_input= ANTI_SPAM($_POST['message_input'],array(
+ 						'empty'=>true
+ 				));
+				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
+				$data = array(
+		            'address_id'    =>$address_id,
+		            'consignee'     =>$consignee,
+		            'country'       =>$country,
+		            'province'      =>$province,
+		            'city'          =>$city,
+		            'district'      =>$district,
+		            'email'         =>$email,
+		            'address'       =>$address,
+		            'zipcode'       =>$zipcode,
+		            'tel'           =>$tel,
+		            'mobile'        =>$mobile,
+		            'sign_building' =>$sign_building,
+		            'best_time'     =>$best_time,
+					'message_input' =>$message_input,
+		        );
 
-			$address_id = ANTI_SPAM($_POST['address_id'], array('minLength' => 1, 'maxLength' => 12, 'type' => 'number', 'empty' => true, ));
-
-			$consignee = ANTI_SPAM($_POST['consignee']);
-			$country = ANTI_SPAM($_POST['country'], array('values' => array(441, 501)));
-			$province = ANTI_SPAM($_POST['province'], array('empty' => true));
-
-			$city = ANTI_SPAM($_POST['city'], array('minValue' => 543, 'maxValue' => 573, 'type' => 'number'));
-			$district = ANTI_SPAM($_POST['district'], array('minValue' => 0, 'maxValue' => 20, 'type' => 'number', 'empty' => true));
-			$email = ANTI_SPAM($_POST['email'], array('empty' => true)); ;
-			$address = ANTI_SPAM($_POST['address']);
-			$zipcode = ANTI_SPAM($_POST['zipcode'], array('empty' => true));
-
-			$tel = ANTI_SPAM($_POST['tel'], array('empty' => true));
-			$mobile = ANTI_SPAM($_POST['mobile'], array('empty' => true));
-			$sign_building = ANTI_SPAM($_POST['sign_building'], array('empty' => true));
-
-			$best_time = ANTI_SPAM($_POST['bdate'] . " " . $_POST['hour'] . ":" . $_POST['minute'] . ":00");
-			$data = array('address_id' => $address_id, 'consignee' => $consignee, 'country' => $country, 'province' => $province, 'city' => $city, 'district' => $district, 'email' => $email, 'address' => $address, 'zipcode' => $zipcode, 'tel' => $tel, 'mobile' => $mobile, 'sign_building' => $sign_building, 'best_time' => $best_time, );
 
 			//地址id为空可以，但是内容不能为空
 			if (empty($address_id) && (empty($city) || empty($address))) {

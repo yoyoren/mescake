@@ -1,0 +1,1 @@
+insert into ship_region(region_id,parent_id,region_name,region_type,fee) values(572,501,'·¿É½Çø',2,0);

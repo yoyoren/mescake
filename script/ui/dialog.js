@@ -11,7 +11,7 @@ define(function(){
         <%if(title){%><p class="dia-title"><%=title%></p><% } %>\
         <em class="close-ico" id="close_<%=index%>">X</em>\
       </div>\
-      <div class="dialog-con">\
+      <div class="dialog-con" style="<%=textStyle%>">\
         <form action="">\
 		   <p><%=body%></p>\
 			<%if(!bottom) {%>\
@@ -35,7 +35,8 @@ define(function(){
 			body:opt.body||'',
 			bottom:opt.bottom||'',
 			index:_index,
-			zIndex:zIndex++
+			zIndex:zIndex++,
+			textStyle:opt.textStyle
 		});
 		$('body').append(html);
 		$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');
