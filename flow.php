@@ -1265,7 +1265,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	$order = array('shipping_id' => intval($_POST['shipping']), 'pay_id' => intval($pay_id), 'pack_id' => isset($_POST['pack']) ? intval($_POST['pack']) : 0, 'card_id' => isset($_POST['card']) ? intval($_POST['card']) : 0, 'card_name' => $_SESSION['card_name'], 'card_message' => trim(implode(";", $_SESSION['card_message'])),
 	
 	//订单中新增的餐具信息
-	'fork_message' => trim(json_encode($_SESSION['extra_fork'])), 'surplus' => isset($_POST['surplus']) ? floatval($_POST['surplus']) : 0.00, 'integral' => isset($_POST['integral']) ? intval($_POST['integral']) : 0, 'bonus_id' => isset($_POST['bonus_id']) ? intval($_POST['bonus_id']) : 0, 'need_inv' => empty($_POST['need_inv']) ? 0 : 1, 'inv_type' => $_POST['inv_type'], 'inv_payee' => trim($_POST['inv_payee']), 'inv_content' => $_POST['inv_content'], 'postscript' => trim($_POST['postscript']), 'how_oos' => isset($_LANG['oos'][$_POST['how_oos']]) ? addslashes($_LANG['oos'][$_POST['how_oos']]) : '', 'need_insure' => isset($_POST['need_insure']) ? intval($_POST['need_insure']) : 0, 'user_id' => $_SESSION['user_id'], 'add_time' => gmtime(), 'order_status' => OS_UNCONFIRMED, 'shipping_status' => SS_UNSHIPPED, 'pay_status' => PS_UNPAYED, 'agency_id' => 1, 'scts' => $leaving_message, 'wsts' => $leaving_message, );
+	'fork_message' => trim(json_encode($_SESSION['extra_fork'])), 'surplus' => isset($_POST['surplus']) ? floatval($_POST['surplus']) : 0.00,'bonus' => isset($_POST['bonus']) ? floatval($_POST['bonus']) : 0.00,'bonus_id' => isset($_POST['bonus_id']) ? floatval($_POST['bonus_id']) : "", 'integral' => isset($_POST['integral']) ? intval($_POST['integral']) : 0, 'bonus_id' => isset($_POST['bonus_id']) ? intval($_POST['bonus_id']) : 0, 'need_inv' => empty($_POST['need_inv']) ? 0 : 1, 'inv_type' => $_POST['inv_type'], 'inv_payee' => trim($_POST['inv_payee']), 'inv_content' => $_POST['inv_content'], 'postscript' => trim($_POST['postscript']), 'how_oos' => isset($_LANG['oos'][$_POST['how_oos']]) ? addslashes($_LANG['oos'][$_POST['how_oos']]) : '', 'need_insure' => isset($_POST['need_insure']) ? intval($_POST['need_insure']) : 0, 'user_id' => $_SESSION['user_id'], 'add_time' => gmtime(), 'order_status' => OS_UNCONFIRMED, 'shipping_status' => SS_UNSHIPPED, 'pay_status' => PS_UNPAYED, 'agency_id' => 1, 'scts' => $leaving_message, 'wsts' => $leaving_message, );
 
 	/* 扩展信息 */
 	if (isset($_SESSION['flow_type']) && intval($_SESSION['flow_type']) != CART_GENERAL_GOODS) {
@@ -1599,7 +1599,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 	if ($order['bonus_id'] > 0 && $temp_amout > 0) {
-		use_bonus($order['bonus_id'], $new_order_id);
+		use_bonus($order['bonus_id'], $new_order_id,$user_id);
 	}
 
 	/* 如果使用库存，且下订单时减库存，则减少库存 */

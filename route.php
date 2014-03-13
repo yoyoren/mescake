@@ -72,9 +72,9 @@ switch ($mod) {
 			$_key = 'checkout_times_'.$current_ip;
 			$checkout_times = 0; 
 			
-			/*if($REDIS_CLIENT->exists($_key )){
+			if($REDIS_CLIENT->exists($_key )){
 				$checkout_times = intval($REDIS_CLIENT->get($_key));
-			}*/
+			}
 
 			$_token =  GEN_MES_TOKEN();
 			$_SESSION['order_token'] = $_token;
@@ -83,6 +83,10 @@ switch ($mod) {
 			date_default_timezone_set("Etc/GMT-8");
 			$time = date('Y-m-d H:i:s',time());
 			$smarty->assign('current_time', $time);
+			unset($_SESSION['flow_order']['surplus']);
+			unset($_SESSION['flow_order']['bonus']);
+			unset($_SESSION['flow_order']['bonus_id']);
+			unset($_SESSION['flow_order']['bonus_sn']);
 			$smarty->display('order_new.dwt');
 			return;
 		}else if($action == 'empty'){
@@ -357,9 +361,9 @@ switch ($mod) {
 			$current_ip = GET_IP();
 			$_key = 'checkout_times_'.$current_ip;
 			$checkout_times = 0; 
-			/*if($REDIS_CLIENT->exists($_key )){
+			if($REDIS_CLIENT->exists($_key )){
 				$checkout_times = intval($REDIS_CLIENT->get($_key));
-			}*/
+			}
 	
 			//大于三次的提交 才验证
 			if($checkout_times>3){
@@ -397,13 +401,13 @@ switch ($mod) {
 			$_key = 'checkout_times_'.$current_ip;
 			$_value; 
 			
-			/*if($REDIS_CLIENT->exists($_key )){
+			if($REDIS_CLIENT->exists($_key )){
 				$_value = intval($REDIS_CLIENT->get($_key));
 				$_value+=1;
 				$REDIS_CLIENT->setex($_key,24*3600,$_value);
 			}else{
 				$REDIS_CLIENT->setex($_key,24*3600,1);
-			}*/
+			}
 			
 			echo MES_Order::checkout($card_message);
 		}else if($action == 'done'){

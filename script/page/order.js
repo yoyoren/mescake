@@ -655,31 +655,38 @@
 			//	$('#balance_display').html('可用余额'+d.user_money).show();
 			//},'json');
 			$('#balance').click(function(){
-				if($(this)[0].checked){
-					$.get('flow.php?step=validate_gift&is_surplus=1',{
-						_tc:Math.random()
-					},function(d){
-						$('#balance_display').html('可用余额'+d.surplus).show();
-						//折扣金额
-						$('#disaccount').html(d.total.surplus_formated);
-						
-						//最终价格
-						$('#final_total').html(d.total.amount_formated);
-						$('#surplus').val(d.surplus);
-					},'json');
+				
+				if($('#voucher')[0].checked==true)
+				{
+					$(this)[0].checked=false;
+					require(['ui/confirm'],function(confirm){
+						new confirm('现金券礼金卡不能同时使用哦~');
+					});
 				}
-				else{
-					$.get('flow.php?step=validate_gift&is_surplus=1',{
-						_tc:Math.random()
-					},function(d){
-						$('#balance_display').html('可用余额'+d.user_money).show();
-						//折扣金额
-						$('#disaccount').html('￥0');
-						
-						//最终价格
-						$('#final_total').html(d.total.amount_formated);
-						$('#surplus').val('0.00');
-					},'json');
+				else
+				{
+					if($(this)[0].checked){
+						$.get('flow.php?step=validate_gift&is_surplus=1',{
+							_tc:Math.random()
+						},function(d){
+							$('#balance_display').html('可用余额'+d.surplus).show();
+							//折扣金额
+							$('#disaccount').html(d.total.surplus_formated);
+							
+							//最终价格
+							$('#final_total').html(d.total.amount_formated);
+							$('#surplus').val(d.surplus);
+						},'json');
+					}
+					else{
+							$('#balance_display').html('').hide();
+							//折扣金额
+							$('#disaccount').html('￥0.00');
+							
+							//最终价格
+							$('#final_total').html($('.order_total').html());
+							$('#surplus').val('0.00');
+					}
 				}
 			});
 
@@ -691,10 +698,17 @@
 			var canUse = false;
 			var Bonus_sn;
 			$('#voucher_label').click(function(){
-				if($('#voucher')[0].checked&&Bonus_sn){
-					$('#bonus_id').val(Bonus_sn);
-				}else{
-					$('#bonus_id').val('请输入10位现金券券号');
+				if($('#balance')[0].checked==false)
+				{
+					if($('#voucher')[0].checked){
+						//$('#bonus_id').val(Bonus_sn);
+					}else{
+						$('#cash_code').val('');
+						$('#disaccount').html('￥0.00');
+						$('#final_total').html($('.order_total').html());
+						$('#bonus_id').val('');
+						$('#bonus').val('0.00');
+					}
 				}
 			});
 			
@@ -721,11 +735,11 @@
 						
 						//最终价格
 						$('#final_total').html(d.total.amount_formated);
-
 						canUse = true;
 
 						if($('#voucher')[0].checked){
-							$('#bonus_id').val(bonus_sn);
+							$('#bonus').val(d.total.bonus);
+							$('#bonus_id').val(d.bonus_id);
 						}
 					}
 				},'json');
