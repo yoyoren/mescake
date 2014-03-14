@@ -1100,6 +1100,7 @@ if ($_REQUEST['step'] == 'add_to_cart') {
 		}
 
 		$result['content'] = $smarty -> fetch('library/order_total.lbi');
+
 	}
 
 	$json = new JSON();
@@ -1626,7 +1627,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 	if ($order['bonus_id'] > 0 && $temp_amout > 0) {
-		$reusable=$bonus['reusable'];
+		$reusable=$bonus['bonus_reusable'];
  		use_bonus($order['bonus_id'], $new_order_id,$user_id,$reusable);
 	}
 
@@ -1955,6 +1956,8 @@ elseif ($_REQUEST['step'] == 'validate_bonus') {
 		}
 
 		$result['content'] = $smarty -> fetch('library/order_total.lbi');
+		$total['amount']+=$total['surplus'];
+ 		$total['amount_formated']=price_format($total['amount'], false);
 		$result['total'] = $total;
 	}
 	if ($order['bonus_id'] != '')
