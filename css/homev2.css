@@ -138,6 +138,15 @@ _background: url(img/ico_details8.png) -145px -37px no-repeat;
 .buy-down .btn{margin-bottom: 14px; width: 150px; padding: 0;}
 .buy-down .btn:hover{text-decoration: none;}
 
+/* 结账时的留言和总数 */
+.tt-price-area{position: relative; padding: 30px 20px 30px 24px;}
+.write-mes-area{width: 600px; background: #fafafa; padding: 4px 20px; overflow: hidden;}
+.write-mes-area .global-input{margin: 0;}
+.write-mes-ico{display: inline-block; *display: inline; *zoom:1; width: 18px; height: 18px; 
+background: url(img/write-mes.png) 0 0 no-repeat; vertical-align: middle; margin-right: 6px;}
+.tt-total{position: absolute; right: 30px; top:30px; font-size: 14px;}
+.tt-total b{font-size: 26px;}
+
 /* 全局按钮 */
 .btn{padding: 0 20px; margin-right:10px; height: 30px; line-height:30px; font-size:12px; color:#616161; background:none; border:0 none; text-align:center; border: 1px solid #d8d7d7; background: #e4e4e4; border-radius: 4px;
   display: inline-block; *display: inline; *zoom:1;
