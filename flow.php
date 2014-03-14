@@ -1599,7 +1599,8 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 	if ($order['bonus_id'] > 0 && $temp_amout > 0) {
-		use_bonus($order['bonus_id'], $new_order_id,$user_id);
+		$reusable=$bonus['reusable'];
+		use_bonus($order['bonus_id'], $new_order_id,$user_id,$reusable);
 	}
 
 	/* 如果使用库存，且下订单时减库存，则减少库存 */

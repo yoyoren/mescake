@@ -1490,13 +1490,16 @@ function bonus_used($bonus_id)
  * @param   int     $order_id   订单id
  * @return  bool
  */
-function use_bonus($bonus_id, $order_id,$user_id)
+function use_bonus($bonus_id, $order_id,$user_id,$reusable=0)
 {
-    $sql = "UPDATE " . $GLOBALS['ecs']->table('user_bonus') .
-            " SET order_id = '$order_id', user_id='$user_id', used_time = '" . gmtime() . "' " .
-            "WHERE bonus_id = '$bonus_id' LIMIT 1";
-
-    return  $GLOBALS['db']->query($sql);
+	if($reusable==0)
+	{
+		$sql = "UPDATE " . $GLOBALS['ecs']->table('user_bonus') .
+				" SET order_id = '$order_id', user_id='$user_id', used_time = '" . gmtime() . "' " .
+				"WHERE bonus_id = '$bonus_id' LIMIT 1";
+	
+		return  $GLOBALS['db']->query($sql);
+	}
 }
 
 /**
