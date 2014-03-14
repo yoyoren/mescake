@@ -271,11 +271,20 @@
 			});
 
 			$('#voucher_label').click(function(){
-				 if($('#voucher')[0].checked){
-					$('#money_card_input_frame').show();
-				 }else{
-					$('#money_card_input_frame').hide();
-				 }
+				if($('#balance')[0].checked==true){
+ 					$('#voucher')[0].checked=false;
+ 					require(['ui/confirm'],function(confirm){
+ 						new confirm('现金券礼金卡不能同时使用哦~');
+ 					});
+ 				}else{
+ 					 if($('#voucher')[0].checked){
+ 						$('#money_card_input_frame').show();
+ 					 }else{
+ 						$('#money_card_input_frame').hide();
+ 						$('#disaccount').html(0);
+ 						$('#final_total').html($('.order_total').html());
+ 					 }
+ 				}
 			});
 			var lock = false;
 			$('#birth_title').click(function(){

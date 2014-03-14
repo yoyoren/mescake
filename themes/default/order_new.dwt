@@ -133,8 +133,8 @@
           </div>
           <div class="check-money-area clearfix" >
             <div class="money-style"id="money_card_frame" style="display:none">
-            <label for="voucher" style="display:none"  id="voucher_label"><input type="checkbox" id="voucher" class="checkbox-item">使用现金券</label>
-            <br>
+           <label for="voucher"  id="voucher_label"><input type="checkbox" id="voucher" class="checkbox-item">使用现金券</label>
+           <br>
             <div style="margin-left:20px;display:none" id="money_card_input_frame">
               请输入10位现金券券号:&nbsp;&nbsp;<input type="text" class="global-input vt-a" id="cash_code"><em style="display:none" class="error-ico" id="no">x</em><em style="display:none" id="yes" class="suc-ico">√</em>
             </div>
@@ -164,7 +164,8 @@
 	  <input type="hidden"  id="leaving_message" name="leaving_message">
           <input type="hidden" name="pay_id" value="1" id="pay_id">
 	  <input type="hidden" name="surplus" value="0.00" id="surplus">
-          <input type="hidden" name="bonus_id" value="请输入10位现金券券号" id="bonus_id">
+          <input type="hidden" name="bonus" value="0.00" id="bonus">
+          <input type="hidden" name="bonus_id" value="" id="bonus_id">
           <input type="hidden" name="shipping_fee" value="￥0.00"  id="shipping_fee">
           <input type="hidden" name="x" value="97">
           <input type="hidden" name="y" value="32">
