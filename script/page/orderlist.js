@@ -1,53 +1,62 @@
 (function(){
 $('#my_order_frame').show();
   var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
-						<tr id="orderitem_<%=data[i].order_id%>">\
-						  <td><%=data[i].order_sn%></td>\
-						  <td><%=data[i].best_time.split(" ")[0]%></td>\
-						  <td>\
-							<%for(var j=0;j<data[i].detail.length;j++){%>\
-							<%if(data[i].detail[j].goods_id!=61&&data[i].detail[j].goods_id!=60){%>\
-							<a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>">\
-								<img src="themes/default/images/sgoods/<%=data[i].detail[j].goods_sn.substring(0,3)%>.png">\
-							</a>\
-							<% } %><% } %></td>\
-						  <td><%=parseFloat(data[i].order_amount,10)%></td>\
-						  <td class="order_status">\
-							<%if(data[i].order_status==2){%>已取消\
-							<%} else {%>\
-							<%if(data[i].pay_id==4){%>货到付款<%} else {%>\
-						    <%if(data[i].pay_status==0){%>未付款\
-						    <%}else if(data[i].pay_status==1){%>付款中\
-						    <%}else {%>已付款<%}%>\
-							<% } %>\
-							( <%if(data[i].shipping_status==0){%>未发货\
-							<%}else if(data[i].shipping_status==1){%>已发货\
-							<%}else if(data[i].shipping_status==2){%>已收货\
-							<%}else if(data[i].shipping_status==3){%>备货中\
-							<%}else if(data[i].shipping_status==4){%>已发货(部分商品)\
-							<%}else if(data[i].shipping_status==5){%>发货中(处理分单)\
-						    <%}else {%>已发货(部分商品)<%}%>)\
-							<%}%>\
-						  </td>\
-						  <td><a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>" class="td-u link-color">查看</a><br>\
-						  <%if(data[i].order_status==0&&data[i].pay_status!==2){%>\
-						  	<a href="#" class="td-u link-color cancel_order" data-id="<%=data[i].order_id%>">取消订单</a></td>\
-						  <% } %>\
-						  <td>\
-						  <%if(data[i].pay_id<4&&data[i].pay_status==0&&data[i].order_status!=2){%>\
-							  <%if(data[i].pay_name=="快钱"){%>\
-								  <a href="#" class="btn pay_order" data-type="kuaiqian" data-id="<%=data[i].order_id%>">\
-									去付款\
-								  </a>\
-								  <div style="display:none" id="pay_form_<%=data[i].order_id%>"><%=data[i].pay_online.pay_online.replace(/script/gi,"a")%></div>\
-							  <%}else{%>\
-								  <a href="<%=data[i].pay_online.pay_online%>" class="btn pay_order" data-id="<%=data[i].order_id%>">\
-									去付款\
-								  </a>\
-							  <% } %>\
-						  <% } %>\
-						  </td>\
-						</tr>\
+						<div class="n-box" id="orderitem_<%=data[i].order_id%>">\
+						  <em class="buy-line"></em>\
+						  <div class="box-inner">\
+							<ul class="od-ul">\
+							  <li class="clearfix">\
+								<div class="ol-title1"><%=data[i].order_sn%></div>\
+								<div class="ol-title2"><%=data[i].best_time.split(" ")[0]%></div>\
+								<div class="ol-title3">\
+									<span class="od-img-area">\
+										<a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>">\
+											<img class="od-img" src="themes/default/images/sgoods/<%=data[i].showStaff.goods_sn.substring(0,3)%>.png" width="70">\
+										</a>\
+									</span>\
+											<%=data[i].showText%>\
+								</div>\
+								<div class="ol-title4"><%=parseFloat(data[i].order_amount,10)%>元</div>\
+								<div class="ol-title5">\
+									<%if(data[i].order_status==2){%>已取消\
+									<%} else {%>\
+									<%if(data[i].pay_id==4){%>货到付款<%} else {%>\
+									<%if(data[i].pay_status==0){%>未付款\
+									<%}else if(data[i].pay_status==1){%>付款中\
+									<%}else {%>已付款<%}%>\
+									<% } %>\
+									( <%if(data[i].shipping_status==0){%>未发货\
+									<%}else if(data[i].shipping_status==1){%>已发货\
+									<%}else if(data[i].shipping_status==2){%>已收货\
+									<%}else if(data[i].shipping_status==3){%>备货中\
+									<%}else if(data[i].shipping_status==4){%>已发货(部分商品)\
+									<%}else if(data[i].shipping_status==5){%>发货中(处理分单)\
+									<%}else {%>已发货(部分商品)<%}%>)\
+									<%}%>\
+								</div>\
+								<div class="ol-title6">\
+									<a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>" class="link-color">查看</a> \
+									 <%if(data[i].order_status==0&&data[i].pay_status!==2){%>\
+									| <a href="#" class="link-color cancel_order" data-id="<%=data[i].order_id%>">取消订单</a></div>\
+									 <% } %>\
+								<div class="ol-title7">\
+									<%if(data[i].pay_id<4&&data[i].pay_status==0&&data[i].order_status!=2){%>\
+									  <%if(data[i].pay_name=="快钱"){%>\
+										  <a href="#" class="btn status1-btn vt-a pay_order" data-type="kuaiqian" data-id="<%=data[i].order_id%>">\
+											付款\
+										  </a>\
+										  <div style="display:none" id="pay_form_<%=data[i].order_id%>"><%=data[i].pay_online.pay_online.replace(/script/gi,"a")%></div>\
+									  <%}else{%>\
+										  <a href="<%=data[i].pay_online.pay_online%>" class="btn status1-btn vt-a pay_order" data-id="<%=data[i].order_id%>">\
+											付款\
+										  </a>\
+									  <% } %>\
+								  <% } %>\
+							  </li>\
+							<ul>\
+						  </ul></ul></div>\
+						  <em class="buy-line2"></em>\
+						</div>\
 						<% } %>';
  var OrderList = {
 	render:function(){
@@ -55,17 +64,28 @@ $('#my_order_frame').show();
 			mod:'account',
 			action:'get_user_order_list',
 			callback:function(d){
-				
-				var html = mstmpl(orderListTmpl,{data:d.orders});
-				$('#order_title').after('<table class="order-table"><tr>\
-										  <th width="140">订单号</th>\
-										  <th width="120">送货时间</th>\
-										  <th width="160">商品</th>\
-										  <th width="100">需支付金额</th>\
-										  <th width="160">状态</th>\
-										  <th width="100">操作</th>\
-										  <th width="100">&nbsp;</th>\
-										</tr>'+html+'</table>');
+				var data = d.orders;
+				for(var i=0;i<data.length;i++){
+					if(data[i].detail.length == 1){
+					   data[i].showStaff = data[i].detail[0];
+					}else{
+						var realStaffCount = 0;
+						data[i].showText = '';
+						for(var j=0;j<data[i].detail.length;j++){
+							if(data[i].detail[j].goods_id!=61&&data[i].detail[j].goods_id!=60){
+								 realStaffCount++;
+								 data[i].showStaff = data[i].detail[j];
+							}else{
+								continue;
+							}
+						}
+						if(realStaffCount>1){
+							data[i].showText = '等'+(realStaffCount-1)+'个';
+						}
+					}
+				}
+				var html = mstmpl(orderListTmpl,{data:data});
+				$('#order_title').after(html);
 			}
 		});
 	},

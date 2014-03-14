@@ -504,6 +504,7 @@
 					return;
 				}
 			}
+			
 			if(!me.vaildDate()){
 				require(['ui/confirm'],function(confirm){
 					new confirm('您选择的送货日期不正确，请重新选择',function(){});
@@ -598,12 +599,13 @@
 				mod:'order',
 				action:'checkout',
 				param:{
-					card_message:card_message.join('|'),
+					card_message:card_message.join('|')||'',
 					vaild_code:jqVaildCode.val()
 				},
 				callback:function(d){
 					//结算数据form submit
 					//设置留言
+					debugger
 					var jqInput = $('#message_input');
 					if($('#leaveMes')[0].checked){
 						jqInput.show();

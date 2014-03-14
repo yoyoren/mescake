@@ -490,6 +490,7 @@ $(function (){
 	window.GOOD_ID = {$goods.goods_id}
 
 </script>
+
 <script src="script/page/goodsdetail.js"></script>
 <!-- {/literal} -->
 

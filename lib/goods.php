@@ -89,6 +89,8 @@ class MES_Goods {
 			$smarty -> assign('promotion', get_promotion_info($goods_id));
 			//促销信息
 			$smarty -> assign('promotion_info', get_promotion_info());
+			$fileContent = file_get_contents("./tmpl/cake_".$goods_id.".htm");
+			$smarty -> assign('staff_html', $fileContent);
 
 			/* 获得商品的信息 */
 			$goods = get_goods_info($goods_id);
@@ -223,7 +225,7 @@ class MES_Goods {
 		$smarty -> assign('u_name2', $user_msg['user_msg']);
 		$smarty -> assign('now_time', gmtime());
 		// 当前系统时间
-		$smarty -> display('goods.dwt', $cache_id);
+		$smarty -> display('goods_v2.dwt', $cache_id);
 
 	}
 

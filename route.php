@@ -62,7 +62,7 @@ switch ($mod) {
 			date_default_timezone_set("Etc/GMT-8");
 			$time = date('Y-m-d H:i:s', time());
 			$smarty -> assign('current_time', $time);
-			$smarty -> display('order_new.dwt');
+			$smarty -> display('order_new_v2.dwt');
 			return;
 		} else if ($action == 'empty') {
 			$smarty -> display('order_empty.dwt');
@@ -260,6 +260,7 @@ switch ($mod) {
 			}
 
 			//大于三次的提交 才验证
+	
 			if ($checkout_times > 3) {
 				error_reporting(0);
 
@@ -278,12 +279,14 @@ switch ($mod) {
 			} else {
 				//$card_message = explode("|",$card_message);
 			}
-			$card_message_arr = explode("|", $card_message);
-			for ($i = 0; $i < count($card_message_arr); $i++) {
-				//var_dump(iconv_strlen($card_message,'utf-8'));
-				ANTI_SPAM($card_message_arr[$i], array('minLength' => 0, 'maxLength' => 10, ));
+			if($card_message!=""){
+				$card_message_arr = explode("|", $card_message);
+				for ($i = 0; $i < count($card_message_arr); $i++) {
+					//var_dump(iconv_strlen($card_message,'utf-8'));
+					
+					ANTI_SPAM($card_message_arr[$i], array('minLength' => 0, 'maxLength' => 10, ));
+				}
 			}
-
 			//每次结算要记录一个ip防止被刷
 			$current_ip = GET_IP();
 			$_key = 'checkout_times_' . $current_ip;
