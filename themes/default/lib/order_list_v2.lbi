@@ -4,20 +4,18 @@
             <div class="od-title2">单价</div>
             <div class="od-title3">数量</div>
             <div class="od-title4">小计</div> 
-          </div>
-<div class="list-line"></div>
-<ul class="od-ul" id="order_list">
-	 <li>
-              <label for="leaveMes" id="leave_message" name="leave_message"><input type="checkbox" class="checkbox-item" id="leaveMes">留言说明</label>
-               <textarea class="text-area" style="display:none" id="message_input" name="message_input"></textarea>
-	      <em>总计：<b class="order_total">0</b>元</em>
-            </li>
-	 
-	 <li class="li-bg order-add-more" style="display:none">
-          <label for="birth_chk" id="birth_title"><input type="checkbox"  id="birth_chk" class="checkbox-item">我要添加特别的生日蜡烛（+5元/份）</label><br>
-           <label for="leaveMes" id="leave_message" name="leave_message"><input type="checkbox" class="checkbox-item" id="leaveMes">留言说明</label><br>
-          <textarea class="text-area" style="display:none" id="message_input" name="message_input"></textarea>
-          <span class="order-total-price">总计<b class="order_total">0</b>元</span>
-        </li>
+  </div>
+  <div class="list-line"></div><div class="list-line"></div>
+  <ul class="od-ul" id="order_list">
 </ul>
+<div class="tt-price-area">
+            <div class="write-mes-area">
+              <em class="write-mes-ico"></em>
+              <div class="check-container">
+                <input type="text" id="message_input" name="message_input" class="global-input" style="width:550px;" placeholder="留言说明">
+                <span class="tips-container" style="display:none">不能超过140字</span><!-- 错误信息容器,出现2秒后消失 -->
+              </div>
+            </div>
+            <div class="tt-total">总计：<b class="order_total"></b>&nbsp;元</div>
+          </div>
 </div>

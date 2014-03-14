@@ -4,21 +4,23 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>您的购物车中没有商品</title>
-  <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+  <!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
 </head>
 <body>
 <div class="layout">
-  <!-- #BeginLibraryItem "/lib/header_new.lbi" --><!-- #EndLibraryItem -->
-  <div class="head-line"></div>
-  <div class="content">
-    <div class="order-area">
-      <h4 class="content-title">您的购物车中没有商品</h4>
-      <div class="has-no-order">
-        <a href="brand.php?id=4" class="btn big-btn green-btn">赶紧去选购吧</a>
+  <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+  <div class="content-area">
+    <div class="content">
+      <div class="order-area">
+        <h4 class="content-title">您的购物车中没有商品</h4>
+        <div class="has-no-order">
+          <a href="brand.php?id=4"  class="btn big-btn status1-btn">赶紧去选购吧</a>
+        </div>
       </div>
     </div>
   </div>
-  <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
+  <div class="head-line"></div>
+  <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
 </div>
 </body>
 </html>

@@ -47,6 +47,7 @@ switch ($mod) {
 		} else if ($action == 'step2') {
 
 			//每次结算要记录一个ip防止被刷
+			$leaving_messsage = $_GET['mes'];
 			$current_ip = GET_IP();
 			$_key = 'checkout_times_' . $current_ip;
 			$checkout_times = 0;
@@ -57,6 +58,7 @@ switch ($mod) {
 
 			$_token = GEN_MES_TOKEN();
 			$_SESSION['order_token'] = $_token;
+			$smarty -> assign('leaving_messsage', $leaving_messsage);
 			$smarty -> assign('order_token', $_token);
 			$smarty -> assign('checkout_times', $checkout_times);
 			date_default_timezone_set("Etc/GMT-8");

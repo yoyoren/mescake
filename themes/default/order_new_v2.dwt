@@ -202,7 +202,9 @@
 				</div>
 			</div>
 			<script>
-        var CURRENT_TIME = '{$current_time}';
+				var CURRENT_TIME = '{$current_time}';
+				var MESSAHE = '{$leaving_messsage}';
+				$('#message_input').val(MESSAHE);
 			</script>
 			<script src="js/jquery.json-1.3.js"></script>
 			<script src="script/page/shoppingcar.js"></script>
