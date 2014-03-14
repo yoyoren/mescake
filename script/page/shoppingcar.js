@@ -2,7 +2,7 @@
 
    var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
 				 <%if(data[i].goods_id!=60){%>\
-					<li class="clearfix"  id="sub_order_<%=data[i].rec_id%>">\
+					<li class="clearfix sub_order_<%=data[i].rec_id%>"  id="sub_order_<%=data[i].rec_id%>">\
 					  <div class="od-title1">\
 						 <a href="">\
 						 <span class="od-img-area">\
@@ -28,11 +28,11 @@
 				  </li>\
 				  <% } %>\
 				  <%if(data[i].goods_id!=61&&data[i].goods_id!=60){%>\
-					<li class="clearfix">\
+					<li class="clearfix sub_order_<%=data[i].rec_id%>" >\
 					 <div class="od-title1">\
 						 <a href="">\
 						 <span class="od-img-area">\
-							<img src="img/canju.png"  class="od-img"/>\
+							<img src="img/order-detail1.png"  class="od-img"/>\
 					     </span>\
 					     <span class="or-name-intro">配套餐具</span>\
 						 </a>\
@@ -47,7 +47,25 @@
 					  </div>\
 					  <div class="od-title4"  id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</div>\
 					 </li>\
-				<% } %>\
+					 <li class="clearfix sub_order_<%=data[i].rec_id%>">\
+						  <div class="od-title1">\
+							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加生日牌（免费）\
+						  </div>\
+						  <div class="od-title2"></div>\
+						  <div class="od-title3">\
+						  </div>\
+						  <div class="od-title4"></div>\
+					 </li>\
+					 <li class="clearfix sub_order_<%=data[i].rec_id%>">\
+						  <div class="od-title1">\
+							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加特制生日蜡烛\
+						  </div>\
+						  <div class="od-title2"></div>\
+						  <div class="od-title3">\
+						  </div>\
+						  <div class="od-title4"></div>\
+					 </li>\
+				 <% } %>\
 		      <% } %>' 
 
 	//记录一个蜡烛的id
@@ -182,7 +200,7 @@
 									$('#birth_chk')[0].checked = false;
 								}
 								//重新结算帐单价格
-								$('#sub_order_'+id).remove();
+								$('.sub_order_'+id).remove();
 								MES.updateTotalPriceDisplay(d);
 							}
 						});

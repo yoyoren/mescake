@@ -7,25 +7,6 @@
           </div>
 <div class="list-line"></div>
 <ul class="od-ul" id="order_list">
-	 
-	 <li class="clearfix">
-              <div class="od-title1">
-                <span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加生日牌（免费）
-              </div>
-              <div class="od-title2"></div>
-              <div class="od-title3">
-              </div>
-              <div class="od-title4"></div>
-         </li>
-	 <li class="clearfix">
-              <div class="od-title1">
-                <span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加特制生日蜡烛
-              </div>
-              <div class="od-title2"></div>
-              <div class="od-title3">
-              </div>
-              <div class="od-title4"></div>
-         </li>
 	 <li>
               <label for="leaveMes" id="leave_message" name="leave_message"><input type="checkbox" class="checkbox-item" id="leaveMes">留言说明</label>
                <textarea class="text-area" style="display:none" id="message_input" name="message_input"></textarea>

@@ -24,7 +24,7 @@
 						<div class="box-inner">
 							<div class="account-mes-area clearfix" id="address_container">
 								<div class="ama-add-address" id="add_new_address">
-									<a href="#" class="btn"><em class="add-ico">+</em>添加新地址</a>
+									<a href="#" class="btn"><em class="add-ico"></em>添加新地址</a>
 								</div>
 							</div>
 							<ul class="tt-ul clearfix" id="new_address_form" style="display:none">

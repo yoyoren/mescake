@@ -145,6 +145,7 @@ _background: url(img/ico_details8.png) -145px -37px no-repeat;
 .big-btn{height: 38px; line-height: 38px; font-size: 16px; border-radius: 6px;}
 input.big-btn{height: 40px;}
 .status1-btn{background: #d11c08; border: 1px solid #b31807; color: #fff;}
+a.btn:hover{text-decoration: none;}
 
 
 /* 材料说明区域 */
@@ -180,11 +181,13 @@ input.big-btn{height: 40px;}
 .ma-item3 .ma-ico-area{width: 280px; margin: 0 auto;}
 
 /* 流程中间区域 */
-.content-area{background: #f2f2f2; padding: 40px 0;}
+.content-area{background: #f2f2f2; padding: 40px 0;min-height: 500px; _height:500px;}
 .content{width: 960px; margin: 0 auto;}
 
 .n-box{margin-bottom: 10px;}
 .box-inner{background: #fff; border: 1px solid #d9d9d9; border-top: 0 none; border-bottom: 0 none;}
+/* 购物车为空 */
+.has-no-order{text-align: center; padding-top: 140px;}
 
 /* 我的订单详情 */
 .odc-adress-area{padding: 30px; _height: 62px; position: relative;}
