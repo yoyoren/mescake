@@ -76,6 +76,12 @@ class MES_Goods {
 		global $db;
 		global $smarty;
 		global $ecs;
+		
+		$content = GET_REDIS($goods_id,'goods_page');
+		if($content){		
+			echo $content;
+			return;
+		}
 		$cache_id = $goods_id . '-' . $_SESSION['user_rank'] . '-' . $_CFG['lang'];
 		$cache_id = sprintf('%X', crc32($cache_id));
 		if (!$smarty -> is_cached('goods.dwt', $cache_id)) {
@@ -239,7 +245,10 @@ class MES_Goods {
 		$smarty -> assign('u_name2', $user_msg['user_msg']);
 		$smarty -> assign('now_time', gmtime());
 		// 当前系统时间
-		$smarty -> display('goods_v2.dwt', $cache_id);
+		$content = $smarty -> fetch('goods_v2.dwt');
+		
+		SET_REDIS($goods_id,$content,'goods_page');
+		echo $content;
 
 	}
 

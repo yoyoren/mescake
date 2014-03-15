@@ -157,7 +157,7 @@ class integrate
 			$token = md5($username.$password.'_mescake');
             //$_SESSION['serviceToken'] = $token;
 			//$_SESSION['uuid'] = $username;
-			SET_REDIS($username,$token,$time_lasts,'user');
+			SETEX_REDIS($username,$token,$time_lasts,'user');
             setcookie("serviceToken",$token, $time, $this->cookie_path);            
             setcookie("uuid",$username, $time, $this->cookie_path);
 	

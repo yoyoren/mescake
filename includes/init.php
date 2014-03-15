@@ -97,10 +97,16 @@ function GET_REDIS($key,$prefix){
 	return '';
 }
 
-function SET_REDIS($key,$value,$time=86400,$prefix=''){
+function SETEX_REDIS($key,$value,$time=86400,$prefix=''){
 	global $REDIS_CLIENT;
 	//$prefix is for safety when your del a key from redis
 	$REDIS_CLIENT -> setex($prefix.$key,$time,$value);
+}
+
+function SET_REDIS($key,$value,$prefix=''){
+	global $REDIS_CLIENT;
+	//$prefix is for safety when your del a key from redis
+	$REDIS_CLIENT -> set($prefix.$key,$value);
 }
 
 function DEL_REDIS($key,$prefix){
