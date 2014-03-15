@@ -10,24 +10,17 @@
 <body>
 <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
     <div class="buy-container">
-      <div class="buy-area">
+      <div class="buy-area" id="buy_area">
         <ul class="size-list">
-	  <!-- {foreach from=$specification item=spec key=spec_key} -->
-		
-		<!-- {foreach from=$spec.values item=value key=key} -->
+		<!-- {foreach from=$specification_display item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
 		<!-- {/foreach} -->                           
-		
-	<!-- {/foreach} -->
-          <li><em class="radiobox-item"></em>更多尺寸</li>
+          <li id="show_more_staff"><em class="radiobox-item"></em>更多尺寸</li>
         </ul>
-        <ul class="size-list hide" style="padding-top:0;">
-          <li><em class="radiobox-item"></em>5.0磅：约13x13cm[适合15-5人]</li>
-          <li><em class="radiobox-item"></em>10磅：约13x13cm[适合30-40人]</li>
-          <li><em class="radiobox-item"></em>15磅：约13x13cm[适合40-50人]</li>
-          <li><em class="radiobox-item"></em>20磅：约13x13cm[适合60-70人]</li>
-          <li><em class="radiobox-item"></em>25磅：约13x13cm[适合80-90人]</li>
-          <li><em class="radiobox-item"></em>30磅：约13x13cm[适合100+人]</li>
+        <ul class="size-list" style="padding-top:0;display:none" id="more_list">
+          <!-- {foreach from=$specification_more item=value key=key} -->
+		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
+	  <!-- {/foreach} --> 
         </ul>
         <div class="buy-down">
           <em class="buy-line"></em>

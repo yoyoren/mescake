@@ -1,24 +1,44 @@
 (function() {
   var jqFristSelection = $($('.js_choose_weight')[0]);
   var attr = jqFristSelection.data('attr');
+  var getPriceByAttr = function(attr){
+	  MES.get({
+		mod : 'goods',
+		action : 'get_price_by_weight',
+		param : {
+		  id : window.GOODS_ID,
+		  attr : attr,
+		  number : 1
+		},
+		callback : function(d) {
+		  var price = d.result;
+		  $('#price_container').show();
+		  $('#staff_price').html(price);
+		}
+	  });
+  }
   jqFristSelection.addClass('current');
   jqFristSelection.find('em').addClass('radiobox-checked');
-  window.ATTR = attr;
-  MES.get({
-    mod : 'goods',
-    action : 'get_price_by_weight',
-    param : {
-      id : window.GOODS_ID,
-      attr : attr,
-      number : 1
-    },
-    callback : function(d) {
-	  var price = d.result;
-	  $('#price_container').show();
-	  $('#staff_price').html(price);
-    }
+  getPriceByAttr(attr);
+  
+
+  $('#show_more_staff').click(function(){
+	$(this).hide();
+	$('#more_list').show();
   });
 
+  $('.js_choose_weight').click(function(){
+	var jqThis = $(this);
+	var attr = jqThis.data('attr');
+	
+	//clear old style
+	$('#buy_area').find('li').removeClass('current');
+	$('#buy_area').find('em').removeClass('radiobox-checked');
+	
+	jqThis.addClass('current');
+	jqThis.find('em').addClass('radiobox-checked');
+	getPriceByAttr(attr);
+  });
   function addToCart(goodsId, callback) {
     var goods = {};
     var spec_arr = [];

@@ -6,12 +6,7 @@ require (dirname(__FILE__) . '/includes/init.php');
 require_once (ROOT_PATH . 'lib/safe.php');
 require_once (ROOT_PATH . 'lib/user.php');
 
-require 'Predis/Autoloader.php';
 
-Predis\Autoloader::register();
-
-//开启一个全局的redis
-$REDIS_CLIENT = new Predis\Client($redis_config);
 
 if ((DEBUG_MODE & 2) != 2) {
 	$smarty -> caching = true;

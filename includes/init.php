@@ -82,6 +82,31 @@ require(ROOT_PATH . 'includes/lib_main.php');
 require(ROOT_PATH . 'includes/lib_insert.php');
 require(ROOT_PATH . 'includes/lib_goods.php');
 require(ROOT_PATH . 'includes/lib_article.php');
+require (ROOT_PATH .'Predis/Autoloader.php');
+
+Predis\Autoloader::register();
+
+//开启一个全局的redis
+$REDIS_CLIENT = new Predis\Client($redis_config);
+
+function GET_REDIS($key,$prefix){
+	global $REDIS_CLIENT;
+	if ($REDIS_CLIENT -> exists($prefix.$key)) {
+		return $REDIS_CLIENT -> get($prefix.$key);
+	}
+	return '';
+}
+
+function SET_REDIS($key,$value,$time=86400,$prefix=''){
+	global $REDIS_CLIENT;
+	//$prefix is for safety when your del a key from redis
+	$REDIS_CLIENT -> setex($prefix.$key,$time,$value);
+}
+
+function DEL_REDIS($key,$prefix){
+	global $REDIS_CLIENT;
+	$REDIS_CLIENT -> del($prefix.$key);
+}
 
 /* 对用户传入的变量进行转义操作。*/
 if (!get_magic_quotes_gpc())

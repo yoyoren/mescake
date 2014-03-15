@@ -37,6 +37,7 @@ class MES_User{
 		if ($user->login11($username, $password)){
 			$ucdata = empty($user->ucdata)? "" : $user->ucdata;
 			$result['ucdata'] = $ucdata;
+
 			$_SESSION['usermsg']= get_user_info();
 		}else{
 			$_SESSION['login_fail']++;
@@ -68,33 +69,42 @@ class MES_User{
 
 	public static function logout(){
 		global $user;
+		$uuid = $_COOKIE['uuid'];
+		DEL_REDIS($uuid,'user');
 		$user->logout();
 		return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success'));
 	}
 
 	public static function check_login(){
 		$token = $_COOKIE['serviceToken'];
+		$uuid = $_COOKIE['uuid'];
 		$res = false;
-		if($token&&$_SESSION['serviceToken'] == $token){
+
+		if($token&&GET_REDIS($uuid,'user') == $token){
 			$res = true;
 			if($_SESSION['user_auto_register_moblie']){
-				$uname =$_SESSION['user_auto_register_moblie'];
+				$uname = $_SESSION['user_auto_register_moblie'];
 			}else{
-				$uname =$_SESSION['uuid'];
+				$uname = $uuid;
 			}
 		}
-		return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success','res'=>$res,'uname'=>$uname));
+
+		return json_encode(array(
+			'code'=>RES_SUCCSEE,
+			'msg'=>'success',
+			'res'=>$res,
+			'uname'=>$uname
+		));
 	}
 
 	//服务器端用于检查是否登录的方法
 	public static function server_check_login(){
 		global $db;
 		$token = $_COOKIE['serviceToken'];
-		$uname = $_SESSION['uuid'];
+		$uuid = $_COOKIE['uuid'];
+
 		$res = false;
-		if($uname&&$token&&$_SESSION['serviceToken'] == $token){
-			//$password = $db->getOne("select password from". $GLOBALS['ecs']->table("users")."where email='$uname' or mobile_phone='$uname'");
-			//$token = md5($uname.$password.'_mescake');
+		if($token&&GET_REDIS($uuid,'user')== $token){
 			$res = true;
 		}
 		return $res;

@@ -178,7 +178,21 @@ class MES_Goods {
 				$smarty -> assign('ycl', $ycl);
 				$smarty -> assign('properties', $properties['pro']);
 				// 商品属性
+				$specification = $properties['spe'][6]['values'];
+				$specification_more = array();
+				$specification_display = array();
+				$specification_count = count($specification);
+
+				$specification_display = array_slice($specification,0,3);
+
+				if($specification_count>2){
+					$specification_more = array_slice($specification,3,$specification_count);
+				}
+
+
 				$smarty -> assign('specification', $properties['spe']);
+				$smarty -> assign('specification_more', $specification_more);
+				$smarty -> assign('specification_display', $specification_display);
 				//var_dump($properties);
 				// 商品规格
 				
