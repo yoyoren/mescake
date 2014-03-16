@@ -557,6 +557,14 @@ class MES_User{
 		$db->query("update ecs_users set rea_name='$name' where user_name='$user_name'");
 		return json_encode(array('code' =>RES_SUCCSEE));
 	}
+
+
+	public static function get_order_count_by_sid(){
+		global $db;
+		$sql = 'SELECT count(*) FROM ' . $GLOBALS['ecs']->table('cart') . ' WHERE session_id= "' . SESS_ID.'"';
+		$shipping_count =$db->getOne($sql);
+		return json_encode(array('code' =>RES_SUCCSEE,'count'=>$shipping_count));
+	}
 	
 }
 

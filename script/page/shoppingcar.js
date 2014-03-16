@@ -4,7 +4,7 @@
 				 <%if(data[i].goods_id!=60){%>\
 					<li class="clearfix sub_order_<%=data[i].rec_id%>"  id="sub_order_<%=data[i].rec_id%>">\
 					  <div class="od-title1">\
-						 <a href="">\
+						 <a href="route.php?mod=goods&action=goods_detail_page&id=<%=data[i].goods_id%>" target="_blank">\
 						 <span class="od-img-area">\
 							<%if(data[i].goods_id==61){%>\
 							<img style="background-color:#fff;height: auto" src="img/lazhu.png"  class="od-img"/>\
@@ -30,7 +30,7 @@
 				  <%if(data[i].goods_id!=61&&data[i].goods_id!=60){%>\
 					<li class="clearfix sub_order_<%=data[i].rec_id%>" >\
 					 <div class="od-title1">\
-						 <a href="">\
+						 <a href="#" onclick="return false">\
 						 <span class="od-img-area">\
 							<img src="img/order-detail1.png"  class="od-img"/>\
 					     </span>\

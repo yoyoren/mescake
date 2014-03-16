@@ -3,6 +3,19 @@
 require_once('lib/user.php');
 require_once('lib/fee.php');
 
+$GOODS_FREE_FORK = array(
+	'1.0磅'=>'5',
+	'2.0磅'=>'10',
+	'3.0磅'=>'15',
+	'5.0磅'=>'20',
+	'10.0磅'=>'40',
+	'15.0磅'=>'50',
+	'20.0磅'=>'80',
+	'25.0磅'=>'100',
+	'30.0磅'=>'120',
+);
+
+
 class MES_Order{
 	
 	//获得街道的地址
@@ -108,8 +121,7 @@ class MES_Order{
 	public static function get_order_list($service_side=false){
 		//require(ROOT_PATH . 'includes/lib_order.php');
 		//require(ROOT_PATH . 'includes/lib_transaction.php');
-		
-		$free_fork_pre_cake = 5;
+		GLOBAL $GOODS_FREE_FORK;
 
 	    $goods_list = array();
 	    $total = array(
@@ -157,9 +169,9 @@ class MES_Order{
 	        }
 
 	        //get number for weight!
-	        $row['goods_attr_real']= intval($row['goods_attr'],10);
-
-	        $row['free_fork'] = $row['goods_attr_real']*$row['goods_number']*$free_fork_pre_cake;
+	        //$row['goods_attr_real']= intval($row['goods_attr'],10);
+			//var_dump($GOODS_FREE_FORK[$row['goods_attr']]);
+	        $row['free_fork'] = $GOODS_FREE_FORK[$row['goods_attr']]*$row['goods_number'];
 			if($_SESSION['extra_fork'][$row['goods_id']]){
 				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['goods_id']];
 			}else{
@@ -229,7 +241,8 @@ class MES_Order{
         GLOBAL $db;
 		GLOBAL $ecs;
 		GLOBAL $_LANG;
-		$free_fork_pre_cake = 5;
+		GLOBAL $GOODS_FREE_FORK;
+
 		$total = 0;
 		$res  = array('err_msg' => '', 'result' => '', 'total' => '','rec' =>0);
         if ($number < 1){
@@ -252,7 +265,7 @@ class MES_Order{
 			      $res['result'] = price_format($val['goods_price'] * $number,false);
 
 			      //cal free fork number;
-			      $res['free_fork'] =  $number* intval($val['goods_attr'],10)*$free_fork_pre_cake;
+			      $res['free_fork'] =  $number* $GOODS_FREE_FORK[$val['goods_attr']];
 				  $goods_id=$val['goods_id'];
 				  //获得额外的餐具 
 				  if( $_SESSION['extra_fork'][$goods_id]){
@@ -467,9 +480,9 @@ class MES_Order{
 		GLOBAL $db;
 		GLOBAL $ecs;
 		GLOBAL $_LANG;
+		GLOBAL $GOODS_FREE_FORK;
 		include_once('includes/lib_order.php');
 		$price_fork_pre_cake = 0.5;
-		$free_fork_pre_cake = 5;
 		$free_fork_num = 0;
 		$total = 0;
 		
@@ -479,7 +492,7 @@ class MES_Order{
 		foreach($goods as $val){
 			if($val['rec_id']==$id){
 				$goods_id = $val['goods_id'];
-			    $free_fork_num =  $val['goods_number']* intval($val['goods_attr'],10)*$free_fork_pre_cake;
+			    $free_fork_num =  $val['goods_number']* $GOODS_FREE_FORK[$val['goods_attr']];
 			}
 		}		
 		

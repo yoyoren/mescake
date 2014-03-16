@@ -2,6 +2,7 @@
   var jqFristSelection = $($('.js_choose_weight')[0]);
   var attr = jqFristSelection.data('attr');
   var getPriceByAttr = function(attr){
+	  window.ATTR = attr;
 	  MES.get({
 		mod : 'goods',
 		action : 'get_price_by_weight',
@@ -30,7 +31,7 @@
   $('.js_choose_weight').click(function(){
 	var jqThis = $(this);
 	var attr = jqThis.data('attr');
-	
+	window.ATTR = attr;
 	//clear old style
 	$('#buy_area').find('li').removeClass('current');
 	$('#buy_area').find('em').removeClass('radiobox-checked');

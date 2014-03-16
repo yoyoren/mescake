@@ -1,8 +1,18 @@
 <?php
 define('IN_ECS', true);
-
+//give user a sid for record
+/*Session_start();
+$SID;
+if(!$_COOKIE['sid']){
+	$sessionId = session_id();
+	setcookie('sid',$sessionId);
+	$SID = $sessionId;
+}else{
+	$SID = $_COOKIE['sid'];
+}
+define('SID',$SID);
+*/
 require (dirname(__FILE__) . '/includes/init.php');
-
 require_once (ROOT_PATH . 'lib/safe.php');
 require_once (ROOT_PATH . 'lib/user.php');
 
@@ -497,6 +507,8 @@ switch ($mod) {
 			//change your real name
 			$name = ANTI_SPAM($_POST['name']);
 			echo MES_User::change_real_name($name);
+		} else if ($action == 'get_order_count_by_sid') {
+			echo MES_User::get_order_count_by_sid();
 		} else {
 			header("Location: 404.html");
 		}
@@ -542,6 +554,11 @@ switch ($mod) {
 			$goods_id = ANTI_SPAM($_REQUEST['id']);
 			MES_Goods::goods_detail_page($goods_id);
 		}
+		break;
+	case 'page':
+			if ($action == 'index') {
+				$smarty -> display('index_v2.dwt');
+			}
 		break;
 	default :
 		header("Location: 404.html");
