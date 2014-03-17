@@ -89,28 +89,39 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
   .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
   .s-img-area-inner p{font-size: 18px; color: #333; line-height: 1.8;}
 
-  .slider-num{width: 960px; margin: 0 auto; margin-top: -40px; position: relative; z-index: 10;}
+  .slider-num{width: 960px; margin: 0 auto; top: -40px; position: relative; z-index: 10;}
   .slider-num-ico{display: inline-block; *display: inline; *zoom:1;
     width: 10px; height: 10px; background: url(img/sli-num-ico18.png) 0 0 no-repeat; overflow: hidden; margin: 0 6px;
   }
   .slider-num-ico:hover,
   .sn-current{background: url(img/sli-num-ico28.png) 0 0 no-repeat;}
   .theme-area{overflow: hidden;}
-  .ta-item{float: left; width: 50%; overflow: hidden; padding: 44px 0 10px 0;}
+  .ta-item{float: left; width: 50%; overflow: hidden; padding: 44px 0 10px 0; height: 254px;}
   .ta-item-inner{width: 460px; padding-left: 40px;}
   .ta-item-inner img{display: block; margin-left: 120px;}
   .ta-item-left .ta-item-inner{float: right; padding-left: 0;}
   .ta-title{font-size: 18px; padding-bottom: 10px; color: #000;}
   .ta-intro{font-size: 12px; color: #51534d; padding-bottom: 10px;}
 
-/* 主页产品列表 */
-.theme-area{overflow: hidden;}
-.ta-item{float: left; width: 50%; overflow: hidden; padding: 44px 0 10px 0;}
-.ta-item-inner{width: 460px; padding-left: 40px;}
-.ta-item-inner img{display: block; margin-left: 120px;}
-.ta-item-left .ta-item-inner{float: right; padding-left: 0;}
-.ta-title{font-size: 18px; padding-bottom: 10px; color: #000;}
-.ta-intro{font-size: 12px; color: #51534d; padding-bottom: 10px;}
+/* 4个产品类的图片 */
+.ta-item:hover{cursor: pointer;}
+  .ta-imgs{display: block; margin-left: 100px;}
+.taim-1{background: url(img/v-list-pro1c.jpg); width: 250px; height: 188px;}
+.taim-2{background: url(img/v-list-pro2c2.jpg); width: 249px; height: 188px;}
+.taim-3{background: url(img/v-list-pro3c.jpg); width: 280px; height: 189px;}
+.taim-4{background: url(img/v-list-pro4c2.jpg); width: 252px; height: 182px;}
+.ta-item1{background:#f2ece2;}
+.ta-item1:hover{background: #f3e4cc;}
+.ta-item1:hover .taim-1{background-position: 0 -188px;}
+.ta-item2{background:#f2e7e3;}
+.ta-item2:hover{background:#fad8cd;}
+.ta-item2:hover .taim-2{background-position: -1px -188px;}
+.ta-item3{background:#ecf3e3; }
+.ta-item3:hover{background: #e1f2cb;}
+.ta-item3:hover .taim-3{background-position: 0 -190px;}
+.ta-item4{background:#e8f0f3; }
+.ta-item4:hover{background: #cbe7f2;}
+.ta-item4:hover .taim-4{background-position: 0 -182px;}
 
 /* 产品详情 */
     .product-main-area{}
@@ -149,8 +160,7 @@ background: url(img/write-mes.png) 0 0 no-repeat; vertical-align: middle; margin
 
 /* 全局按钮 */
 .btn{padding: 0 20px; margin-right:10px; height: 30px; line-height:30px; font-size:12px; color:#616161; background:none; border:0 none; text-align:center; border: 1px solid #d8d7d7; background: #e4e4e4; border-radius: 4px;
-  display: inline-block; *display: inline; *zoom:1;
-}
+  display: inline-block; *display: inline; *zoom:1;}
 .big-btn{height: 38px; line-height: 38px; font-size: 16px; border-radius: 6px;}
 input.big-btn{height: 40px;}
 .status1-btn{background: #d11c08; border: 1px solid #b31807; color: #fff;}
@@ -299,7 +309,7 @@ a.btn:hover{text-decoration: none;}
 .check-container{display: inline-block; *display: inline; *zoom:1;}
 .check-container{ position: relative;}
 
-.tips-container{position: absolute; height: 24px; line-height: 24px; border: 1px solid #f9f1bf; background: #fdfae6; color:red; font-size: 12px; padding: 0 8px; border-radius: 4px; right: 10px; top: 6px;}
+.tips-container{position: absolute; height: 24px; line-height: 24px; border: 1px solid #f9f1bf; background: #fdfae6; color:red; font-size: 12px; padding: 0 8px; border-radius: 4px; right: 10px; top: 9px;}
 
 
 /* 购物车结算 */
@@ -309,10 +319,11 @@ a.btn:hover{text-decoration: none;}
 
 .global-input,
 .text-area{border:0 none; background: none; padding: 10px 0; color: #333;}
-.global-input{height: 18px; line-height: 18px;  width: 240px; margin-bottom: 20px;}
+.global-input{height: 22px; line-height: 22px;  width: 240px; margin-bottom: 20px;}
 .text-area{height: 60px; line-height: 18px; width: 240px; margin-bottom: 20px;} 
 .has-bor-input:focus{box-shadow: inset 0 0 8px #eaeaea;}
-.has-bor-input{border:1px solid #ddd; border-radius: 4px;  background: #fff; padding: 10px;}
+.has-bor-input{border:1px solid #e5e5e5; border-radius: 3px;  background: #fff; padding: 10px;}
+
 
 .tt-ul .global-input{margin-bottom: 10px;}
 
