@@ -59,7 +59,8 @@
     //(typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
     $.post('route.php?mod=order&action=add_to_cart', {
       goods : $.toJSON(goods),
-      goods_id : goodsId
+      goods_id : goodsId,
+	  parent_id :0
     }, function(d) {
       callback();
     }, 'json');

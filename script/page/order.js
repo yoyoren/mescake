@@ -547,6 +547,7 @@
 							me._submitFail();
 							orderAlert.close();
 						}else{
+							
 							//给这个用户注册一个账户 并且帮他登录
 							var username = data.mobile;
 							if(data.serect){
@@ -574,7 +575,7 @@
 		//最终的结算
 		checkout:function(){
 			var me = this;
-			var brithCard = $('.brith_brand');
+			var brithCard = $('.brith_card_name');
 			var card_message = [];
 			var jqVaildCode = $('#code_input');
 			for(var i=0;i<brithCard.length;i++){
@@ -746,9 +747,10 @@
 
 
 		initPlacerHolderForIE:function(){
-			$('#new_address').placeholder();
-			$('#new_contact').placeholder();
-			$('#new_tel').placeholder();
+			var placerHolderTable = ['new_address','new_contact','new_tel','my_phone_input'];
+			for(var i=0,l=placerHolderTable.length;i<l;i++){
+				$('#'+placerHolderTable[i]).placeholder();
+			}
 		}
    }
 

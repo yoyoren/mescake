@@ -7,9 +7,14 @@ define(['ui/dialog'],function(Dialog){
             <input type="password" class="global-input" id="popup_login_password" placeholder="用户密码">\
 			<span class="tips-container" style="display:none">密码不能为空</span>\
 			<span class="tips-container" id="popup_login_error" style="display:none">用户名或密码错误</span>\
-          </div><a href="route.php?action=forget_password_page&mod=account" class="vert-btn">忘记密码</a><br>'
+          </div>'
 
-	var bottom = ' <input class="v-btn green-btn vert-btn" type="submit" value="登录" id="popup_login"><a href="user.php?act=register" class="v-btn vert-btn">注册账户</a>';
+	var bottom = ' <input class="btn status1-btn big-btn long-btn" type="submit" value="登录" id="popup_login">\
+	<div class="pass-area">\
+            <label for="remember" id="remember_password"><input type="checkbox">&nbsp;记住登录</label>\
+            <a href="route.php?action=forget_password_page&mod=account">忘记密码</a>\
+    </div>\
+	<a href="user.php?act=register" class="btn big-btn long-btn">新用户注册</a>';
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
 	var login = {
@@ -26,7 +31,8 @@ define(['ui/dialog'],function(Dialog){
 							$('#popup_login_container').find('input','focus',function(){
 								$('#popup_login_container').find('.tips-container').hide();
 							});
-							
+							$('#popup_login_password').placeholder();
+							$('#popup_login_id').placeholder();
 							$('#popup_login').click(function(){
 								var username = $('#popup_login_id').val();
 								var password = $('#popup_login_password').val();

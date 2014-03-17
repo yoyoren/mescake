@@ -6,7 +6,7 @@ define(function(){
 	//相当于id
 	var index = 0;
 	var jqWIN = $(window);
-	var _html = '<div id="dialog_<%=index%>" class="dialog" style="margin:0;display:none;z-index:<%=zIndex%>">\
+	var _html = '<div id="dialog_<%=index%>" class="dialog" style="width:<%=width%>px;margin:0;display:none;z-index:<%=zIndex%>">\
       <div class="dialog-head">\
         <%if(title){%><p class="dia-title"><%=title%></p><% } %>\
         <em class="close-ico" id="close_<%=index%>">X</em>\
@@ -15,8 +15,8 @@ define(function(){
         <form action="">\
 		   <p><%=body%></p>\
 			<%if(!bottom) {%>\
-				<input id="dialog_confirm_<%=index%>" class="v-btn green-btn" type="submit" value="确定">\
-				<input id="dialog_cancel_<%=index%>" class="v-btn" type="reset" value="取消">\
+				<input id="dialog_confirm_<%=index%>" class="btn status1-btn" type="submit" value="确定">\
+				<input id="dialog_cancel_<%=index%>" class="btn" type="reset" value="取消">\
 			<% } else {%>\
 				<%=bottom%>\
 			<% } %>\
@@ -36,7 +36,8 @@ define(function(){
 			bottom:opt.bottom||'',
 			index:_index,
 			zIndex:zIndex++,
-			textStyle:opt.textStyle
+			textStyle:opt.textStyle,
+			width:opt.width||'400'
 		});
 		$('body').append(html);
 		$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');

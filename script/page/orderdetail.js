@@ -16,8 +16,7 @@
 							<%}else if(order.shipping_status==3){%>备货中\
 							<%}else if(order.shipping_status==4){%>已发货(部分商品)\
 							<%}else if(order.shipping_status==5){%>发货中(处理分单)\
-						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%>\
-			|\
+						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%>|\
 					<%if(order.pay_id==4){%>货到付款\
 					<% } else {%>\
 						<%if(order.pay_status==0||!order.pay_status){%>\
@@ -124,7 +123,7 @@
 				<%if((order.pay_status==0||!order.pay_status)&&order.pay_id!=4&&order.order_status!=2){%>\
 							<%if(order.pay_name=="快钱") {%>\
 								<a href="#" class="btn status1-btn" onclick="document.forms[&quot;kqPay&quot;].submit();">付款</a>\
-								<%=order.pay_online.replace(/script/gi,"a")%>\
+								<div style="display:none"><%=order.pay_online.replace(/script/gi,"a")%></div>\
 							<%} else {%>\
 								<a href="#" id="pay_online" class="btn status1-btn">付款</a>\
 							<% } %>\

@@ -1,5 +1,28 @@
 (function(){
-
+   var candleTmpl = '<li class="clearfix sub_order_<%=rec_id%>" id="sub_order_<%=data.rec_id%>">\
+							  <div class="od-title1" data-id="<%=rec_id%>">\
+								<span class="od-img-area">\
+								  <img src="css/img/lazhu1.jpg" class="od-img" style="width:50px;">\
+								</span>\
+								<span class="or-name-intro">生日蜡烛</span>\
+							  </div>\
+							  <div class="od-title2">￥<%=data.goods_price%></div>\
+							  <div class="od-title3"><%=data.goods_number%></div>\
+							  <div class="od-title4">￥<%=data.goods_price*data.goods_number%>.00</div>\
+							 <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
+							 </li>';
+   var numCandleTmpl = '<li class="clearfix sub_order_<%=rec_id%>" id="sub_order_<%=data.rec_id%>">\
+							  <div class="od-title1" data-id="<%=rec_id%>">\
+								<span class="od-img-area">\
+								  <img src="css/img/order-detail2.png" class="od-img" style="width:50px;">\
+								</span>\
+								<span class="or-name-intro">数字蜡烛()</span>\
+							  </div>\
+							  <div class="od-title2">￥<%=data.goods_price%></div>\
+							  <div class="od-title3"><%=data.goods_number%></div>\
+							  <div class="od-title4">￥<%=data.goods_price*data.goods_number%>.00</div>\
+							 <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
+							 </li>';
    var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
 				 <%if(data[i].goods_id!=60){%>\
 					<li class="clearfix sub_order_<%=data[i].rec_id%>"  id="sub_order_<%=data[i].rec_id%>">\
@@ -15,7 +38,7 @@
 						 <span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%>（<%=data[i].goods_attr%>）<% } %></span>\
 						 </a>\
 					  </div>\
-					  <div class="od-title2"><%=data[i].goods_price%></div>\
+					  <div class="od-title2">￥<%=data[i].goods_price%></div>\
 					  <div class="od-title3">\
 						<span class="or-num or-num-ico">\
 						  <em class="or-minus order_des" data-id="<%=data[i].rec_id%>"></em>\
@@ -37,7 +60,7 @@
 					     <span class="or-name-intro">配套餐具</span>\
 						 </a>\
 					  </div>\
-					  <div class="od-title2">0.5</div>\
+					  <div class="od-title2">￥0.5</div>\
 					  <div class="od-title3">\
 						<span class="or-num or-num-ico">\
 						  <em class="or-minus order_des_fork" free-num="<%=data[i].free_fork%>"  data-id="<%=data[i].rec_id%>"></em>\
@@ -45,10 +68,40 @@
 						  <em class="or-plus order_add_fork" free-num="<%=data[i].free_fork%>"  data-id="<%=data[i].rec_id%>"></em>\
 						</span>\
 					  </div>\
-					  <div class="od-title4"  id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</div>\
+					  <div class="od-title4"  id="fork_total_<%=data[i].rec_id%>">￥<%=0.5*data[i].extra_fork%></div>\
 					 </li>\
-					 <li class="clearfix sub_order_<%=data[i].rec_id%>">\
-						  <div class="od-title1">\
+					 <%if(candleHash[data[i].rec_id]){%>\
+						 <li class="clearfix sub_order_<%=data[i].rec_id%>" id="sub_order_<%=candleHash[data[i].rec_id].rec_id%>">\
+						  <div class="od-title1" data-id="<%=data[i].rec_id%>">\
+							<span class="od-img-area">\
+							  <img src="css/img/lazhu1.jpg" class="od-img" style="width:50px;">\
+							</span>\
+							<span class="or-name-intro">生日蜡烛</span>\
+						  </div>\
+						  <div class="od-title2">￥<%=candleHash[data[i].rec_id].goods_price%></div>\
+						  <div class="od-title3"><%=candleHash[data[i].rec_id].goods_number%></div>\
+						  <div class="od-title4"><%=candleHash[data[i].rec_id].subtotal%></div>\
+						  <a href="#" class="or-handle order_cancel" data-id="<%=candleHash[data[i].rec_id].rec_id%>" data-goods="<%=candleHash[data[i].rec_id].goods_id%>">删除</a>\
+						 </li>\
+					 <% } %>\
+					 <%if(candleNumHash[data[i].rec_id]){%>\
+						 <%for(var j=0;j<candleNumHash[data[i].rec_id].length;j++) {%>\
+							 <li class="clearfix sub_order_<%=data[i].rec_id%>" id="sub_order_<%=candleNumHash[data[i].rec_id][j].rec_id%>">\
+							  <div class="od-title1" data-id="<%=data[i].rec_id%>">\
+								<span class="od-img-area">\
+								  <img src="css/img/order-detail2.png" class="od-img" style="width:50px;">\
+								</span>\
+								<span class="or-name-intro">数字蜡烛(<%=candleNumHash[data[i].rec_id][j].goods_attr%>)</span>\
+							  </div>\
+							  <div class="od-title2">￥<%=candleNumHash[data[i].rec_id][j].goods_price%></div>\
+							  <div class="od-title3"><%=candleNumHash[data[i].rec_id][j].goods_number%></div>\
+							  <div class="od-title4"><%=candleNumHash[data[i].rec_id][j].subtotal%></div>\
+							 <a href="#" class="or-handle order_cancel" data-id="<%=candleNumHash[data[i].rec_id][j].rec_id%>" data-goods="<%=candleNumHash[data[i].rec_id][j].goods_id%>">删除</a>\
+							 </li>\
+						 <% } %>\
+					 <% } %>\
+					 <li class="clearfix sub_order_<%=data[i].rec_id%>" id="brith_card_add_<%=data[i].rec_id%>">\
+						  <div class="od-title1 add_brith_card" data-id="<%=data[i].rec_id%>">\
 							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加生日牌（免费）\
 						  </div>\
 						  <div class="od-title2"></div>\
@@ -56,8 +109,19 @@
 						  </div>\
 						  <div class="od-title4"></div>\
 					 </li>\
+					 <li class="clearfix sub_order_<%=data[i].rec_id%>" style="display:none" id="brith_card_display_<%=data[i].rec_id%>">\
+					  <div class="od-title1 add_brith_card" data-id="<%=data[i].rec_id%>">\
+						<span class="od-img-area">\
+						  <img src="img/order-detail4.png" class="od-img">\
+						</span>\
+						<span class="or-name-intro">生日牌（<span class="brith_card_name"></span>）</span>\
+					  </div>\
+					  <div class="od-title2">免费</div>\
+					  <div class="od-title3"></div>\
+					  <div class="od-title4"></div>\
+					 </li>\
 					 <li class="clearfix sub_order_<%=data[i].rec_id%>">\
-						  <div class="od-title1">\
+						  <div class="od-title1 add_candle" data-id="<%=data[i].rec_id%>">\
 							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加特制生日蜡烛\
 						  </div>\
 						  <div class="od-title2"></div>\
@@ -71,7 +135,7 @@
 	//记录一个蜡烛的id
 
    var BRITH_ORDER_ID;
-   var Order = {
+   var ShoppingCar = {
    		getOrderList : function(){
 			  var me = this;
 			 if(window.ORDER_LIST){
@@ -94,17 +158,34 @@
 					return false;
 				}
 				$('#my_order_frame').show();
-			 	var html = mstmpl(orderListTmpl,{
-			 		data:d.goods_list
-			 	});
-
+				var goodsData = d.goods_list;
+				var staffData = [];
+				//普通蜡烛
+				var candleHash = {};
+				
+				//数字蜡烛
+				var candleNumHash = {};
 				//如果买了蜡烛 需要显示出来
-				for(var i=0;i<d.goods_list.length;i++){
-					if(d.goods_list[i].goods_id == 61){
-						$('#birth_chk')[0].checked =true;
-						BRITH_ORDER_ID = d.goods_list[i].rec_id;
+				for(var i=0;i<goodsData.length;i++){
+					if(goodsData[i].goods_id == 61){
+					  candleHash[goodsData[i].parent_id] = goodsData[i];
+					}else if(goodsData[i].goods_id == 67){
+					  if(!candleNumHash[goodsData[i].parent_id]){
+						 candleNumHash[goodsData[i].parent_id] = [];
+					  }
+					  candleNumHash[goodsData[i].parent_id].push(goodsData[i]);
+					}else{
+						staffData.push(goodsData[i]);
 					}
 				}
+		
+			 	var html = mstmpl(orderListTmpl,{
+			 		data:staffData,
+					candleHash:candleHash,
+					candleNumHash:candleNumHash
+			 	});
+
+				
 				$('#order_list').prepend(html);
 				MES.updateTotalPriceDisplay(d);
 		},
@@ -195,12 +276,9 @@
 								id:id
 							},
 							callback:function(d){
-								//蜡烛 删除的时候把复选框也给干掉
-								if(goods_id == 61){
-									$('#birth_chk')[0].checked = false;
-								}
 								//重新结算帐单价格
 								$('.sub_order_'+id).remove();
+								$('#sub_order_'+id).remove();
 								MES.updateTotalPriceDisplay(d);
 							}
 						});
@@ -226,19 +304,40 @@
 				var num = parseInt(_this.prev().html(),10);
 				num+=1;
 				updateFork(id,num);
-			}).delegate('.add_brith_brand','click',function(){
+			}).delegate('.add_brith_card','click',function(){
 				//触发生日牌的修改
-
-				var _this = $(this);
-				var text = _this.find('.or-name-intro')[0].innerHTML;
-				_this.find('.or-name-intro').hide();
-				//一些细节
-				if($.trim(text) !== '添加一个生日牌'){
-					_this.next().find('input').val(text);
-				}
-
-				_this.next().show();
-				$('.brith_brand_input').focus();
+				var id = $(this).data(id);
+				require(['ui/brithcard'],function(brithcardDialog){
+					brithcardDialog.show(id);
+				});
+				return;
+			}).delegate('.add_candle','click',function(){
+				//触发生日牌的修改
+				var id = $(this).data('id');
+				require(['ui/candle'],function(candleDialog){
+					candleDialog.show({
+						id:id,
+						callback:function(d,candle){
+							
+							var _tpl = candleTmpl;
+							if(candle == 67){
+							   _tpl = numCandleTmpl;
+							}
+							var _renderData = d.data;
+							var html = mstmpl(_tpl,{
+									data:_renderData,
+									rec_id:id
+							});
+							if($('#sub_order_'+_renderData.rec_id).length&&candle == 61){
+								$('#sub_order_'+_renderData.rec_id).replaceWith(html);
+							}else{
+								$('#sub_order_'+id).append(html);
+							}
+							MES.updateTotalPriceDisplay(d);
+						}
+					});
+				});
+				return;
 			}).delegate('.brith_brand_input','blur',function(){
 				var _this = $(this);
 				var text = _this.val();
@@ -336,7 +435,8 @@
 						  goods.parent   = 0;//(typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
 						  $.post('route.php?mod=order&action=add_to_cart', {
 							goods:$.toJSON(goods),
-							goods_id:60
+							goods_id:60,
+							parent_id:0
 						  }, function(d){
 						  		//第一次加蜡烛没有总价
 						  		d.data.subtotal = '￥5.00';
@@ -355,11 +455,15 @@
 				  },100);
 				 },0);
 			});
+		},
+		initPlacerHolderForIE:function(){
+			$('#message_input').placeholder();
 		}
 	}
-	Order.getOrderList();
-	Order.eventDelegate();
-	Order.bind();
+	ShoppingCar.getOrderList();
+	ShoppingCar.eventDelegate();
+	ShoppingCar.bind();
+	ShoppingCar.initPlacerHolderForIE();
 
 
 })();
