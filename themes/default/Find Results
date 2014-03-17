@@ -1,0 +1,412 @@
+Searching 3256 files for "placeholder"
+
+/Volumes/all/www/mescakegit/html/account.html:
+   40:           <input type="text" class="global-input" placeholder="我的姓名"/><br />
+
+/Volumes/all/www/mescakegit/html/dialog.html:
+   28:             <input type="text" class="global-input" placeholder="手机号码"/>
+   32:             <input type="text" class="global-input" placeholder="用户密码"/>
+   49:           <input type="text" class="global-input" placeholder="手机号码"/>
+   88:               <textarea class="text-area" placeholder="详细地址"></textarea>
+   95:               <input type="text" class="global-input" placeholder="收货人姓名"/>
+  102:               <input type="text" class="global-input" placeholder="联系人的手机号码"/>
+  126:               <input type="text" class="global-input" placeholder="请输入当前密码"/>
+  133:               <input type="text" class="global-input" placeholder="请输入6位或以上密码"/>
+  140:               <input type="text" class="global-input" placeholder="请再次确认密码"/>
+  163:           <input type="text" class="global-input" placeholder="请输入4位密码"/>
+  183:                 <input type="text" class="global-input" placeholder="请输入4位卡号"/>
+  190:                 <input type="password" class="global-input" placeholder="请输入卡的密码"/>
+  197:                 <input type="text" class="global-input" placeholder="请输入移动电话号码" />
+  205:                 <input type="text" class="global-input" placeholder="验证码" />
+  230:                 <input type="text" class="global-input" placeholder="请输入新的手机号码"/>
+  238:                 <input type="password" class="global-input" placeholder="请输入短信验证码"/>
+
+/Volumes/all/www/mescakegit/html/phone-check.html:
+   36:             <input type="text" class="global-input" placeholder="手机号码"/>
+   44:             <input type="text" class="global-input" placeholder="验证码"/>
+
+/Volumes/all/www/mescakegit/html/register.html:
+   36:             <input type="text" class="global-input" placeholder="联系人的手机号码"/>
+   44:             <input type="text" class="global-input" placeholder="收货人姓名"/>
+   51:             <input type="text" class="global-input" placeholder="请设置6位及以上密码"/>
+
+/Volumes/all/www/mescakegit/html/suc.html:
+   35:           <input type="password" class="global-input" placeholder="请设置6位或以上密码"/>
+
+/Volumes/all/www/mescakegit/html/total.html:
+  159:                 <input type="password" class="global-input" placeholder="详细地址"/>
+  166:                 <input type="password" class="global-input" placeholder="收货人姓名"/>
+  173:                 <input type="text" class="global-input" placeholder="联系人的手机号码" />
+  213:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头"/>
+  220:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头"/>
+
+/Volumes/all/www/mescakegit/includes/fckeditor/editor/dialog/fck_specialchar.html:
+   68: 	// Gets the sample placeholder.
+
+/Volumes/all/www/mescakegit/includes/fckeditor/editor/js/fckeditorcode_gecko.js:
+   61: var FCKDocumentProcessor={};FCKDocumentProcessor._Items=[];FCKDocumentProcessor.AppendNew=function(){var A={};this._Items.AddItem(A);return A;};FCKDocumentProcessor.Process=function(A){var B=FCK.IsDirty();var C,i=0;while((C=this._Items[i++])) C.ProcessDocument(A);if (!B) FCK.ResetIsDirty();};var FCKDocumentProcessor_CreateFakeImage=function(A,B){var C=FCKTools.GetElementDocument(B).createElement('IMG');C.className=A;C.src=FCKConfig.BasePath+'images/spacer.gif';C.setAttribute('_fckfakelement','true',0);C.setAttribute('_fckrealelement',FCKTempBin.AddElement(B),0);return C;};if (FCKBrowserInfo.IsIE||FCKBrowserInfo.IsOpera){var FCKAnchorsProcessor=FCKDocumentProcessor.AppendNew();FCKAnchorsProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('A');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.name.length>0){if (C.innerHTML!==''){if (FCKBrowserInfo.IsIE) C.className+=' FCK__AnchorC';}else{var D=FCKDocumentProcessor_CreateFakeImage('FCK__Anchor',C.cloneNode(true));D.setAttribute('_fckanchor','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}}}};var FCKPageBreaksProcessor=FCKDocumentProcessor.AppendNew();FCKPageBreaksProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('DIV');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.style.pageBreakAfter=='always'&&C.childNodes.length==1&&C.childNodes[0].style&&C.childNodes[0].style.display=='none'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__PageBreak',C.cloneNode(true));C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor=(function(){var A=[];var B=function(el){var C=el.cloneNode(true);var D;var E=D=FCKDocumentProcessor_CreateFakeImage('FCK__UnknownObject',C);FCKEmbedAndObjectProcessor.RefreshView(E,el);for (var i=0;i<A.length;i++) D=A[i](el,D)||D;if (D!=E) FCKTempBin.RemoveElement(E.getAttribute('_fckrealelement'));el.parentNode.replaceChild(D,el);};var F=function(elementName,doc){var G=doc.getElementsByTagName(elementName);for (var i=G.length-1;i>=0;i--) B(G[i]);};var H=function(doc){F('object',doc);F('embed',doc);};return FCKTools.Merge(FCKDocumentProcessor.AppendNew(),{ProcessDocument:function(doc){if (FCKBrowserInfo.IsGecko) FCKTools.RunFunction(H,this,[doc]);else H(doc);},RefreshView:function(placeHolder,original){if (original.getAttribute('width')>0) placeHolder.style.width=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('width'));if (original.getAttribute('height')>0) placeHolder.style.height=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('height'));},AddCustomHandler:function(func){A.push(func);}});})();FCK.GetRealElement=function(A){var e=FCKTempBin.Elements[A.getAttribute('_fckrealelement')];if (A.getAttribute('_fckflash')){if (A.style.width.length>0) e.width=FCKTools.ConvertStyleSizeToHtml(A.style.width);if (A.style.height.length>0) e.height=FCKTools.ConvertStyleSizeToHtml(A.style.height);};return e;};if (FCKBrowserInfo.IsIE){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('HR');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){var D=A.createElement('hr');D.mergeAttributes(C,true);FCKDomTools.InsertAfterNode(C,D);C.parentNode.removeChild(C);}}};FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('INPUT');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.type=='hidden'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__InputHidden',C.cloneNode(true));D.setAttribute('_fckinputhidden','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor.AddCustomHandler(function(A,B){if (!(A.nodeName.IEquals('embed')&&(A.type=='application/x-shockwave-flash'||/\.swf($|#|\?)/i.test(A.src)))) return;B.className='FCK__Flash';B.setAttribute('_fckflash','true',0);});if (FCKBrowserInfo.IsSafari){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByClassName?A.getElementsByClassName('Apple-style-span'):Array.prototype.filter.call(A.getElementsByTagName('span'),function(item){ return item.className=='Apple-style-span';});for (var i=B.length-1;i>=0;i--) FCKDomTools.RemoveNode(B[i],true);}};
+
+/Volumes/all/www/mescakegit/includes/fckeditor/editor/js/fckeditorcode_ie.js:
+   63: var FCKDocumentProcessor={};FCKDocumentProcessor._Items=[];FCKDocumentProcessor.AppendNew=function(){var A={};this._Items.AddItem(A);return A;};FCKDocumentProcessor.Process=function(A){var B=FCK.IsDirty();var C,i=0;while((C=this._Items[i++])) C.ProcessDocument(A);if (!B) FCK.ResetIsDirty();};var FCKDocumentProcessor_CreateFakeImage=function(A,B){var C=FCKTools.GetElementDocument(B).createElement('IMG');C.className=A;C.src=FCKConfig.BasePath+'images/spacer.gif';C.setAttribute('_fckfakelement','true',0);C.setAttribute('_fckrealelement',FCKTempBin.AddElement(B),0);return C;};if (FCKBrowserInfo.IsIE||FCKBrowserInfo.IsOpera){var FCKAnchorsProcessor=FCKDocumentProcessor.AppendNew();FCKAnchorsProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('A');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.name.length>0){if (C.innerHTML!==''){if (FCKBrowserInfo.IsIE) C.className+=' FCK__AnchorC';}else{var D=FCKDocumentProcessor_CreateFakeImage('FCK__Anchor',C.cloneNode(true));D.setAttribute('_fckanchor','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}}}};var FCKPageBreaksProcessor=FCKDocumentProcessor.AppendNew();FCKPageBreaksProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('DIV');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.style.pageBreakAfter=='always'&&C.childNodes.length==1&&C.childNodes[0].style&&C.childNodes[0].style.display=='none'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__PageBreak',C.cloneNode(true));C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor=(function(){var A=[];var B=function(el){var C=el.cloneNode(true);var D;var E=D=FCKDocumentProcessor_CreateFakeImage('FCK__UnknownObject',C);FCKEmbedAndObjectProcessor.RefreshView(E,el);for (var i=0;i<A.length;i++) D=A[i](el,D)||D;if (D!=E) FCKTempBin.RemoveElement(E.getAttribute('_fckrealelement'));el.parentNode.replaceChild(D,el);};var F=function(elementName,doc){var G=doc.getElementsByTagName(elementName);for (var i=G.length-1;i>=0;i--) B(G[i]);};var H=function(doc){F('object',doc);F('embed',doc);};return FCKTools.Merge(FCKDocumentProcessor.AppendNew(),{ProcessDocument:function(doc){if (FCKBrowserInfo.IsGecko) FCKTools.RunFunction(H,this,[doc]);else H(doc);},RefreshView:function(placeHolder,original){if (original.getAttribute('width')>0) placeHolder.style.width=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('width'));if (original.getAttribute('height')>0) placeHolder.style.height=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('height'));},AddCustomHandler:function(func){A.push(func);}});})();FCK.GetRealElement=function(A){var e=FCKTempBin.Elements[A.getAttribute('_fckrealelement')];if (A.getAttribute('_fckflash')){if (A.style.width.length>0) e.width=FCKTools.ConvertStyleSizeToHtml(A.style.width);if (A.style.height.length>0) e.height=FCKTools.ConvertStyleSizeToHtml(A.style.height);};return e;};if (FCKBrowserInfo.IsIE){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('HR');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){var D=A.createElement('hr');D.mergeAttributes(C,true);FCKDomTools.InsertAfterNode(C,D);C.parentNode.removeChild(C);}}};FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('INPUT');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.type=='hidden'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__InputHidden',C.cloneNode(true));D.setAttribute('_fckinputhidden','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor.AddCustomHandler(function(A,B){if (!(A.nodeName.IEquals('embed')&&(A.type=='application/x-shockwave-flash'||/\.swf($|#|\?)/i.test(A.src)))) return;B.className='FCK__Flash';B.setAttribute('_fckflash','true',0);});if (FCKBrowserInfo.IsSafari){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByClassName?A.getElementsByClassName('Apple-style-span'):Array.prototype.filter.call(A.getElementsByTagName('span'),function(item){ return item.className=='Apple-style-span';});for (var i=B.length-1;i>=0;i--) FCKDomTools.RemoveNode(B[i],true);}};
+
+/Volumes/all/www/mescakegit/script/page/shoppingcar.js:
+   46: 							  <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro brith_brand">添加一个生日牌</span></span><input type="text" style="display:none;" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
+
+/Volumes/all/www/mescakegit/script/placeholder.js:
+    2:     $.fn.miPlaceholder=function(color){
+    4:       //Placeholder Ability
+    5:       if( 'placeholder' in document.createElement('input') ){
+   11:         var placeholderText=me.attr("placeholder");       
+   12:         me.before("<i class='place-item' id="+miPid+">"+placeholderText+"</i>");
+
+/Volumes/all/www/mescakegit/script/ui/changemobile.js:
+    5:                 <input type="text" class="global-input" id="mobile_input" placeholder="请输入新的手机号码">\
+   13:                 <input type="text" id="password_input" class="global-input" placeholder="请输入短信验证码">\
+
+/Volumes/all/www/mescakegit/script/ui/changepassword.js:
+    5:               <input id="old_password" type="password" class="global-input" placeholder="请输入当前密码">\
+   12:               <input id="repeat_password"type="password" class="global-input" placeholder="请输入6位或以上密码">\
+   19:               <input id="new_password" type="password" class="global-input" placeholder="请再次确认密码">\
+
+/Volumes/all/www/mescakegit/script/ui/chargepopup.js:
+    4:           <input type="text" class="global-input" placeholder="请输入4位密码">
+
+/Volumes/all/www/mescakegit/script/ui/login.js:
+    3:             <input type="text" class="global-input" id="popup_login_id" placeholder="手机号码">\
+    7:             <input type="password" class="global-input" id="popup_login_password" placeholder="用户密码">\
+   26: 							$("input[placeholder]").miPlaceholder("#ccc");
+
+/Volumes/all/www/mescakegit/script/ui/newaddress.js:
+   23:               <textarea class="text-area" placeholder="详细地址" id="new_address_popup"></textarea>\
+   30:               <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact_popup">\
+   37:               <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel_popup">\
+
+/Volumes/all/www/mescakegit/script/ui/placeholder.js:
+    2:     $.fn.miPlaceholder=function(color){
+    4:       //Placeholder Ability
+    5:       if( 'placeholder' in document.createElement('input') ){
+   12:         var placeholderText=me.attr("placeholder");
+   13:         me.before("<input type='text' id="+miPid+" class='"+className+"' value='"+placeholderText+"'>");
+
+/Volumes/all/www/mescakegit/temp/compiled/brand.dwt.php:
+   17: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/flow.dwt.php:
+   17: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/index.dwt.php:
+   20: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/newactivity.dwt.php:
+   21: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/order_empty.dwt.php:
+    9:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/order_list.dwt.php:
+    9:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/shoppingcar_new.dwt.php:
+    7:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/user_reg.dwt.php:
+   20: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/aboutus.dwt:
+   19: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/account.dwt:
+    8:   <script type="text/javascript" src="script/placeholder.js"></script>
+   26:             <input type="text" class="global-input" placeholder="我的姓名" id="my_name"/><span class="tips-container" id="mod_tip" style="display:none">修改成功</span>
+
+/Volumes/all/www/mescakegit/themes/default/brand.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/flow.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/goods.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/index.dwt:
+   19: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/magazine.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/newactivity.dwt:
+   20: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/order_detail.dwt:
+    8:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/order_empty.dwt:
+    8:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/order_list.dwt:
+    8:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/order_new.dwt:
+   43:                 <input type="text" class="global-input" placeholder="详细地址" id="new_address">
+   50:                 <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact">
+   57:                 <input type="text" class="global-input" placeholder="收货人的手机号码" id="new_tel">
+   67:                 <input type="text" class="global-input" placeholder="请输入您的手机号码" id="my_phone_input">
+  110:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
+  117:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
+
+/Volumes/all/www/mescakegit/themes/default/order_query.dwt:
+    8:   <script src="script/placeholder.js"></script>
+   21:             <input type="text" class="global-input" placeholder="手机号码" id="mobile_input"/>
+   29:             <input type="text" class="global-input" id="vaild_input" placeholder="验证码"/>
+
+/Volumes/all/www/mescakegit/themes/default/order_set_password.dwt:
+    8:    <script src="script/placeholder.js"></script>
+   20:           <input type="password" class="global-input" placeholder="请设置6位或以上密码" id="password_input"/>
+
+/Volumes/all/www/mescakegit/themes/default/search.dwt:
+   21: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/shoppingcar_new.dwt:
+    6:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/user_clips.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/user_passport.dwt:
+   17: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/user_reg.dwt:
+   19: <script src="script/placeholder.js"></script>
+
+97 matches across 44 files
+
+
+Searching 3260 files for "6位及以上"
+
+/Volumes/all/www/mescakegit/html/register.html:
+   51:             <input type="text" class="global-input" placeholder="请设置6位及以上密码"/>
+
+/Volumes/all/www/mescakegit/script/ui/changepassword.js:
+    6:               <span class="tips-container" style="display:none">密码必须是6位及以上</span><!-- 错误信息容器,出现2秒后消失 -->\
+   13:               <span class="tips-container" style="display:none">密码必须是6位及以上</span>\
+
+/Volumes/all/www/mescakegit/temp/compiled/order_set_password.dwt.php:
+   17:       <p class="suc-tip"><span id="moblie_number"></span>的用户您好！<br/>请设置一个<span class="error-tip">6位及以上</span>的登录密码以完成注册</p>
+
+/Volumes/all/www/mescakegit/themes/default/order_set_password.dwt:
+   16:       <p class="suc-tip"><span id="moblie_number"></span>的用户您好！<br/>请设置一个<span class="error-tip">6位及以上</span>的登录密码以完成注册</p>
+
+5 matches across 4 files
+
+
+Searching 3266 files for "get_verify"
+
+/Volumes/all/www/mescakegit/js/login_register.js:
+  213: 	var get_verify		= document.getElementById("yzimg");
+  219: 		Ajax.call( 'user.php?act=got_verify', 'mobile=' + mobile, get_verify_callback , 'GET', 'TEXT', true, true );
+  226: function get_verify_callback(result){
+  272: 	var get_verify		= document.getElementById("getCaptcha");
+  286: 	var get_verify		= document.getElementById("getCaptcha");
+  290: 		Ajax.call( 'user.php?act=got_verify', 'mobile=' + mobile, get_verify_callback2 , 'GET', 'TEXT', true, true );
+  298: function get_verify_callback2(result){
+
+/Volumes/all/www/mescakegit/temp/compiled/user_charge.lbi.php:
+   35: 					<input type="button" name="get_verify" id="get_verify" onclick="getVerify()" class="v-btn vert-btn" value="获取验证码" />
+  163: 	var get_verify		= document.getElementById("get_verify");
+  168: 		Ajax.call( 'user.php?act=send_verify', 'mobile=' + mobile+"&num=2", get_verify_callback , 'GET', 'TEXT', true, true );
+  175: function get_verify_callback(result){
+  183: 		document.getElementById("get_verify").disabled=false;
+  190:         document.getElementById("get_verify").disabled='';//启用按钮
+  195: 		document.getElementById("get_verify").disabled=true;//启用按钮
+
+/Volumes/all/www/mescakegit/themes/default/library/user/user_charge.lbi:
+   36: 					<input type="button" name="get_verify" id="get_verify" onclick="getVerify()" class="v-btn vert-btn" value="获取验证码" />
+  164: 	var get_verify		= document.getElementById("get_verify");
+  169: 		Ajax.call( 'user.php?act=send_verify', 'mobile=' + mobile+"&num=2", get_verify_callback , 'GET', 'TEXT', true, true );
+  176: function get_verify_callback(result){
+  184: 		document.getElementById("get_verify").disabled=false;
+  191:         document.getElementById("get_verify").disabled='';//启用按钮
+  196: 		document.getElementById("get_verify").disabled=true;//启用按钮
+
+25 matches across 3 files
+
+
+Searching 3260 files for "placeholder"
+
+/Volumes/all/www/mescakegit/html/account.html:
+   40:           <input type="text" class="global-input" placeholder="我的姓名"/><br />
+
+/Volumes/all/www/mescakegit/html/dialog.html:
+   28:             <input type="text" class="global-input" placeholder="手机号码"/>
+   32:             <input type="text" class="global-input" placeholder="用户密码"/>
+   49:           <input type="text" class="global-input" placeholder="手机号码"/>
+   88:               <textarea class="text-area" placeholder="详细地址"></textarea>
+   95:               <input type="text" class="global-input" placeholder="收货人姓名"/>
+  102:               <input type="text" class="global-input" placeholder="联系人的手机号码"/>
+  126:               <input type="text" class="global-input" placeholder="请输入当前密码"/>
+  133:               <input type="text" class="global-input" placeholder="请输入6位或以上密码"/>
+  140:               <input type="text" class="global-input" placeholder="请再次确认密码"/>
+  163:           <input type="text" class="global-input" placeholder="请输入4位密码"/>
+  183:                 <input type="text" class="global-input" placeholder="请输入4位卡号"/>
+  190:                 <input type="password" class="global-input" placeholder="请输入卡的密码"/>
+  197:                 <input type="text" class="global-input" placeholder="请输入移动电话号码" />
+  205:                 <input type="text" class="global-input" placeholder="验证码" />
+  230:                 <input type="text" class="global-input" placeholder="请输入新的手机号码"/>
+  238:                 <input type="password" class="global-input" placeholder="请输入短信验证码"/>
+
+/Volumes/all/www/mescakegit/html/phone-check.html:
+   36:             <input type="text" class="global-input" placeholder="手机号码"/>
+   44:             <input type="text" class="global-input" placeholder="验证码"/>
+
+/Volumes/all/www/mescakegit/html/register.html:
+   36:             <input type="text" class="global-input" placeholder="联系人的手机号码"/>
+   44:             <input type="text" class="global-input" placeholder="收货人姓名"/>
+   51:             <input type="text" class="global-input" placeholder="请设置6位及以上密码"/>
+
+/Volumes/all/www/mescakegit/html/suc.html:
+   35:           <input type="password" class="global-input" placeholder="请设置6位或以上密码"/>
+
+/Volumes/all/www/mescakegit/html/total.html:
+  159:                 <input type="password" class="global-input" placeholder="详细地址"/>
+  166:                 <input type="password" class="global-input" placeholder="收货人姓名"/>
+  173:                 <input type="text" class="global-input" placeholder="联系人的手机号码" />
+  213:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头"/>
+  220:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头"/>
+
+/Volumes/all/www/mescakegit/includes/fckeditor/editor/dialog/fck_specialchar.html:
+   68: 	// Gets the sample placeholder.
+
+/Volumes/all/www/mescakegit/includes/fckeditor/editor/js/fckeditorcode_gecko.js:
+   61: var FCKDocumentProcessor={};FCKDocumentProcessor._Items=[];FCKDocumentProcessor.AppendNew=function(){var A={};this._Items.AddItem(A);return A;};FCKDocumentProcessor.Process=function(A){var B=FCK.IsDirty();var C,i=0;while((C=this._Items[i++])) C.ProcessDocument(A);if (!B) FCK.ResetIsDirty();};var FCKDocumentProcessor_CreateFakeImage=function(A,B){var C=FCKTools.GetElementDocument(B).createElement('IMG');C.className=A;C.src=FCKConfig.BasePath+'images/spacer.gif';C.setAttribute('_fckfakelement','true',0);C.setAttribute('_fckrealelement',FCKTempBin.AddElement(B),0);return C;};if (FCKBrowserInfo.IsIE||FCKBrowserInfo.IsOpera){var FCKAnchorsProcessor=FCKDocumentProcessor.AppendNew();FCKAnchorsProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('A');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.name.length>0){if (C.innerHTML!==''){if (FCKBrowserInfo.IsIE) C.className+=' FCK__AnchorC';}else{var D=FCKDocumentProcessor_CreateFakeImage('FCK__Anchor',C.cloneNode(true));D.setAttribute('_fckanchor','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}}}};var FCKPageBreaksProcessor=FCKDocumentProcessor.AppendNew();FCKPageBreaksProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('DIV');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.style.pageBreakAfter=='always'&&C.childNodes.length==1&&C.childNodes[0].style&&C.childNodes[0].style.display=='none'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__PageBreak',C.cloneNode(true));C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor=(function(){var A=[];var B=function(el){var C=el.cloneNode(true);var D;var E=D=FCKDocumentProcessor_CreateFakeImage('FCK__UnknownObject',C);FCKEmbedAndObjectProcessor.RefreshView(E,el);for (var i=0;i<A.length;i++) D=A[i](el,D)||D;if (D!=E) FCKTempBin.RemoveElement(E.getAttribute('_fckrealelement'));el.parentNode.replaceChild(D,el);};var F=function(elementName,doc){var G=doc.getElementsByTagName(elementName);for (var i=G.length-1;i>=0;i--) B(G[i]);};var H=function(doc){F('object',doc);F('embed',doc);};return FCKTools.Merge(FCKDocumentProcessor.AppendNew(),{ProcessDocument:function(doc){if (FCKBrowserInfo.IsGecko) FCKTools.RunFunction(H,this,[doc]);else H(doc);},RefreshView:function(placeHolder,original){if (original.getAttribute('width')>0) placeHolder.style.width=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('width'));if (original.getAttribute('height')>0) placeHolder.style.height=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('height'));},AddCustomHandler:function(func){A.push(func);}});})();FCK.GetRealElement=function(A){var e=FCKTempBin.Elements[A.getAttribute('_fckrealelement')];if (A.getAttribute('_fckflash')){if (A.style.width.length>0) e.width=FCKTools.ConvertStyleSizeToHtml(A.style.width);if (A.style.height.length>0) e.height=FCKTools.ConvertStyleSizeToHtml(A.style.height);};return e;};if (FCKBrowserInfo.IsIE){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('HR');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){var D=A.createElement('hr');D.mergeAttributes(C,true);FCKDomTools.InsertAfterNode(C,D);C.parentNode.removeChild(C);}}};FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('INPUT');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.type=='hidden'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__InputHidden',C.cloneNode(true));D.setAttribute('_fckinputhidden','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor.AddCustomHandler(function(A,B){if (!(A.nodeName.IEquals('embed')&&(A.type=='application/x-shockwave-flash'||/\.swf($|#|\?)/i.test(A.src)))) return;B.className='FCK__Flash';B.setAttribute('_fckflash','true',0);});if (FCKBrowserInfo.IsSafari){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByClassName?A.getElementsByClassName('Apple-style-span'):Array.prototype.filter.call(A.getElementsByTagName('span'),function(item){ return item.className=='Apple-style-span';});for (var i=B.length-1;i>=0;i--) FCKDomTools.RemoveNode(B[i],true);}};
+
+/Volumes/all/www/mescakegit/includes/fckeditor/editor/js/fckeditorcode_ie.js:
+   63: var FCKDocumentProcessor={};FCKDocumentProcessor._Items=[];FCKDocumentProcessor.AppendNew=function(){var A={};this._Items.AddItem(A);return A;};FCKDocumentProcessor.Process=function(A){var B=FCK.IsDirty();var C,i=0;while((C=this._Items[i++])) C.ProcessDocument(A);if (!B) FCK.ResetIsDirty();};var FCKDocumentProcessor_CreateFakeImage=function(A,B){var C=FCKTools.GetElementDocument(B).createElement('IMG');C.className=A;C.src=FCKConfig.BasePath+'images/spacer.gif';C.setAttribute('_fckfakelement','true',0);C.setAttribute('_fckrealelement',FCKTempBin.AddElement(B),0);return C;};if (FCKBrowserInfo.IsIE||FCKBrowserInfo.IsOpera){var FCKAnchorsProcessor=FCKDocumentProcessor.AppendNew();FCKAnchorsProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('A');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.name.length>0){if (C.innerHTML!==''){if (FCKBrowserInfo.IsIE) C.className+=' FCK__AnchorC';}else{var D=FCKDocumentProcessor_CreateFakeImage('FCK__Anchor',C.cloneNode(true));D.setAttribute('_fckanchor','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}}}};var FCKPageBreaksProcessor=FCKDocumentProcessor.AppendNew();FCKPageBreaksProcessor.ProcessDocument=function(A){var B=A.getElementsByTagName('DIV');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.style.pageBreakAfter=='always'&&C.childNodes.length==1&&C.childNodes[0].style&&C.childNodes[0].style.display=='none'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__PageBreak',C.cloneNode(true));C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor=(function(){var A=[];var B=function(el){var C=el.cloneNode(true);var D;var E=D=FCKDocumentProcessor_CreateFakeImage('FCK__UnknownObject',C);FCKEmbedAndObjectProcessor.RefreshView(E,el);for (var i=0;i<A.length;i++) D=A[i](el,D)||D;if (D!=E) FCKTempBin.RemoveElement(E.getAttribute('_fckrealelement'));el.parentNode.replaceChild(D,el);};var F=function(elementName,doc){var G=doc.getElementsByTagName(elementName);for (var i=G.length-1;i>=0;i--) B(G[i]);};var H=function(doc){F('object',doc);F('embed',doc);};return FCKTools.Merge(FCKDocumentProcessor.AppendNew(),{ProcessDocument:function(doc){if (FCKBrowserInfo.IsGecko) FCKTools.RunFunction(H,this,[doc]);else H(doc);},RefreshView:function(placeHolder,original){if (original.getAttribute('width')>0) placeHolder.style.width=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('width'));if (original.getAttribute('height')>0) placeHolder.style.height=FCKTools.ConvertHtmlSizeToStyle(original.getAttribute('height'));},AddCustomHandler:function(func){A.push(func);}});})();FCK.GetRealElement=function(A){var e=FCKTempBin.Elements[A.getAttribute('_fckrealelement')];if (A.getAttribute('_fckflash')){if (A.style.width.length>0) e.width=FCKTools.ConvertStyleSizeToHtml(A.style.width);if (A.style.height.length>0) e.height=FCKTools.ConvertStyleSizeToHtml(A.style.height);};return e;};if (FCKBrowserInfo.IsIE){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('HR');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){var D=A.createElement('hr');D.mergeAttributes(C,true);FCKDomTools.InsertAfterNode(C,D);C.parentNode.removeChild(C);}}};FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByTagName('INPUT');var C;var i=B.length-1;while (i>=0&&(C=B[i--])){if (C.type=='hidden'){var D=FCKDocumentProcessor_CreateFakeImage('FCK__InputHidden',C.cloneNode(true));D.setAttribute('_fckinputhidden','true',0);C.parentNode.insertBefore(D,C);C.parentNode.removeChild(C);}}};FCKEmbedAndObjectProcessor.AddCustomHandler(function(A,B){if (!(A.nodeName.IEquals('embed')&&(A.type=='application/x-shockwave-flash'||/\.swf($|#|\?)/i.test(A.src)))) return;B.className='FCK__Flash';B.setAttribute('_fckflash','true',0);});if (FCKBrowserInfo.IsSafari){FCKDocumentProcessor.AppendNew().ProcessDocument=function(A){var B=A.getElementsByClassName?A.getElementsByClassName('Apple-style-span'):Array.prototype.filter.call(A.getElementsByTagName('span'),function(item){ return item.className=='Apple-style-span';});for (var i=B.length-1;i>=0;i--) FCKDomTools.RemoveNode(B[i],true);}};
+
+/Volumes/all/www/mescakegit/script/page/shoppingcar.js:
+   48: 							    <input type="text" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
+  241: 				//这里加了个父级容器来显示错误和placeholder，由于focus了，提示就暂时没有了。
+
+/Volumes/all/www/mescakegit/script/placeholder.js:
+    2:     $.fn.miPlaceholder=function(color){
+    4:       //Placeholder Ability
+    5:       if( 'placeholder' in document.createElement('input') ){
+   11:         var placeholderText=me.attr("placeholder");       
+   12:         me.before("<i class='place-item' id="+miPid+">"+placeholderText+"</i>");
+
+/Volumes/all/www/mescakegit/script/ui/changemobile.js:
+    5:                 <input type="text" class="global-input" id="mobile_input" placeholder="请输入新的手机号码">\
+   13:                 <input type="text" id="password_input" class="global-input" placeholder="请输入短信验证码">\
+   68: 							$("input[placeholder]").miPlaceholder("#ccc");
+
+/Volumes/all/www/mescakegit/script/ui/changepassword.js:
+    5:               <input id="old_password" type="password" class="global-input" placeholder="请输入当前密码">\
+   12:               <input id="repeat_password"type="password" class="global-input" placeholder="请输入6位或以上密码">\
+   19:               <input id="new_password" type="password" class="global-input" placeholder="请再次确认密码">\
+   82:                             $("input[placeholder]").miPlaceholder("#ccc");
+
+/Volumes/all/www/mescakegit/script/ui/chargepopup.js:
+    4:           <input type="text" class="global-input" placeholder="请输入4位密码">
+
+/Volumes/all/www/mescakegit/script/ui/login.js:
+    3:             <input type="text" class="global-input" id="popup_login_id" placeholder="手机号码">\
+    7:             <input type="password" class="global-input" id="popup_login_password" placeholder="用户密码">\
+   26: 							$("input[placeholder]").miPlaceholder("#ccc");
+
+/Volumes/all/www/mescakegit/script/ui/newaddress.js:
+   23:               <textarea class="text-area" placeholder="详细地址" id="new_address_popup"></textarea>\
+   30:               <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact_popup">\
+   37:               <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel_popup">\
+
+/Volumes/all/www/mescakegit/script/ui/placeholder.js:
+    2:     $.fn.miPlaceholder=function(color){
+    4:       //Placeholder Ability
+    5:       if( 'placeholder' in document.createElement('input') ){
+   12:         var placeholderText=me.attr("placeholder");
+   13:         me.before("<input type='text' id="+miPid+" class='"+className+"' value='"+placeholderText+"'>");
+
+/Volumes/all/www/mescakegit/temp/compiled/index.dwt.php:
+  115:    <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/order_detail.dwt.php:
+    9:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/order_empty.dwt.php:
+    9:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/order_list.dwt.php:
+    9:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/temp/compiled/order_new.dwt.php:
+    8:   <script src="script/placeholder.js"></script>
+   45:                 <input type="text" class="global-input" placeholder="详细地址" id="new_address">
+   52:                 <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact">
+   59:                 <input type="text" class="global-input" placeholder="收货人的手机号码" id="new_tel">
+   69:                 <input type="text" class="global-input" placeholder="请输入您的手机号码" id="my_phone_input">
+  112:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
+  119:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
+  185: $("input[placeholder]").miPlaceholder("#ccc");
+
+/Volumes/all/www/mescakegit/temp/compiled/order_set_password.dwt.php:
+    9:    <script src="script/placeholder.js"></script>
+   22:           <input type="password" class="global-input" placeholder="请设置6位或以上密码" id="password_input"/>
+   34: $("input[placeholder]").miPlaceholder("#ccc");
+
+/Volumes/all/www/mescakegit/temp/compiled/shoppingcar_new.dwt.php:
+    7:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/aboutus.dwt:
+   19: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/account.dwt:
+    8:   <script type="text/javascript" src="script/placeholder.js"></script>
+   26:             <input type="text" class="global-input" placeholder="我的姓名" id="my_name"/><span class="tips-container" id="mod_tip" style="display:none">修改成功</span>
+
+/Volumes/all/www/mescakegit/themes/default/flow.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/index.dwt:
+  110:    <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/magazine.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/newactivity.dwt:
+   20: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/order_list.dwt:
+    8:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/order_new.dwt:
+   43:                 <input type="text" class="global-input" placeholder="详细地址" id="new_address">
+   50:                 <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact">
+   57:                 <input type="text" class="global-input" placeholder="收货人的手机号码" id="new_tel">
+   67:                 <input type="text" class="global-input" placeholder="请输入您的手机号码" id="my_phone_input">
+  110:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
+  117:                 <input type="password" class="global-input" placeholder="请填写发票打印抬头">
+
+/Volumes/all/www/mescakegit/themes/default/order_query.dwt:
+    8:   <script src="script/placeholder.js"></script>
+   21:             <input type="text" class="global-input" placeholder="手机号码" id="mobile_input"/>
+   29:             <input type="text" class="global-input" id="vaild_input" placeholder="验证码"/>
+
+/Volumes/all/www/mescakegit/themes/default/order_set_password.dwt:
+    8:    <script src="script/placeholder.js"></script>
+   21:           <input type="password" class="global-input" placeholder="请设置6位或以上密码" id="password_input"/>
+   33: $("input[placeholder]").miPlaceholder("#ccc");
+
+/Volumes/all/www/mescakegit/themes/default/search.dwt:
+   21: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/shoppingcar_new.dwt:
+    6:   <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/user_clips.dwt:
+   16: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/user_passport.dwt:
+   17: <script src="script/placeholder.js"></script>
+
+/Volumes/all/www/mescakegit/themes/default/user_reg.dwt:
+   19: <script src="script/placeholder.js"></script>
+
+110 matches across 39 files

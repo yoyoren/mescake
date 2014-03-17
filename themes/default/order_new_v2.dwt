@@ -192,7 +192,7 @@
 							<input type="hidden" name="pay_id" value="1" id="pay_id">
 							<input type="hidden" name="surplus" value="0.00" id="surplus">
 							<input type="hidden" name="bonus_id" value="请输入10位现金券券号" id="bonus_id">
-							<input type="hidden" name="shipping_fee" value="￥0.00"  id="shipping_fee">
+							<input type="hidden" name="shipping_fee" value="0.00"  id="shipping_fee">
 							<input type="hidden" name="x" value="97">
 							<input type="hidden" name="y" value="32">
 							<input type="hidden" name="token" value="{$order_token}">

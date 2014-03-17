@@ -34,49 +34,52 @@
   .ta-intro{font-size: 12px; color: #51534d; padding-bottom: 10px;}
   </style>
   <div class="slider-img-area">
-    <div class="s-img-area" style="background:#fff;">
-      <div class="s-img-area-inner">
-        <div class="s-img-intro" style="left:20px; top:140px;">
-          <h2 style="color:#acd67f;">荔枝与茉莉的约会</h2>
-          <p style="width:340px;">齿间淹没的雨林坚果与巴西栗，青松般激怒神经的
-    气息呗柏油温柔调和</p>
-        </div>
-        <img src="img/test-img1.jpg" />
-      </div>
+    <div class="slider-container clearfix" style="width:400%;">
+	    {foreach from=$slider item=value key=key}
+	    <div class="s-img-area" style="background:#fff;width:25%; float:left;">
+	      <div class="s-img-area-inner">
+		<div class="s-img-intro" style="left:20px; top:140px;">
+		  <h2 style="color:#acd67f;">{$value.title}</h2>
+		  <p style="width:340px;">{$value.desc}</p>
+		</div>
+		<img src="{$value.img}" />
+	      </div>
+	    </div>
+	    {/foreach}
     </div>
     <div class="slider-num">
-      <em class="slider-num-ico sn-current"></em>
+      {foreach from=$slider item=value key=key}
       <em class="slider-num-ico"></em>
-      <em class="slider-num-ico"></em>
+      {/foreach}
     </div>
   </div>
   <div class="theme-area">
-    <div class="ta-item ta-item-left" style="background:#f2ece2;">
+    <div class="ta-item ta-item-left ta-item1">
       <div class="ta-item-inner">
-        <h4 class="ta-title">为了纪念日</h4>
-        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
-        <img src="img/test-img.png" />
+        <h4 class="ta-title">{$cato.specialday.name}</h4>
+        <p class="ta-intro">{$cato.specialday.desc}</p>
+        <em class="ta-imgs taim-1"></em>
       </div>
     </div>
-    <div class="ta-item" style="background:#f2e7e3;">
+    <div class="ta-item ta-item2">
       <div class="ta-item-inner">
-        <h4 class="ta-title">为了纪念日</h4>
-        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
-        <img src="img/test-img.png" />
+        <h4 class="ta-title">{$cato.forlove.name}</h4>
+        <p class="ta-intro">{$cato.forlove.desc}</p>
+        <em class="ta-imgs taim-2"></em>
       </div>
     </div>
-    <div class="ta-item ta-item-left" style="background:#ecf3e3;">
+    <div class="ta-item ta-item-left ta-item3">
       <div class="ta-item-inner">
-        <h4 class="ta-title">为了纪念日</h4>
-        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
-        <img src="img/test-img.png" />
+        <h4 class="ta-title">{$cato.party.name}</h4>
+        <p class="ta-intro">{$cato.party.desc}!</p>
+        <em class="ta-imgs taim-3"></em>
       </div>
     </div>
-    <div class="ta-item" style="background:#e8f0f3;">
+    <div class="ta-item ta-item4">
       <div class="ta-item-inner">
-        <h4 class="ta-title">为了纪念日</h4>
-        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
-        <img src="img/test-img.png" />
+        <h4 class="ta-title">{$cato.dream.name}</h4>
+        <p class="ta-intro">{$cato.dream.desc}</p>
+        <em class="ta-imgs taim-4"></em>
       </div>
     </div>
   </div>
