@@ -207,19 +207,80 @@
 				});
 			});
 
-			
+			//开发票
 
+ 			$('#fapiao_chk').click(function(){
+ 				var _this = $(this);
+ 				if(_this[0].checked){
+ 					$('#fapiao_form').show();
+					$("#personal")[0].checked=true;
+					$("#cake")[0].checked=true;
+					$('#p_title').show();
+					$('#p_name_container').show();
+					$('#c_name_container').hide();
+					$('#c_title').hide();
+ 				}else{
+ 					$('#fapiao_form').hide();
+					$("#personal")[0].checked=false;
+					$("#company")[0].checked=false;
+					$("#cake")[0].checked=false;
+					$("#food")[0].checked=false;
+					$("#company_name").val("");
+					$("#person_name").val("");
+ 				}
+ 			});
+		//发票抬头个人和公司的切换
+		$('#personal').click(function(){
+ 				var _this = $(this);
+				if(_this[0].checked){
+				$('#p_title').show();
+				$('#p_name_container').show();
+				$('#c_name_container').hide();
+				$('#c_title').hide();
+				$("#company_name").val("");
+ 				}
+ 			});
 
-			//tax ticket 
-			$('#fapiao_chk').click(function(){
+ 		$('#company').click(function(){
 				var _this = $(this);
 				if(_this[0].checked){
-					$('#fapiao_form').show();
-				}else{
-					$('#fapiao_form').hide();
-				}
-			});
+				$('#c_title').show();
+				$('#c_name_container').show();
+				$('#p_name_container').hide();
+				$('#p_title').hide();
+				$("#person_name").val("");
+ 				}
+ 			});
 
+ 			//检查抬头输入是否合法
+			$('#person_name').blur(function(){
+ 				var _this = $(this);
+				var _ptip=$('#p_tip');
+ 				if(_this.val()==""){
+					_ptip.show();
+					_this.focus();
+				}
+ 				else
+ 				{
+					_ptip.hide();
+ 				}
+ 			});
+			$('#company_name').blur(function(){
+ 				var _this = $(this);
+				var _ctip=$('#c_tip');
+ 				if(_this.val()==""){
+					_ctip.show();
+					_this.focus();
+ 				}
+ 				else
+ 				{
+					_ctip.hide();
+ 				}
+
+ 			});
+
+			
+			
 			//show create address in UI
 			$('#add_new_address').click(function(){
 				require(['ui/newaddress'],function(newaddress){
@@ -470,6 +531,15 @@
 		saveconsignee:function(_this){
 			var me = this;
 			var data;
+			var corf="";
+			if($("#cake")[0].checked==true)
+ 			{
+ 				corf="蛋糕";
+ 			}
+			else if($("#food")[0].checked==true)
+ 			{
+ 				corf="食品";
+ 			}
 			if(window.IS_LOGIN){
 				data = {
 						address_id:_this.data('id'),
@@ -482,7 +552,9 @@
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
 						minute:$('#minute_picker').val(),
-						message_input:$('#message_input').val()
+						message_input:$('#message_input').val(),
+    					inv_payee:$('#person_name').val()+$('#company_name').val(),
+						inv_content:corf
 				};
 			}else{
 				data = {
@@ -496,7 +568,9 @@
 						bdate:$('#date_picker').val(),
 						hour:$('#hour_picker').val(),
 						minute:$('#minute_picker').val(),
-						message_input:$('#message_input').val()
+						message_input:$('#message_input').val(),
+    					inv_payee:$('#person_name').val()+$('#company_name').val(),
+						inv_content:corf
 				}
 
 				if(!me.vaildAddressForm()){
@@ -507,6 +581,13 @@
 			if(!me.vaildDate()){
 				require(['ui/confirm'],function(confirm){
 					new confirm('您选择的送货日期不正确，请重新选择',function(){});
+				});
+				me._submitFail();
+				return;
+			}
+			if($('#fapiao_chk')[0].checked&&$("#company_name").val()==""&&$("#person_name").val()==""){
+				require(['ui/confirm'],function(confirm){
+					new confirm('请填写发票打印抬头',function(){});
 				});
 				me._submitFail();
 				return;

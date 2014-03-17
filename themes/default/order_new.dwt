@@ -89,8 +89,8 @@
                 <option value="30">30</option>
               </select>
             </dd>
-            <dt class="l-title" style="display:none">开发票：</dt>
-            <dd class="r-con clearfix" style="display:none;margin-bottom:20px;">
+            <dt class="l-title">开发票：</dt>
+            <dd class="r-con clearfix" style="margin-bottom:20px;">
               <input type="checkbox" class="checkbox-item" id="fapiao_chk">
             </dd>
           </dl>
@@ -104,18 +104,18 @@
               <label for="personal" class="space"><input type="radio" name="invoice" id="personal" class="radio-item">个人</label>
               <label for="company"><input type="radio" name="invoice" id="company" class="radio-item">公司</label>
             </dd>
-            <dt class="l-title lh-input">顾客姓名：</dt>
-            <dd class="r-con clearfix">
+            <dt class="l-title lh-input" id="p_title" style="display:none">顾客姓名：</dt>
+            <dd class="r-con clearfix" id="p_name_container" style="display:none">
               <div class="check-container">
-                <input type="password" class="global-input" placeholder="请填写发票打印抬头">
-                <span class="tips-container" style="display:none">输入错误</span>
+                <input type="text" id="person_name" class="global-input" placeholder="请填写发票打印抬头">
+				 <span class="tips-container" id="p_tip" style="display:none">输入错误</span>
               </div>
             </dd>
-            <dt class="l-title lh-input">公司名称：</dt>
-            <dd class="r-con clearfix">
+            <dt class="l-title lh-input" id="c_title" style="display:none">公司名称：</dt>
+		    <dd class="r-con clearfix" id="c_name_container" style="display:none">
               <div class="check-container">
-                <input type="password" class="global-input" placeholder="请填写发票打印抬头">
-                <span class="tips-container" style="display:none">输入错误</span>
+                <input type="text" id="company_name" class="global-input" placeholder="请填写发票打印抬头">
+				<span class="tips-container" id="c_tip" style="display:none">输入错误</span>
               </div>
             </dd>
             <dt class="l-title">发票内容：</dt>

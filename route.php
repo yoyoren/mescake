@@ -312,6 +312,19 @@ switch ($mod) {
  						'empty'=>true
  				));
 				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
+				$inv_content=ANTI_SPAM($_POST['inv_content'],array(
+										'empty'=>true
+								));
+				if($inv_content)
+				{
+					$inv_payee=ANTI_SPAM($_POST['inv_payee']);
+				}
+				else
+				{
+					$inv_payee=ANTI_SPAM($_POST['inv_payee'],array(
+										'empty'=>true
+								));
+				}
 				$data = array(
 		            'address_id'    =>$address_id,
 		            'consignee'     =>$consignee,
@@ -327,6 +340,8 @@ switch ($mod) {
 		            'sign_building' =>$sign_building,
 		            'best_time'     =>$best_time,
 					'message_input' =>$message_input,
+					'inv_payee'     =>$inv_payee,
+					'inv_content'   =>$inv_content,
 		        );
 
 			//地址id为空可以，但是内容不能为空
@@ -355,7 +370,16 @@ switch ($mod) {
 				));
 				exit;
 			}
-
+			
+			//发票内容不为空，抬头则不能为空
+			if($inv_content&&empty($inv_payee)){
+				echo json_encode(array(
+						'code'=>RES_PARAM_INVAILD,
+						'msg'=>'invoice error',
+				));
+				exit;
+			}
+			
 			echo MES_Order::save_consignee($data);
 		}else if($action == 'checkout'){
 			$current_ip = GET_IP();
