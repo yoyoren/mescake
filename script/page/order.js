@@ -729,10 +729,14 @@
 				$('#no').hide();
 				$('#yes').hide();
 			});
+		},
+
+
+		initPlacerHolderForIE:function(){
+			$('#new_address').placeholder();
+			$('#new_contact').placeholder();
+			$('#new_tel').placeholder();
 		}
-
-
-
    }
 
 
@@ -743,6 +747,7 @@
    Order.changePayMethod();
    Order.getSurplus();
    Order.chargeInPage();
+   Order.initPlacerHolderForIE();
 
    $(window).ready(function(){
 	 
