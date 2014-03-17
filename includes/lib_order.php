@@ -545,6 +545,7 @@ function order_weight_price($order_id)
 function order_fee($order, $goods, $consignee)
 {
     /* 初始化订单的扩展code */
+
     if (!isset($order['extension_code']))
     {
         $order['extension_code'] = '';
@@ -1269,6 +1270,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
             {
                 $goods_storage=$goods['goods_number'];
             }
+		
             if ($GLOBALS['_CFG']['use_storage'] == 0 || $num <= $goods_storage)
             {
                 $goods_price = get_final_price($goods_id, $num, true, $spec);

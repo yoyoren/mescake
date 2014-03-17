@@ -59,7 +59,21 @@
    }
    
    
-   MES.checkLogout = function(callback){
+   MES.getGoodsCount = function(callback){
+	   MES.get({
+		mod:'account',
+		action:'get_order_count_by_sid',
+		callback:function(d){
+				if(callback){
+					callback();
+				}else{
+					$('#goods_count').html(d.count).show();
+				}
+			}
+	   });
+   }
+
+   MES.checkLogout= function(callback){
 	   MES.get({
 		mod:'account',
 		action:'logout',
@@ -92,7 +106,7 @@
 	*/
    //一部分header的逻辑，从后端放到前段控制
    $(window).ready(function(){
-	   
+	    MES.getGoodsCount();
 	   //进入购物车给一个
 	   $('#header_shopcar').click(function(){
 		    MES.reload("route.php?mod=order&action=step1");

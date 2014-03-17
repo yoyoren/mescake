@@ -2,59 +2,70 @@
 
    var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
 				 <%if(data[i].goods_id!=60){%>\
-   				<li class="order-item" id="sub_order_<%=data[i].rec_id%>">\
-		          <div class="or-main-container">\
-		            <span class="or-name">\
-		              <a href="#">\
-						<%if(data[i].goods_id==61){%>\
-						<img style="background-color:#fff;height: auto" src="img/lazhu.png" class="or-name-img"/>\
-						<% } else {%>\
-		              	<img style="height: auto" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.png" class="or-name-img"/>\
-						<% } %>\
-		              	<span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%>（<%=data[i].goods_attr%>）<% } %></span></a>\
-		            </span>\
-		            <span class="or-price"><%=data[i].goods_price%></span>\
-		            <span class="or-num or-num-ico">\
-		              <em class="or-plus order_des" data-id="<%=data[i].rec_id%>">-</em>\
-		              <span class="or-num-num"><%=data[i].goods_number%></span>\
-		              <em class="or-add order_add" data-id="<%=data[i].rec_id%>">+</em>\
-		            </span>\
-		            <span class="or-total">\
-						<span id="sub_total_<%=data[i].rec_id%>"><%=data[i].subtotal%></span>\
-					</span>\
-					<a href="#" class="or-handle order_cancel" data-id="<%=data[i].rec_id%>" data-goods="<%=data[i].goods_id%>">删除</a>\
-		          </div>\
-				  <%if(data[i].goods_id!=61){%>\
-					  <div class="or-child-container">\
-						<span class="or-name">\
-						  <img src="img/canju.png" class="or-child-img"/><span class="or-name-intro">配套餐具</span>\
-						</span>\
-						<span class="or-price" id="fork_price_<%=data[i].rec_id%>">\
-							<%if(data[i].extra_fork){%>0.5\
-							<%}else{%>免费<% } %>\
-						</span>\
-						<span class="or-num or-num-ico2">\
-						<em class="or-plus order_des_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">-</em>\
-						<span id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork+data[i].extra_fork%>人份</span>\
-						<em class="or-add order_add_fork" free-num="<%=data[i].free_fork%>" data-id="<%=data[i].rec_id%>">+</em>\
-						</span>\
-						<span class="or-total" id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</span>\
+					<li class="clearfix sub_order_<%=data[i].rec_id%>"  id="sub_order_<%=data[i].rec_id%>">\
+					  <div class="od-title1">\
+						 <a href="route.php?mod=goods&action=goods_detail_page&id=<%=data[i].goods_id%>" target="_blank">\
+						 <span class="od-img-area">\
+							<%if(data[i].goods_id==61){%>\
+							<img style="background-color:#fff;height: auto" src="img/lazhu.png"  class="od-img"/>\
+							<% } else {%>\
+							<img style="height: auto" width="70" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.png"  class="od-img"/>\
+							<% } %>\
+					     </span>\
+						 <span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%>（<%=data[i].goods_attr%>）<% } %></span>\
+						 </a>\
 					  </div>\
-					  <%if(!window.SHOPPING_CAR){%>\
-						  <div class="or-child-container">\
-							<span class="or-name" style="height:44px; overflow:hidden;">\
-							  <span class="add-pai-area add_brith_brand"><em class="or-child-pai"></em><span class="or-name-intro brith_brand">添加一个生日牌</span></span>\
-							  <div class="check-container" id="brith_input_container" style="display:none;">\
-							    <input type="text" class="global-input vt-a brith_brand_input" placeholder="输入生日牌内容（10字以内）" />\
-							    <span class="tips-container" style="display:none">生日牌不能超过10个字</span>\
-							  </div>\
-							</span>\
-							<span class="or-price">免费</span>\
-						  </div>\
-					  <% } %>\
+					  <div class="od-title2"><%=data[i].goods_price%></div>\
+					  <div class="od-title3">\
+						<span class="or-num or-num-ico">\
+						  <em class="or-minus order_des" data-id="<%=data[i].rec_id%>"></em>\
+						  <span class="or-num-num"><%=data[i].goods_number%></span>\
+						  <em class="or-plus order_add" data-id="<%=data[i].rec_id%>"></em>\
+						</span>\
+					  </div>\
+					  <div class="od-title4"  id="sub_total_<%=data[i].rec_id%>"><%=data[i].subtotal%></div>\
+					  <a href="#" class="or-handle order_cancel" data-id="<%=data[i].rec_id%>" data-goods="<%=data[i].goods_id%>">删除</a>\
+				  </li>\
 				  <% } %>\
-		        </li>\
-				<% } %>\
+				  <%if(data[i].goods_id!=61&&data[i].goods_id!=60){%>\
+					<li class="clearfix sub_order_<%=data[i].rec_id%>" >\
+					 <div class="od-title1">\
+						 <a href="#" onclick="return false">\
+						 <span class="od-img-area">\
+							<img src="img/order-detail1.png"  class="od-img"/>\
+					     </span>\
+					     <span class="or-name-intro">配套餐具</span>\
+						 </a>\
+					  </div>\
+					  <div class="od-title2">0.5</div>\
+					  <div class="od-title3">\
+						<span class="or-num or-num-ico">\
+						  <em class="or-minus order_des_fork" free-num="<%=data[i].free_fork%>"  data-id="<%=data[i].rec_id%>"></em>\
+						  <span class="or-num-num" id="fork_num_<%=data[i].rec_id%>"><%=data[i].free_fork+data[i].extra_fork%>人份</span>\
+						  <em class="or-plus order_add_fork" free-num="<%=data[i].free_fork%>"  data-id="<%=data[i].rec_id%>"></em>\
+						</span>\
+					  </div>\
+					  <div class="od-title4"  id="fork_total_<%=data[i].rec_id%>"><%=0.5*data[i].extra_fork%>元</div>\
+					 </li>\
+					 <li class="clearfix sub_order_<%=data[i].rec_id%>">\
+						  <div class="od-title1">\
+							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加生日牌（免费）\
+						  </div>\
+						  <div class="od-title2"></div>\
+						  <div class="od-title3">\
+						  </div>\
+						  <div class="od-title4"></div>\
+					 </li>\
+					 <li class="clearfix sub_order_<%=data[i].rec_id%>">\
+						  <div class="od-title1">\
+							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加特制生日蜡烛\
+						  </div>\
+						  <div class="od-title2"></div>\
+						  <div class="od-title3">\
+						  </div>\
+						  <div class="od-title4"></div>\
+					 </li>\
+				 <% } %>\
 		      <% } %>' 
 
 	//记录一个蜡烛的id
@@ -94,7 +105,7 @@
 						BRITH_ORDER_ID = d.goods_list[i].rec_id;
 					}
 				}
-				$('#order_list').after(html);
+				$('#order_list').prepend(html);
 				MES.updateTotalPriceDisplay(d);
 		},
 
@@ -189,7 +200,7 @@
 									$('#birth_chk')[0].checked = false;
 								}
 								//重新结算帐单价格
-								$('#sub_order_'+id).remove();
+								$('.sub_order_'+id).remove();
 								MES.updateTotalPriceDisplay(d);
 							}
 						});

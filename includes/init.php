@@ -82,7 +82,63 @@ require(ROOT_PATH . 'includes/lib_main.php');
 require(ROOT_PATH . 'includes/lib_insert.php');
 require(ROOT_PATH . 'includes/lib_goods.php');
 require(ROOT_PATH . 'includes/lib_article.php');
+require (ROOT_PATH .'Predis/Autoloader.php');
 
+Predis\Autoloader::register();
+
+//开启一个全局的redis
+$REDIS_CLIENT = new Predis\Client($redis_config);
+
+function GET_REDIS($key,$prefix){
+	global $REDIS_CLIENT;
+	if ($REDIS_CLIENT -> exists($prefix.$key)) {
+		return $REDIS_CLIENT -> get($prefix.$key);
+	}
+	return '';
+}
+
+function SETEX_REDIS($key,$value,$time=86400,$prefix=''){
+	global $REDIS_CLIENT;
+	//$prefix is for safety when your del a key from redis
+	$REDIS_CLIENT -> setex($prefix.$key,$time,$value);
+}
+
+function SET_REDIS($key,$value,$prefix=''){
+	global $REDIS_CLIENT;
+	//$prefix is for safety when your del a key from redis
+	$REDIS_CLIENT -> set($prefix.$key,$value);
+}
+
+function DEL_REDIS($key,$prefix){
+	global $REDIS_CLIENT;
+	$REDIS_CLIENT -> del($prefix.$key);
+}
+
+function COMPRESS_HTML($string) {  
+    $string = str_replace("\r\n", '', $string); //清除换行符   
+    $string = str_replace("\n", '', $string); //清除换行符   
+    $string = str_replace("\t", '', $string); //清除制表符   
+    $pattern = array("/> *([^ ]*) *</", //去掉注释标记   
+    "/[\s]+/", "/<!--[^!]*-->/", "/\" /", "/ \"/", "'/\*[^*]*\*/'");  
+    $replace = array(">\\1<", " ", "", "\"", "\"", "");  
+    return preg_replace($pattern, $replace, $string);  
+}
+
+define('REDIS_PAGE_CACHE', false);
+function PAGE_CACHER($key,$prefix,$smarty_tpl_name,$fn){
+	
+	$content = GET_REDIS($key,$prefix);
+	if($content&&REDIS_PAGE_CACHE){		
+		return $content.'<div style="display:none">from cache</div>';	
+	}
+
+	//fn必须返回一个smarty对象
+	$smarty = $fn();
+	$content = COMPRESS_HTML($smarty -> fetch($smarty_tpl_name));
+	SET_REDIS($key,$content,$prefix);
+	$content = $content.'<div style="display:none">reproduce!</div>';
+	return $content;
+}
 /* 对用户传入的变量进行转义操作。*/
 if (!get_magic_quotes_gpc())
 {

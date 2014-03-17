@@ -578,6 +578,7 @@
 					return;
 				}
 			}
+			
 			if(!me.vaildDate()){
 				require(['ui/confirm'],function(confirm){
 					new confirm('您选择的送货日期不正确，请重新选择',function(){});
@@ -679,21 +680,14 @@
 				mod:'order',
 				action:'checkout',
 				param:{
-					card_message:card_message.join('|'),
+					card_message:card_message.join('|')||'',
 					vaild_code:jqVaildCode.val()
 				},
 				callback:function(d){
 					//结算数据form submit
 					//设置留言
 					var jqInput = $('#message_input');
-					if($('#leaveMes')[0].checked){
-						jqInput.show();
-						$('#leaving_message').val(jqInput.val());
-					 }else{
-						jqInput.hide();
-						$('#leaving_message').val('');
-					 }
-
+					$('#leaving_message').val(jqInput.val());
 					if(d.code == 0){
 					   $('#submit_form').submit();
 					}else {
@@ -829,10 +823,14 @@
 				$('#no').hide();
 				$('#yes').hide();
 			});
+		},
+
+
+		initPlacerHolderForIE:function(){
+			$('#new_address').placeholder();
+			$('#new_contact').placeholder();
+			$('#new_tel').placeholder();
 		}
-
-
-
    }
 
 
@@ -843,6 +841,7 @@
    Order.changePayMethod();
    Order.getSurplus();
    Order.chargeInPage();
+   Order.initPlacerHolderForIE();
 
    $(window).ready(function(){
 	 

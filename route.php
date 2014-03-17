@@ -1,85 +1,71 @@
 <?php
 define('IN_ECS', true);
-
-require(dirname(__FILE__) . '/includes/init.php');
-
-require_once(ROOT_PATH . 'lib/safe.php');
-require_once(ROOT_PATH . 'lib/user.php');
-
-require 'Predis/Autoloader.php';
-
-Predis\Autoloader::register();
-
-//开启一个全局的redis
-$REDIS_CLIENT = new Predis\Client($redis_config);
-
-if ((DEBUG_MODE & 2) != 2){
-    $smarty->caching = true;
+//give user a sid for record
+/*Session_start();
+$SID;
+if(!$_COOKIE['sid']){
+	$sessionId = session_id();
+	setcookie('sid',$sessionId);
+	$SID = $sessionId;
+}else{
+	$SID = $_COOKIE['sid'];
 }
+define('SID',$SID);
+*/
+require (dirname(__FILE__) . '/includes/init.php');
+require_once (ROOT_PATH . 'lib/safe.php');
+require_once (ROOT_PATH . 'lib/user.php');
 
+
+
+if ((DEBUG_MODE & 2) != 2) {
+	$smarty -> caching = true;
+}
 
 //路由分发的依据
 $action = ANTI_SPAM($_GET['action']);
 $mod = ANTI_SPAM($_GET['mod']);
-function error_exit(){
-	return json_encode(array('code'=>2,'msg'=>'param error'));
+function error_exit() {
+	return json_encode(array('code' => 2, 'msg' => 'param error'));
 }
+
 //需要登录的操作
-$need_login_action = array(
-	'order'=>array(
-		'get_order_address',
-		'del_order_address',
-		'update_order_address',
-	),
-	'account'=>array(
-		'logout',
-		'get_user_order_detail',
-		'get_user_order_list',
-		'del_one_order',
-		'set_password',
-		'change_mobile',
-		'get_user_mobile_number',
-		'change_password',
-		'get_users_info',
-		'change_sex',
-		'change_real_name',
-	)
-);
+$need_login_action = array('order' => array('get_order_address', 'del_order_address', 'update_order_address', ), 'account' => array('logout', 'get_user_order_detail', 'get_user_order_list', 'del_one_order', 'set_password', 'change_mobile', 'get_user_mobile_number', 'change_password', 'get_users_info', 'change_sex', 'change_real_name', ));
 $_action_list = $need_login_action[$mod];
 
 //验证必须登录的操作
-if(in_array($action,$_action_list)){
- 
- if(!MES_User::server_check_login()){
-	echo json_encode(array('code'=>RES_NEED_LOGIN));
-	exit;
- }
+if (in_array($action, $_action_list)) {
+
+	if (!MES_User::server_check_login()) {
+		echo json_encode(array('code' => RES_NEED_LOGIN));
+		exit ;
+	}
 }
 switch ($mod) {
-    case 'order':
-    
-		require_once(ROOT_PATH . 'lib/order.php');
-        if($action == 'step1'){
+	case 'order' :
+		require_once (ROOT_PATH . 'lib/order.php');
+		if ($action == 'step1') {
 			$order_list = MES_Order::get_order_list();
-			$smarty->assign('order_list', $order_list);
-			$smarty->display('shoppingcar_new.dwt');
+			$smarty -> assign('order_list', $order_list);
+			$smarty -> display('shoppingcar_new.dwt');
 			return;
-		}else if($action == 'step2'){
-
+		} else if ($action == 'step2') {
 
 			//每次结算要记录一个ip防止被刷
+			$leaving_messsage = $_GET['mes'];
 			$current_ip = GET_IP();
-			$_key = 'checkout_times_'.$current_ip;
-			$checkout_times = 0; 
-			
-			if($REDIS_CLIENT->exists($_key )){
-				$checkout_times = intval($REDIS_CLIENT->get($_key));
+			$_key = 'checkout_times_' . $current_ip;
+			$checkout_times = 0;
+
+			if ($REDIS_CLIENT -> exists($_key)) {
+				$checkout_times = intval($REDIS_CLIENT -> get($_key));
 			}
 
-			$_token =  GEN_MES_TOKEN();
+			$_token = GEN_MES_TOKEN();
 			$_SESSION['order_token'] = $_token;
-			$smarty->assign('order_token', $_token);
-			$smarty->assign('checkout_times', $checkout_times);
+			$smarty -> assign('leaving_messsage', $leaving_messsage);
+			$smarty -> assign('order_token', $_token);
+			$smarty -> assign('checkout_times', $checkout_times);
 			date_default_timezone_set("Etc/GMT-8");
 			$time = date('Y-m-d H:i:s',time());
 			$smarty->assign('current_time', $time);
@@ -88,162 +74,91 @@ switch ($mod) {
  			unset($_SESSION['flow_order']['bonus']);
  			unset($_SESSION['flow_order']['bonus_id']);
  			unset($_SESSION['flow_order']['bonus_sn']);
-			$smarty->display('order_new.dwt');
+			$smarty->display('order_new_v2.dwt');
+
 			return;
-		}else if($action == 'empty'){
-			$smarty->display('order_empty.dwt');
-		}else if($action == 'get_order_list'){
+		} else if ($action == 'empty') {
+			$smarty -> display('order_empty.dwt');
+		} else if ($action == 'get_order_list') {
 
 			//获得这个人目前的订单
 			echo MES_Order::get_order_list();
-		}else if($action == 'get_order_address'){
+		} else if ($action == 'get_order_address') {
 
 			//获得这人所有的地址信息
 			echo MES_Order::get_order_address();
-		}else if($action == 'add_order_address'){
+		} else if ($action == 'add_order_address') {
 
 			//增加新的地址信息
 
-			$contact= ANTI_SPAM($_POST['contact'],array(
-				'minLength'=>1,
-				'maxLength'=>100
-			));
+			$contact = ANTI_SPAM($_POST['contact'], array('minLength' => 1, 'maxLength' => 100));
 
-			$country= ANTI_SPAM($_POST['country'],array(
-				'values'=>array(441,501)
-			));
+			$country = ANTI_SPAM($_POST['country'], array('values' => array(441, 501)));
 
-			$city= ANTI_SPAM($_POST['city'],array(
-				'minValue'=>543,
-				'maxValue'=>573,
-				'type'=>'number'
-			));
-			
-			$address= ANTI_SPAM($_POST['address'],array(
-				'minLength'=>1,
-				'maxLength'=>200
-			));
+			$city = ANTI_SPAM($_POST['city'], array('minValue' => 543, 'maxValue' => 573, 'type' => 'number'));
 
-			$district= ANTI_SPAM($_POST['district'],array(
-				'minValue'=>0,
-				'maxValue'=>20,
-				'type'=>'number',
-				'empty'=>true
-			));
+			$address = ANTI_SPAM($_POST['address'], array('minLength' => 1, 'maxLength' => 200));
 
-			$tel= ANTI_SPAM($_POST['tel'],array(
-				'minLength'=>5,
-				'maxLength'=>20
-			));
+			$district = ANTI_SPAM($_POST['district'], array('minValue' => 0, 'maxValue' => 20, 'type' => 'number', 'empty' => true));
 
-			echo MES_Order::add_order_address($contact,$country,$city,$address,$tel,$district);
-		}else if($action == 'del_order_address'){
+			$tel = ANTI_SPAM($_POST['tel'], array('minLength' => 5, 'maxLength' => 20));
+
+			echo MES_Order::add_order_address($contact, $country, $city, $address, $tel, $district);
+		} else if ($action == 'del_order_address') {
 
 			//删除地址
-			$id = ANTI_SPAM($_POST['id'],array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number',
-			));
+			$id = ANTI_SPAM($_POST['id'], array('minLength' => 1, 'maxLength' => 12, 'type' => 'number', ));
 			echo MES_Order::del_order_address($id);
-		}else if($action == 'update_order_address'){
+		} else if ($action == 'update_order_address') {
 
 			//更新地址信息
-			$id = ANTI_SPAM($_POST['id'],array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number',
-			));
-			$contact= ANTI_SPAM($_POST['contact'],array(
-				'minLength'=>1,
-				'maxLength'=>100
-			));
-			$country= ANTI_SPAM($_POST['country'],array(
-				'values'=>array(441,501)
-			));
+			$id = ANTI_SPAM($_POST['id'], array('minLength' => 1, 'maxLength' => 12, 'type' => 'number', ));
+			$contact = ANTI_SPAM($_POST['contact'], array('minLength' => 1, 'maxLength' => 100));
+			$country = ANTI_SPAM($_POST['country'], array('values' => array(441, 501)));
 
-			$city= ANTI_SPAM($_POST['city'],array(
-				'minValue'=>543,
-				'maxValue'=>573,
-				'type'=>'number'
-			));
+			$city = ANTI_SPAM($_POST['city'], array('minValue' => 543, 'maxValue' => 573, 'type' => 'number'));
 
-			$address= ANTI_SPAM($_POST['address'],array(
-				'minLength'=>1,
-				'maxLength'=>200
-			));
-			
-			$district= ANTI_SPAM($_POST['district'],array(
-				'minValue'=>0,
-				'maxValue'=>20,
-				'type'=>'number',
-				'empty'=>true
-			));
+			$address = ANTI_SPAM($_POST['address'], array('minLength' => 1, 'maxLength' => 200));
 
-			$tel= ANTI_SPAM($_POST['tel'],array(
-				'minLength'=>5,
-				'maxLength'=>20
-			));
-			
-			echo MES_Order::update_order_address($id,$country,$city,$contact,$address,$tel,$district);
-		}else if($action == 'get_region'){
-			
+			$district = ANTI_SPAM($_POST['district'], array('minValue' => 0, 'maxValue' => 20, 'type' => 'number', 'empty' => true));
+
+			$tel = ANTI_SPAM($_POST['tel'], array('minLength' => 5, 'maxLength' => 20));
+
+			echo MES_Order::update_order_address($id, $country, $city, $contact, $address, $tel, $district);
+		} else if ($action == 'get_region') {
+
 			//获得二级区域的信息
 			echo MES_Order::get_region();
-		}else if($action == 'get_district'){
+		} else if ($action == 'get_district') {
 
-			$city = ANTI_SPAM($_GET['city'],array(
-				'minValue'=>543,
-				'maxValue'=>573,
-				'type'=>'number'
-			));
+			$city = ANTI_SPAM($_GET['city'], array('minValue' => 543, 'maxValue' => 573, 'type' => 'number'));
 
 			//获得送货的收费区信息
 			echo MES_Order::get_district($city);
-		}else if($action == 'update_cart'){
-			
-			$id = ANTI_SPAM($_GET['id'],array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number',
-			));
-			
-			//最多的订购需要限额
-			$num = ANTI_SPAM($_GET['num'],array(
-				'minValue'=>0,
-				'maxValue'=>99,
-				'type'=>'number',
-			));
+		} else if ($action == 'update_cart') {
 
-			echo MES_Order::update_cart($num,$id);
-		}else if($action == 'drop_shopcart'){
-			
+			$id = ANTI_SPAM($_GET['id'], array('minLength' => 1, 'maxLength' => 12, 'type' => 'number', ));
+
+			//最多的订购需要限额
+			$num = ANTI_SPAM($_GET['num'], array('minValue' => 0, 'maxValue' => 99, 'type' => 'number', ));
+
+			echo MES_Order::update_cart($num, $id);
+		} else if ($action == 'drop_shopcart') {
+
 			//删除购物车
-			$id = ANTI_SPAM($_GET['id'],array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number',
-			));
+			$id = ANTI_SPAM($_GET['id'], array('minLength' => 1, 'maxLength' => 12, 'type' => 'number', ));
 
 			echo MES_Order::drop_shopcart($id);
-		}else if($action == 'update_fork'){
+		} else if ($action == 'update_fork') {
 
 			//更新餐具
-			$id =  ANTI_SPAM($_POST['id'],array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number',
-			));
+			$id = ANTI_SPAM($_POST['id'], array('minLength' => 1, 'maxLength' => 12, 'type' => 'number', ));
 
 			//餐具限制最高上限10000个
-			$num =  ANTI_SPAM($_POST['num'],array(
-				'minValue'=>0,
-				'maxValue'=>10000,
-				'type'=>'number',
-			));
+			$num = ANTI_SPAM($_POST['num'], array('minValue' => 0, 'maxValue' => 10000, 'type' => 'number', ));
 
-			echo MES_Order::update_fork($id,$num);
-		}else if($action == 'save_consignee'){
+			echo MES_Order::update_fork($id, $num);
+		} else if ($action == 'save_consignee') {
 			//save consignee when user select a address!
 			/*
 			$consignee = array(
@@ -344,31 +259,23 @@ switch ($mod) {
 					'inv_content'   =>$inv_content,
 		        );
 
+
 			//地址id为空可以，但是内容不能为空
-			if(empty($address_id)&&(empty($city)||empty($address))){
-				echo json_encode(array(
-						'code'=>RES_PARAM_INVAILD,
-						'msg'=>'address error',
-				));
-				exit;
+			if (empty($address_id) && (empty($city) || empty($address))) {
+				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'address error', ));
+				exit ;
 			}
 
 			//自己的手机和联系人的手机 至少写一个
-			if(empty($tel)&&empty($mobile)){
-				echo json_encode(array(
-						'code'=>RES_PARAM_INVAILD,
-						'msg'=>'tel empty',
-				));
-				exit;
+			if (empty($tel) && empty($mobile)) {
+				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'tel empty', ));
+				exit ;
 			}
 
 			//如果送货时间小于当前时间5小时 不能送
-			if(time()>(strtotime($best_time)-5*3600)){
-				echo json_encode(array(
-						'code'=>RES_PARAM_INVAILD,
-						'msg'=>'time error',
-				));
-				exit;
+			if (time() > (strtotime($best_time) - 5 * 3600)) {
+				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'time error', ));
+				exit ;
 			}
 			
 			//发票内容不为空，抬头则不能为空
@@ -381,332 +288,310 @@ switch ($mod) {
 			}
 			
 			echo MES_Order::save_consignee($data);
-		}else if($action == 'checkout'){
+		} else if ($action == 'checkout') {
 			$current_ip = GET_IP();
-			$_key = 'checkout_times_'.$current_ip;
-			$checkout_times = 0; 
-			if($REDIS_CLIENT->exists($_key )){
-				$checkout_times = intval($REDIS_CLIENT->get($_key));
+			$_key = 'checkout_times_' . $current_ip;
+			$checkout_times = 0;
+			if ($REDIS_CLIENT -> exists($_key)) {
+				$checkout_times = intval($REDIS_CLIENT -> get($_key));
 			}
-	
+
 			//大于三次的提交 才验证
-			if($checkout_times>3){
+	
+			if ($checkout_times > 3) {
 				error_reporting(0);
-				
-				$vaild_code= ANTI_SPAM($_POST['vaild_code']);
-				include_once('includes/cls_captcha.php');
+
+				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
+				include_once ('includes/cls_captcha.php');
 				$validator = new captcha();
-				if (!$validator->check_word($vaild_code)){
-					echo json_encode(array(
-						'code'=>RES_CAPTACH_INVAILD,
-						'msg'=>'vaild error',
-					)); 
-					exit;
+				if (!$validator -> check_word($vaild_code)) {
+					echo json_encode(array('code' => RES_CAPTACH_INVAILD, 'msg' => 'vaild error', ));
+					exit ;
 				}
 			}
 			//checkout and cal total price
-			$card_message =  $_POST['card_message'];
-			if(!$card_message){
+			$card_message = $_POST['card_message'];
+			if (!$card_message) {
 				$card_message = '';
-			}else{
+			} else {
 				//$card_message = explode("|",$card_message);
 			}
-			$card_message_arr = explode("|",$card_message);
-			for($i=0;$i<count($card_message_arr);$i++){
-				//var_dump(iconv_strlen($card_message,'utf-8'));
-				ANTI_SPAM($card_message_arr[$i],array(
-					'minLength'=>0,
-					'maxLength'=>10,
-				));
+			if($card_message!=""){
+				$card_message_arr = explode("|", $card_message);
+				for ($i = 0; $i < count($card_message_arr); $i++) {
+					//var_dump(iconv_strlen($card_message,'utf-8'));
+					
+					ANTI_SPAM($card_message_arr[$i], array('minLength' => 0, 'maxLength' => 10, ));
+				}
 			}
-
 			//每次结算要记录一个ip防止被刷
 			$current_ip = GET_IP();
-			$_key = 'checkout_times_'.$current_ip;
-			$_value; 
-			
-			if($REDIS_CLIENT->exists($_key )){
-				$_value = intval($REDIS_CLIENT->get($_key));
-				$_value+=1;
-				$REDIS_CLIENT->setex($_key,24*3600,$_value);
-			}else{
-				$REDIS_CLIENT->setex($_key,24*3600,1);
+			$_key = 'checkout_times_' . $current_ip;
+			$_value;
+
+			if ($REDIS_CLIENT -> exists($_key)) {
+				$_value = intval($REDIS_CLIENT -> get($_key));
+				$_value += 1;
+				$REDIS_CLIENT -> setex($_key, 24 * 3600, $_value);
+			} else {
+				$REDIS_CLIENT -> setex($_key, 24 * 3600, 1);
 			}
-			
+
 			echo MES_Order::checkout($card_message);
-		}else if($action == 'done'){
+		} else if ($action == 'done') {
 			$token = $_POST['token'];
 			$pay_id = $_POST['pay_id'];
-			
-			echo MES_Order::done($token,$pay_id);
-		}else if($action == 'add_to_cart'){
-			//add an cake or fork to your cart
-			
-			$_POST['goods']= strip_tags(urldecode($_POST['goods']));
-   			$_POST['goods']= json_str_iconv($_POST['goods']);
-			$goods = $_POST['goods'];
-			if (!empty($_REQUEST['goods_id']) && empty($goods)){
-		        if (!is_numeric($_REQUEST['goods_id']) || intval($_REQUEST['goods_id']) <= 0){
-		            ecs_header("Location:./\n");
-		        }
-		        $goods_id = intval($_REQUEST['goods_id']);
-		        exit;
-		    }
 
-			echo MES_Order::add_to_cart($goods,ANTI_SPAM($_REQUEST['goods_id']));
-		}else if($action == 'shipping_fee_cal'){
+			echo MES_Order::done($token, $pay_id);
+		} else if ($action == 'add_to_cart') {
+			//add an cake or fork to your cart
+
+			$_POST['goods'] = strip_tags(urldecode($_POST['goods']));
+			$_POST['goods'] = json_str_iconv($_POST['goods']);
+			$goods = $_POST['goods'];
+			if (!empty($_REQUEST['goods_id']) && empty($goods)) {
+				if (!is_numeric($_REQUEST['goods_id']) || intval($_REQUEST['goods_id']) <= 0) {
+					ecs_header("Location:./\n");
+				}
+				$goods_id = intval($_REQUEST['goods_id']);
+				exit ;
+			}
+
+			echo MES_Order::add_to_cart($goods, ANTI_SPAM($_REQUEST['goods_id']));
+		} else if ($action == 'shipping_fee_cal') {
 
 			//计算配送的费用
-			$city = ANTI_SPAM($_GET['city'],array(
-				'minValue'=>543,
-				'maxValue'=>573,
-				'type'=>'number'
-			));
+			$city = ANTI_SPAM($_GET['city'], array('minValue' => 543, 'maxValue' => 573, 'type' => 'number'));
 
-			$district = ANTI_SPAM($_GET['district'],array(
-				'minValue'=>0,
-				'maxValue'=>20,
-				'type'=>'number',
-				'empty'=>true
-			));
-			
-			echo MES_Order::shipping_fee_cal($city,$district);
-		}else if($action == 'if_address_need_fee'){
+			$district = ANTI_SPAM($_GET['district'], array('minValue' => 0, 'maxValue' => 20, 'type' => 'number', 'empty' => true));
+
+			echo MES_Order::shipping_fee_cal($city, $district);
+		} else if ($action == 'if_address_need_fee') {
 
 			//计算配一个地址id是否需要加收配送费
-			$address_id = ANTI_SPAM($_GET['address_id'],array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number',
-			));
+			$address_id = ANTI_SPAM($_GET['address_id'], array('minLength' => 1, 'maxLength' => 12, 'type' => 'number', ));
 			echo MES_Order::if_address_need_fee($address_id);
-		}else if($action == 'get_total_price_in_cart'){
+		} else if ($action == 'get_total_price_in_cart') {
 
 			//计算购物车里面的商品总价
 			echo MES_Order::get_total_price_in_cart();
-		}else{
+		} else {
 			header("Location: 404.html");
 		}
 
-		
-        break;
+		break;
 
 	//账户相关的请求
-    case 'account':
+	case 'account' :
 		//
-		require_once(ROOT_PATH . 'includes/lib_order.php');
-
+		require_once (ROOT_PATH . 'includes/lib_order.php');
 
 		//JSONÐòÁÐ»¯
-		require_once(ROOT_PATH .'includes/cls_json.php');
+		require_once (ROOT_PATH . 'includes/cls_json.php');
 
 		//ÓÃ»§ÓïÑÔ°ü
-		require_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/user.php');
-		
+		require_once (ROOT_PATH . 'languages/' . $_CFG['lang'] . '/user.php');
+
 		//µÇÂ½
-    	if($action == 'login'){
+		if ($action == 'login') {
 			$username = !empty($_POST['username']) ? json_str_iconv(trim($_POST['username'])) : '';
 			$password = !empty($_POST['password']) ? trim($_POST['password']) : '';
-			echo MES_User::ajax_login(ANTI_SPAM($username),ANTI_SPAM($password));
-    	}else if($action == 'check_login'){
-    		
-    		//检测用户是否已经登录
+			echo MES_User::ajax_login(ANTI_SPAM($username), ANTI_SPAM($password));
+		} else if ($action == 'check_login') {
+
+			//检测用户是否已经登录
 			echo MES_User::check_login();
-		}else if($action == 'logout'){
+		} else if ($action == 'logout') {
 
 			//登出操作
 			echo MES_User::logout();
-		}else if($action == 'signup'){
-			
-			//用户注册 
-		}else if($action == 'check_user_exsit'){
-			
+		} else if ($action == 'signup') {
+
+			//用户注册
+		} else if ($action == 'check_user_exsit') {
+
 			//检测一个用户是否存在
-			$username = ANTI_SPAM($_GET['username'],array(
-				'minLength'=>1,
-				'maxLength'=>20,
-			));
+			$username = ANTI_SPAM($_GET['username'], array('minLength' => 1, 'maxLength' => 20, ));
 			echo MES_User::check_user_exsit($username);
-		}else if($action == 'auto_register'){
+		} else if ($action == 'auto_register') {
 
 			//自动注册其实用的就是那个手机号码
-			$username = ANTI_SPAM($_POST['username'],array(
-				'minLength'=>1,
-				'maxLength'=>20,
-			));
+			$username = ANTI_SPAM($_POST['username'], array('minLength' => 1, 'maxLength' => 20, ));
 			echo MES_User::auto_register($username);
-		}else if($action=="change_unregister_password"){
-			
+		} else if ($action == "change_unregister_password") {
+
 			//修改未注册但是曾经下单用户的密码
-			$password = ANTI_SPAM($_POST['password'],array(
-				'minLength'=>6,
-				'maxLength'=>30,
-			));
+			$password = ANTI_SPAM($_POST['password'], array('minLength' => 6, 'maxLength' => 30, ));
 			echo MES_User::change_unregister_password($password);
-		}else if($action=="get_user_order_detail"){
-			
+		} else if ($action == "get_user_order_detail") {
+
 			//获得一个用户订单的详情
 			$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-			$order_id = ANTI_SPAM($order_id,array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number'
-			));
+			$order_id = ANTI_SPAM($order_id, array('minLength' => 1, 'maxLength' => 12, 'type' => 'number'));
 			echo MES_User::get_user_order_detail($order_id);
-		}else if($action=="get_user_order_list"){
-			
+		} else if ($action == "get_user_order_list") {
+
 			//获得一个用户所有的订单
 			echo MES_User::get_user_order_list();
-		}else if($action=="del_one_order"){
-			
+		} else if ($action == "del_one_order") {
+
 			//删除一个订单
 			$order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
-			$order_id = ANTI_SPAM($order_id,array(
-				'minLength'=>1,
-				'maxLength'=>12,
-				'type'=>'number'
-			));
+			$order_id = ANTI_SPAM($order_id, array('minLength' => 1, 'maxLength' => 12, 'type' => 'number'));
 			echo MES_User::del_one_order($order_id);
-		}else if($action=="order_list"){
+		} else if ($action == "order_list") {
 
 			//order list page
-			$smarty->display('order_list.dwt');
-		}else if($action=="order_detail"){
-			
+			$smarty -> display('order_list.dwt');
+		} else if ($action == "order_detail") {
+
 			//order detail page
-			$smarty->display('order_detail.dwt');
-		}else if($action == 'is_unset_password_user'){
-			
+			$smarty -> display('order_detail.dwt');
+		} else if ($action == 'is_unset_password_user') {
+
 			//check user if set password
 			echo MES_User::is_unset_password_user();
-		}else if($action == 'set_password'){
-			
+		} else if ($action == 'set_password') {
+
 			//check user if set password
-			if($_SESSION['user_auto_register'] == '11'){
-				$smarty->display('order_set_password.dwt');
-			}else{
+			if ($_SESSION['user_auto_register'] == '11') {
+				$smarty -> display('order_set_password.dwt');
+			} else {
 				echo 0;
 			}
-		}else if($action == 'query_order'){
-			
+		} else if ($action == 'query_order') {
+
 			//query your order by moblie
-			$smarty->display('order_query.dwt');
-		}else if($action == 'get_password_moblie'){
-			
+			$smarty -> display('order_query.dwt');
+		} else if ($action == 'get_password_moblie') {
+
 			//get password by your mobile
 			$moblie = ANTI_SPAM($_POST['moblie']);
-			
+
 			echo MES_User::get_password_moblie($moblie);
-		}else if($action == 'query_login'){
-	
+		} else if ($action == 'query_login') {
+
 			//login by moblie query
 			$username = ANTI_SPAM($_POST['username']);
 			$password = ANTI_SPAM($_POST['password']);
-			echo MES_User::query_login($username,$password);
-		}else if($action == 'get_auto_register_mobile'){
+			echo MES_User::query_login($username, $password);
+		} else if ($action == 'get_auto_register_mobile') {
 
 			//获得自动注册的手机号码
 			echo MES_User::get_auto_register_mobile();
-		}else if($action == 'account'){
+		} else if ($action == 'account') {
 
 			//个人账户管理页面
-			$smarty->display('account.dwt');
-		}else if($action == 'change_mobile_get_code'){
+			$smarty -> display('account.dwt');
+		} else if ($action == 'change_mobile_get_code') {
 
 			//修改手机的验证码
-			$mobile = ANTI_SPAM($_POST['mobile'],array(
-				'minLength'=>6,
-				'maxLength'=>30
-			));
+			$mobile = ANTI_SPAM($_POST['mobile'], array('minLength' => 6, 'maxLength' => 30));
 			echo MES_User::change_mobile_get_code($mobile);
-		}else if($action == 'change_mobile'){
+		} else if ($action == 'change_mobile') {
 
-			//chang your tel 
+			//chang your tel
 			$mobile = ANTI_SPAM($_POST['mobile']);
 			$code = ANTI_SPAM($_POST['code']);
-			echo MES_User::change_mobile($mobile,$code);
-		}else if($action == 'get_user_mobile_number'){
+			echo MES_User::change_mobile($mobile, $code);
+		} else if ($action == 'get_user_mobile_number') {
 
 			//get tel only
 			echo MES_User::get_user_mobile_number();
-		}else if($action == 'change_password'){
+		} else if ($action == 'change_password') {
 
 			//change your password
 			$old = ANTI_SPAM($_POST['old']);
 			$new = ANTI_SPAM($_POST['new']);
-			echo MES_User::change_password($old,$new);
-		}else if($action == 'forget_password_step1'){
+			echo MES_User::change_password($old, $new);
+		} else if ($action == 'forget_password_step1') {
 
 			//change your password when your forget it
 			$mobile = ANTI_SPAM($_POST['mobile']);
 			$code = ANTI_SPAM($_POST['code']);
-			echo MES_User::forget_password_step1($mobile,$code);
-		}else if($action == 'forget_password_step2'){
+			echo MES_User::forget_password_step1($mobile, $code);
+		} else if ($action == 'forget_password_step2') {
 
 			//change your password when your forget it
 			$mobile = ANTI_SPAM($_POST['mobile']);
 			$password = ANTI_SPAM($_POST['password']);
-			echo MES_User::forget_password_step2($mobile,$password);
+			echo MES_User::forget_password_step2($mobile, $password);
 
-		}else if($action == 'forget_password_page'){
-			$smarty->display('change_password.dwt');
-		}else if($action == 'get_forget_password_code'){
+		} else if ($action == 'forget_password_page') {
+			$smarty -> display('change_password.dwt');
+		} else if ($action == 'get_forget_password_code') {
 			//change your password when your forget it
 			$mobile = ANTI_SPAM($_POST['mobile']);
 			echo MES_User::get_forget_password_code($mobile);
-		}else if($action == 'get_users_info'){
+		} else if ($action == 'get_users_info') {
 
 			//get name,tel and sex
 			echo MES_User::get_users_info();
-		}else if($action == 'change_sex'){
+		} else if ($action == 'change_sex') {
 
 			//change your sex
 			$sex = ANTI_SPAM($_POST['sex']);
 			echo MES_User::change_sex($sex);
-		}else if($action == 'change_real_name'){
+		} else if ($action == 'change_real_name') {
 
 			//change your real name
 			$name = ANTI_SPAM($_POST['name']);
 			echo MES_User::change_real_name($name);
-		}else{
+		} else if ($action == 'get_order_count_by_sid') {
+			echo MES_User::get_order_count_by_sid();
+		} else {
 			header("Location: 404.html");
 		}
 
-        break;
+		break;
 	//账户相关的请求
 
-    case 'huodong':
-		require_once(ROOT_PATH . 'lib/lover.php');
-		if($action == 'add'){
+	case 'huodong' :
+		require_once (ROOT_PATH . 'lib/lover.php');
+		if ($action == 'add') {
 			$name = ANTI_SPAM($_POST['name']);
 			$my_weibo = ANTI_SPAM($_POST['my_weibo']);
 			$mobile = ANTI_SPAM($_POST['mobile']);
 			$his_weibo = ANTI_SPAM($_POST['his_weibo']);
 			$address = ANTI_SPAM($_POST['address']);
 			$comment = ANTI_SPAM($_POST['comment']);
-			echo MES_Lover::add($name,$my_weibo,$mobile,$his_weibo,$address,$comment);
-		}else if($action == 'get_all'){
+			echo MES_Lover::add($name, $my_weibo, $mobile, $his_weibo, $address, $comment);
+		} else if ($action == 'get_all') {
 			echo MES_Lover::get_all();
-		}else if($action == 'page'){
-			$smarty->display('huodongpage.dwt');
-		}else if($action == 'admin'){
-			$smarty->display('huodongadmin.dwt');
-		}else{
+		} else if ($action == 'page') {
+			$smarty -> display('huodongpage.dwt');
+		} else if ($action == 'admin') {
+			$smarty -> display('huodongadmin.dwt');
+		} else {
 			header("Location: 404.html");
 		}
 		break;
-    case 'test':
+	case 'test' :
 		$str = ANTI_SPAM($_GET['str']);
-		PARAM_VAILD($str,array('max'=>10,'type'=>'number','values'=>array(1,2,4)));
+		PARAM_VAILD($str, array('max' => 10, 'type' => 'number', 'values' => array(1, 2, 4)));
 		break;
-	 case 'token':
+	case 'token' :
 		echo GEN_MES_TOKEN();
 		break;
-	default:
+	case 'goods' :
+		require_once (ROOT_PATH . 'lib/goods.php');
+		if ($action == 'get_price_by_weight') {
+			$goods_id = ANTI_SPAM($_REQUEST['id']);
+			$attr_id = isset($_REQUEST['attr']) ? explode(',', $_REQUEST['attr']) : array();
+			$number = (isset($_REQUEST['number'])) ? intval($_REQUEST['number']) : 1;
+			echo MES_Goods::get_price_by_weight($goods_id, $attr_id, $number);
+		}else if ($action == 'goods_detail_page') {
+			$goods_id = ANTI_SPAM($_REQUEST['id']);
+			MES_Goods::goods_detail_page($goods_id);
+		}
+		break;
+	case 'page':
+			if ($action == 'index') {
+				$smarty -> display('index_v2.dwt');
+			}
+		break;
+	default :
 		header("Location: 404.html");
-        break;
-
+		break;
 }
-
-
 ?>

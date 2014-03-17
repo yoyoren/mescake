@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<title>{$page_title}</title>
+<!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
+</head>
+<body>
+<!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+  <div class="head-area">
+  <style type="text/css">
+  .slider-img-area{border-bottom: 1px solid #bcbcbc; height: 440px;}
+  .s-img-area{}
+  .s-img-area img{display: block; margin: 0 auto;}
+  .s-img-area-inner{width: 960px; margin:0 auto; position: relative;}
+  .s-img-intro{position: absolute;}
+  .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
+  .s-img-area-inner p{font-size: 18px; color: #333; line-height: 1.8;}
+
+  .slider-num{width: 960px; margin: 0 auto; margin-top: -40px; position: relative; z-index: 10;}
+  .slider-num-ico{display: inline-block; *display: inline; *zoom:1;
+    width: 10px; height: 10px; background: url(img/sli-num-ico18.png) 0 0 no-repeat; overflow: hidden; margin: 0 6px;
+  }
+  .slider-num-ico:hover,
+  .sn-current{background: url(img/sli-num-ico28.png) 0 0 no-repeat;}
+  .theme-area{overflow: hidden;}
+  .ta-item{float: left; width: 50%; overflow: hidden; padding: 44px 0 10px 0;}
+  .ta-item-inner{width: 460px; padding-left: 40px;}
+  .ta-item-inner img{display: block; margin-left: 120px;}
+  .ta-item-left .ta-item-inner{float: right; padding-left: 0;}
+  .ta-title{font-size: 18px; padding-bottom: 10px; color: #000;}
+  .ta-intro{font-size: 12px; color: #51534d; padding-bottom: 10px;}
+  </style>
+  <div class="slider-img-area">
+    <div class="s-img-area" style="background:#fff;">
+      <div class="s-img-area-inner">
+        <div class="s-img-intro" style="left:20px; top:140px;">
+          <h2 style="color:#acd67f;">荔枝与茉莉的约会</h2>
+          <p style="width:340px;">齿间淹没的雨林坚果与巴西栗，青松般激怒神经的
+    气息呗柏油温柔调和</p>
+        </div>
+        <img src="img/test-img1.jpg" />
+      </div>
+    </div>
+    <div class="slider-num">
+      <em class="slider-num-ico sn-current"></em>
+      <em class="slider-num-ico"></em>
+      <em class="slider-num-ico"></em>
+    </div>
+  </div>
+  <div class="theme-area">
+    <div class="ta-item ta-item-left" style="background:#f2ece2;">
+      <div class="ta-item-inner">
+        <h4 class="ta-title">为了纪念日</h4>
+        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
+        <img src="img/test-img.png" />
+      </div>
+    </div>
+    <div class="ta-item" style="background:#f2e7e3;">
+      <div class="ta-item-inner">
+        <h4 class="ta-title">为了纪念日</h4>
+        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
+        <img src="img/test-img.png" />
+      </div>
+    </div>
+    <div class="ta-item ta-item-left" style="background:#ecf3e3;">
+      <div class="ta-item-inner">
+        <h4 class="ta-title">为了纪念日</h4>
+        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
+        <img src="img/test-img.png" />
+      </div>
+    </div>
+    <div class="ta-item" style="background:#e8f0f3;">
+      <div class="ta-item-inner">
+        <h4 class="ta-title">为了纪念日</h4>
+        <p class="ta-intro">在Ta的生日或者特殊纪念日，送上特殊的祝福</p>
+        <img src="img/test-img.png" />
+      </div>
+    </div>
+  </div>
+  <div class="flow-img-area">
+    <div class="s-img-area" style="background:#fff;">
+      <div class="s-img-area-inner">
+        <div class="s-img-intro" style="left:80px; top:120px;">
+          <h2 style="color:#333; font-size:30px;">鲜花是永恒的绝配</h2>
+          <p style="color:#333; width:340px;">仅摘选最精致的花，奉献给你</p>
+        </div>
+        <img src="img/test-img2.jpg" />
+      </div>
+    </div>
+  </div>
+<!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

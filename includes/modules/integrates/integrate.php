@@ -152,12 +152,12 @@ class integrate
                 $this->sync($username,$password);
             }
             $this->set_session($username);
-
-			$time = time()+3600*24;
+			$time_lasts=3600*24;
+			$time = time()+$time_lasts;
 			$token = md5($username.$password.'_mescake');
-            $_SESSION['serviceToken'] = $token;
-			$_SESSION['uuid'] = $username;
-			
+            //$_SESSION['serviceToken'] = $token;
+			//$_SESSION['uuid'] = $username;
+			SETEX_REDIS($username,$token,$time_lasts,'user');
             setcookie("serviceToken",$token, $time, $this->cookie_path);            
             setcookie("uuid",$username, $time, $this->cookie_path);
 	
