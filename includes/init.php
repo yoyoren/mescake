@@ -129,13 +129,17 @@ function PAGE_CACHER($key,$prefix,$smarty_tpl_name,$fn){
 	
 	$content = GET_REDIS($key,$prefix);
 	if($content&&REDIS_PAGE_CACHE){		
+		
 		return $content.'<div style="display:none">from cache</div>';	
 	}
 
 	//fn必须返回一个smarty对象
+
 	$smarty = $fn();
+
 	$content = COMPRESS_HTML($smarty -> fetch($smarty_tpl_name));
 	SET_REDIS($key,$content,$prefix);
+	
 	$content = $content.'<div style="display:none">reproduce!</div>';
 	return $content;
 }

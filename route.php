@@ -74,9 +74,10 @@ switch ($mod) {
  			unset($_SESSION['flow_order']['bonus']);
  			unset($_SESSION['flow_order']['bonus_id']);
  			unset($_SESSION['flow_order']['bonus_sn']);
-			$smarty->display('order_new_v2.dwt');
+			$content = $smarty->fetch('order_new_v2.dwt');
 
-			return;
+			echo COMPRESS_HTML($content);
+			//return;
 		} else if ($action == 'empty') {
 			$smarty -> display('order_empty.dwt');
 		} else if ($action == 'get_order_list') {
@@ -297,7 +298,7 @@ switch ($mod) {
 				for ($i = 0; $i < count($card_message_arr); $i++) {
 					//var_dump(iconv_strlen($card_message,'utf-8'));
 					
-					ANTI_SPAM($card_message_arr[$i], array('minLength' => 0, 'maxLength' => 10, ));
+					//ANTI_SPAM($card_message_arr[$i], array('minLength' => 0, 'maxLength' => 10, ));
 				}
 			}
 			//每次结算要记录一个ip防止被刷
@@ -322,18 +323,20 @@ switch ($mod) {
 		} else if ($action == 'add_to_cart') {
 			//add an cake or fork to your cart
 
-			$_POST['goods'] = strip_tags(urldecode($_POST['goods']));
-			$_POST['goods'] = json_str_iconv($_POST['goods']);
-			$goods = $_POST['goods'];
-			if (!empty($_REQUEST['goods_id']) && empty($goods)) {
-				if (!is_numeric($_REQUEST['goods_id']) || intval($_REQUEST['goods_id']) <= 0) {
+			$goods = strip_tags(urldecode($_POST['goods']));
+			$goods = json_str_iconv($goods);
+			$parent_id = $_POST['parent_id'];
+			$goods_id = $_POST['goods_id'];
+			$goods_attr = $_POST['goods_attr'];
+			if (!empty($goods_id) && empty($goods)) {
+				if (!is_numeric($goods_id) || intval($goods_id) <= 0) {
 					ecs_header("Location:./\n");
 				}
-				$goods_id = intval($_REQUEST['goods_id']);
+				$goods_id = intval($goods_id);
 				exit ;
 			}
 
-			echo MES_Order::add_to_cart($goods, ANTI_SPAM($_REQUEST['goods_id']));
+			echo MES_Order::add_to_cart($goods, ANTI_SPAM($goods_id),$parent_id,$goods_attr);
 		} else if ($action == 'shipping_fee_cal') {
 
 			//计算配送的费用
@@ -563,7 +566,14 @@ switch ($mod) {
 		break;
 	case 'page':
 			if ($action == 'index') {
-				$smarty -> display('index_v2.dwt');
+				function get_index_tpl(){
+					global $smarty;
+					require_once (ROOT_PATH . 'lib/catogary.php');
+					$smarty -> assign('slider',$CAKE_SLIDER);
+					$smarty -> assign('cato',$CAKE_CATO);
+					return $smarty;
+				}
+			    echo PAGE_CACHER('index','page','index_v2.dwt','get_index_tpl');
 			}
 		break;
 	default :

@@ -1208,6 +1208,7 @@ if ($_REQUEST['step'] == 'add_to_cart') {
 //-- 完成所有订单操作，提交到数据库
 /*------------------------------------------------------ */
 elseif ($_REQUEST['step'] == 'done') {
+
 	include_once ('includes/lib_clips.php');
 	include_once ('includes/lib_payment.php');
 
@@ -1552,6 +1553,7 @@ elseif ($_REQUEST['step'] == 'done') {
 			$sends += $num * $val['goods_number'];
 		}
 	}
+	$sql = "INSERT INTO " . $ecs -> table('order_goods') . "( " . "order_id, goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, goods_discount,is_integral) " . " SELECT '$new_order_id', goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, if(is_integral,-1,1) ,is_integral" . " FROM " . $ecs -> table('cart') . " WHERE session_id = '" . SESS_ID . "' AND rec_type = '$flow_type'";
 
 	$sql = "INSERT INTO " . $ecs -> table('order_goods') . "( " . "order_id, goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, goods_discount,is_integral) " . " SELECT '$new_order_id', goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, if(is_integral,-1,1) ,is_integral" . " FROM " . $ecs -> table('cart') . " WHERE session_id = '" . SESS_ID . "' AND rec_type = '$flow_type'";
 
@@ -1630,7 +1632,6 @@ elseif ($_REQUEST['step'] == 'done') {
 		$reusable=$bonus['reusable'];
  		use_bonus($order['bonus_id'], $new_order_id,$user_id,$reusable);
 	}
-
 	/* 如果使用库存，且下订单时减库存，则减少库存 */
 	if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE) {
 		change_order_goods_storage($order['order_id'], true, SDT_PLACE);

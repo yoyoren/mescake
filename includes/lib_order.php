@@ -1033,7 +1033,7 @@ function cart_weight_price($type = CART_GENERAL_GOODS)
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id = 0,$p_goods_attr=0)
 {
     $GLOBALS['err']->clean();
     $_parent_id = $parent;
@@ -1138,13 +1138,21 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 	if($goods_id == 60){
 		$goods_price = $num*0.5;
 	}
-	if(strpos($goods_attr,'磅'))
-	{
+
+	if(strpos($goods_attr,'磅')){
 	    $res_attr =substr($goods_attr,0,strpos($goods_attr,'.')).'.0磅';
 	}
-    /* 初始化要插入购物车的基本件数据 */
-    $parent = array(
-        'user_id'       => $_SESSION['user_id'],
+	
+	if($p_goods_attr){
+		$res_attr = $p_goods_attr;
+	}
+
+    //多机器共享 必须用cookie;
+	$uuid = $_COOKIE['uuid'];
+    
+	//初始化要插入购物车的基本件数据
+	$parent = array(
+        'user_id'       => $uuid,
         'session_id'    => SESS_ID,
         'goods_id'      => $goods_id,
         'goods_sn'      => addslashes($goods['goods_sn']),
@@ -1157,7 +1165,8 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
         'extension_code'=> $goods['extension_code'],
         'is_gift'       => 0,
         'is_shipping'   => $goods['is_shipping'],
-        'rec_type'      => CART_GENERAL_GOODS
+        'rec_type'      => CART_GENERAL_GOODS,
+		'parent_id'=>$parent_id,
     );
 
     /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
@@ -1247,10 +1256,16 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
     /* 如果数量不为0，作为基本件插入 */
     if ($num > 0)
     {
+		if($p_goods_attr>0){
+			$_attr = $p_goods_attr;
+		}else{
+			$_attr = get_goods_attr_info($spec);
+		}
+
         /* 检查该商品是否已经存在在购物车中 */
         $sql = "SELECT goods_number FROM " .$GLOBALS['ecs']->table('cart').
                 " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
-                " AND parent_id = 0 AND goods_attr = '" .get_goods_attr_info($spec). "' " .
+                " AND parent_id = ".$parent_id." AND goods_attr = '" .$_attr. "' " .
                 " AND extension_code <> 'package_buy' " .
                 " AND rec_type = 'CART_GENERAL_GOODS'";
 
@@ -1277,7 +1292,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
                 $sql = "UPDATE " . $GLOBALS['ecs']->table('cart') . " SET goods_number = '$num'" .
                        " , goods_price = '$goods_price'".
                        " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
-                       " AND parent_id = 0 AND goods_attr = '" .get_goods_attr_info($spec). "' " .
+                       " AND parent_id = ".$parent_id." AND goods_attr = '" .$_attr. "' " .
                        " AND extension_code <> 'package_buy' " .
                        "AND rec_type = 'CART_GENERAL_GOODS'";
                 $GLOBALS['db']->query($sql);
@@ -1294,7 +1309,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
             $goods_price = get_final_price($goods_id, $num, true, $spec);
             $parent['goods_price']  = max($goods_price, 0);
             $parent['goods_number'] = $num;
-            $parent['parent_id']    = 0;
+            $parent['parent_id']    = $parent_id;
             $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('cart'), $parent, 'INSERT');
         }
     }

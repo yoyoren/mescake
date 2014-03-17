@@ -138,7 +138,10 @@ class MES_User{
 	//帮用户自动注册
 	public static function auto_register($mobile){
 		global $db;
+		global $ecs;
 		include_once(ROOT_PATH . 'includes/lib_passport.php');
+
+
 		$check_user = MES_User::check_user_exsit($mobile);
 		//if($check_user['autoregister']==true){
 		//}
@@ -559,15 +562,20 @@ class MES_User{
 		$user_name = addslashes($_SESSION['uuid']);
 		$name = addslashes($name);
 		$db->query("update ecs_users set rea_name='$name' where user_name='$user_name'");
-		return json_encode(array('code' =>RES_SUCCSEE));
+		return json_encode(array('code' =>RES_SUCCSEE)); 
 	}
 
 
 	public static function get_order_count_by_sid(){
 		global $db;
-		$sql = 'SELECT count(*) FROM ' . $GLOBALS['ecs']->table('cart') . ' WHERE session_id= "' . SESS_ID.'"';
-		$shipping_count =$db->getOne($sql);
-		return json_encode(array('code' =>RES_SUCCSEE,'count'=>$shipping_count));
+		//parent_id = 0 只有非配属品才算商品
+		$sql = 'SELECT * FROM ' . $GLOBALS['ecs']->table('cart') . ' WHERE session_id= "' . SESS_ID.'" and parent_id=0';
+		$goods_count = 0;
+		$goods =$db->getAll($sql);
+		foreach($goods as $val){
+			$goods_count += $val['goods_number'];
+		}	
+		return json_encode(array('code' =>RES_SUCCSEE,'count'=>$goods_count));
 	}
 	
 }

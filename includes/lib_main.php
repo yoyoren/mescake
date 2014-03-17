@@ -1554,8 +1554,6 @@ function recalculate_price()
     foreach ($res AS $row)
     {
         $attr_id    = empty($row['goods_attr_id']) ? array() : explode(',', $row['goods_attr_id']);
-
-
         $goods_price = get_final_price($row['goods_id'], $row['goods_number'], true, $attr_id);
 
 

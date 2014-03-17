@@ -116,12 +116,13 @@ function register($username, $password, $email, $other = array())
         $GLOBALS['user']->set_session($username);
         $GLOBALS['user']->set_cookie($username);
 
-        $time = time()+3600*24;
+        $time_lasts=3600*24;
+		$time = time()+$time_lasts;
         $token = md5($username.$password.'_mescake');
         
-        $_SESSION['serviceToken'] = $token;
-        $_SESSION['uuid'] = $username;
-            
+        //$_SESSION['serviceToken'] = $token;
+        //$_SESSION['uuid'] = $username;
+        SETEX_REDIS($username,$token,$time_lasts,'user');
 		//cookie的下发 要放到正确的路径下
         setcookie("serviceToken",$token, $time,'/');            
         setcookie("uuid",$username, $time,'/');
@@ -188,7 +189,9 @@ function register($username, $password, $email, $other = array())
         $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('users'), $update_data, 'UPDATE', 'user_id = ' . $_SESSION['user_id']);
 
         update_user_info();      // 更新用户信息
-        recalculate_price();     // 重新计算购物车中的商品价格
+        
+		//这种代码很扯淡阿！！！！
+		//recalculate_price();     // 重新计算购物车中的商品价格
 
         return true;
     }

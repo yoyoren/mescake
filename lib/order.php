@@ -172,8 +172,8 @@ class MES_Order{
 	        //$row['goods_attr_real']= intval($row['goods_attr'],10);
 			//var_dump($GOODS_FREE_FORK[$row['goods_attr']]);
 	        $row['free_fork'] = $GOODS_FREE_FORK[$row['goods_attr']]*$row['goods_number'];
-			if($_SESSION['extra_fork'][$row['goods_id']]){
-				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['goods_id']];
+			if($_SESSION['extra_fork'][$row['rec_id']]){
+				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['rec_id']];
 			}else{
 				$row['extra_fork'] = 0;
 			}
@@ -249,16 +249,19 @@ class MES_Order{
             $number = 0;
         }
 
+		//先更新商品
 	    $sql = "UPDATE " . $ecs->table('cart') . " SET goods_number = '$number' WHERE rec_id = '$id' and session_id='" . SESS_ID . "'";
         $db->query($sql);
+
+		//重新选择所有的商品
 		$sql = "select rec_id,goods_price,goods_number,goods_attr,goods_id from " . $ecs->table('cart') . " WHERE session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
 		foreach($goods as $val){
 			$total += $val['goods_price'] * $val['goods_number'];
 			
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork'][$val['goods_id']]){
-				$total += $_SESSION['extra_fork'][$val['goods_id']]/2;
+			if($_SESSION['extra_fork'][$val['rec_id']]){
+				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
 			}
 
 			if($val['rec_id']==$id){
@@ -267,9 +270,10 @@ class MES_Order{
 			      //cal free fork number;
 			      $res['free_fork'] =  $number* $GOODS_FREE_FORK[$val['goods_attr']];
 				  $goods_id=$val['goods_id'];
+				  $rec_id=$val['rec_id'];
 				  //获得额外的餐具 
-				  if( $_SESSION['extra_fork'][$goods_id]){
-					$res['extra_fork'] =  $_SESSION['extra_fork'][$goods_id];
+				  if( $_SESSION['extra_fork'][$rec_id]){
+					$res['extra_fork'] =  $_SESSION['extra_fork'][$rec_id];
 				  }else{
 					$res['extra_fork'] = 0;	
 				  }
@@ -290,7 +294,7 @@ class MES_Order{
 		GLOBAL $_LANG;
 		$sql = "SELECT * FROM " .$GLOBALS['ecs']->table('cart'). " WHERE rec_id = '$id'";
 		$row = $GLOBALS['db']->getRow($sql);
-		unset($_SESSION['extra_fork'][$row['goods_id']]);
+		unset($_SESSION['extra_fork'][$row['rec_id']]);
 		if ($row){
 			//如果是超值礼包
 			if ($row['extension_code'] == 'package_buy')
@@ -321,7 +325,7 @@ class MES_Order{
 
 				$sql = "DELETE FROM " . $GLOBALS['ecs']->table('cart') .
 						" WHERE session_id = '" . SESS_ID . "' " .
-						"AND (rec_id IN ($_del_str) OR parent_id = '$row[goods_id]' OR is_gift <> 0)";
+						"AND (rec_id IN ($_del_str) OR parent_id = '$id' OR is_gift <> 0)";
 			}
 
 			//如果不是普通商品，只删除该商品即可
@@ -505,7 +509,7 @@ class MES_Order{
 
 			//cal number of extra fork
 			//var_dump($id);
-			$extra = $_SESSION['extra_fork'][$goods_id] = $num-$free_fork_num;
+			$extra = $_SESSION['extra_fork'][$id] = $num-$free_fork_num;
 			if($extra<1){
 			   $extra = 0;
 			}
@@ -622,7 +626,7 @@ class MES_Order{
 		$id= $_SESSION[flow_consignee][city];
 		$card_message = explode('|',$card_message);
 		for($i=0;$i<count($card_message);$i++){
-			$card_message[$i]=$card_message[$i]=='添加一个生日牌' ? '无' : $card_message[$i];
+			$card_message[$i]=$card_message[$i]=='' ? '无' : $card_message[$i];
 		}
 
 		$numbe1=count($card_message);
@@ -730,7 +734,7 @@ class MES_Order{
 	}
 
 	//增加到购物车
-	public static function add_to_cart($goods,$goods_id){
+	public static function add_to_cart($goods,$goods_id,$parent_id,$goods_attr=0){
 		GLOBAL $db;
 		GLOBAL $ecs;
 		include_once('includes/cls_json.php');
@@ -776,7 +780,7 @@ class MES_Order{
 	            }
 	            $result['error']   = ERR_NEED_SELECT_ATTR;
 	            $result['goods_id'] = $goods->goods_id;
-	            $result['parent'] = $goods->parent;
+	            $result['parent'] = $parent_id;
 	            $result['message'] = $spe_array;
 
 	            return json_encode($result);
@@ -794,7 +798,7 @@ class MES_Order{
 	        $result['message'] = $_LANG['invalid_number'];
 	    }else{
 	        // 更新：添加到购物车
-	        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent)){
+	        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent,$parent_id,$goods_attr)){
 	            if ($_CFG['cart_confirm'] > 2){
 	                $result['message'] = '';
 	            }else{
@@ -821,11 +825,13 @@ class MES_Order{
 			$total += $val['goods_price'] * $val['goods_number'];
 			
 			//计算额外餐具的价格
-			if($_SESSION['extra_fork'][$val['goods_id']]){
-				$total += $_SESSION['extra_fork'][$val['goods_id']]/2;
+			if($_SESSION['extra_fork'][$val['rec_id']]){
+				$total += $_SESSION['extra_fork'][$val['rec_id']]/2;
 			}
 			//蜡烛这玩意 需要在order页面返回给前端添加到订单里，其他商品不需要这么做
-			if($val['goods_id']==61){
+			//67数字蜡烛
+			//61普通蜡烛
+			if($val['goods_id']==61||$val['goods_id']==67){
 				  $result['data'] = $val;
 				 
 			}
@@ -867,6 +873,7 @@ class MES_Order{
 	    }
 
 	    //检查购物车中是否有商品
+		//parent_id 为0的商品才是单独销售的产品
 	    $sql = "SELECT COUNT(*) FROM " . $ecs->table('cart') .
 	        " WHERE session_id = '" . SESS_ID . "' " .
 	        "AND parent_id = 0 AND is_gift = 0 AND rec_type = '$flow_type'";
