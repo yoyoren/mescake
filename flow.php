@@ -1627,7 +1627,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 	if ($order['bonus_id'] > 0 && $temp_amout > 0) {
-		$reusable=$bonus['bonus_reusable'];
+		$reusable=$bonus['reusable'];
  		use_bonus($order['bonus_id'], $new_order_id,$user_id,$reusable);
 	}
 
