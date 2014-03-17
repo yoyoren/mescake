@@ -334,10 +334,14 @@ class MES_User{
 			if($orders){	
  				$change_desc="订单号:".$current_order['order_sn'];
  				//取消礼金卡支付的订单记录礼金卡账户变动
- 				if($current_order['surplus']>0)
- 				{
+ 				if($current_order['surplus']>0){
  					log_mcard_change($user_id, $current_order['surplus'], $change_desc,0,$order_id,3);
- 				}else{
+ 				}
+ 				//取消现金券支付的订单改变现金券的使用状态
+ 				else if($current_order['bonus']>0){
+ 					unuse_bonus(trim($current_order['bonus_id']));
+				}
+ 				else{
  					log_account_change($user_id,0,0,0, 0, $change_desc);
  				}
  			}

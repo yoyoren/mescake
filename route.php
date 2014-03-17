@@ -67,9 +67,15 @@ switch ($mod) {
 			$smarty -> assign('order_token', $_token);
 			$smarty -> assign('checkout_times', $checkout_times);
 			date_default_timezone_set("Etc/GMT-8");
-			$time = date('Y-m-d H:i:s', time());
-			$smarty -> assign('current_time', $time);
-			$smarty -> display('order_new_v2.dwt');
+			$time = date('Y-m-d H:i:s',time());
+			$smarty->assign('current_time', $time);
+
+			unset($_SESSION['flow_order']['surplus']);
+ 			unset($_SESSION['flow_order']['bonus']);
+ 			unset($_SESSION['flow_order']['bonus_id']);
+ 			unset($_SESSION['flow_order']['bonus_sn']);
+			$smarty->display('order_new_v2.dwt');
+
 			return;
 		} else if ($action == 'empty') {
 			$smarty -> display('order_empty.dwt');
