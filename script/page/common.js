@@ -1,5 +1,8 @@
 (function(){
    window.MES = window.MES||{};
+   window.CANDLE = 61;
+   window.NUM_CANDLE = 67;
+   window.FORK = 60;
    MES.request = function(opt,method){
 	   var mod = opt.mod||'';
 	   var action = opt.action||'';

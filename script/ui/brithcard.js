@@ -36,6 +36,10 @@ define(['ui/dialog'],function(Dialog){
 							jqInput.placeholder();
 							$('#brith_confirm').click(function(){
 								var text = jqInput.val();
+								if(!text){
+									single.hide();
+									return;
+								}
 								if(text.length>10){
 									$('#brith_card_input_error').show();
 									setTimeout(function(){

@@ -44,7 +44,7 @@
 					<%if(goods[i].goods_id != 60){%>\
 						<li>\
 						  <div class="od-title1">\
-							<%if(goods[i].goods_id == 61){%>\
+							<%if(goods[i].goods_id == CANDLE||goods[i].goods_id == NUM_CANDLE){%>\
 								<span class="od-img-area"><img src="img/lazhu.png" class="od-img" width="70"></span><%=goods[i].goods_name%>\
 							<%}else{%>\
 								<a target="_blank" href="route.php?mod=goods&action=goods_detail_page&id=<%=goods[i].goods_id%>">\
@@ -58,7 +58,7 @@
 						  <div class="od-title3"><%=goods[i].goods_number%></div>\
 						  <div class="od-title4">￥<%=goods[i].goods_number*parseInt(goods[i].goods_price.replace("￥",""),10)%>元</div>\
 						</li>\
-						<%if(goods[i].goods_id != 61&&goods[i].goods_id != 60){%>\
+						<%if(goods[i].goods_id != CANDLE&&goods[i].goods_id != 60&&goods[i].goods_id != NUM_CANDLE){%>\
 							<%if(goods[i].card_message!="无"){%>\
 							  <li>\
 								<div class="od-title1">\
@@ -145,7 +145,7 @@
 					
 					var cardmessage = order.card_message.split(';');
 					for(var i=0,j=0;i<goods.length;i++){
-						if(goods[i].goods_id!=60&&goods[i].goods_id!=61){
+						if(goods[i].goods_id!=60&&goods[i].goods_id!=CANDLE){
 							goods[i].card_message = cardmessage[j];
 							j++;
 						}

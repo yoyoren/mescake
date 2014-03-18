@@ -1,22 +1,22 @@
 define(['ui/dialog'],function(Dialog){
-	var NORMAL_CANDLE = 61;
-	var NUMBER_CANDLE = 67;
+	var NORMAL_CANDLE = CANDLE;
+	var NUMBER_CANDLE = NUM_CANDLE;
 	var body = '<form>\
 				  <div class="check-candle-area clearfix">\
 					<div class="cca-item">\
 					  <div class="cca-img-area">\
 						<img src="css/img/lazhu1.jpg">\
-						<p class="cca-intro">艺术蜡烛</p>\
-						<div><em class="radiobox-item radiobox-checked candle_type_sel" data-id="'+NORMAL_CANDLE+'"></em>￥5</div>\
 					  </div>\
+					  <p class="cca-intro">艺术蜡烛</p>\
+					  <div><em class="radiobox-item radiobox-checked candle_type_sel" data-id="'+NORMAL_CANDLE+'"></em>￥5</div>\
 					</div>\
 					<div class="cca-item">\
 					  <div class="cca-img-area">\
-						<img src="css/img/lazhu-num-1.jpg" id="candle_number_1">\
-						<img src="css/img/lazhu-num-8.jpg" id="candle_number_2">\
-						<input type="text" class="global-input" style="width:70px;" placeholder="输入数字" id="candle_number_input">\
-						<div><em class="radiobox-item candle_type_sel" data-id="'+NUMBER_CANDLE+'" id="number_candle_sel"></em>￥10</div>\
+						<img src="css/img/lazhu-num-7.jpg" id="candle_number_1">\
+						<img src="css/img/lazhu-num-7.jpg" id="candle_number_2">\
 					  </div>\
+					  <input type="text" class="global-input" style="width:70px;" placeholder="输入数字" id="candle_number_input">\
+					  <div><em class="radiobox-item candle_type_sel" data-id="'+NUMBER_CANDLE+'" id="number_candle_sel"></em>￥10</div>\
 					</div>\
 				  </div>\
 				  <div class="single-btn-area">\
@@ -29,12 +29,13 @@ define(['ui/dialog'],function(Dialog){
 	var rec_id;
 	var callback;
 	var brithCard = {
-		addOne:function(candleId,parent_id,goods_attr,candle){
+		addOne:function(candleId,parent_id,goods_attr){
 			var goods = {};
 			var spec_arr = [];
 			var fittings_arr = [];
 			var number = 1;
 			var quick = 0;
+	
 			//商品重量
 			goods.spec = spec_arr;
 			goods.goods_id = candleId;
@@ -46,12 +47,12 @@ define(['ui/dialog'],function(Dialog){
 				action:'add_to_cart',
 				param:{
 					goods : $.toJSON(goods),
-					goods_id : NORMAL_CANDLE,
+					goods_id : candleId,
 					parent_id : parent_id,
 					goods_attr: goods_attr||0,
 				},
 				callback:function(d){
-					callback(d,candle);
+					callback(d,candleId);
 				}
 			});
 		},
@@ -81,9 +82,17 @@ define(['ui/dialog'],function(Dialog){
 							$('#candle_number_input').keyup(function(){
 								var _this = $(this);
 								var _val = _this.val();
+								
 								if(_val.length>2){
 									_this.val(_val.substring(0,2));
 								}
+								
+								if(_val.length<1){
+									$('#candle_number_1').attr('src','css/img/lazhu-num-7.jpg').show();
+									$('#candle_number_2').attr('src','css/img/lazhu-num-7.jpg').show();
+									return;
+								}
+								
 								$('#number_candle_sel').trigger('click');
 								_val = parseInt(_val,10);
 								if(_val<10){
@@ -100,10 +109,13 @@ define(['ui/dialog'],function(Dialog){
 							$('#candle_confirm').click(function(){
 								var text = jqInput.val();
 								if(candleId == NORMAL_CANDLE){
-									brithCard.addOne(candleId,rec_id,0,NORMAL_CANDLE);
+									brithCard.addOne(NORMAL_CANDLE,rec_id,0);
 								}else{
 									var num = jqInput.val();
-									brithCard.addOne(candleId,rec_id,num,NUMBER_CANDLE);
+									if(num.length<1||num.length>2){
+									   return false;
+									}
+									brithCard.addOne(NUMBER_CANDLE,rec_id,num);
 								}
 								single.hide();
 							});

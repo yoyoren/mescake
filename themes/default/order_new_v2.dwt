@@ -34,7 +34,7 @@
 									</div>
 									<div class="r-con clearfix">
 										<a href="javascript:void(0);" class="area-intro space"> 北京市 <em class="area-intro-ico"></em> <span class="ai-intro">北京市五环内免费送货，五环外不送货。</span> </a>
-										<select id="region_sel">
+										<select id="region_sel" class="space">
 											<option value="0">请选择区域</option>
 										</select>
 										<select id="dis_district" style="display:none">
@@ -85,13 +85,11 @@
 										<span class="ct-commit" style="margin:0; _margin-top:-40px;">我们将只会通过这个号码来确认订单和联系</span>
 									</div>
 								</li>
-								<li class="clearfix" id="login_address_operate" style="display:none">
-									<div class="l-title lh-input">
-										
-									</div>
+								<li class="clearfix" id="login_address_operate" style="display:none; height:60px; padding-top:20px;">
+									<div class="l-title lh-input">&nbsp;</div>
 									<div class="r-con clearfix">
-										<input class="btn green-btn" type="button" value="保存" id="save_address">
-										<input class="btn green-btn" type="button" value="修改并保存" id="mod_address" style="display:none">
+										<input class="btn status1-btn" type="button" value="保存" id="save_address">
+										<input class="btn status1-btn" type="button" value="修改并保存" id="mod_address" style="display:none">
 										<input class="btn" type="button" value="取消" id="cancel_address">
 									</div>
 								</li>
@@ -102,11 +100,11 @@
 										送货时间：
 									</div>
 									<div class="r-con clearfix" style="padding-bottom:20px;">
-										<input type="text" id="date_picker" readonly="true" style="width:90px;" value="送货日期"/>
-										<select id="hour_picker">
+										<input type="text" id="date_picker" readonly="true" style="width:90px;" value="送货日期"  class="space"/>
+										<select id="hour_picker"  class="space">
 											<option value="0">小时</option>
 										</select>
-										<select id="minute_picker">
+										<select id="minute_picker"  class="space">
 											<option value="0">分钟</option>
 											<option value="0">0</option>
 											<option value="30">30</option>
@@ -183,7 +181,7 @@
 							</div>
 							<!-- {/if} -->
 							<div class="tl-r" style="margin-bottom:40px;">
-								<span class="total-sub-tip vt-a">请确认信息无误后下单</span>
+								<span class="total-sub-tip vt-a">请确认信息无误后下单&nbsp;</span>
 								<input id="submit_order_btn" class="btn status1-btn big-btn vt-a" type="button" style="margin-right:0;" value="提交订单">
 							</div>
 					

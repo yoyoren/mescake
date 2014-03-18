@@ -336,6 +336,16 @@ switch ($mod) {
 				exit ;
 			}
 
+			//67为数字蜡烛 必须要符合添加的规范
+			if($goods_id ==67){
+				if($goods_attr<1||$goods_attr>99||!is_numeric($goods_attr)){
+					echo json_encode(array(
+						'code'=>RES_FAIL,
+						'msg'=>'invaild candle number!',
+					));
+					die;
+				}
+			}
 			echo MES_Order::add_to_cart($goods, ANTI_SPAM($goods_id),$parent_id,$goods_attr);
 		} else if ($action == 'shipping_fee_cal') {
 
@@ -384,9 +394,25 @@ switch ($mod) {
 
 			//登出操作
 			echo MES_User::logout();
+		} else if ($action == 'signup_page') {
+			//用户注册page
+			 MES_User::signup_page();
+			
+		} else if ($action == 'signup_vaild_code') {
+			 
+			 //用户注册操作 
+			 $mobile = $_POST['mobile'];
+			 echo MES_User::signup_vaild_code($mobile);
 		} else if ($action == 'signup') {
+			 
+			 //用户注册操作 
+			 $username = $_POST['username'];
+			 $password = $_POST['password'];
 
-			//用户注册
+			 //手机验证码
+			 $vaild_code = $_POST['vaild_code'];
+			 echo MES_User::signup($username,$password,$vaild_code);
+			
 		} else if ($action == 'check_user_exsit') {
 
 			//检测一个用户是否存在
@@ -573,7 +599,7 @@ switch ($mod) {
 					$smarty -> assign('cato',$CAKE_CATO);
 					return $smarty;
 				}
-			    echo PAGE_CACHER('index','page','index_v2.dwt','get_index_tpl');
+			    echo PAGE_CACHER('index','page','index_v2.dwt','get_index_tpl',true);
 			}
 		break;
 	default :

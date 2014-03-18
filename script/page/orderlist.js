@@ -11,7 +11,9 @@ $('#my_order_frame').show();
 								<div class="ol-title3">\
 									<span class="od-img-area">\
 										<a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>">\
+											<%if(data[i].showStaff) {%>\
 											<img class="od-img" src="themes/default/images/sgoods/<%=data[i].showStaff.goods_sn.substring(0,3)%>.png" width="70">\
+											<% } %>\
 										</a>\
 									</span>\
 											<%=data[i].showText%>\
@@ -72,7 +74,7 @@ $('#my_order_frame').show();
 						var realStaffCount = 0;
 						data[i].showText = '';
 						for(var j=0;j<data[i].detail.length;j++){
-							if(data[i].detail[j].goods_id!=61&&data[i].detail[j].goods_id!=60){
+							if(data[i].detail[j].goods_id!=CANDLE&&data[i].detail[j].goods_id!=60&&data[i].detail[j].goods_id!=NUM_CANDLE){
 								 realStaffCount++;
 								 data[i].showStaff = data[i].detail[j];
 							}else{
@@ -84,6 +86,7 @@ $('#my_order_frame').show();
 						}
 					}
 				}
+				debugger;
 				var html = mstmpl(orderListTmpl,{data:data});
 				$('#order_title').after(html);
 			}

@@ -125,7 +125,7 @@ function COMPRESS_HTML($string) {
 }
 
 define('REDIS_PAGE_CACHE', false);
-function PAGE_CACHER($key,$prefix,$smarty_tpl_name,$fn){
+function PAGE_CACHER($key,$prefix,$smarty_tpl_name,$fn,$gen_html=false){
 	
 	$content = GET_REDIS($key,$prefix);
 	if($content&&REDIS_PAGE_CACHE){		
@@ -141,6 +141,10 @@ function PAGE_CACHER($key,$prefix,$smarty_tpl_name,$fn){
 	SET_REDIS($key,$content,$prefix);
 	
 	$content = $content.'<div style="display:none">reproduce!</div>';
+	if($gen_html){
+		file_put_contents(ROOT_PATH.$key.'.htm',$content);
+
+	}
 	return $content;
 }
 /* 对用户传入的变量进行转义操作。*/

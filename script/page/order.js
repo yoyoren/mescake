@@ -885,6 +885,7 @@
 
    		$('.user_login').click(function(){
 			require(["ui/login"], function(login) {login.show();});
+			return false;
    		});
 		$('#money_card_frame').hide();
 		$('#serect_check').show();

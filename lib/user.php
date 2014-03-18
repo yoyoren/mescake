@@ -374,7 +374,6 @@ class MES_User{
 		   $cont=urlencode($c);
 		  
 		   $url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$cont.'&sendTime=';
-		   
 		   file_get_contents($url);
 		   
 		   return json_encode(array('code' =>RES_SUCCSEE));
@@ -576,6 +575,71 @@ class MES_User{
 			$goods_count += $val['goods_number'];
 		}	
 		return json_encode(array('code' =>RES_SUCCSEE,'count'=>$goods_count));
+	}
+
+	public static function signup_page(){
+		global $smarty;
+		$smarty->display('signup_v2.dwt');
+	}
+	
+	//注册手机号码的获得验证码步骤
+	public static function signup_vaild_code($mobile){
+		 //重新生成随机的密码
+		  $rand_password = MES_User::rand_num();  
+		  $c = "尊敬的用户，您在每实官网注册手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+		  $cont=urlencode($c);
+		  $url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$cont.'&sendTime=';
+		  file_get_contents($url);
+
+		  //缓存验证码
+		  SET_REDIS($mobile,$rand_password,'signup');
+		  return json_encode(array('code' =>RES_SUCCSEE,'msg'=>'success'));
+	}
+	
+	public static function signup($mobile,$password,$vaild_code){
+		global $_CFG;
+		global $db;
+		global $_LANG;
+		//增加是否关闭注册
+		if ($_CFG['shop_reg_closed']){
+			return json_encode(array('code' =>RES_FAIL,'msg'=>'close'));
+		}
+		else{
+			include_once(ROOT_PATH . 'includes/lib_passport.php');
+			$f_email= 'W' . $mobile . "@fal.com";
+			$email = $f_email;
+			$username = $f_email;
+			$other['mobile_phone'] = $mobile;
+			$other['rea_name'] = '';
+			$back_act =  '';
+			$redis_vaild_code = GET_REDIS($mobile,'signup');
+			
+			if($redis_vaild_code!=$vaild_code){
+				return json_encode(array('code' =>10010,'msg'=>'vaild error'));
+			}
+			
+			if (strlen($username) < 3){
+				return json_encode(array('code' =>RES_FAIL,'msg'=>$_LANG['passport_js']['username_shorter']));
+			}
+
+			if (strlen($password) < 6){
+				return json_encode(array('code' =>RES_FAIL,'msg'=>$_LANG['passport_js']['password_shorter']));
+			}
+
+			if (strpos($password, ' ') > 0){
+				return json_encode(array('code' =>RES_FAIL,'msg'=>$_LANG['passwd_balnk']));
+			}
+
+			if (register($username, $password, $email,$other) !== false){
+				$db->query("update ecs_users set user_type=0 where user_name='$username'");//用户类型设置bisc
+				$ucdata = empty($user->ucdata)? "" : $user->ucdata;
+				$_SESSION['user_msg']=$username;
+				DEL_REDIS($mobile,'signup');
+				return json_encode(array('code' =>RES_SUCCSEE,'msg'=>'success'));
+			}else{
+				return json_encode(array('code' =>RES_FAIL,'msg'=>'fail'));
+			}
+		}
 	}
 	
 }

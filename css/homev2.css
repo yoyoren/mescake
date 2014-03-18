@@ -33,6 +33,10 @@ body{*position:relative;} /* 针对ie6body里面有position的bug。*/
 .radio-item{margin-right: 10px;}
 .space{margin-right: 20px; *margin-right:10px; _margin-right:0px;}
 
+/* 区域选择 */
+#date_picker{
+  display: inline-block; *display: inline; *zoom:1; background: #fff;border: 1px solid #ccc; padding:0 10px; height: 20px;line-height: 20px;
+}
 /* 头部区域 */
 .head-area{background: #fff;}
 
@@ -164,8 +168,13 @@ background: url(img/write-mes.png) 0 0 no-repeat; vertical-align: middle; margin
 .big-btn{height: 38px; line-height: 38px; font-size: 16px; border-radius: 6px;}
 input.big-btn{height: 40px;}
 .status1-btn{background: #d11c08; border: 1px solid #b31807; color: #fff;}
+.status2-btn{background:#8cc44f; border: 1px solid #8fc159; color: #fff;}
 a.btn:hover{text-decoration: none;}
 
+/* 新用户注册 */
+.content .dialog{background: none; box-shadow: none; border: 0 none; position: static; margin: 40px auto 0 auto;}
+.regis-tip{padding-top: 10px; font-size: 12px; color: #999;}
+.regis-tip a{color: #0872e9; text-decoration: underline;}
 
 /* 材料说明区域 */
  .material-area{background:#f7f7f7; padding: 45px 0 55px 0;}
@@ -287,15 +296,15 @@ a.btn:hover{text-decoration: none;}
 .handle-area a{color: #999;}
 .handle-area a:hover{color: #ff7e00;}
 .ama-delete{width: 16px; height: 16px; background: url(img/delete-co.png) 0 -20px no-repeat; 
-	text-indent: -100px; overflow: hidden;}
+  text-indent: -100px; overflow: hidden;}
 .ama-delete:hover{background-position: 0 0;}
 
 .ama-item:hover .handle-area{visibility: visible;}
 .hover .handle-area{visibility: visible;}
 .ama-add-address{clear: both; padding-left: 10px;}
 .add-ico{width: 16px; height:16px; font-weight:bold; margin-right:4px; vertical-align: middle; 
-	background: url(img/add-little.png) 0 0 no-repeat;
-	display: inline-block; *display: inline; *zoom:1;
+  background: url(img/add-little.png) 0 0 no-repeat;
+  display: inline-block; *display: inline; *zoom:1;
 }
 
 /* 存放复杂表格 */
@@ -379,6 +388,16 @@ a.btn:hover{text-decoration: none;}
 .ol-title6{width: 18%;}
 .ol-title7{_width: 11%;}
 .ol-title3{width: 16%;}
+
+/* 完成订单 */
+.suc-container{padding-top: 100px;}
+.suc-tip{font-size: 14px; line-height: 1.8; margin-bottom: 10px; padding-top: 20px;}
+.suc-tip3{font-size: 16px; font-weight: bold; line-height: 2.0;}
+.suc-tip2{font-size: 12px; padding-bottom: 20px;}
+.suc-tip2 a{color: #0872e9; text-decoration: underline;}
+.suc-bg-area{width: 600px; margin: 0 auto;  margin-top: 40px;}
+.suc-container .box-inner{padding: 20px 0;}
+.suc-container .status1-btn{border-radius: 0 3px 3px 0; height: 44px; vertical-align: middle; margin-left: -2px; position: relative; z-index: 2; _margin-top:-56px;}
 
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}

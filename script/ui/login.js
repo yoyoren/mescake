@@ -14,7 +14,7 @@ define(['ui/dialog'],function(Dialog){
             <label for="remember" id="remember_password"><input type="checkbox">&nbsp;记住登录</label>\
             <a href="route.php?action=forget_password_page&mod=account">忘记密码</a>\
     </div>\
-	<a href="user.php?act=register" class="btn big-btn long-btn">新用户注册</a>';
+	<a href="route.php?action=signup_page&mod=account" class="btn big-btn long-btn">新用户注册</a>';
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
 	var login = {

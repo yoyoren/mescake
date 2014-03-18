@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<title>{$page_title}</title>
+<!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
+</head>
+<body>
+<!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+ <div class="content-area">
+    <div class="content">
+      <div class="dialog-con dialog" style="width:320px;">
+        <form>
+          <div class="dialog-head">
+            <p class="dia-title">新用户注册</p>
+          </div>
+          <div class="check-container">
+            <input type="text" class="global-input" placeholder="请输入手机号码" style="width:198px;" id="username">
+            <span class="tips-container" style="display:none" id="username_error">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->
+          </div><a href="#" class="btn vert-btn code-btn" id="get_vaild_code">获取验证码</a>
+          <div class="check-container">
+            <input type="text" class="global-input" placeholder="请输入短信验证码" id="vaild_code">
+            <span class="tips-container" style="display:none" id="vaildcode_error" >短信验证码错误</span><!-- 错误信息容器,出现2秒后消失 -->
+          </div>
+          
+          <div class="check-container">
+            <input type="password" class="global-input" placeholder="设置6位以上登录密码" id="password">
+            <span class="tips-container" style="display:none" id="password_error">密码必须是6位及以上</span><!-- 错误信息容器,出现2秒后消失 -->
+          </div>
+          <div class="single-btn-area">
+            <input class="btn status1-btn long-btn" type="button" value="注册" id="do_signup">
+            <p class="regis-tip">如果您已是注册用户，请您<a href="#" id="signup_login">登录</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
+<script src="script/page/signup.js"></script>
+</body>
+</html>

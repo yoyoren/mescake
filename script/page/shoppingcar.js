@@ -7,8 +7,12 @@
 								<span class="or-name-intro">生日蜡烛</span>\
 							  </div>\
 							  <div class="od-title2">￥<%=data.goods_price%></div>\
-							  <div class="od-title3"><%=data.goods_number%></div>\
-							  <div class="od-title4">￥<%=data.goods_price*data.goods_number%>.00</div>\
+							  <div class="od-title3">\
+								  <em class="or-minus order_des" data-id="<%=data.rec_id%>"></em>\
+								  <span class="or-num-num"><%=data.goods_number%></span>\
+								  <em class="or-plus order_add" data-id="<%=data.rec_id%>"></em>\
+							   </div>\
+							  <div class="od-title4" id="sub_total_<%=data.rec_id%>">￥<%=data.goods_price*data.goods_number%>.00</div>\
 							 <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
 							 </li>';
    var numCandleTmpl = '<li class="clearfix sub_order_<%=rec_id%>" id="sub_order_<%=data.rec_id%>">\
@@ -16,12 +20,16 @@
 								<span class="od-img-area">\
 								  <img src="css/img/order-detail2.png" class="od-img" style="width:50px;">\
 								</span>\
-								<span class="or-name-intro">数字蜡烛()</span>\
+								<span class="or-name-intro">数字蜡烛(<%=data.goods_attr%>)</span>\
 							  </div>\
 							  <div class="od-title2">￥<%=data.goods_price%></div>\
-							  <div class="od-title3"><%=data.goods_number%></div>\
-							  <div class="od-title4">￥<%=data.goods_price*data.goods_number%>.00</div>\
-							 <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
+							  <div class="od-title3">\
+								  <em class="or-minus order_des" data-id="<%=data.rec_id%>"></em>\
+								  <span class="or-num-num"><%=data.goods_number%></span>\
+								  <em class="or-plus order_add" data-id="<%=data.rec_id%>"></em>\
+							  </div>\
+							  <div class="od-title4" id="sub_total_<%=data.rec_id%>">￥<%=data.goods_price*data.goods_number%>.00</div>\
+							  <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
 							 </li>';
    var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
 				 <%if(data[i].goods_id!=60){%>\
@@ -51,11 +59,11 @@
 				  </li>\
 				  <% } %>\
 				  <%if(data[i].goods_id!=61&&data[i].goods_id!=60){%>\
-					<li class="clearfix sub_order_<%=data[i].rec_id%>" >\
+					<li class="clearfix sub_order_<%=data[i].rec_id%>" id="sub_order_fork_<%=data[i].rec_id%>">\
 					 <div class="od-title1">\
 						 <a href="#" onclick="return false">\
 						 <span class="od-img-area">\
-							<img src="img/order-detail1.png"  class="od-img"/>\
+							<img src="img/order-detail1.png"  class="od-img">\
 					     </span>\
 					     <span class="or-name-intro">配套餐具</span>\
 						 </a>\
@@ -79,8 +87,12 @@
 							<span class="or-name-intro">生日蜡烛</span>\
 						  </div>\
 						  <div class="od-title2">￥<%=candleHash[data[i].rec_id].goods_price%></div>\
-						  <div class="od-title3"><%=candleHash[data[i].rec_id].goods_number%></div>\
-						  <div class="od-title4"><%=candleHash[data[i].rec_id].subtotal%></div>\
+						  <div class="od-title3">\
+								  <em class="or-minus order_des" data-id="<%=candleHash[data[i].rec_id].rec_id%>"></em>\
+								  <span class="or-num-num"><%=candleHash[data[i].rec_id].goods_number%></span>\
+								  <em class="or-plus order_add" data-id="<%=candleHash[data[i].rec_id].rec_id%>"></em>\
+						  </div>\
+						  <div class="od-title4" id="sub_total_<%=candleHash[data[i].rec_id].rec_id%>"><%=candleHash[data[i].rec_id].subtotal%></div>\
 						  <a href="#" class="or-handle order_cancel" data-id="<%=candleHash[data[i].rec_id].rec_id%>" data-goods="<%=candleHash[data[i].rec_id].goods_id%>">删除</a>\
 						 </li>\
 					 <% } %>\
@@ -94,8 +106,11 @@
 								<span class="or-name-intro">数字蜡烛(<%=candleNumHash[data[i].rec_id][j].goods_attr%>)</span>\
 							  </div>\
 							  <div class="od-title2">￥<%=candleNumHash[data[i].rec_id][j].goods_price%></div>\
-							  <div class="od-title3"><%=candleNumHash[data[i].rec_id][j].goods_number%></div>\
-							  <div class="od-title4"><%=candleNumHash[data[i].rec_id][j].subtotal%></div>\
+							  <div class="od-title3">\
+								  <em class="or-minus order_des" data-id="<%=candleNumHash[data[i].rec_id][j].rec_id%>"></em>\
+								  <span class="or-num-num"><%=candleNumHash[data[i].rec_id][j].goods_number%></span>\
+								  <em class="or-plus order_add" data-id="<%=candleNumHash[data[i].rec_id][j].rec_id%>"></em></div>\
+							  <div class="od-title4" id="sub_total_<%=candleNumHash[data[i].rec_id][j].rec_id%>"><%=candleNumHash[data[i].rec_id][j].subtotal%></div>\
 							 <a href="#" class="or-handle order_cancel" data-id="<%=candleNumHash[data[i].rec_id][j].rec_id%>" data-goods="<%=candleNumHash[data[i].rec_id][j].goods_id%>">删除</a>\
 							 </li>\
 						 <% } %>\
@@ -318,20 +333,23 @@
 					candleDialog.show({
 						id:id,
 						callback:function(d,candle){
-							
 							var _tpl = candleTmpl;
 							if(candle == 67){
 							   _tpl = numCandleTmpl;
 							}
 							var _renderData = d.data;
+							
 							var html = mstmpl(_tpl,{
 									data:_renderData,
 									rec_id:id
 							});
-							if($('#sub_order_'+_renderData.rec_id).length&&candle == 61){
-								$('#sub_order_'+_renderData.rec_id).replaceWith(html);
+									
+							if($('#sub_order_'+_renderData.rec_id).length){
+								var container = $('#sub_order_'+_renderData.rec_id)
+								container.after(html);
+								container.remove();
 							}else{
-								$('#sub_order_'+id).append(html);
+								$('#sub_order_fork_'+id).after(html);
 							}
 							MES.updateTotalPriceDisplay(d);
 						}
@@ -350,10 +368,6 @@
 				if($.trim(text).split('').length>10){
 					_this.next().show();
 					return;
-					// require(['ui/confirm'],function(confirm){
-					// 	new confirm('生日牌不能超过10个字');
-					// });
-					// return;
 				}
 
 				_this.parent().hide();

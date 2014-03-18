@@ -820,6 +820,8 @@ class MES_Order{
 	    }
 		$sql = "select * from " . $ecs->table('cart') . " WHERE  session_id='" . SESS_ID . "'";
 		$goods = $db->getAll($sql);
+
+
 		foreach($goods as $val){
 			
 			$total += $val['goods_price'] * $val['goods_number'];
@@ -831,7 +833,10 @@ class MES_Order{
 			//蜡烛这玩意 需要在order页面返回给前端添加到订单里，其他商品不需要这么做
 			//67数字蜡烛
 			//61普通蜡烛
-			if($val['goods_id']==61||$val['goods_id']==67){
+			if($val['goods_id']==61&&$goods_id == 61){
+				  $result['data'] = $val;	
+			}
+			if($val['goods_id']=='67'&&$goods_id == '67'&&$val['goods_attr']==$goods_attr){	
 				  $result['data'] = $val;
 				 
 			}

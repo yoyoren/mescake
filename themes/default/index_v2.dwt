@@ -36,7 +36,7 @@
   <div class="slider-img-area">
     <div class="slider-container clearfix" style="width:400%;">
 	    {foreach from=$slider item=value key=key}
-	    <div class="s-img-area" style="background:#fff;width:25%; float:left;">
+	    <div class="s-img-area slider_image" style="background:#fff;width:25%; float:left;">
 	      <div class="s-img-area-inner">
 		<div class="s-img-intro" style="left:20px; top:140px;">
 		  <h2 style="color:#acd67f;">{$value.title}</h2>
@@ -47,9 +47,9 @@
 	    </div>
 	    {/foreach}
     </div>
-    <div class="slider-num">
+    <div class="slider-num" id="silder_icon">
       {foreach from=$slider item=value key=key}
-      <em class="slider-num-ico"></em>
+      <em class="slider-num-ico slider_switch" data-id="{$key}"></em>
       {/foreach}
     </div>
   </div>
@@ -95,5 +95,7 @@
     </div>
   </div>
 <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
+<script src="script/page/index.js"></script>
+
 </body>
 </html>
