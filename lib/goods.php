@@ -247,5 +247,23 @@ class MES_Goods {
 
 	}
 
+	public static function get_goods_by_catogary($id_arrays){
+		global $db;	
+		$sql = 'SELECT * from '.$GLOBALS['ecs']->table('goods').'where is_on_sale=1 AND is_alone_sale = 1 AND is_delete = 0';
+        $goods_res = $GLOBALS['db']->getAll($sql);
+		$total = count($goods_res);
+		$res = array();
+		for($i=0;$i<$total;$i++){
+			if(in_array($goods_res[$i]['goods_id'], $id_arrays)){
+				$goods_res[$i]['goods_desc'] = strip_tags($goods_res[$i]['goods_desc']);
+				$goods_res[$i]['goods_image'] ='themes/default/images/sgoods/'.substr($goods_res[$i]['goods_sn'],0,3).'.png';
+				array_push($res,$goods_res[$i]);
+			}
+			
+		}
+		return $res;
+		//var_dump($goods_res);
+	}
+
 }
 ?>

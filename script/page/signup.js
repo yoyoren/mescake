@@ -20,7 +20,9 @@
 		});
 		return false;
 	});
-
+	$('#password').placeholder();
+	$('#username').placeholder();
+	$('#vaild_code').placeholder();
 	$('#do_signup').click(function(){
 		var password = $('#password').val();
 		var username = $('#username').val();

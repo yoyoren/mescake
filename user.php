@@ -37,23 +37,17 @@ $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'a
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
 'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','charge','send_verify','got_verify');
 
+
+$token = $_COOKIE['serviceToken'];
+$uuid = $_COOKIE['uuid'];
 /* 未登录处理 */
-if (empty($_SESSION['user_id']))
+
+if (GET_REDIS($uuid,'user') != $token||$token==NULL)
 {
     if (!in_array($action, $not_login_arr))
     {
         if (in_array($action, $ui_arr))
         {
-            /* 如果需要登录,并是显示页面的操作，记录当前操作，用于登录后跳转到相应操作
-            if ($action == 'login')
-            {
-                if (isset($_REQUEST['back_act']))
-                {
-                    $back_act = trim($_REQUEST['back_act']);
-                }
-            }
-            else
-            {}*/
             if (!empty($_SERVER['QUERY_STRING']))
             {
                 $back_act = 'user.php?' . strip_tags($_SERVER['QUERY_STRING']);

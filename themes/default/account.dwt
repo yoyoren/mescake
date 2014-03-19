@@ -1,42 +1,32 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <!-- #BeginLibraryItem "/lib/head_script.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
     <title>我的账户</title>
 </head>
 <body>
 <div class="layout">
-  <!-- #BeginLibraryItem "/lib/header_new_for_old.lbi" --><!-- #EndLibraryItem -->
-  <div class="content">
-    <div class="register-container account-container clearfix">
-      <h4 class="content-title">我的账户</h4>
-      <dl class="global-form-container clearfix">
-        <dt class="l-title">我的手机是：</dt>
-        <dd class="r-con clearfix">
-          <p class="phone-num" id="my_current_number"></p>
-          <a href="#" class="btn" id="change_tel">修改手机</a>
-          <a href="#" class="btn" id="change_password">修改登录密码</a>
-        </dd>
-        <dt class="l-title lh-input">请您称呼我为：</dt>
-        <dd class="r-con clearfix">
-          <div class="check-container">
-            <input type="text" class="global-input" placeholder="我的姓名" id="my_name"/><span class="tips-container" id="mod_tip" style="display:none">修改成功</span>
+  <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+  <div class="content-area">
+    <div class="content">
+      <div class="n-box">
+        <div class="tt-title"><h4>我的账户</h4></div>
+        <div class="box-inner acc-box">
+          <div class="acc-item"><p class="acc-p1">手机号码：<span id="my_current_number"></span></p>
+            <a href="#" class="btn status1-btn" id="change_tel">修改</a>
           </div>
-          <br />
-          <label for="man" class="space" id="man" ><input type="radio" name="female" class="radio-item" checked="checked" />男士</label>
-          <label for="lady" id="lady"><input type="radio"  name="female" class="radio-item" />女士</label>
-        </dd>
-        <!-- <dt class="l-title">&nbsp;</dt>
-        <dd class="r-con clearfix">
-          <input class="btn green-btn big-btn" type="submit" value="登录"/>
-        </dd> -->
-      </dl>
-      <p class="phone-check-tip"><b>我的账户中有<span id="my_money">0</span>元余额</b><br/>
-        <a href="user.php?act=charge" class="td-u">礼金卡充值</a><a href="user.php?act=charge" style="display:none" class="td-u">代金券充值</a>
-      </p>
+          <div class="acc-item"><p class="acc-p1">登录密码：********* </p>
+            <a href="#" class="btn status1-btn" id="change_password">修改</a>
+          </div>
+          <div class="list-line" style="margin:20px 0;"></div>
+          <div style="display:none" class="acc-item"><p class="acc-p1">会员积分：256分</p><p>每次购买都可以获得积分，用来兑换会员独享礼品<a href="" class="acc-link">去看看</a></p></div>
+          <div class="acc-item"><p class="acc-p1">账户余额：<span id="my_money">0</span>元</p><p>余额可以直接抵扣消费<a href="#" id="charge_button" class="acc-link">礼品卡充值</a></p></div>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- #BeginLibraryItem "/lib/footer_new.lbi" --><!-- #EndLibraryItem -->
+
+  <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
   <script src="script/page/account.js"></script>
 </div>
 </body>

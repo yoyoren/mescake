@@ -86,7 +86,7 @@ $('#my_order_frame').show();
 						}
 					}
 				}
-				debugger;
+			
 				var html = mstmpl(orderListTmpl,{data:data});
 				$('#order_title').after(html);
 			}

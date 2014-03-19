@@ -13,11 +13,23 @@ class MES_User{
 		}
 		return '';
 	}
+	
+	
+	
+	private static function _send_sms($mobile){
+		$rand_password = MES_User::rand_num();  
+		$c = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+		$cont=urlencode($c);
+		$url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$cont.'&sendTime=';
+		file_get_contents($url);
+		return $rand_password;
+	}
+	
 
 	public static function ajax_login($username,$password){
 		global $db;
 		global $_LANG;
-		global $user;// = user_info($_SESSION['user_id']);
+		global $user;
 		$username = addslashes($username);
 		$password = addslashes($password);
 
@@ -462,7 +474,7 @@ class MES_User{
 	//获得用户正在使用的电话号码
 	public static function get_users_info(){
 		global $db;
-		$user_name = addslashes($_SESSION['uuid']);
+		$user_name = addslashes($_COOKIE['uuid']);
 		$info=$db->getAll("select mobile_phone,rea_name,sex,user_money from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
 		return json_encode(array(
 			'code' =>RES_SUCCSEE,
@@ -475,7 +487,7 @@ class MES_User{
 	//已经登录用户修改密码
 	public static function change_password($old,$new){
 		global $db;
-		$user_name = addslashes($_SESSION['uuid']);
+		$user_name = addslashes($_COOKIE['uuid']);
 		
 		$old = md5($old);
 		$new = md5($new);
@@ -550,7 +562,7 @@ class MES_User{
 		if($sex!=0&&$sex!=1){
 			return json_encode(array('code' =>RES_FAIL));
 		}
-		$user_name = addslashes($_SESSION['uuid']);
+		$user_name = addslashes($_COOKIE['uuid']);
 		$sex = addslashes($sex);
 		$db->query("update ecs_users set sex='$sex' where user_name='$user_name'");
 		return json_encode(array('code' =>RES_SUCCSEE));
@@ -558,7 +570,7 @@ class MES_User{
 
 	public static function change_real_name($name){
 		global $db;
-		$user_name = addslashes($_SESSION['uuid']);
+		$user_name = addslashes($_COOKIE['uuid']);
 		$name = addslashes($name);
 		$db->query("update ecs_users set rea_name='$name' where user_name='$user_name'");
 		return json_encode(array('code' =>RES_SUCCSEE)); 
@@ -582,18 +594,19 @@ class MES_User{
 		$smarty->display('signup_v2.dwt');
 	}
 	
+	
 	//注册手机号码的获得验证码步骤
 	public static function signup_vaild_code($mobile){
+		
 		 //重新生成随机的密码
-		  $rand_password = MES_User::rand_num();  
-		  $c = "尊敬的用户，您在每实官网注册手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
-		  $cont=urlencode($c);
-		  $url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$cont.'&sendTime=';
-		  file_get_contents($url);
-
+		  $rand_password = MES_User::_send_sms($mobile);
+		  
 		  //缓存验证码
 		  SET_REDIS($mobile,$rand_password,'signup');
-		  return json_encode(array('code' =>RES_SUCCSEE,'msg'=>'success'));
+		  return json_encode(array(
+			  'code' =>RES_SUCCSEE,
+			  'msg'=>'success'
+		  ));
 	}
 	
 	public static function signup($mobile,$password,$vaild_code){
@@ -640,6 +653,101 @@ class MES_User{
 				return json_encode(array('code' =>RES_FAIL,'msg'=>'fail'));
 			}
 		}
+	}
+
+	public static function charge_vaild($mobile){
+		 //重新生成随机的密码
+		  $rand_password = MES_User::_send_sms($mobile);
+		  
+		  //缓存验证码
+		  SET_REDIS($mobile,$rand_password,'charge');
+		  return json_encode(array(
+			  'code' =>RES_SUCCSEE,
+			  'msg'=>'success'
+		  ));
+	}
+	
+	public static function do_charge($mobile,$vaild_code){
+		global $_CFG;
+		global $db;
+		global $_LANG;
+		
+		$result = array('code' =>0, 'message' => '');
+		//接收卡号、密码
+		$card_num = htmlspecialchars(trim($_POST["card_num"]));
+		$card_pwd = htmlspecialchars(trim($_POST["card_password"]));
+		$mobile = htmlspecialchars(trim($_POST["mobile"]));
+		$verify=substr(md5(strtoupper($_POST['verify'])), 1, 10);	
+		$redis_vaild_code = GET_REDIS($mobile,'signup');
+			
+		if($redis_vaild_code!=$vaild_code){
+			return json_encode(array('code' =>10010,'msg'=>'vaild error'));
+		}
+		//验证卡号
+		$record = $db->getRow('select mc.* from moneycards as mc where '. " mc.cardid='{$card_num}' and mc.cardpassword='{$card_pwd}'");
+		
+		if($record ==false){
+		   $result['code'] = RES_FAIL;
+		   $result['message'] ='卡号与密码不符合，请重新输入';
+	    }
+	
+		if($record['flag'] !=1){
+		   $result['code'] = RES_FAIL;
+		   $result['message'] ='您的储值卡还未生效，详情请联系客服';
+		}
+	
+		if($record['user_id']>0 ||$record['used_time'] > 0){
+		   $result['code'] = RES_FAIL;
+		   $result['message'] ='您的储值卡已使用';
+		}
+	    $time=gmtime();
+		if($time<$record['sdate'] && $time>$record['edate']){
+		   $result['code'] = RES_FAIL;
+		   $result['message'] ='您的储值卡已过期';
+		}
+	
+
+		//注册时间
+		$us_id=$_SESSION['user_id'];
+		$regt=$db->getOne("select reg_time from ecs_users where user_id=$us_id ");
+		$charge_num=$db->getOne("select charge_num from ecs_users where user_id=$us_id ");
+		$sql1="update moneycards set user_id=$us_id, used_time ='"
+		. gmtime() ."' where cardid='$card_num'";
+		$res=$db->query($sql1);
+		if($res){
+			$change_money = floatval($record['cardmoney']);
+			if($regt>=1386086400 && $regt<1388505600){					
+					//mcard_log
+					$change_d='储值卡：'.$card_num.'充值';
+					$current_time=time();
+					$db->query("insert into mcard_log(user_id,change_type,user_money,change_desc,change_time)values($us_id,2,$change_money,'$change_d',{$current_time}) ");
+					$db->query("insert into ecs_account_log(user_id,user_money,frozen_money,rank_points,pay_points,change_time,change_desc,change_type)values($us_id,$change_money,0,0,0,$current_time,'$change_d',99)");
+					if($charge_num==1){
+					$user_m=$change_money-50;
+					}else{
+					$user_m=$change_money;
+					}
+					$r=$db->query("update ecs_users set user_money=user_money+{$user_m} where user_id=$us_id");
+					if($r){
+						$charge_num=$db->query("update ecs_users set charge_num=2 where user_id=$us_id");	
+						$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id=$us_id");
+						$result['user_money'] =$user_money;
+						$result['change_money'] =$change_money;
+						$result['message'] ='操作成功';
+					}			
+			}else{
+				
+				log_mcard_change($_SESSION['user_id'], $change_money,'储值卡：'.$card_num.'充值',0,0,2);
+				$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id='$_SESSION[user_id]'");
+				$result['user_money'] =$user_money;
+				$result['change_money'] =$change_money;
+				$result['message'] ='操作成功';
+			}
+		}else{
+		   $result['code'] = RES_FAIL;
+		   $result['message'] ='更新储值卡状态失败，请重试';
+		}
+		return json_encode($result);
 	}
 	
 }

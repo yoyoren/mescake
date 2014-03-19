@@ -100,9 +100,10 @@ define(['ui/dialog'],function(Dialog){
 								$('#mod_address_popup').hide();
 								$('#save_address_popup').show();
 							}
-							$('#new_tel_popup').placeholder();
-							$('#new_contact_popup').placeholder();
-							$('#new_address_popup').placeholder();
+					
+							$('#new_tel_popup').placeholder().trigger('focus');
+							$('#new_contact_popup').placeholder().trigger('focus');
+							$('#new_address_popup').placeholder().trigger('focus');
 						},
 						afterRender:function(){
 							//获得地址信息

@@ -1,19 +1,14 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<dt class="l-title lh-input">新手机号码：</dt>\
-            <dd class="r-con clearfix">\
-              <div class="check-container small-check-container">\
-                <input type="text" class="global-input" id="mobile_input" placeholder="请输入新的手机号码">\
-                <span class="tips-container" style="display:none">输入错误</span>\
-              </div>\
-              <a href="#" class="btn vert-btn" id="get_code">获取验证码</a>\
-            </dd>\
-            <dt class="l-title lh-input">验证码：</dt>\
-            <dd class="r-con clearfix">\
-              <div class="check-container small-check-container">\
-                <input type="text" id="password_input" class="global-input" placeholder="请输入短信验证码">\
-                <span class="tips-container" style="display:none">输入错误</span>\
-              </div>\
-            </dd>'
+	var body = '<form>\
+          <div class="check-container">\
+            <input type="text" class="global-input" placeholder="请输入您的新的手机号码" style="width:198px;" id="mobile_input" >\
+            <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
+          </div><a href="#" class="btn vert-btn code-btn" id="get_code">获取验证码</a>\
+          <div class="check-container">\
+            <input type="text" class="global-input" placeholder="请输入短信验证码" id="password_input" >\
+            <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
+          </div>\
+        </form>';
 
 	
 	var single;
@@ -65,6 +60,8 @@ define(['ui/dialog'],function(Dialog){
 						},
 						body:body,
 						afterRender:function(){
+							$('#mobile_input').placeholder();
+							$('#password_input').placeholder();
 							$('#get_code').click(function(){
 
 								if($('#get_code').html()!='获取验证码'){

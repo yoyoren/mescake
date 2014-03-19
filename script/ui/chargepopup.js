@@ -1,9 +1,25 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<p class="dia-form-tip">请输入代金券密码</p><!-- 这里为了方便统一js交互做成了一个框 -->
-        <div class="check-container">
-          <input type="text" class="global-input" placeholder="请输入4位密码">
-          <span class="tips-container">输入错误</span>
-        </div>'
+	var body = '<form>\
+          <div class="tl-c" >\
+            <input type="text" class="global-input charge_num" style="width:52px;" id="charge_num_1">\
+            <input type="text" class="global-input charge_num" style="width:52px;" id="charge_num_2">\
+            <input type="text" class="global-input charge_num" style="width:52px;" id="charge_num_3">\
+            <input type="text" class="global-input charge_num" style="width:52px;" id="charge_num_4">\
+            <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
+          </div>\
+          <div class="check-container">\
+            <input type="password" class="global-input" placeholder="请输入卡的密码" id="charge_password">\
+            <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
+          </div>\
+          <div class="check-container">\
+            <input type="text" class="global-input" placeholder="请输入您的手机号码" style="width:198px;" id="charge_mobile">\
+            <span class="tips-container" style="display:none">>输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
+          </div><a href="#" class="btn vert-btn code-btn"  id="charge_vaild_button">获取验证码</a>\
+          <div class="check-container">\
+            <input type="text" class="global-input" placeholder="请输入短信验证码"  id="charge_vaild">\
+            <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
+          </div>\
+        </form>'
 
 	
 	var single;
@@ -18,72 +34,28 @@ define(['ui/dialog'],function(Dialog){
 						onconfirm:function(){
 							
 
-							if($.trim($('#mobile_input').val())==''){
-								$('#mobile_input').next().show();
-								setTimeout(function(){
-									$('#mobile_input').next().hide();
-								},2000);
-								return;
-							}
-
-							if($.trim($('#password_input').val())==''){
-								$('#password_input').next().show();
-								setTimeout(function(){
-									$('#password_input').next().hide();
-								},2000)
-								return;
-							}
-
-							$.post('route.php?mod=account&action=change_mobile',{
-								mobile:$('#mobile_input').val(),
-								code:$('#password_input').val()
-							},function(d){
-								if(d.code == 0){
-									$('#my_current_number').html(d.mobile);
-									require(['ui/confirm'],function(confirm){
-										new confirm('修改成功!',function(){});
-									});
-								}else{
-									require(['ui/confirm'],function(confirm){
-										new confirm('修改失败!可能是验证码已经失效，或手机号码错误！',function(){});
-									});
-								}
-								$('#mobile_input').val('');
-								$('#password_input').val('')
-								single.hide();
-							},'json');
+						
 						},
 						body:body,
 						afterRender:function(){
-							$('#get_code').click(function(){
-
-								if($('#get_code').html()!='获取验证码'){
-									return false;
+							$('#charge_password').placeholder();
+							$('#charge_mobile').placeholder();
+							$('#charge_vaild').placeholder();
+							
+							//验证码
+							$('#charge_vaild_button').click(function(){
+								
+							});
+							
+							$('.charge_num').keyup(function(){
+								var _this = $(this);
+								if(_this.val().length>3){
+									_this.next().focus();
 								}
-
-								if($.trim($('#mobile_input').val())==''){
-									$('#mobile_input').next().show();
-									setTimeout(function(){
-										$('#mobile_input').next().hide();
-									},2000);
-									return;
+								
+								if(_this.val().length>4){
+									_this.val(_this.val().substring(0,4));
 								}
-								$.post('route.php?mod=account&action=change_mobile_get_code',{
-									mobile:$('#mobile_input').val()
-								},function(d){
-									if(d.code == 0){
-										$('#get_code').html('已经发送!(<span id="second">5</span>)');
-										var timer = setInterval(function(){
-											var number = parseInt($('#second').html());
-											number-=1;
-											$('#second').html(number);
-											if(number == 0){
-												$('#get_code').html('获取验证码');
-												clearInterval(timer);
-											}
-										},1000);
-									}
-								},'json');
 							});
 
 

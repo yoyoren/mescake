@@ -19,12 +19,6 @@
 				$('#my_current_number').html(d.info[0].mobile_phone);
 				$('#my_name').val(d.info[0].rea_name);
 				$('#my_money').html(d.info[0].user_money);
-				var sex = d.info[0].sex;
-				if(sex == 0){
-					$('#man').find('input')[0].checked = true;
-				}else{
-					$('#lady').find('input')[0].checked = true;
-				}
 			}
 		}
 	});
@@ -61,5 +55,11 @@
 				},2000);
 			}	
 		},'json');
+	});
+	
+	$('#charge_button').click(function(){
+		require(['ui/chargepopup'],function(dialog){
+			dialog.show();
+		});
 	});
 })();

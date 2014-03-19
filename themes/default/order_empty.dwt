@@ -12,9 +12,9 @@
   <div class="content-area">
     <div class="content">
       <div class="order-area">
-        <h4 class="content-title">您的购物车中没有商品</h4>
         <div class="has-no-order">
-          <a href="brand.php?id=4"  class="btn big-btn status1-btn">赶紧去选购吧</a>
+	   <h4 class="content-title">您的购物车中没有商品</h4>
+          <a href="brand.php?id=4"  class="btn big-btn status2-btn">赶紧去选购吧 >></a>
         </div>
       </div>
     </div>

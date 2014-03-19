@@ -1,10 +1,10 @@
 <div class="mes-head">
-      <a href="route.php?mod=page&action=index" class="main-logo"><img src="img/n-logo.png" /></a>
+      <a href="index.htm" class="main-logo"><img src="img/n-logo.png" /></a>
       <div class="clearfix">
         <ul class="head-nav fl-l">
-          <li class="hn-item"><a href="route.php?mod=page&action=index" class="current"><em class="nav-home ico-item"></em><em class="nav-con">首页</em></a></li>
-          <li class="hn-item"><a href="cato.php?id=1"><em class="nav-cake ico-item"></em><em class="nav-con">蛋糕</em></a></li>
-          <li class="hn-item"><a href="cato.php?id=2"><em class="nav-flower ico-item"></em></em><em class="nav-con">鲜花</em></a></li>
+          <li class="hn-item"><a href="index.htm" class="current"><em class="nav-home ico-item"></em><em class="nav-con">首页</em></a></li>
+          <li class="hn-item"><a href="route.php?mod=page&action=cato&id=specialday"><em class="nav-cake ico-item"></em><em class="nav-con">蛋糕</em></a></li>
+          <li class="hn-item" style="display:none"><a href="cato.php?id=2"><em class="nav-flower ico-item"></em></em><em class="nav-con">鲜花</em></a></li>
           <li class="hn-item" style="display:none"><a href="#"><em class="nav-time ico-item"></em><em class="nav-con">每实每刻</em></a></li>
         </ul>
         <div class="mh-login-area fl-r">

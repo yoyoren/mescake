@@ -275,7 +275,7 @@ switch ($mod) {
 
 			//大于三次的提交 才验证
 	
-			if ($checkout_times > 3) {
+			if ($checkout_times > 30) {
 				error_reporting(0);
 
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
@@ -287,7 +287,7 @@ switch ($mod) {
 				}
 			}
 			//checkout and cal total price
-			$card_message = $_POST['card_message'];
+			$card_message = ANTI_SPAM($_POST['card_message'],array('empty'=>true));
 			if (!$card_message) {
 				$card_message = '';
 			} else {
@@ -599,7 +599,23 @@ switch ($mod) {
 					$smarty -> assign('cato',$CAKE_CATO);
 					return $smarty;
 				}
+				//为首页生成一个静态缓存页面
 			    echo PAGE_CACHER('index','page','index_v2.dwt','get_index_tpl',true);
+			}else if ($action == 'cato') {
+				$cato_id = $_GET['id'];
+				function get_cato_tpl(){
+					global $smarty;
+					global $cato_id;
+		
+					require_once (ROOT_PATH . 'lib/catogary.php');
+					require_once (ROOT_PATH . 'lib/goods.php');
+					$list = MES_Goods::get_goods_by_catogary($CAKE_CATO[$cato_id]['values']);
+					$smarty -> assign('data',$CAKE_CATO[$cato_id]);
+					$smarty -> assign('list',$list);
+					return $smarty;
+				}
+				//为首页生成一个静态缓存页面
+			    echo PAGE_CACHER('catogary','page','catogary_v2.dwt','get_cato_tpl');
 			}
 		break;
 	default :

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>MES蛋糕</title>
+  <!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
+</head>
+<body>
+<div class="layout">
+  <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+  <div class="pro-content-area {$data.cls}">
+   <div class="pro-content clearfix">
+    <ul class="pro-ul fl-l">
+      <li {if $data.cls=="for-day"}class="current"{/if}><a href="route.php?mod=page&action=cato&id=specialday"><em class="left-corner"></em>为了纪念日</a></li>
+      <li {if $data.cls=="for-love"}class="current"{/if}><a href="route.php?mod=page&action=cato&id=forlove"><em class="left-corner"></em>为了爱</a></li>
+      <li {if $data.cls=="for-happy"}class="current"{/if}><a href="route.php?mod=page&action=cato&id=party"><em class="left-corner"></em>欢聚一下</a></li>
+      <li {if $data.cls=="for-dream"}class="current"{/if}><a href="route.php?mod=page&action=cato&id=dream"><em class="left-corner"></em>梦想家</a></li>
+    </ul>
+    <div class="pro-list-area fl-l">
+      <div class="pro-head">
+        <h2>{$data.detail_desc_h1}</h2>
+        <p>{$data.detail_desc_h2}</p>
+      </div>
+      <h4 class="pro-list-title">{$data.detail_desc_h3}</h4>
+      <div class="clearfix">
+        {foreach from=$list item=value key=key}
+        <div class="pro-list-item">
+          <h5>{$value.goods_name}</h5>
+          <p>{$value.goods_desc}</p>
+          <a href="route.php?mod=goods&action=goods_detail_page&id={$value.goods_id}"><img src="{$value.goods_image}"></a>
+        </div>
+	{/foreach}
+      </div>
+      <div class="tl-c" style="display:none">
+        <p class="pro-more"><a href="">需要特别的蛋糕？来看看我们的定制服务</a></p>
+      </div>
+    </div>
+   </div>
+  </div>
+  <script src="script/page/catogary.js"></script>
+  <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
+</div>
+</body>
+</html>

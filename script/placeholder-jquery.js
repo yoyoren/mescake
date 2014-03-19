@@ -66,8 +66,9 @@
           marginTop: element.css("marginTop"),
           paddingLeft: element.css("paddingLeft"),
           paddingTop: element.css("paddingTop")
-        }, params.labelStyle)).insertBefore(element);       
-        
+        }, params.labelStyle)).insertBefore(element);   
+		
+      
         // 事件绑定
         if (params.labelAlpha) {
           // 如果是为空focus透明度改变交互
@@ -122,6 +123,7 @@
         if (element.val() === "") {
           elementLabel.html(placeholder); 
         }
+
       } else {
         // value模拟
         element.bind({

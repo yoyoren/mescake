@@ -42,7 +42,12 @@
 		  <h2 style="color:#acd67f;">{$value.title}</h2>
 		  <p style="width:340px;">{$value.desc}</p>
 		</div>
-		<img src="{$value.img}" />
+		{if $key == 0}
+		<img src="{$value.img}"/>
+		{/if}
+		{if $key > 0}
+		<img data-src="{$value.img}" src="css/img/blank.gif" class="lazy_load"/>
+		{/if}
 	      </div>
 	    </div>
 	    {/foreach}
@@ -54,28 +59,28 @@
     </div>
   </div>
   <div class="theme-area">
-    <div class="ta-item ta-item-left ta-item1">
+    <div class="ta-item ta-item-left ta-item1" onclick="location.href='route.php?mod=page&action=cato&id=specialday'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.specialday.name}</h4>
         <p class="ta-intro">{$cato.specialday.desc}</p>
         <em class="ta-imgs taim-1"></em>
       </div>
     </div>
-    <div class="ta-item ta-item2">
+    <div class="ta-item ta-item2" onclick="location.href='route.php?mod=page&action=cato&id=forlove'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.forlove.name}</h4>
         <p class="ta-intro">{$cato.forlove.desc}</p>
         <em class="ta-imgs taim-2"></em>
       </div>
     </div>
-    <div class="ta-item ta-item-left ta-item3">
+    <div class="ta-item ta-item-left ta-item3" onclick="location.href='route.php?mod=page&action=cato&id=party'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.party.name}</h4>
         <p class="ta-intro">{$cato.party.desc}!</p>
         <em class="ta-imgs taim-3"></em>
       </div>
     </div>
-    <div class="ta-item ta-item4">
+    <div class="ta-item ta-item4" onclick="location.href='route.php?mod=page&action=cato&id=dream'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.dream.name}</h4>
         <p class="ta-intro">{$cato.dream.desc}</p>

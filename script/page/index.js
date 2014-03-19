@@ -29,4 +29,10 @@
 		showSilder(index);
 		
 	});
+	$('.lazy_load').each(function(index,el){
+		el.onload = function(){
+			$(el).fadeIn();
+		}
+		el.src = $(el).data('src');
+	})
 })();

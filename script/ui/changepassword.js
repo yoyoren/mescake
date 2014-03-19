@@ -1,25 +1,18 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<dt class="l-title lh-input">当前密码：</dt>\
-          <dd class="r-con clearfix">\
-            <div class="check-container">\
-              <input id="old_password" type="password" class="global-input" placeholder="请输入当前密码">\
-              <span class="tips-container" style="display:none">密码必须是6位及以上</span>\
-            </div>\
-          </dd>\
-          <dt class="l-title lh-input">新密码：</dt>\
-          <dd class="r-con clearfix">\
-            <div class="check-container">\
-              <input id="repeat_password"type="password" class="global-input" placeholder="请输入6位或以上密码">\
-              <span class="tips-container" style="display:none">密码必须是6位及以上</span>\
-            </div>\
-          </dd>\
-          <dt class="l-title lh-input">再次确认：</dt>\
-          <dd class="r-con clearfix">\
-            <div class="check-container">\
-              <input id="new_password" type="password" class="global-input" placeholder="请再次确认密码">\
-              <span class="tips-container" style="display:none">两次输入的密码不一致</span>\
-            </div>\
-          </dd>'
+	var body = '<form action="">\
+          <div class="check-container">\
+            <input id="old_password" type="password" class="global-input no-border-b" placeholder="请输入当前密码">\
+            <span class="tips-container" style="display:none">密码必须是6位及以上</span><!-- 错误信息容器,出现2秒后消失 -->\
+          </div>\
+          <div class="check-container">\
+            <input id="repeat_password"type="password" class="global-input no-border" placeholder="请输入6位或以上密码">\
+            <span class="tips-container" style="display:none">密码必须是6位及以上</span>\
+          </div>\
+          <div class="check-container">\
+            <input id="new_password" type="password" class="global-input no-border-t" placeholder="请再次确认密码">\
+            <span class="tips-container" style="display:none">两次输入的密码不一致</span>\
+          </div>\
+        </form>';
 
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
@@ -79,6 +72,9 @@ define(['ui/dialog'],function(Dialog){
 							},'json');
 						},
 						afterRender:function(){
+							$('#old_password').placeholder();
+							$('#new_password').placeholder();
+							$('#repeat_password').placeholder();
 						}
 					});
 			}
