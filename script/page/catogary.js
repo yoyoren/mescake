@@ -4,7 +4,7 @@
 			imgs.each(function(index,el){
 				if(index<count){
 					el.onload = function(){
-						$(this).hide().fadeIn('normal');
+						$(this).fadeIn('normal');
 					}
 					el.src = $(el).data('src');
 				}
