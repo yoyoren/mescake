@@ -217,6 +217,13 @@ a.btn:hover{text-decoration: none;}
 /* 购物车为空 */
 .has-no-order{text-align: center; padding-top: 140px;}
 
+/* 账户区域 */
+.acc-item{padding:10px 0 10px 40px; }
+.acc-item p{display: inline-block; *display: inline; *zoom:1;}
+.acc-p1{width: 200px; font-size: 14px; font-weight: bold;}
+.acc-box{border-bottom: 1px solid #d9d9d9; padding: 20px 0; height: 400px;}
+.acc-link{color: #0872e9; font-weight: bold; text-decoration: underline;}
+
 /* 我的订单详情 */
 .odc-adress-area{padding: 30px; _height: 62px; position: relative;}
 .od-total{position: absolute;right: 30px; top:50px;}
@@ -296,15 +303,15 @@ a.btn:hover{text-decoration: none;}
 .handle-area a{color: #999;}
 .handle-area a:hover{color: #ff7e00;}
 .ama-delete{width: 16px; height: 16px; background: url(img/delete-co.png) 0 -20px no-repeat; 
-  text-indent: -100px; overflow: hidden;}
+	text-indent: -100px; overflow: hidden;}
 .ama-delete:hover{background-position: 0 0;}
 
 .ama-item:hover .handle-area{visibility: visible;}
 .hover .handle-area{visibility: visible;}
 .ama-add-address{clear: both; padding-left: 10px;}
 .add-ico{width: 16px; height:16px; font-weight:bold; margin-right:4px; vertical-align: middle; 
-  background: url(img/add-little.png) 0 0 no-repeat;
-  display: inline-block; *display: inline; *zoom:1;
+	background: url(img/add-little.png) 0 0 no-repeat;
+	display: inline-block; *display: inline; *zoom:1;
 }
 
 /* 存放复杂表格 */
@@ -327,7 +334,7 @@ a.btn:hover{text-decoration: none;}
 
 
 .global-input,
-.text-area{border:0 none; background: none; padding: 10px 0; color: #333;}
+.text-area{border:0 none; background: none; padding: 10px 0; color: #333; display: inline-block; *display: inline; *zoom:1;}
 .global-input{height: 22px; line-height: 22px;  width: 240px; margin-bottom: 20px;}
 .text-area{height: 60px; line-height: 18px; width: 240px; margin-bottom: 20px;} 
 .has-bor-input:focus{box-shadow: inset 0 0 8px #eaeaea;}
@@ -398,6 +405,44 @@ a.btn:hover{text-decoration: none;}
 .suc-bg-area{width: 600px; margin: 0 auto;  margin-top: 40px;}
 .suc-container .box-inner{padding: 20px 0;}
 .suc-container .status1-btn{border-radius: 0 3px 3px 0; height: 44px; vertical-align: middle; margin-left: -2px; position: relative; z-index: 2; _margin-top:-56px;}
+
+/* 产品总体列表页 */
+  .pro-ul li{padding-top: 30px;}
+  .pro-ul li a{display: block; color: #858382; font-size: 14px;}
+  .pro-ul li a:hover,
+  li.current a{color: #000; text-decoration: none;}
+  li:hover .left-corner,
+  li.current .left-corner{visibility:visible; }
+  .left-corner{background:url(img/pro-nav-li-bg.png) 0 0 no-repeat; display: inline-block; *display: inline; *zoom:1; width: 10px; height: 10px; visibility: hidden;}
+  .pro-content-area{background: url(img/pros-bg.png) 0 0 repeat-x;}
+  .pro-content{width: 960px; margin: 0 auto;}
+  .pro-ul{width: 110px; margin-left: 20px; display: inline;}
+  .pro-list-area{width: 830px; display: inline;}
+  .pro-list-title{color: #000; font-size: 18px; padding-bottom: 14px; border-bottom: 1px solid #000;}
+  .pro-head{padding:40px 0 80px 0; text-align: center;}
+  .pro-head p{font-size: 14px; color: #666;padding-top: 14px;}
+  .pro-head h2{font-size: 20px;}
+  .pro-list-item{width: 415px; float: left; height: 350px; padding: 30px 0 50px 0;}
+  .pro-list-item h5{font-size: 24px; padding-bottom: 14px; font-weight: normal; *font-weight: bold;}
+  .pro-list-item p{font-size: 12px; color: #666; line-height: 1.5; padding-bottom: 30px;}
+  .pro-more{background: #f5eccd; display: inline-block; *display: inline; *zoom:1; padding: 6px 20px; color: #9f723d; border-radius: 20px; margin: 40px 0;}
+  .pro-more a{color: #9f723d;}
+  .pro-more a:hover{text-decoration: none;}
+
+  .for-love .pro-head{background: url(img/pro-head-bg1.jpg) 540px 0 no-repeat;}
+  .for-love .pro-head h2{color: #ff9998;}
+   
+  .for-day{background: url(img/pros-bg3.png) 0 0 repeat-x;}
+    .for-day .pro-head{background: url(img/pro-head-bg3.jpg) 500px 0 no-repeat;}
+  .for-day .pro-head h2{color: #a97647;}
+
+  .for-happy{background: url(img/pros-bg2.png) 0 0 repeat-x;}
+    .for-happy .pro-head{background: url(img/pro-head-bg2.jpg) center 0 no-repeat;}
+  .for-happy .pro-head h2{color: #a1d058;}
+
+  .for-dream{background: url(img/pros-bg4.png) 0 0 repeat-x;}
+    .for-dream .pro-head{background: url(img/pro-head-bg4.jpg) 540px 0 no-repeat;}
+  .for-dream .pro-head h2{color: #39b3e1;}
 
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}
