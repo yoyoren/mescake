@@ -28,13 +28,13 @@
           <h5>{$value.goods_name}</h5>
           <p>{$value.goods_desc}</p>
           <a href="route.php?mod=goods&action=goods_detail_page&id={$value.goods_id}">
-	  <img src="css/img/blank.gif" class="lazy_load" data-src="{$value.goods_image}">
+	  <img src="css/img/blank.gif" class="lazy_load" data-src="{$value.goods_image}" style="display:none">
 	  </a>
         </div>
 	{/foreach}
       </div>
       <div class="tl-c" style="display:none">
-        <p class="pro-more"><a href="">需要特别的蛋糕？来看看我们的定制服务</a></p>
+        <p class="pro-more"><a href="#">需要特别的蛋糕？来看看我们的定制服务</a></p>
       </div>
     </div>
    </div>
