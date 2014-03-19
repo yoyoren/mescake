@@ -194,7 +194,14 @@ class MES_Goods {
 					$smarty -> assign('specification', $properties['spe']);
 					$smarty -> assign('specification_more', $specification_more);
 					$smarty -> assign('specification_display', $specification_display);
-					//var_dump($properties);
+					$more_count = count($specification_more);
+				
+					if($more_count <1){
+						$smarty -> assign('show_more',false);
+					}else{
+						$smarty -> assign('show_more',true);
+					}	
+					
 					// 商品规格
 					
 					$smarty -> assign('attribute_linked', get_same_attribute_goods($properties));

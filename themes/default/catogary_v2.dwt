@@ -27,7 +27,9 @@
         <div class="pro-list-item">
           <h5>{$value.goods_name}</h5>
           <p>{$value.goods_desc}</p>
-          <a href="route.php?mod=goods&action=goods_detail_page&id={$value.goods_id}"><img src="{$value.goods_image}"></a>
+          <a href="route.php?mod=goods&action=goods_detail_page&id={$value.goods_id}">
+	  <img src="css/img/blank.gif" class="lazy_load" data-src="{$value.goods_image}">
+	  </a>
         </div>
 	{/foreach}
       </div>

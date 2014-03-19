@@ -14,8 +14,10 @@
         <ul class="size-list">
 		<!-- {foreach from=$specification_display item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
-		<!-- {/foreach} -->                           
+		<!-- {/foreach} -->    
+	  {if $show_more == true}
           <li id="show_more_staff"><em class="radiobox-item"></em>更多尺寸</li>
+	  {/if}
         </ul>
         <ul class="size-list" style="padding-top:0;display:none" id="more_list">
           <!-- {foreach from=$specification_more item=value key=key} -->
