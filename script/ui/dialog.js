@@ -15,8 +15,10 @@ define(function(){
         <form action="">\
 		   <p><%=body%></p>\
 			<%if(!bottom) {%>\
+				<div class="single-btn-area">\
 				<input id="dialog_confirm_<%=index%>" class="btn status1-btn" type="submit" value="确定">\
 				<input id="dialog_cancel_<%=index%>" class="btn" type="reset" value="取消">\
+				</div>\
 			<% } else {%>\
 				<%=bottom%>\
 			<% } %>\

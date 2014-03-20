@@ -45,7 +45,12 @@
 						<li>\
 						  <div class="od-title1">\
 							<%if(goods[i].goods_id == CANDLE||goods[i].goods_id == NUM_CANDLE){%>\
-								<span class="od-img-area"><img src="img/lazhu.png" class="od-img" width="70"></span><%=goods[i].goods_name%>\
+								<%if(goods[i].goods_id == CANDLE){%>\
+								<span class="od-img-area"><img src="css/img/lazhu1.jpg" class="od-img" width="50"></span><%=goods[i].goods_name%>\
+								<% } %>\
+								<%if(goods[i].goods_id == NUM_CANDLE){%>\
+								<span class="od-img-area"><img src="css/img/order-detail2.png" class="od-img" width="50"></span><%=goods[i].goods_name%>(<%=goods[i].goods_attr%>)\
+								<% } %>\
 							<%}else{%>\
 								<a target="_blank" href="route.php?mod=goods&action=goods_detail_page&id=<%=goods[i].goods_id%>">\
 								  <span class="od-img-area">\
@@ -96,6 +101,7 @@
 						  <% } %>\
 						<% } %>\
 					<% } %>\
+					<%if(parseInt(order.formated_shipping_fee,10)>0){%>\
 							<li>\
 								<div class="od-title1">\
 									<span class="od-img-area">\
@@ -106,6 +112,7 @@
 								<div class="od-title3">1</div>\
 								<div class="od-title4"><%=order.formated_shipping_fee%>元</div>\
 							 </li>\
+					<% } %>\
 			  </ul>\
 			  <div class="list-line"></div>\
 			  <div class="odc-adress-area">\

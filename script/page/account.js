@@ -1,13 +1,17 @@
 (function(){
 	$('#change_tel').click(function(){
-		require(['ui/changemobile'],function(changemobile){
-			changemobile.show();
+		MES.actionCheckLogin(function(){
+			require(['ui/changemobile'],function(changemobile){
+				changemobile.show();
+			});
 		});
 	});
 
 	$('#change_password').click(function(){
-		require(['ui/changepassword'],function(changepassword){
-			changepassword.show();
+		MES.actionCheckLogin(function(){
+			require(['ui/changepassword'],function(changepassword){
+				changepassword.show();
+			});
 		});
 	});
 
@@ -35,31 +39,12 @@
 			}	
 		},'json');
 	}
-
-	$('#man').click(function(){
-		changeSex(0);
-	});
-
-	$('#lady').click(function(){
-		changeSex(1);
-	});
-
-	$('#my_name').blur(function(){
-		$.post('route.php?mod=account&action=change_real_name',{
-			name:$(this).val()
-		},function(d){
-			if(d.code == 0){
-				$('#mod_tip').show();
-				setTimeout(function(){
-					$('#mod_tip').hide();
-				},2000);
-			}	
-		},'json');
-	});
 	
 	$('#charge_button').click(function(){
-		require(['ui/chargepopup'],function(dialog){
-			dialog.show();
+		MES.actionCheckLogin(function(){
+			require(['ui/chargepopup'],function(dialog){
+				dialog.show();
+			});
 		});
 	});
 })();

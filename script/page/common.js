@@ -60,7 +60,21 @@
 			}
 	   });
    }
-   
+
+   //检测用户动作是否要登录
+   MES.actionCheckLogin = function(success){
+	MES.get({
+		mod:'account',
+		action:'check_login',
+		callback:function(d){
+				if(!d.res){
+					require(["ui/login"], function(login) {login.show();});
+				}else{
+					success&&success();
+				}
+			}
+	   });
+  }
    
    MES.getGoodsCount = function(callback){
 	   MES.get({
@@ -95,7 +109,13 @@
 			$('.order_total').html('￥'+(parseFloat(d.goods_price,10)+parseFloat(d.pack_fee,10)));
 			$('#final_total').html(d.amount_formated);
 	}
-	
+	MES.inputError = function(id){
+		var el = $('#'+id);
+		el.show();
+		setTimeout(function(){
+			el.hide();
+		},2000);
+	}
     var binded;
 	/*
     MES.checkLogin(function(uname){

@@ -1,6 +1,10 @@
 (function(){
 	var codeTimer;
 	var jqTimerDisplay = $('#time_display');
+	$('#new_password').placeholder();
+	$('#new_password_repeate').placeholder();
+	$('#mobile_input').placeholder();
+	$('#code_input').placeholder();
 
 	$('#confirm_change').click(function(){
 		var new_password = $('#new_password').val();

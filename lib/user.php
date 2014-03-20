@@ -655,6 +655,7 @@ class MES_User{
 		}
 	}
 
+    //充值验证码
 	public static function charge_vaild($mobile){
 		 //重新生成随机的密码
 		  $rand_password = MES_User::_send_sms($mobile);
@@ -667,21 +668,19 @@ class MES_User{
 		  ));
 	}
 	
-	public static function do_charge($mobile,$vaild_code){
+	//充值操作
+	public static function do_charge($card_num,$card_pwd,$mobile,$vaild_code){
 		global $_CFG;
 		global $db;
 		global $_LANG;
-		
+		$time=gmtime();
 		$result = array('code' =>0, 'message' => '');
 		//接收卡号、密码
-		$card_num = htmlspecialchars(trim($_POST["card_num"]));
-		$card_pwd = htmlspecialchars(trim($_POST["card_password"]));
-		$mobile = htmlspecialchars(trim($_POST["mobile"]));
-		$verify=substr(md5(strtoupper($_POST['verify'])), 1, 10);	
+
+		//验证码
 		$redis_vaild_code = GET_REDIS($mobile,'signup');
-			
 		if($redis_vaild_code!=$vaild_code){
-			return json_encode(array('code' =>10010,'msg'=>'vaild error'));
+			return json_encode(array('code' =>10010,'msg'=>'验证码错误！'));
 		}
 		//验证卡号
 		$record = $db->getRow('select mc.* from moneycards as mc where '. " mc.cardid='{$card_num}' and mc.cardpassword='{$card_pwd}'");
@@ -700,7 +699,7 @@ class MES_User{
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='您的储值卡已使用';
 		}
-	    $time=gmtime();
+	   
 		if($time<$record['sdate'] && $time>$record['edate']){
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='您的储值卡已过期';
@@ -713,36 +712,17 @@ class MES_User{
 		$charge_num=$db->getOne("select charge_num from ecs_users where user_id=$us_id ");
 		$sql1="update moneycards set user_id=$us_id, used_time ='"
 		. gmtime() ."' where cardid='$card_num'";
+
 		$res=$db->query($sql1);
+		
 		if($res){
 			$change_money = floatval($record['cardmoney']);
-			if($regt>=1386086400 && $regt<1388505600){					
-					//mcard_log
-					$change_d='储值卡：'.$card_num.'充值';
-					$current_time=time();
-					$db->query("insert into mcard_log(user_id,change_type,user_money,change_desc,change_time)values($us_id,2,$change_money,'$change_d',{$current_time}) ");
-					$db->query("insert into ecs_account_log(user_id,user_money,frozen_money,rank_points,pay_points,change_time,change_desc,change_type)values($us_id,$change_money,0,0,0,$current_time,'$change_d',99)");
-					if($charge_num==1){
-					$user_m=$change_money-50;
-					}else{
-					$user_m=$change_money;
-					}
-					$r=$db->query("update ecs_users set user_money=user_money+{$user_m} where user_id=$us_id");
-					if($r){
-						$charge_num=$db->query("update ecs_users set charge_num=2 where user_id=$us_id");	
-						$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id=$us_id");
-						$result['user_money'] =$user_money;
-						$result['change_money'] =$change_money;
-						$result['message'] ='操作成功';
-					}			
-			}else{
-				
 				log_mcard_change($_SESSION['user_id'], $change_money,'储值卡：'.$card_num.'充值',0,0,2);
 				$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id='$_SESSION[user_id]'");
 				$result['user_money'] =$user_money;
 				$result['change_money'] =$change_money;
 				$result['message'] ='操作成功';
-			}
+				DEL_REDIS($mobile,'charge');
 		}else{
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='更新储值卡状态失败，请重试';

@@ -38,7 +38,7 @@ if (in_array($action, $_action_list)) {
 
 	if (!MES_User::server_check_login()) {
 		echo json_encode(array('code' => RES_NEED_LOGIN));
-		exit ;
+		die ;
 	}
 }
 switch ($mod) {
@@ -228,6 +228,16 @@ switch ($mod) {
  						'empty'=>true
  				));
 				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
+				$inv_content=ANTI_SPAM($_POST['inv_content'],array(
+ 										'empty'=>true
+ 				));
+				if($inv_content){
+ 					$inv_payee=ANTI_SPAM($_POST['inv_payee']);
+ 				}else{
+ 					$inv_payee=ANTI_SPAM($_POST['inv_payee'],array(
+ 										'empty'=>true
+ 					));
+ 				}
 				$data = array(
 		            'address_id'    =>$address_id,
 		            'consignee'     =>$consignee,
@@ -243,26 +253,37 @@ switch ($mod) {
 		            'sign_building' =>$sign_building,
 		            'best_time'     =>$best_time,
 					'message_input' =>$message_input,
+					'inv_payee'     =>$inv_payee,
+ 					'inv_content'   =>$inv_content,
 		        );
 
 
 			//地址id为空可以，但是内容不能为空
 			if (empty($address_id) && (empty($city) || empty($address))) {
 				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'address error', ));
-				exit ;
+				die ;
 			}
 
 			//自己的手机和联系人的手机 至少写一个
 			if (empty($tel) && empty($mobile)) {
 				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'tel empty', ));
-				exit ;
+				die ;
 			}
 
 			//如果送货时间小于当前时间5小时 不能送
 			if (time() > (strtotime($best_time) - 5 * 3600)) {
 				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'time error', ));
-				exit ;
+				die ;
 			}
+			
+			//发票内容不为空，抬头则不能为空
+ 			if($inv_content&&empty($inv_payee)){
+ 				echo json_encode(array(
+ 						'code'=>RES_PARAM_INVAILD,
+ 						'msg'=>'invoice error',
+ 				));
+ 				die;
+ 			}
 
 			echo MES_Order::save_consignee($data);
 		} else if ($action == 'checkout') {
@@ -283,7 +304,7 @@ switch ($mod) {
 				$validator = new captcha();
 				if (!$validator -> check_word($vaild_code)) {
 					echo json_encode(array('code' => RES_CAPTACH_INVAILD, 'msg' => 'vaild error', ));
-					exit ;
+					die ;
 				}
 			}
 			//checkout and cal total price
@@ -333,7 +354,7 @@ switch ($mod) {
 					ecs_header("Location:./\n");
 				}
 				$goods_id = intval($goods_id);
-				exit ;
+				die ;
 			}
 
 			//67为数字蜡烛 必须要符合添加的规范
@@ -375,13 +396,13 @@ switch ($mod) {
 		//
 		require_once (ROOT_PATH . 'includes/lib_order.php');
 
-		//JSONÐòÁÐ»¯
+		//JSON
 		require_once (ROOT_PATH . 'includes/cls_json.php');
 
-		//ÓÃ»§ÓïÑÔ°ü
+		//lang files
 		require_once (ROOT_PATH . 'languages/' . $_CFG['lang'] . '/user.php');
 
-		//µÇÂ½
+		//login using ajax
 		if ($action == 'login') {
 			$username = !empty($_POST['username']) ? json_str_iconv(trim($_POST['username'])) : '';
 			$password = !empty($_POST['password']) ? trim($_POST['password']) : '';
@@ -544,6 +565,19 @@ switch ($mod) {
 			echo MES_User::change_real_name($name);
 		} else if ($action == 'get_order_count_by_sid') {
 			echo MES_User::get_order_count_by_sid();
+		} else if ($action == 'charge_vaild') {
+			
+			//获得充值验证码
+			$mobile =  ANTI_SPAM($_POST['mobile']);
+			echo MES_User::charge_vaild($mobile);
+		} else if ($action == 'do_charge') {
+			//充值操作
+			$mobile =  ANTI_SPAM($_POST['mobile']);
+			$card_num =  ANTI_SPAM($_POST['mobile']);
+			$card_pwd =  ANTI_SPAM($_POST['mobile']);
+			$vaild_code =  ANTI_SPAM($_POST['mobile']);
+
+			echo MES_User::do_charge($card_num,$card_pwd,$mobile,$vaild_code);
 		} else {
 			header("Location: 404.html");
 		}

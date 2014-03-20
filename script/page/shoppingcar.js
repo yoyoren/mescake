@@ -182,15 +182,27 @@
 				var candleNumHash = {};
 				//如果买了蜡烛 需要显示出来
 				for(var i=0;i<goodsData.length;i++){
-					if(goodsData[i].goods_id == 61){
-					  candleHash[goodsData[i].parent_id] = goodsData[i];
-					}else if(goodsData[i].goods_id == 67){
-					  if(!candleNumHash[goodsData[i].parent_id]){
-						 candleNumHash[goodsData[i].parent_id] = [];
+					var _good = goodsData[i];
+					if(_good.goods_id == 61){
+					  candleHash[_good.parent_id] = goodsData[i];
+					}else if(_good.goods_id == 67){
+					  if(!candleNumHash[_good.parent_id]){
+						 candleNumHash[_good.parent_id] = [];
 					  }
-					  candleNumHash[goodsData[i].parent_id].push(goodsData[i]);
+					  candleNumHash[_good.parent_id].push(_good);
 					}else{
-						staffData.push(goodsData[i]);
+						staffData.push(_good);
+					}
+
+					//订单中有大于5磅的货物 则不能货到付款
+					if(parseInt(_good.goods_attr,10)>5&&!window.SHOPPING_CAR){
+						window.HAS_BIG_STAFF = true;
+						setTimeout(function(){
+							$('#alipay_radio').trigger('click');
+						},0);
+						$('#cash').hide();
+						$('#cash_radio').hide();
+						$('#cash_sel').hide();
 					}
 				}
 		

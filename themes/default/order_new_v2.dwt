@@ -111,15 +111,55 @@
 										</select>
 									</div>
 								</li>
-								<li class="clearfix" style="display:none">
+								<li class="clearfix">
 									<div class="l-title">
 										开发票：
 									</div>
 									<div class="r-con clearfix" style="padding-bottom:20px;">
-										<input type="checkbox" class="checkbox-item">
+										<input type="checkbox" class="checkbox-item" id="fapiao_chk">
 									</div>
 								</li>
 							</ul>
+							<ul class="tt-ul invoice-ul clearfix" style="display:none" id="fapiao_form">
+							    <li class="clearfix">
+							      <div class="l-title">发票类型：</div>
+							      <div class="r-con clearfix" style="padding-bottom:20px;">
+								普通发票
+							      </div>
+							    </li>
+							    <li class="clearfix">
+							      <div class="l-title">发票抬头：</div>
+							      <div class="r-con clearfix" style="padding-bottom:20px;">
+								<label for="personal" class="space"><input type="radio" name="invoice" id="personal" class="radio-item">个人</label>
+								<label for="company"><input type="radio" name="invoice" id="company" class="radio-item">公司</label>
+							      </div>
+							    </li>
+							    <li class="clearfix" id="p_name_container">
+							      <div class="l-title lh-input">顾客姓名：</div>
+							      <div class="r-con clearfix">
+								<div class="check-container">
+								  <input type="password" class="global-input" placeholder="请填写顾客姓名" id="person_name" >
+								  <span class="tips-container" id="p_tip" style="display:none">输入错误</span>
+								</div>
+							      </div>
+							    </li>
+							    <li class="clearfix" id="c_name_container" style="display:none">
+							      <div class="l-title lh-input">公司名称：</div>
+							      <div class="r-con clearfix">
+								<div class="check-container">
+								  <input type="password" class="global-input" placeholder="请填写公司名称" id="company_name">
+								  <span class="tips-container" id="c_tip" style="display:none">输入错误</span>
+								</div>
+							      </div>
+							    </li>
+							    <li class="clearfix">
+							      <div class="l-title">发票内容：</div>
+							      <div class="r-con clearfix" style="padding-bottom:20px;">
+								<label for="cake" class="space"><input type="radio" name="invoiceCon" id="cake" class="radio-item">蛋糕</label>
+								<label for="food"><input type="radio" name="invoiceCon" id="food" class="radio-item">食品</label>
+							      </div>
+							    </li>
+							  </ul>
 						</div>
 
 				
@@ -141,18 +181,18 @@
 							  </div>
 							  <div class="check-money-area clearfix" >
 								<div class="money-style" id="money_card_frame" style="display:none">
-									<label for="voucher" style="display:none"  id="voucher_label">
+									<label for="voucher" id="voucher_label">
 										<input type="checkbox" id="voucher" class="checkbox-item">
 										使用现金券</label>
 									<br>
 									<div style="margin-left:20px;display:none" id="money_card_input_frame">
-										请输入10位现金券券号:&nbsp;&nbsp;
-										<input type="text" class="global-input vt-a" id="cash_code">
+										
+										<input type="text" class="global-input vt-a" id="cash_code" placeholder="请输入10位现金券券号">
 										<em style="display:none" class="error-ico" id="no">x</em><em style="display:none" id="yes" class="suc-ico">√</em>
 									</div>
 									<label for="balance" id="blance_label">
 										<input type="checkbox" id="balance" class="checkbox-item">
-										活动赠送/礼金卡<span class="overage-area"><span id="balance_display" style="display:none">可用余额（50元）</span><a class="btn" target="_blank" href="user.php?act=charge">充值</a></span></label>
+										活动赠送/礼金卡<span class="overage-area"><span id="balance_display" style="display:none">可用余额（50元）</span><a class="btn" id="order_charge" href="#">充值</a></span></label>
 									<br>
 									<!-- 可用余额是戳了radio以后再显示出来。 -->
 								</div>
