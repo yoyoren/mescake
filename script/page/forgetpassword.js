@@ -52,7 +52,7 @@
 		var mobile = $('#mobile_input').val();
 		var code = $('#code_input').val();
 
-		if(!mobile||mobile.split('').length<6){
+		if(!mobile||!MES.IS_MOBILE(mobile)){
 			$('#mobile_input').next().show();
 			setTimeout(function(){
 				$('#mobile_input').next().hide();
@@ -89,7 +89,7 @@
 	$('#get_code').click(function(){
 		var mobile = $('#mobile_input').val();
 
-		if(!mobile||mobile.split('').length<6){
+		if(!mobile||!MES.IS_MOBILE(mobile)){
 			$('#mobile_input').next().show();
 			setTimeout(function(){
 				$('#mobile_input').next().hide();
@@ -123,7 +123,7 @@
 					require(['ui/confirm'],function(confirm){
 						new confirm('\
 									  <b>该手机号并未注册账户</b><br><br>\
-									  您可以现在就去<a href="user.php?act=register" class="td-u">注册一个新账户</a><br>\
+									  您可以现在就去<a href="route.php?action=signup_page&mod=account" class="td-u">注册一个新账户</a><br>\
 									');
 					});
 					clearInterval(codeTimer);

@@ -17,7 +17,7 @@
 			if(d.code == 0){
 			   require(['ui/confirm'],function(confirm){
 					new confirm('现在你已经成为了mescake的会员，可以在我的订单中追踪订购的商品',function(){
-						location.href="index.php";
+						location.href="index.htm";
 					});
 				});
 			}else if(d.code == 1){
