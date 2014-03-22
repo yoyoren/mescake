@@ -565,7 +565,7 @@
 						bdate:JQ.date_picker.val(),
 						hour:JQ.hour_picker.val(),
 						minute:JQ.minute_picker.val(),
-						message_input:JQ.message_input.val(),
+						message_input:JQ.message_input.val().substring(0,140),
 						inv_payee:JQ.person_name.val()+JQ.company_name.val(),
 						inv_content:corf
 				};
@@ -581,7 +581,7 @@
 						bdate:JQ.date_picker.val(),
 						hour:JQ.hour_picker.val(),
 						minute:JQ.minute_picker.val(),
-						message_input:JQ.message_input.val(),
+						message_input:JQ.message_input.val().substring(0,140),
 						inv_payee:JQ.person_name.val()+JQ.company_name.val(),
 						inv_content:corf
 				}
@@ -634,7 +634,8 @@
 						//用户已经存在于数据库中
 						if(d.exsit){
 							require(['ui/confirm'],function(confirm){
-								new confirm('您所使用的手机号已经被注册，请登录后再继续订购',function(){
+								var _confirm = new confirm('您所使用的手机号已经被注册，请登录后再继续订购',function(){
+									_confirm.close();
 									require(["ui/login"], function(login) {login.show();});
 								});
 							});
@@ -746,11 +747,10 @@
 			//	$('#balance_display').html('可用余额'+d.user_money).show();
 			//},'json');
 			$('#balance').click(function(){
-				if($('#voucher')[0].checked==true)
- 				{
+				if($('#voucher')[0].checked==true){
  					$(this)[0].checked=false;
  					require(['ui/confirm'],function(confirm){
- 						new confirm('现金券礼金卡不能同时使用哦~');
+ 						new confirm('现金券和礼金卡不能同时使用！');
  					});
   				}
 				else{
@@ -895,7 +895,7 @@
 							_html+='<option value="'+i+'">'+i+'</option>';
 						}
 					}else{
-						_html=('<option>大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
+						_html=('<option value="0">大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
 					}
 				}else{
 					//10点以后了 选择第二天的订单 只能是14点之后的
@@ -920,7 +920,7 @@
 								hour+=1;
 							}
 							if(hour>endHour){
-								_html=('<option>制作需要5小时，今天已不能送货</option>');
+								_html=('<option value="0">制作需要5小时，今天已不能送货</option>');
 							}else if(hour<beginHour){
 								for(var i=beginHour;i<=endHour;i++){
 									_html+=('<option>'+i+'</option>');

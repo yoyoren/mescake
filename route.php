@@ -296,7 +296,7 @@ switch ($mod) {
 
 			//大于三次的提交 才验证
 	
-			if ($checkout_times > 30) {
+			if ($checkout_times > 3) {
 				error_reporting(0);
 
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
@@ -337,8 +337,8 @@ switch ($mod) {
 
 			echo MES_Order::checkout($card_message);
 		} else if ($action == 'done') {
-			$token = $_POST['token'];
-			$pay_id = $_POST['pay_id'];
+			$token = ANTI_SPAM($_POST['token']);
+			$pay_id = ANTI_SPAM($_POST['pay_id']);
 
 			echo MES_Order::done($token, $pay_id);
 		} else if ($action == 'add_to_cart') {
@@ -346,9 +346,9 @@ switch ($mod) {
 
 			$goods = strip_tags(urldecode($_POST['goods']));
 			$goods = json_str_iconv($goods);
-			$parent_id = $_POST['parent_id'];
-			$goods_id = $_POST['goods_id'];
-			$goods_attr = $_POST['goods_attr'];
+			$parent_id = ANTI_SPAM($_POST['parent_id'],array('empty'=>true));
+			$goods_id = ANTI_SPAM($_POST['goods_id']);
+			$goods_attr = ANTI_SPAM($_POST['goods_attr'],array('empty'=>true));
 			if (!empty($goods_id) && empty($goods)) {
 				if (!is_numeric($goods_id) || intval($goods_id) <= 0) {
 					ecs_header("Location:./\n");
@@ -385,6 +385,8 @@ switch ($mod) {
 
 			//计算购物车里面的商品总价
 			echo MES_Order::get_total_price_in_cart();
+		}  else if ($action == 'done_page') {
+			$smarty->display('done_v2.dwt');
 		} else {
 			header("Location: 404.html");
 		}

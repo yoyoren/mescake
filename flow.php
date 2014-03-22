@@ -2160,7 +2160,7 @@ if ($_SESSION['user_auto_register'] == '11') {
 	//如果是那种非注册用户就要引导注册
 	$smarty -> display('order_set_password.dwt');
 } else {
-	$smarty -> display('flow.dwt');
+	$smarty -> display('done_v2.dwt');
 }
 
 /*------------------------------------------------------ */
