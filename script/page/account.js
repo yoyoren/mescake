@@ -9,9 +9,9 @@
 
 	$('#change_password').click(function(){
 		MES.actionCheckLogin(function(){
-			require(['ui/changepassword'],function(changepassword){
-				changepassword.show();
-			});
+					require(['ui/chargepopup'],function(dialog){
+						dialog.show();
+					});
 		});
 	});
 

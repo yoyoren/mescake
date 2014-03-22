@@ -386,7 +386,6 @@
 				SubmitLock = true;
 				var jqButton = $(this);
 				jqButton.removeClass('green-btn');
-				//jqButton.html('正在提交...');
 
 				var jqThis = $('#address_'+CURRENT_ADDRESS_ID);
 				if(jqThis.length==0&&window.IS_LOGIN){
@@ -421,35 +420,25 @@
 			}
 
 			if($.trim(JQ.new_address.val())==''){
-				JQ.new_address.next().show();
-				setTimeout(function(){
-					JQ.new_address.next().hide();
-				},2000)
+				MES.inputError('new_address_error');
 				return false;
 			}
 
 			if($.trim(JQ.new_contact.val())==''){
-				JQ.new_contact.next().show();
-				setTimeout(function(){
-					JQ.new_contact.next().hide();
-				},2000)
+				MES.inputError('new_contact_error');
 				return false;
 			}
 			var tel = $.trim(JQ.new_tel.val());
-			if(!/\d{5,}/.test(tel)){
-				JQ.new_tel.next().show();
-				setTimeout(function(){
-					JQ.new_tel.next().hide();
-				},2000)
+			if(!MES.IS_MOBILE(tel)){
+				MES.inputError('new_tel_error');
 				return false;
 			}
 
+			//秘密赠送的逻辑
 			var myTel = JQ.my_phone_input.val();
-			if($('#serect_checkbox')[0].checked&&!/\d{5,}/.test(myTel)){
-				JQ.my_phone_input.next().show();
-				setTimeout(function(){
-					JQ.my_phone_input.next().hide();
-				},2000)
+			var _serectSend = $('#serect_checkbox')[0].checked;
+			if(_serectSend&&!MES.IS_MOBILE(myTel)){
+				MES.inputError('my_phone_input_error');
 				return false;
 			}
 
@@ -625,6 +614,10 @@
 					var username = JQ.new_tel.val();
 					if($('#serect_checkbox')[0].checked){
 						username = JQ.my_phone_input.val();
+					}
+					if(!MES.IS_MOBILE(username)){
+						MES.inputError('new_tel_error');
+						return;
 					}
 
 					$.get('route.php?action=check_user_exsit&mod=account',{

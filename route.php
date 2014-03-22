@@ -602,8 +602,29 @@ switch ($mod) {
 		} else if ($action == 'page') {
 			$smarty -> display('huodongpage.dwt');
 		} else if ($action == 'admin') {
-			$smarty -> display('huodongadmin.dwt');
-		} else {
+			//$smarty -> display('huodongadmin.dwt');
+		} else if ($action == 'upload') {
+			$msg;
+			$file = $_FILES['images'];
+			$images = $_POST['images'];
+			$size = $file['size'];
+			$type = $file['type'];
+			if($size>5*1024*1024){
+				$msg='文件体积过大';
+			}
+
+			if($type!='image/jpeg'||$type!='image/jpg'||$type!='image/png'||$type!='image/gif'){
+				$msg='文件格式不支持';
+			}
+			$filename = date("YmdHis");
+			$upfile = 'upfile/' . $filename . '.jpg';  
+			if(is_uploaded_file($_FILES['file']['tmp_name'])){  
+			   if(!move_uploaded_file($_FILES['file']['tmp_name'], $upfile)){  
+				 echo '移动文件失败！';  
+				 exit;  
+				}  
+			}
+		}else {
 			header("Location: 404.html");
 		}
 		break;

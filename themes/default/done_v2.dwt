@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>MES蛋糕</title>
+  
+  <!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
+  <link href="themes/default/style.css" rel="stylesheet" type="text/css" />
+  <style>
+  .footer{background:#fff}
+  </style>
+</head>
+<body>
+<div class="layout">
+  <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+  <script>
+	$(function(){
+		$('.imgShowSmall img').mouseover(function(){
+			var thissrc = $(this).attr('src');
+			$(this).parents('.imgShow').find('.imgShowBig img').attr('src',thissrc);
+		});		   
+	});
+	</script>
+        <div class="flowBox">
+		<div class="box1">
+		<div class="imgShow">
+		<div class="imgShowBig">
+			<img src="images/sgoods/{$goods.img}.png" width="144" height="96" alt="" />
+			</div>
+		<div class="imgShowSmall">
+			{foreach from=$goods_list item=goods}
+				{if $goods.goodsimg!=''}
+				<img src="images/sgoods/{$goods.goodsimg}.png" width="50" height="33" alt="" />
+				{/if}
+			{/foreach}
+			</div>
+	    </div>
+		<div class="donetext">
+		<table style="text-align:left;margin:auto;font-size:12px;">
+			<tr>
+				<td>您选择的{$goods.name},订单号为{$order.order_sn}，蛋糕正在制作。<br/>
+				我们的特别派送员将在预订时间送达贵处，再次感谢您的预订。<br>
+			<div style="text-align:center;">如需帮助请致电4000 600 700</div></td>
+			</tr>
+			
+		</table>
+		</div>
+	</div>
+        </div>{$pay_online}
+  <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
+</div>
+</body>
+</html>

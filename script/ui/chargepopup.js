@@ -36,7 +36,7 @@ define(['ui/dialog'],function(Dialog){
 							if(d){
 								callback = d.callback
 							}
-						}
+						},
 						onconfirm:function(){
 							var card_num='';
 							var num_error = false;
