@@ -1,5 +1,5 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<form action="">\
+	var body = '<div>\
           <div class="check-container">\
             <input id="old_password" type="password" class="global-input no-border-b" placeholder="请输入当前密码">\
             <span class="tips-container" style="display:none">密码必须是6位及以上</span><!-- 错误信息容器,出现2秒后消失 -->\
@@ -12,7 +12,7 @@ define(['ui/dialog'],function(Dialog){
             <input id="new_password" type="password" class="global-input no-border-t" placeholder="请再次确认密码">\
             <span class="tips-container" style="display:none">两次输入的密码不一致</span>\
           </div>\
-        </form>';
+        </div>';
 
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;

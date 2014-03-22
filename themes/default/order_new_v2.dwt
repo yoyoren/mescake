@@ -138,7 +138,7 @@
 							      <div class="l-title lh-input">顾客姓名：</div>
 							      <div class="r-con clearfix">
 								<div class="check-container">
-								  <input type="password" class="global-input" placeholder="请填写顾客姓名" id="person_name" >
+								  <input type="text" class="global-input" placeholder="请填写顾客姓名" id="person_name" >
 								  <span class="tips-container" id="p_tip" style="display:none">输入错误</span>
 								</div>
 							      </div>
@@ -147,7 +147,7 @@
 							      <div class="l-title lh-input">公司名称：</div>
 							      <div class="r-con clearfix">
 								<div class="check-container">
-								  <input type="password" class="global-input" placeholder="请填写公司名称" id="company_name">
+								  <input type="text" class="global-input" placeholder="请填写公司名称" id="company_name">
 								  <span class="tips-container" id="c_tip" style="display:none">输入错误</span>
 								</div>
 							      </div>
@@ -187,7 +187,7 @@
 									<br>
 									<div style="margin-left:20px;display:none" id="money_card_input_frame">
 										
-										<input type="text" class="global-input vt-a" id="cash_code" placeholder="请输入10位现金券券号">
+										<input type="text" class="global-input vt-a has-bor-input" id="cash_code" placeholder="请输入10位现金券券号">
 										<em style="display:none" class="error-ico" id="no">x</em><em style="display:none" id="yes" class="suc-ico">√</em>
 									</div>
 									<label for="balance" id="blance_label">

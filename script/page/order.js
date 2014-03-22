@@ -60,7 +60,8 @@
 		company_name:$('#company_name'),
 		my_phone_input:$('#my_phone_input'),
 		money_card_frame:$('#money_card_frame'),
-		login_tip:$('#login_tip')
+		login_tip:$('#login_tip'),
+		cash_code:$('#cash_code')
    }
    var Order = {
 
@@ -840,7 +841,7 @@
 
 
 		initPlacerHolderForIE:function(){
-			var placerHolderTable = ['new_address','new_contact','new_tel','my_phone_input'];
+			var placerHolderTable = ['new_address','new_contact','new_tel','my_phone_input','cash_code','person_name','company_name'];
 			for(var i=0,l=placerHolderTable.length;i<l;i++){
 				$('#'+placerHolderTable[i]).placeholder();
 			}

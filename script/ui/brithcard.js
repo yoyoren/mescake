@@ -1,5 +1,5 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<form>\
+	var body = '<div>\
           <img src="css/img/birth-bg.jpg" class="birth-bg">\
           <div class="check-container">\
             <input type="text" class="global-input no-border-t" id="brith_card_input" placeholder="请输入生日牌的内容（10字以内）">\
@@ -8,11 +8,12 @@ define(['ui/dialog'],function(Dialog){
           <div class="single-btn-area">\
             <input class="btn status1-btn" type="button" value="确定" id="brith_confirm">\
           </div>\
-        </form>'
+        </div>'
 
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
 	var rec_id;
+	var words=10;
 	var brithCard = {
 		
 		init:function(){
@@ -26,10 +27,9 @@ define(['ui/dialog'],function(Dialog){
 						onshow:function(d){
 							if(d){
 								rec_id = d.id;
+								words = d.words;
+								$('#brith_card_input').attr('placeholder','请输入生日牌的内容（'+words+'字以内）');
 							}
-						},
-						onconfirm:function(){
-							
 						},
 						afterRender:function(_this){
 							var jqInput = $('#brith_card_input');
@@ -40,11 +40,8 @@ define(['ui/dialog'],function(Dialog){
 									single.hide();
 									return;
 								}
-								if(text.length>10){
-									$('#brith_card_input_error').show();
-									setTimeout(function(){
-										('#brith_card_input_error').hide();
-									},2000);
+								if(text.length>words){
+									MES.inputError('brith_card_input_error');
 									return;
 								}else{
 									

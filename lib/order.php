@@ -49,8 +49,9 @@ class MES_Order{
 	//获得一个用户所有的地址信息
 	public static function get_order_address(){
 		GLOBAL $db;
-		if(MES_User::server_check_login()){;
-			$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']}";	
+		if(MES_User::server_check_login()){
+			$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
+			$sql="select * from ecs_user_address where user_id={$user_id}";	
 			$address=$db->getAll($sql);
 			
 			for($i=0;$i<count($address);$i++){
@@ -69,7 +70,8 @@ class MES_Order{
 	//删除送货地址
 	public static function del_order_address($address_id){
 		GLOBAL $db;
-		$sql="delete from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
+		$sql="delete from ecs_user_address where address_id={$address_id} and user_id={$user_id}";
 		$address=$db->query($sql);
 		return json_encode(array(
 			'code'=>RES_SUCCSEE,
@@ -80,13 +82,14 @@ class MES_Order{
 	//更新送货的地址
 	public static function update_order_address($address_id,$country,$city,$contact,$address,$tel,$district=0){
 		GLOBAL $db;
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 		//根据用户id来更新地址
 		$db->query("update ecs_user_address set country={$country},city={$city},district={$district},consignee='{$contact}',address='{$address}',mobile='{$tel}'
-			where user_id={$_SESSION['user_id']} and address_id={$address_id}");
+			where user_id={$user_id} and address_id={$address_id}");
 
 
 		//get updated address
-		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} and address_id={$address_id}";	
+		$sql="select * from ecs_user_address where user_id={$user_id} and address_id={$address_id}";	
 		$address=$db->getRow($sql);
 		
 		//get cityname from anther table;
@@ -104,10 +107,11 @@ class MES_Order{
    //收货人,城市,地区,地质,和电话和街道，增加地址
 	public static function add_order_address($contact,$country,$city,$address,$tel,$district=0){
 		GLOBAL $db;
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 		$db->query("INSERT INTO ecs_user_address(address_name, user_id, consignee, country, province, city, district, address, tel, mobile, money_address, route_id, ExchangeState, ExchangeState2)
-		VALUES('',{$_SESSION['user_id']},'{$contact}','{$country}','0', '{$city}', '{$district}', '{$address}', '', '{$tel}', NULL, '0', '0', '0')");
+		VALUES('',{$user_id},'{$contact}','{$country}','0', '{$city}', '{$district}', '{$address}', '', '{$tel}', NULL, '0', '0', '0')");
 		
-		$sql="select * from ecs_user_address where user_id={$_SESSION['user_id']} and address='{$address}' limit 0,1";	
+		$sql="select * from ecs_user_address where user_id={$user_id} and address='{$address}' limit 0,1";	
 		$address=$db->getRow($sql);
 		
 		//get cityname from anther table;
@@ -208,7 +212,8 @@ class MES_Order{
 	//根据地址id判断一个地址是否需要加送运费
 	public static function if_address_need_fee($address_id){
 		GLOBAL $db;
-		$sql="select * from ecs_user_address where address_id={$address_id} and user_id={$_SESSION['user_id']}";	
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
+		$sql="select * from ecs_user_address where address_id={$address_id} and user_id={$user_id}";	
 		$address=$db->getAll($sql);
 		$address = $address[0];
 		if($address){
@@ -544,11 +549,11 @@ class MES_Order{
 		
 		include_once('includes/check_order.php');
 		include_once('includes/lib_order.php');
-
-        if ($_SESSION['user_id'] > 0){
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
+        if ($user_id){
             include_once(ROOT_PATH . 'includes/lib_transaction.php');
             /* 如果用户已经登录，则保存收货人信息 */
-            $consignee['user_id'] = $_SESSION['user_id'];
+            $consignee['user_id'] = $user_id;
         }
 
         //收货人信息保存到session
@@ -586,7 +591,7 @@ class MES_Order{
 		GLOBAL $db;
 		$res = array();
     	//取得购物类型
-    	
+    	$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
     	$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
 
     	//团购标志
@@ -616,7 +621,8 @@ class MES_Order{
 	     * 如果用户已经登录了则检查是否有默认的收货地址
 	     * 如果没有登录则跳转到登录和注册页面
 	     */
-	    if (empty($_SESSION['direct_shopping']) && $_SESSION['user_id'] == 0){
+		
+	    if (empty($_SESSION['direct_shopping']) && $user_id){
 	        /* 用户没有登录且没有选定匿名购物，转向到登录页面 */
 	        //ecs_header("Location: flow.php?step=login\n");
 	        //exit;
@@ -677,13 +683,13 @@ class MES_Order{
 	    $insure_disabled   = true;
 	    $cod_disabled      = true;
 
-	    $user_info = user_info($_SESSION['user_id']);
+	    $user_info = user_info($user_id);
 		$order['orderman']=$user_info['user_name'];
 		$order['mobile']=$user_info['mobile_phone'];
 		$order['email']=$user_info['email'];
 		$my_info = array();
 
-	    if ( $_SESSION['user_id'] > 0&& $user_info['user_money'] >= 0){
+	    if ( $user_id&& $user_info['user_money'] >= 0){
 	        // 能使用余额
 	        //$smarty->assign('allow_use_surplus', 1);
 	        //$smarty->assign('your_surplus', $user_info['user_money']);
@@ -692,7 +698,7 @@ class MES_Order{
 
 	    /* 如果使用积分，取得用户可用积分及本订单最多可以使用的积分 */
 	    if ((!isset($_CFG['use_integral']) || $_CFG['use_integral'] == '1')
-	        && $_SESSION['user_id'] > 0
+	        && $user_id
 	        && $user_info['pay_points'] > 0
 	        && ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
 	    {

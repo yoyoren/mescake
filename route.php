@@ -30,7 +30,7 @@ function error_exit() {
 }
 
 //需要登录的操作
-$need_login_action = array('order' => array('get_order_address', 'del_order_address', 'update_order_address', ), 'account' => array('logout', 'get_user_order_detail', 'get_user_order_list', 'del_one_order', 'set_password', 'change_mobile', 'get_user_mobile_number', 'change_password', 'get_users_info', 'change_sex', 'change_real_name', ));
+$need_login_action = array('order' => array('get_order_address', 'del_order_address', 'update_order_address', ), 'account' => array('logout', 'get_user_order_detail', 'get_user_order_list', 'del_one_order', 'set_password', 'change_mobile', 'get_user_mobile_number', 'change_password', 'get_users_info', 'change_sex', 'change_real_name', 'do_charge'));
 $_action_list = $need_login_action[$mod];
 
 //验证必须登录的操作
@@ -573,9 +573,9 @@ switch ($mod) {
 		} else if ($action == 'do_charge') {
 			//充值操作
 			$mobile =  ANTI_SPAM($_POST['mobile']);
-			$card_num =  ANTI_SPAM($_POST['mobile']);
-			$card_pwd =  ANTI_SPAM($_POST['mobile']);
-			$vaild_code =  ANTI_SPAM($_POST['mobile']);
+			$card_num =  ANTI_SPAM($_POST['card_num']);
+			$card_pwd =  ANTI_SPAM($_POST['card_pwd']);
+			$vaild_code =  ANTI_SPAM($_POST['vaild_code']);
 
 			echo MES_User::do_charge($card_num,$card_pwd,$mobile,$vaild_code);
 		} else {
@@ -618,6 +618,7 @@ switch ($mod) {
 			$goods_id = ANTI_SPAM($_REQUEST['id']);
 			$attr_id = isset($_REQUEST['attr']) ? explode(',', $_REQUEST['attr']) : array();
 			$number = (isset($_REQUEST['number'])) ? intval($_REQUEST['number']) : 1;
+
 			echo MES_Goods::get_price_by_weight($goods_id, $attr_id, $number);
 		}else if ($action == 'goods_detail_page') {
 			$goods_id = ANTI_SPAM($_REQUEST['id']);
@@ -636,7 +637,7 @@ switch ($mod) {
 				//为首页生成一个静态缓存页面
 			    echo PAGE_CACHER('index','page','index_v2.dwt','get_index_tpl',true);
 			}else if ($action == 'cato') {
-				$cato_id = $_GET['id'];
+				$cato_id = ANTI_SPAM($_GET['id']);
 				function get_cato_tpl(){
 					global $smarty;
 					global $cato_id;

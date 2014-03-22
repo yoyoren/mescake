@@ -126,7 +126,11 @@ function register($username, $password, $email, $other = array())
 		//cookie的下发 要放到正确的路径下
         setcookie("serviceToken",$token, $time,'/');            
         setcookie("uuid",$username, $time,'/');
-
+		$sql = "SELECT user_id, password, email FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_name='$username' LIMIT 1";
+        $row = $GLOBALS['db']->getRow($sql);
+        if ($row) {
+			SETEX_REDIS($username,$row['user_id'],$time_lasts,'user_id');
+        }
         /* 注册送积分 */
         if (!empty($GLOBALS['_CFG']['register_points']))
         {

@@ -83,6 +83,7 @@ class MES_User{
 		global $user;
 		$uuid = $_COOKIE['uuid'];
 		DEL_REDIS($uuid,'user');
+		DEL_REDIS($uuid,'user_id');
 		$user->logout();
 		return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success'));
 	}
@@ -242,9 +243,8 @@ class MES_User{
 	    include_once(ROOT_PATH . 'includes/lib_clips.php');
 		
 		GLOBAL $db;
-
 		$order_id = addslashes($order_id);
-	    $user_id = addslashes($_SESSION['user_id']);
+	    $user_id = addslashes(GET_REDIS($_COOKIE['uuid'],'user_id'));
 	    $res = array('code' =>RES_SUCCSEE);
 	    /* 订单详情 */
 	    $order = get_order_detail($order_id, $user_id);
@@ -312,7 +312,7 @@ class MES_User{
 	    include_once(ROOT_PATH . 'includes/lib_clips.php');
 		global $db;
 		global $ecs;
-		$user_id = $_SESSION['user_id'];
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 		if(!$user_id){
 			return json_encode(array('code' =>RES_FAIL,'msg'=>'user_id not exsit'));
 		}
@@ -337,7 +337,7 @@ class MES_User{
 		include_once(ROOT_PATH . 'includes/lib_common.php');
 		global $db;
 		global $ecs;
-		$user_id = $_SESSION['user_id'];
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 		
 		//只有没有确认的订单才可以取消
 		//$current_order = $db->getRow("select order_status,pay_status from ecs_order_info where user_id = '$user_id' and order_id = '$order_id'");
@@ -673,6 +673,8 @@ class MES_User{
 		global $_CFG;
 		global $db;
 		global $_LANG;
+
+		global $ecs;
 		$time=gmtime();
 		$result = array('code' =>0, 'message' => '');
 		//接收卡号、密码
@@ -680,7 +682,10 @@ class MES_User{
 		//验证码
 		$redis_vaild_code = GET_REDIS($mobile,'signup');
 		if($redis_vaild_code!=$vaild_code){
-			return json_encode(array('code' =>10010,'msg'=>'验证码错误！'));
+			return json_encode(array(
+				'code' =>10010,
+				'msg'=>'验证码错误！'
+			));
 		}
 		//验证卡号
 		$record = $db->getRow('select mc.* from moneycards as mc where '. " mc.cardid='{$card_num}' and mc.cardpassword='{$card_pwd}'");
@@ -688,28 +693,32 @@ class MES_User{
 		if($record ==false){
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='卡号与密码不符合，请重新输入';
+		   return json_encode($result);
 	    }
 	
 		if($record['flag'] !=1){
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='您的储值卡还未生效，详情请联系客服';
+		   return json_encode($result);
 		}
 	
 		if($record['user_id']>0 ||$record['used_time'] > 0){
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='您的储值卡已使用';
+		   return json_encode($result);
 		}
 	   
 		if($time<$record['sdate'] && $time>$record['edate']){
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='您的储值卡已过期';
+		   return json_encode($result);
 		}
 	
 
 		//注册时间
-		$us_id=$_SESSION['user_id'];
+		$us_id=GET_REDIS($_COOKIE['uuid'],'user_id');
 		$regt=$db->getOne("select reg_time from ecs_users where user_id=$us_id ");
-		$charge_num=$db->getOne("select charge_num from ecs_users where user_id=$us_id ");
+
 		$sql1="update moneycards set user_id=$us_id, used_time ='"
 		. gmtime() ."' where cardid='$card_num'";
 
@@ -719,8 +728,8 @@ class MES_User{
 			$change_money = floatval($record['cardmoney']);
 				log_mcard_change($_SESSION['user_id'], $change_money,'储值卡：'.$card_num.'充值',0,0,2);
 				$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id='$_SESSION[user_id]'");
-				$result['user_money'] =$user_money;
-				$result['change_money'] =$change_money;
+				$result['user_money'] = $user_money;
+				$result['change_money'] = $change_money;
 				$result['message'] ='操作成功';
 				DEL_REDIS($mobile,'charge');
 		}else{

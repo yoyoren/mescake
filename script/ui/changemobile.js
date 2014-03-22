@@ -1,5 +1,5 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<form>\
+	var body = '<div>\
           <div class="check-container">\
             <input type="text" class="global-input" placeholder="请输入您的新的手机号码" style="width:198px;" id="mobile_input" >\
             <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
@@ -8,7 +8,7 @@ define(['ui/dialog'],function(Dialog){
             <input type="text" class="global-input" placeholder="请输入短信验证码" id="password_input" >\
             <span class="tips-container" style="display:none">输入错误</span><!-- 错误信息容器,出现2秒后消失 -->\
           </div>\
-        </form>';
+        </div>';
 
 	
 	var single;

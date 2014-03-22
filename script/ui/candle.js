@@ -1,7 +1,7 @@
 define(['ui/dialog'],function(Dialog){
 	var NORMAL_CANDLE = CANDLE;
 	var NUMBER_CANDLE = NUM_CANDLE;
-	var body = '<form>\
+	var body = '<div>\
 				  <div class="check-candle-area clearfix">\
 					<div class="cca-item">\
 					  <div class="cca-img-area">\
@@ -22,7 +22,7 @@ define(['ui/dialog'],function(Dialog){
 				  <div class="single-btn-area">\
 					<input class="btn status1-btn" type="button" id="candle_confirm" value="确定">\
 				  </div>\
-				</form>'
+				</div>'
 
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
@@ -49,7 +49,7 @@ define(['ui/dialog'],function(Dialog){
 					goods : $.toJSON(goods),
 					goods_id : candleId,
 					parent_id : parent_id,
-					goods_attr: goods_attr||0,
+					goods_attr: goods_attr||0
 				},
 				callback:function(d){
 					callback(d,candleId);

@@ -12,7 +12,7 @@ define(function(){
         <em class="close-ico" id="close_<%=index%>">X</em>\
       </div>\
       <div class="dialog-con" style="<%=textStyle%>">\
-        <form action="">\
+        <div>\
 		   <p><%=body%></p>\
 			<%if(!bottom) {%>\
 				<div class="single-btn-area">\
@@ -22,7 +22,7 @@ define(function(){
 			<% } else {%>\
 				<%=bottom%>\
 			<% } %>\
-		</form>\
+		</div>\
       </div>\
     </div>';
 

@@ -86,9 +86,12 @@
 		action:'get_order_count_by_sid',
 		callback:function(d){
 				if(callback){
-					callback();
+					callback(d);
 				}else{
-					$('#goods_count').html(d.count).show();
+					var count = d.count;
+					if(count>0){
+						$('#goods_count').html(count).show();
+					}
 				}
 			}
 	   });

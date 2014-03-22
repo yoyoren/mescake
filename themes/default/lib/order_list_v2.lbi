@@ -13,7 +13,7 @@
               <em class="write-mes-ico"></em>
               <div class="check-container">
                 <input type="text" id="message_input" name="message_input" class="global-input" style="width:550px;" placeholder="留言说明">
-                <span class="tips-container" style="display:none">不能超过140字</span><!-- 错误信息容器,出现2秒后消失 -->
+                <span class="tips-container" id="message_input_error" style="display:none">留言不能超过140字，超出部分会自动截断</span><!-- 错误信息容器,出现2秒后消失 -->
               </div>
             </div>
             <div class="tt-total">总计：<b class="order_total"></b>&nbsp;元</div>

@@ -1,5 +1,5 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<form action="">\
+	var body = '<div>\
           <a href="javascript:void(0);" class="area-intro space">\
               北京市\
               <em class="area-intro-ico"></em>\
@@ -27,7 +27,7 @@ define(['ui/dialog'],function(Dialog){
              <input class="btn status1-btn" type="button" value="保存" id="save_address_popup">\
 			 <input class="btn status1-btn" type="button" value="修改" id="mod_address_popup">\
           </div>\
-        </form>';
+        </div>';
 
 	var CURRENT_ID;
 	var single;

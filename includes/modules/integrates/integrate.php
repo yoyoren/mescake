@@ -712,6 +712,9 @@ class integrate
                 $_SESSION['user_id']   = $row['user_id'];
                 $_SESSION['user_name'] = $username;
                 $_SESSION['email']     = $row['email'];
+				//redis里共享这个userid;
+				$time_lasts=3600*24;
+				SETEX_REDIS($username,$row['user_id'],$time_lasts,'user_id');
             }
         }
     }

@@ -116,7 +116,7 @@
 						 <% } %>\
 					 <% } %>\
 					 <li class="clearfix sub_order_<%=data[i].rec_id%>" id="brith_card_add_<%=data[i].rec_id%>">\
-						  <div class="od-title1 add_brith_card" data-id="<%=data[i].rec_id%>">\
+						  <div class="od-title1 add_brith_card" data-id="<%=data[i].rec_id%>" data-attr="<%=parseInt(data[i].goods_attr,10)%>">\
 							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加生日牌（免费）\
 						  </div>\
 						  <div class="od-title2"></div>\
@@ -125,7 +125,7 @@
 						  <div class="od-title4"></div>\
 					 </li>\
 					 <li class="clearfix sub_order_<%=data[i].rec_id%>" style="display:none" id="brith_card_display_<%=data[i].rec_id%>">\
-					  <div class="od-title1 add_brith_card" data-id="<%=data[i].rec_id%>">\
+					  <div class="od-title1 add_brith_card" data-id="<%=data[i].rec_id%>" data-attr="<%=parseInt(data[i].goods_attr,10)%>">\
 						<span class="od-img-area">\
 						  <img src="img/order-detail4.png" class="od-img">\
 						</span>\
@@ -333,9 +333,21 @@
 				updateFork(id,num);
 			}).delegate('.add_brith_card','click',function(){
 				//触发生日牌的修改
-				var id = $(this).data(id);
+				var id = $(this).data('id');
+				var attr = $(this).data('attr');
+				var words = 10;
+				if(attr==1){
+					words = 4;
+				}else if(attr==2){
+					words = 6;
+				}else if(attr==3){
+					words = 8;
+				}
 				require(['ui/brithcard'],function(brithcardDialog){
-					brithcardDialog.show(id);
+					brithcardDialog.show({
+						id:id,
+						words:words
+					});
 				});
 				return;
 			}).delegate('.add_candle','click',function(){
@@ -393,17 +405,10 @@
 		},
 
 		bind:function(){
-			$('#leave_message').click(function(){
-				setTimeout(function(){
-				 var jqInput = $('#message_input');
-				 if($('#leaveMes')[0].checked){
-					jqInput.show();
-					$('#leaving_message').val(jqInput.val());
-				 }else{
-					jqInput.hide();
-					$('#leaving_message').val('');
-				 }
-				},0);
+			$('#message_input').blur(function(){
+				if($(this).val().length>140){
+					MES.inputError('message_input_error');
+				}
 			});
 
 			$('#voucher_label').click(function(){

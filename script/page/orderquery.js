@@ -9,13 +9,13 @@
 		$('#moblie_error').hide();
 		$('#vaild_error').hide();
 		//前端验证
-		if(!/\d{5,}/.test(username)){
-			$('#moblie_error').show();
+		if(! MES.IS_MOBILE(moblie)){
+			MES.inputError('moblie_error');
 			return; 
 		}
 
 		if(!password){
-			$('#vaild_error').show();
+			MES.inputError('vaild_error');
 			return; 
 		}
 
@@ -39,9 +39,9 @@
 		var moblie = $('#mobile_input').val();
 		$('#moblie_error').hide();
 		//前端验证
-		if(!/\d+/.test(moblie)){
-			$('#moblie_error').show();
-			return; 
+		if(! MES.IS_MOBILE(moblie)){
+			MES.inputError('moblie_error');
+			return false; 
 		}
 		$.post('route.php?action=get_password_moblie&mod=account',{
 			moblie:moblie
@@ -66,6 +66,6 @@
 					}
 				});
 			}
-		},'json')
+		},'json');
 	});
 })();

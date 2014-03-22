@@ -62,7 +62,7 @@
       goods_id : goodsId,
 	  parent_id :0
     }, function(d) {
-      callback();
+	 callback();
     }, 'json');
   }
 
@@ -78,6 +78,7 @@
       require(['ui/confirm'], function(confirm) {
         new confirm('该商品已经添加到购物车');
       });
+	  MES.getGoodsCount();
     });
     return false;
   })

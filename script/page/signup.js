@@ -97,7 +97,7 @@
 			  require(['ui/alert'],function(alert){
 				 orderAlert = new alert('注册成功！页面将跳转到首页...');
 				 setTimeout(function(){
-					location.href = '/';
+					location.href = 'index.htm';
 				 },2000);
 			  });
 			}else{

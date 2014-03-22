@@ -1,5 +1,5 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<form>\
+	var body = '<div>\
           <div class="tl-c" >\
             <input type="text" class="global-input charge_num" style="width:52px;" id="charge_num_1">\
             <input type="text" class="global-input charge_num" style="width:52px;" id="charge_num_2">\
@@ -19,10 +19,11 @@ define(['ui/dialog'],function(Dialog){
             <input type="text" class="global-input" placeholder="请输入短信验证码"  id="charge_vaild">\
             <span class="tips-container" style="display:none"  id="vaild_error_tip">验证码错误</span>\
           </div>\
-        </form>'
+        </div>'
 
 	
 	var single;
+	var callback = function(){};
 	var changemobile = {
 		
 		init:function(){
@@ -31,6 +32,11 @@ define(['ui/dialog'],function(Dialog){
 			}else{
 				 single = new Dialog({
 						title:'代金券充值',
+						onshow:function(d){
+							if(d){
+								callback = d.callback
+							}
+						}
 						onconfirm:function(){
 							var card_num='';
 							var num_error = false;
@@ -55,7 +61,7 @@ define(['ui/dialog'],function(Dialog){
 							}
 
 							
-							if(mobile.length<6){
+							if(!MES.IS_MOBILE(mobile)){
 								MES.inputError('mobile_error_tip');
 								return;
 							}
@@ -80,6 +86,7 @@ define(['ui/dialog'],function(Dialog){
 												new confirm("冲值成功!");
 											});
 											single.hide();
+											callback();
 										}else{
 											require(['ui/confirm'],function(confirm){
 												new confirm(d.message||d.msg);
