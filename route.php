@@ -604,26 +604,33 @@ switch ($mod) {
 		} else if ($action == 'admin') {
 			//$smarty -> display('huodongadmin.dwt');
 		} else if ($action == 'upload') {
-			$msg;
+			$ret = array();
 			$file = $_FILES['images'];
 			$images = $_POST['images'];
 			$size = $file['size'];
 			$type = $file['type'];
 			if($size>5*1024*1024){
-				$msg='文件体积过大';
+				 echo '<script>window.ret="'.json_encode(array('code'=>1,'msg'=>'文件体积过大')).'"</script>';
+				 return;
+			}
+			
+			
+			if($type!='image/jpeg'&&$type!='image/jpg'&&$type!='image/png'&&$type!='image/gif'){
+				 echo "<script>window.ret='".json_encode(array('code'=>2,'msg'=>'文件格式不支持'))."'</script>";
+				 return;
 			}
 
-			if($type!='image/jpeg'||$type!='image/jpg'||$type!='image/png'||$type!='image/gif'){
-				$msg='文件格式不支持';
-			}
 			$filename = date("YmdHis");
-			$upfile = 'uploadimage/' . $filename . '.jpg';  
-			if(is_uploaded_file($_FILES['file']['tmp_name'])){  
-			   if(!move_uploaded_file($_FILES['file']['tmp_name'], $upfile)){  
-				 echo '移动文件失败！';  
-				 exit;  
+			$url = 'uploadimage/' . $filename . '.jpg';  
+			$upfile = ROOT_PATH.$url;
+			if(is_uploaded_file($file['tmp_name'])){  
+			   if(!move_uploaded_file($file['tmp_name'], $upfile)){  
+					 '<script>window.ret="'.json_encode(array('code'=>3,'msg'=>'server error')).'"</script>'; 
+					 return;
 				}  
+				
 			}
+			echo "<script>window.ret=".json_encode(array('code'=>0,'msg'=>'success','url'=>$url))."</script>";
 		}else {
 			header("Location: 404.html");
 		}
