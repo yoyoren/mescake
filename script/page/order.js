@@ -1,5 +1,5 @@
 (function(){
-
+	$('#message_container').show();
    window.addressTmpl = '<%for(var i=0;i<data.length;i++){%>\
 						<div class="ama-item address_item <%if(i==0){%>ama-item-current<%}%>" id="address_<%=data[i].address_id%>"\
 							data-id="<%=data[i].address_id%>"\
@@ -882,6 +882,7 @@
 				var currTime = (new Date(currDate[0])).getTime();
 				var selTime = (new Date(date)).getTime();
 				var _html='<option value="0">小时</option>';
+				JQ.minute_picker.show();
 				if(window.HAS_BIG_STAFF){
 					if(selTime - currTime > 3600*1000*24){
 						for(var i=14;i<=22;i++){
@@ -889,6 +890,7 @@
 						}
 					}else{
 						_html=('<option value="0">大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
+						JQ.minute_picker.hide();
 					}
 				}else{
 					//10点以后了 选择第二天的订单 只能是14点之后的
@@ -914,6 +916,7 @@
 							}
 							if(hour>endHour){
 								_html=('<option value="0">制作需要5小时，今天已不能送货</option>');
+								JQ.minute_picker.hide();
 							}else if(hour<beginHour){
 								for(var i=beginHour;i<=endHour;i++){
 									_html+=('<option>'+i+'</option>');

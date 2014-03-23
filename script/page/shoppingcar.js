@@ -295,7 +295,7 @@
 				var id=_this.data('id');
 				var goods_id=_this.data('goods');
 				require(['ui/confirm'],function(confirm){
-					new confirm('确认取消这个子订单吗？',function(){
+					new confirm('是否删除所选项目？',function(){
 						MES.get({
 							mod:'order',
 							action:'drop_shopcart',

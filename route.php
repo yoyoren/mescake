@@ -296,7 +296,7 @@ switch ($mod) {
 
 			//大于三次的提交 才验证
 	
-			if ($checkout_times > 3) {
+			if ($checkout_times > 30) {
 				error_reporting(0);
 
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
@@ -617,7 +617,7 @@ switch ($mod) {
 				$msg='文件格式不支持';
 			}
 			$filename = date("YmdHis");
-			$upfile = 'upfile/' . $filename . '.jpg';  
+			$upfile = 'uploadimage/' . $filename . '.jpg';  
 			if(is_uploaded_file($_FILES['file']['tmp_name'])){  
 			   if(!move_uploaded_file($_FILES['file']['tmp_name'], $upfile)){  
 				 echo '移动文件失败！';  

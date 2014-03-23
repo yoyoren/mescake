@@ -1,6 +1,7 @@
 (function(){
 $('#my_order_frame').show();
   var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
+						<%if(data[i].order_status!=2){%>\
 						<div class="n-box" id="orderitem_<%=data[i].order_id%>">\
 						  <em class="buy-line"></em>\
 						  <div class="box-inner">\
@@ -20,20 +21,23 @@ $('#my_order_frame').show();
 								</div>\
 								<div class="ol-title4"><%=parseFloat(data[i].order_amount,10)%>元</div>\
 								<div class="ol-title5">\
-									<%if(data[i].order_status==2){%>已取消\
+									<%if(data[i].order_status==0){%>未确认\
 									<%} else {%>\
-									<%if(data[i].pay_id==4){%>货到付款<%} else {%>\
-									<%if(data[i].pay_status==0){%>未付款\
-									<%}else if(data[i].pay_status==1){%>付款中\
-									<%}else {%>已付款<%}%>\
-									<% } %>\
-									( <%if(data[i].shipping_status==0){%>未发货\
-									<%}else if(data[i].shipping_status==1){%>已发货\
-									<%}else if(data[i].shipping_status==2){%>已收货\
-									<%}else if(data[i].shipping_status==3){%>备货中\
-									<%}else if(data[i].shipping_status==4){%>已发货(部分商品)\
-									<%}else if(data[i].shipping_status==5){%>发货中(处理分单)\
-									<%}else {%>已发货(部分商品)<%}%>)\
+										<%if(data[i].order_status==2){%>已取消\
+										<%} else {%>\
+										<%if(data[i].pay_id==4){%>货到付款<%} else {%>\
+										<%if(data[i].pay_status==0){%>未付款\
+										<%}else if(data[i].pay_status==1){%>付款中\
+										<%}else {%>已付款<%}%>\
+										<% } %>\
+										( <%if(data[i].shipping_status==0){%>未发货\
+										<%}else if(data[i].shipping_status==1){%>已发货\
+										<%}else if(data[i].shipping_status==2){%>已收货\
+										<%}else if(data[i].shipping_status==3){%>备货中\
+										<%}else if(data[i].shipping_status==4){%>已发货(部分商品)\
+										<%}else if(data[i].shipping_status==5){%>发货中(处理分单)\
+										<%}else {%>已发货(部分商品)<%}%>)\
+										<%}%>\
 									<%}%>\
 								</div>\
 								<div class="ol-title6">\
@@ -58,7 +62,7 @@ $('#my_order_frame').show();
 							<ul>\
 						  </ul></ul></div>\
 						  <em class="buy-line2"></em>\
-						</div>\
+						</div><% } %>\
 						<% } %>';
  var OrderList = {
 	render:function(){
@@ -116,8 +120,8 @@ $('#my_order_frame').show();
 						'order_id':_id
 					},function(d){
 						if(d.code == 0){
-							$('#orderitem_'+_id).find('.order_status').html('已取消');
-							$('#orderitem_'+_id).find('.pay_order').remove();
+							//$('#orderitem_'+_id).find('.order_status').html('已取消');
+							$('#orderitem_'+_id).remove();
 							_jqThis.hide();
 						}else{
 							require(['ui/confirm'],function(confirm){

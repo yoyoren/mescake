@@ -75,8 +75,8 @@
 
   $('#add_to_cart_btn').click(function() {
     addToCart(window.GOODS_ID, function() {
-      require(['ui/confirm'], function(confirm) {
-        new confirm('该商品已经添加到购物车');
+      require(['ui/tip'], function(tip) {
+        new tip('该商品已经添加到购物车');
       });
 	  MES.getGoodsCount();
     });

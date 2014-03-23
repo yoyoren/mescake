@@ -5,7 +5,7 @@
       <p class="fl-l foo-l">订购电话：<b>4000 600 700</b></p>
       <div class="fl-r foo-r" style="line-height:24px;">
         <a href="mailto:services@mescake.com" class="f-contact">联系我们</a> | 
-        <div class="WB_FB_show"><wb:follow-button uid="3477174474" type="red_2" width="136" height="24" ></wb:follow-button> </div> | 
+        <div class="WB_FB_show"><wb:follow-button uid="3477174474" type="red_2" width="126" height="24" ></wb:follow-button> </div> | 
         <p class="copyright">2014@mescake.com All rights reserved 京ICP备13036207号</p>
      </div>
   </div>

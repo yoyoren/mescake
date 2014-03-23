@@ -5,14 +5,16 @@
 				changemobile.show();
 			});
 		});
+		return false;
 	});
 
 	$('#change_password').click(function(){
 		MES.actionCheckLogin(function(){
-					require(['ui/chargepopup'],function(dialog){
+					require(['ui/changepassword'],function(dialog){
 						dialog.show();
 					});
 		});
+		return false;
 	});
 
 	MES.get({

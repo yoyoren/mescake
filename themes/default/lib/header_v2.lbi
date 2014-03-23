@@ -13,7 +13,11 @@
 		}else{
 			$('#index_tag').addClass('current');
 		}
-
+    $(".hn-item a").bind("mouseover",function(){
+      $(this).addClass("hover");
+    }).bind("mouseout",function(){
+      $(this).removeClass("hover");
+    });
 	</script>
         <div class="mh-login-area fl-r">
           <a href="#" id="header_login">登录&nbsp;&nbsp;&nbsp;|</a>

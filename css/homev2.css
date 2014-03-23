@@ -28,6 +28,7 @@ body{*position:relative;} /* 针对ie6body里面有position的bug。*/
 .fl-r{float: right;}
 .vt-a{*vertical-align: middle;}
 .error-tip{color: #ff7e00;}
+.pointer{cursor: pointer;}
 /* 这个是为了让系统组件之间对齐和有空隙 */
 .checkbox-item{margin-right: 10px; vertical-align: middle;}
 .radio-item{margin-right: 10px;}
@@ -73,7 +74,7 @@ _background: url(img/icosprites8.png) 0 0 no-repeat;
 .nav-con{padding: 0 16px;}
 
 .mh-login-area{text-align: right; width:370px; color: #3f3a39; }
-.mh-login-area a{color: #3f3a39; font-size: 12px; margin: 0 4px;}
+.mh-login-area a{color: #3f3a39; font-size: 12px; margin: 0 4px; line-height: 1.5;}
 .mh-login-area a:hover{color: #ff7e00; text-decoration: none;}
 .ico-shop{vertical-align: middle;}
 .ico-shop{width:17px; height:18px; background: url(img/icosprites.png) -101px 0px no-repeat; 
@@ -85,9 +86,9 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
 .head-line{height: 1px; overflow: hidden; background: #000;}
 
 /* 主页 */
-  .slider-img-area{border-bottom: 1px solid #bcbcbc; height: 440px;}
+  .slider-img-area{border-bottom: 1px solid #bcbcbc; height: 440px; overflow: hidden;}
   .s-img-area{overflow:hidden;}
-  .s-img-area img{display: block; margin: 0 auto;}
+  .s-img-area img{display: block; /*margin: 0 auto;*/}
   .s-img-area-inner{width: 960px; margin:0 auto; position: relative;}
   .s-img-intro{position: absolute;}
   .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
@@ -99,7 +100,7 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
   }
   .slider-num-ico:hover,
   .sn-current{background: url(img/sli-num-ico28.png) 0 0 no-repeat;}
-  .theme-area{overflow: hidden;}
+  .theme-area{overflow: hidden; /*_margin-top:-10px;*/}
   .ta-item{float: left; width: 50%; overflow: hidden; padding: 44px 0 10px 0; height: 254px;}
   .ta-item-inner{width: 460px; padding-left: 40px;}
   .ta-item-inner img{display: block; margin-left: 120px;}
@@ -130,7 +131,7 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
 /* 产品详情 */
     .product-main-area{}
     .buy-container{position: absolute; top:240px; width: 960px; left: 50%; margin-left: -480px; z-index: 10; }
-    .buy-area{margin-left: 600px;}
+    .buy-area{margin-left: 650px;}
 
 /* 下单区域 */
 .buy-area{border:1px solid #e8e8e8; width: 300px; background: #fff;}
@@ -303,15 +304,15 @@ a.btn:hover{text-decoration: none;}
 .handle-area a{color: #999;}
 .handle-area a:hover{color: #ff7e00;}
 .ama-delete{width: 16px; height: 16px; background: url(img/delete-co.png) 0 -20px no-repeat; 
-	text-indent: -100px; overflow: hidden;}
+  text-indent: -100px; overflow: hidden;}
 .ama-delete:hover{background-position: 0 0;}
 
 .ama-item:hover .handle-area{visibility: visible;}
 .hover .handle-area{visibility: visible;}
 .ama-add-address{clear: both; padding-left: 10px;}
 .add-ico{width: 16px; height:16px; font-weight:bold; margin-right:4px; vertical-align: middle; 
-	background: url(img/add-little.png) 0 0 no-repeat;
-	display: inline-block; *display: inline; *zoom:1;
+  background: url(img/add-little.png) 0 0 no-repeat;
+  display: inline-block; *display: inline; *zoom:1;
 }
 
 /* 存放复杂表格 */
@@ -449,7 +450,8 @@ a.btn:hover{text-decoration: none;}
 .footer{width: 960px; margin: 0 auto; font-size: 12px;}
 .foo-l{width: 300px;}
 .foo-r{width: 660px; text-align: right; color: #858585;}
-.f-contact{color:#858585; }
+.f-contact{color:#858585; margin: 0 10px;}
 .WB_FB_show,
-.copyright{display:inline-block; *display: inline; *zoom:1;}
-.copyright{margin-left: 60px;}
+.copyright{display:inline-block; *display: inline; *zoom:1; vertical-align: middle; }
+.WB_FB_show{margin-left:10px;}
+.copyright{margin-left: 10px;}
