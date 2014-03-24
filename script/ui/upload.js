@@ -40,7 +40,7 @@ define(['ui/dialog'],function(Dialog){
 												mod:'huodong',
 												action:'weibo_upload',
 												params:{
-													imageurl:'https://test.mescake.com/'+d.url;
+													imageurl:'https://test.mescake.com/'+d.url
 												},
 												callback:function(){
 												
