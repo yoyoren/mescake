@@ -21,12 +21,6 @@ define(['ui/dialog'],function(Dialog){
 						title:'',
 						body:body,
 						bottom:' ',
-						onshow:function(d){
-
-						},
-						onconfirm:function(){
-							
-						},
 						afterRender:function(){
 							require(['widget/upload'],function(upload){
 								new upload({
@@ -42,11 +36,20 @@ define(['ui/dialog'],function(Dialog){
 												param:{
 													imageurl:'http://test.mescake.com/'+d.url
 												},
-												callback:function(){
-												
+												callback:function(d){
+													if(d.code == 0){
+														require(['ui/confirm'],function(confirm){
+															new confirm('发布成功，内容正在审核中！');
+														});
+													}else{
+														require(['ui/confirm'],function(confirm){
+															new confirm('服务器错误！');
+														});
+													}
+													single.close();
 												}
 											});
-											single.close();
+											
 										});
 									}
 								});

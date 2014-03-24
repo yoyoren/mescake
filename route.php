@@ -632,13 +632,15 @@ switch ($mod) {
 			}
 			echo "<script>window.ret=".json_encode(array('code'=>0,'msg'=>'success','url'=>$url))."</script>";
 		} else if ($action == 'cat_page') {
+
+			//weibo的认证
 			include_once( ROOT_PATH .'weibo/config.php' );
 			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
 			$_AUTH=$_GET['auth'];
-			if($_AUTH == 'true'){
-				session_start();
+			session_start();
+			if($_AUTH == 'true'||$_SESSION['weibotoken']['access_token']){
 				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
-				$auth->follow_by_id('3477174474');
+				//$auth->follow_by_id('3477174474');
 				$uid_get = $auth->get_uid();
 				$uid = $uid_get['uid'];
 				$user_message = $auth->show_user_by_id($uid);
@@ -654,14 +656,33 @@ switch ($mod) {
 			
 			$smarty->display('cat_page.dwt');
 		} else if ($action == 'weibo_upload') {
-			$url = $_POST['imageurl'];
+
+			//weibo的图片上传
+			$url = ANTI_SPAM($_POST['imageurl']);
+
 			include_once( ROOT_PATH .'weibo/config.php' );
 			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
+			
+			
 			session_start();
-			$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
-			$auth->upload('test',$url);
-			echo json_encode(array('code'=>'0','msg'=>'success'));
-		}else {
+			if($_SESSION['weibotoken']['access_token']){
+				include_once( ROOT_PATH .'include/cat_activity.php' );
+				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
+				$auth->upload('test',$url);
+				$uid_get = $auth->get_uid();
+				$uid = $uid_get['uid'];
+				$user_message = $auth->show_user_by_id($uid);
+				$weibo_name = $user_message['screen_name'];
+				MES_Cat_activity::add($weibo_name,$img);
+				echo json_encode(array('code'=>'0','msg'=>'success'));
+			}else{
+				echo json_encode(array('code'=>'1','msg'=>'fail'));
+			}
+		} else if ($action == 'like') {
+			include_once( ROOT_PATH .'include/cat_activity.php' );
+			$id = ANTI_SPAM($_POST['id']);
+			MES_Cat_activity::like($id);
+		} else {
 			header("Location: 404.html");
 		}
 		break;
