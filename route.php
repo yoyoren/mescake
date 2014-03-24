@@ -631,7 +631,14 @@ switch ($mod) {
 				
 			}
 			echo "<script>window.ret=".json_encode(array('code'=>0,'msg'=>'success','url'=>$url))."</script>";
-		}else {
+		} else if ($action == 'cat_page') {
+			include_once( ROOT_PATH .'weibo/config.php' );
+			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
+			$auth = new SaeTOAuthV2( WB_AKEY , WB_SKEY );
+			$auth_url = $auth->getAuthorizeURL( WB_CALLBACK_URL );
+			$smarty->assign('auth_url',$auth_url);
+			$smarty->display('cat_page.dwt');
+		} else {
 			header("Location: 404.html");
 		}
 		break;
