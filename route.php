@@ -636,7 +636,7 @@ switch ($mod) {
 			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
 			$_AUTH=$_GET['auth'];
 			if($_AUTH == 'true'){
-				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['token']['access_token'] );
+				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
 				$auth->follow_by_id('3477174474');
 				$uid_get = $auth->get_uid();
 				$uid = $uid_get['uid'];
