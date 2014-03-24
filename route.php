@@ -634,9 +634,21 @@ switch ($mod) {
 		} else if ($action == 'cat_page') {
 			include_once( ROOT_PATH .'weibo/config.php' );
 			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
-			$auth = new SaeTOAuthV2( WB_AKEY , WB_SKEY );
-			$auth_url = $auth->getAuthorizeURL( WB_CALLBACK_URL );
-			$smarty->assign('auth_url',$auth_url);
+			$_AUTH=$_GET['auth'];
+			if($_AUTH == 'true'){
+				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['token']['access_token'] );
+				$auth->follow_by_id('3477174474');
+				$uid_get = $auth->get_uid();
+				$uid = $uid_get['uid'];
+				$user_message = $c->show_user_by_id($uid);
+				$smarty->assign('auth_url','#');
+				$smarty->assign('uid',$uid);
+			}else{
+				$auth = new SaeTOAuthV2( WB_AKEY , WB_SKEY );
+				$auth_url = $auth->getAuthorizeURL( WB_CALLBACK_URL);
+				$smarty->assign('auth_url',$auth_url);
+			}
+			
 			$smarty->display('cat_page.dwt');
 		} else {
 			header("Location: 404.html");

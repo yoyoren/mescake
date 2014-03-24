@@ -19,7 +19,7 @@
     <p class="act-h-con-tip">3月30日至4月30日，每天、每周都有人气奖! <a href="">查看奖品</a>
     <div class="act-head-btn-area">
       <a href="javascript:void(0);" class="act-btn act-status1">分享</a>
-      <a href="{$auth_url}" class="act-btn">我来晒一下</a>
+      <a href="{$auth_url}" data-uid="{$uid}" id="do_upload" class="act-btn">我来晒一下</a>
     </div>
   </div>
   <div class="act-img-area">
