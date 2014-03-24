@@ -636,6 +636,7 @@ switch ($mod) {
 			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
 			$_AUTH=$_GET['auth'];
 			if($_AUTH == 'true'){
+				session_start();
 				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
 				$auth->follow_by_id('3477174474');
 				$uid_get = $auth->get_uid();
@@ -650,7 +651,14 @@ switch ($mod) {
 			}
 			
 			$smarty->display('cat_page.dwt');
-		} else {
+		} else if ($action == 'weibo_upload') {
+			include_once( ROOT_PATH .'weibo/config.php' );
+			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
+			session_start();
+			$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
+			$auth->upload('test','http://img.t.sinajs.cn/t4/appstyle/open/images/common/transparent.gif');
+			echo 1;
+		}else {
 			header("Location: 404.html");
 		}
 		break;
