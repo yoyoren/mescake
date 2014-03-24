@@ -41,7 +41,7 @@ define(['ui/dialog'],function(Dialog){
 												action:'weibo_upload',
 												params:{
 													imageurl:'https://test.mescake.com/'+d.url;
-												}
+												},
 												callback:function(){
 												
 												}
