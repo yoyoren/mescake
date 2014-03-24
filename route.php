@@ -679,7 +679,7 @@ switch ($mod) {
 				echo json_encode(array('code'=>'1','msg'=>'fail'));
 			}
 		} else if ($action == 'like') {
-			include_once( ROOT_PATH .'include/cat_activity.php' );
+			include_once( ROOT_PATH .'lib/cat_activity.php' );
 			$id = ANTI_SPAM($_POST['id']);
 			MES_Cat_activity::like($id);
 		} else {
