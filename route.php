@@ -666,7 +666,7 @@ switch ($mod) {
 			
 			session_start();
 			if($_SESSION['weibotoken']['access_token']){
-				include_once( ROOT_PATH .'include/cat_activity.php' );
+				include_once( ROOT_PATH .'lib/cat_activity.php' );
 				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
 				$auth->upload('test',$url);
 				$uid_get = $auth->get_uid();
