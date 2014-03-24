@@ -39,7 +39,7 @@ define(['ui/dialog'],function(Dialog){
 											MES.post({
 												mod:'huodong',
 												action:'weibo_upload',
-												params:{
+												param:{
 													imageurl:'https://test.mescake.com/'+d.url
 												},
 												callback:function(){
