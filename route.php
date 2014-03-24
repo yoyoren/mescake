@@ -673,7 +673,7 @@ switch ($mod) {
 				$uid = $uid_get['uid'];
 				$user_message = $auth->show_user_by_id($uid);
 				$weibo_name = $user_message['screen_name'];
-				MES_Cat_activity::add($weibo_name,$img);
+				MES_Cat_activity::add($weibo_name,$url);
 				echo json_encode(array('code'=>'0','msg'=>'success'));
 			}else{
 				echo json_encode(array('code'=>'1','msg'=>'fail'));
