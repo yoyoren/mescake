@@ -32,15 +32,17 @@
 							  <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
 							 </li>';
    var orderListTmpl = '<%for(var i=0;i<data.length;i++) {%>\
-				 <%if(data[i].goods_id!=60){%>\
+				 <%if(data[i].goods_id!=FORK){%>\
 					<li class="clearfix sub_order_<%=data[i].rec_id%>"  id="sub_order_<%=data[i].rec_id%>">\
 					  <div class="od-title1">\
 						 <a href="route.php?mod=goods&action=goods_detail_page&id=<%=data[i].goods_id%>" target="_blank">\
 						 <span class="od-img-area">\
-							<%if(data[i].goods_id==61){%>\
-							<img style="background-color:#fff;height: auto" src="img/lazhu.png"  class="od-img"/>\
+							<%if(data[i].goods_id==CANDLE){%>\
+								<img style="background-color:#fff;height: auto" src="img/lazhu.png"  class="od-img"/>\
+							<% } else if(data[i].goods_id==NUM_CANDLE){%>\
+								<img style="height: auto" width="70"src="css/img/order-detail2.png"  class="od-img"/>\
 							<% } else {%>\
-							<img style="height: auto" width="70" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.png"  class="od-img"/>\
+								<img style="height: auto" width="70" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.png"  class="od-img"/>\
 							<% } %>\
 					     </span>\
 						 <span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%>（<%=data[i].goods_attr%>）<% } %></span>\
@@ -58,7 +60,7 @@
 					  <a href="#" class="or-handle order_cancel" data-id="<%=data[i].rec_id%>" data-goods="<%=data[i].goods_id%>">删除</a>\
 				  </li>\
 				  <% } %>\
-				  <%if(data[i].goods_id!=61&&data[i].goods_id!=60){%>\
+				  <%if(data[i].goods_id!=NUM_CANDLE&&data[i].goods_id!=CANDLE&&data[i].goods_id!=FORK){%>\
 					<li class="clearfix sub_order_<%=data[i].rec_id%>" id="sub_order_fork_<%=data[i].rec_id%>">\
 					 <div class="od-title1">\
 						 <a href="#" onclick="return false">\
@@ -115,8 +117,9 @@
 							 </li>\
 						 <% } %>\
 					 <% } %>\
+					 <%if(!window.SHOPPING_CAR){%>\
 					 <li class="clearfix sub_order_<%=data[i].rec_id%>" id="brith_card_add_<%=data[i].rec_id%>">\
-						  <div class="od-title1 add_brith_card" data-id="<%=data[i].rec_id%>" data-attr="<%=parseInt(data[i].goods_attr,10)%>">\
+						  <div class="od-title1 add_brith_card pointer" data-id="<%=data[i].rec_id%>" data-attr="<%=parseInt(data[i].goods_attr,10)%>">\
 							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加生日牌（免费）\
 						  </div>\
 						  <div class="od-title2"></div>\
@@ -135,8 +138,9 @@
 					  <div class="od-title3"></div>\
 					  <div class="od-title4"></div>\
 					 </li>\
+					 <% }　%>\
 					 <li class="clearfix sub_order_<%=data[i].rec_id%>">\
-						  <div class="od-title1 add_candle" data-id="<%=data[i].rec_id%>">\
+						  <div class="od-title1 add_candle pointer" data-id="<%=data[i].rec_id%>">\
 							<span class="od-img-area"><img src="img/add-ico.png" class="od-img od-img-add-ico"></span>添加特制生日蜡烛\
 						  </div>\
 						  <div class="od-title2"></div>\
@@ -183,9 +187,9 @@
 				//如果买了蜡烛 需要显示出来
 				for(var i=0;i<goodsData.length;i++){
 					var _good = goodsData[i];
-					if(_good.goods_id == 61){
+					if(_good.goods_id == CANDLE){
 					  candleHash[_good.parent_id] = goodsData[i];
-					}else if(_good.goods_id == 67){
+					}else if(_good.goods_id == NUM_CANDLE){
 					  if(!candleNumHash[_good.parent_id]){
 						 candleNumHash[_good.parent_id] = [];
 					  }
@@ -358,7 +362,7 @@
 						id:id,
 						callback:function(d,candle){
 							var _tpl = candleTmpl;
-							if(candle == 67){
+							if(candle == NUM_CANDLE){
 							   _tpl = numCandleTmpl;
 							}
 							var _renderData = d.data;
@@ -460,13 +464,13 @@
 
 						  //商品重量
 						  goods.spec     = spec_arr;
-						  goods.goods_id = 61;
+						  goods.goods_id = CANDLE;
 						  //数量
 						  goods.number   = number;
 						  goods.parent   = 0;//(typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
 						  $.post('route.php?mod=order&action=add_to_cart', {
 							goods:$.toJSON(goods),
-							goods_id:60,
+							goods_id:FORK,
 							parent_id:0
 						  }, function(d){
 						  		//第一次加蜡烛没有总价

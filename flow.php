@@ -1553,7 +1553,7 @@ elseif ($_REQUEST['step'] == 'done') {
 			$sends += $num * $val['goods_number'];
 		}
 	}
-	$sql = "INSERT INTO " . $ecs -> table('order_goods') . "( " . "order_id, goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, goods_discount,is_integral) " . " SELECT '$new_order_id', goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, if(is_integral,-1,1) ,is_integral" . " FROM " . $ecs -> table('cart') . " WHERE session_id = '" . SESS_ID . "' AND rec_type = '$flow_type'";	
+	$sql = "INSERT INTO " . $ecs -> table('order_goods') . "( " . "order_id, goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, goods_discount,is_integral, origin_rec_id,parent_id) " . " SELECT '$new_order_id', goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, if(is_integral,-1,1) ,is_integral,rec_id,parent_id" . " FROM " . $ecs -> table('cart') . " WHERE session_id = '" . SESS_ID . "' AND rec_type = '$flow_type'";	
 
 	$db -> query($sql);
 

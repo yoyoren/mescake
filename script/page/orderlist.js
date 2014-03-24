@@ -78,7 +78,7 @@ $('#my_order_frame').show();
 						var realStaffCount = 0;
 						data[i].showText = '';
 						for(var j=0;j<data[i].detail.length;j++){
-							if(data[i].detail[j].goods_id!=CANDLE&&data[i].detail[j].goods_id!=60&&data[i].detail[j].goods_id!=NUM_CANDLE){
+							if(data[i].detail[j].goods_id!=CANDLE&&data[i].detail[j].goods_id!=FORK&&data[i].detail[j].goods_id!=NUM_CANDLE){
 								 realStaffCount++;
 								 data[i].showStaff = data[i].detail[j];
 							}else{

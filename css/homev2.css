@@ -227,7 +227,7 @@ a.btn:hover{text-decoration: none;}
 
 /* 我的订单详情 */
 .odc-adress-area{padding: 30px; _height: 62px; position: relative;}
-.od-total{position: absolute;right: 30px; top:50px;}
+.od-total{position: absolute;right: 30px; text-align:right; top:34px;}
 .od-total b{font-size: 26px;}
 
 .od-btn-area{padding-top: 20px;}
@@ -388,12 +388,12 @@ a.btn:hover{text-decoration: none;}
 .ol-title5,
 .ol-title6,
 .ol-title7{display: inline-block; *display: inline; *zoom:1; text-align: center; font-size: 14px; float: left;}
-.ol-title1,
 .ol-title2,
 .ol-title4,
 .ol-title7{width: 12%;}
+.ol-title1,
 .ol-title5,
-.ol-title6{width: 18%;}
+.ol-title6{width: 16%;}
 .ol-title7{_width: 11%;}
 .ol-title3{width: 16%;}
 
@@ -444,6 +444,9 @@ a.btn:hover{text-decoration: none;}
   .for-dream{background: url(img/pros-bg4.png) 0 0 repeat-x;}
     .for-dream .pro-head{background: url(img/pro-head-bg4.jpg) 540px 0 no-repeat;}
   .for-dream .pro-head h2{color: #39b3e1;}
+
+/* 看不见订单提示 */
+.use-phone-tips{color: #666; padding-top: 40px;}
 
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}

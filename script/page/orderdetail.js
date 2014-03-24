@@ -41,7 +41,7 @@
 			  <div class="list-line"></div>\
 			  <ul class="od-ul">\
 				<%for(var i=0;i<goods.length;i++){%>\
-					<%if(goods[i].goods_id != 60){%>\
+					<%if(goods[i].goods_id != FORK){%>\
 						<li>\
 						  <div class="od-title1">\
 							<%if(goods[i].goods_id == CANDLE||goods[i].goods_id == NUM_CANDLE){%>\
@@ -63,7 +63,7 @@
 						  <div class="od-title3"><%=goods[i].goods_number%></div>\
 						  <div class="od-title4">￥<%=goods[i].goods_number*parseInt(goods[i].goods_price.replace("￥",""),10)%>元</div>\
 						</li>\
-						<%if(goods[i].goods_id != CANDLE&&goods[i].goods_id != 60&&goods[i].goods_id != NUM_CANDLE){%>\
+						<%if(goods[i].goods_id != CANDLE&&goods[i].goods_id != FORK&&goods[i].goods_id != NUM_CANDLE){%>\
 							<%if(goods[i].card_message!="无"){%>\
 							  <li>\
 								<div class="od-title1">\
@@ -88,6 +88,18 @@
 								<div class="od-title4">￥<%=order.fork_message[goods[i].goods_id]*0.5%>元</div>\
 							  </li>\
 							 <% } %>\
+							<%if(order.fork_message&&order.fork_message[goods[i].origin_rec_id]){%>\
+								<li>\
+								<div class="od-title1">\
+									<span class="od-img-area">\
+									 <img src="img/order-detail1.png" class="od-img">\
+									</span>收费餐具\
+								</div>\
+								<div class="od-title2">￥0.50元</div>\
+								<div class="od-title3"><%=order.fork_message[goods[i].origin_rec_id]%></div>\
+								<div class="od-title4">￥<%=order.fork_message[goods[i].origin_rec_id]*0.5%>元</div>\
+							  </li>\
+							<% } %>\
 							<li>\
 								<div class="od-title1">\
 									<span class="od-img-area">\
@@ -101,18 +113,6 @@
 						  <% } %>\
 						<% } %>\
 					<% } %>\
-					<%if(parseInt(order.formated_shipping_fee,10)>0){%>\
-							<li>\
-								<div class="od-title1">\
-									<span class="od-img-area">\
-									  <img src="img/order-detail1.png" class="od-img">\
-									</span>运费\
-								</div>\
-								<div class="od-title2"><%=order.formated_shipping_fee%></div>\
-								<div class="od-title3">1</div>\
-								<div class="od-title4"><%=order.formated_shipping_fee%>元</div>\
-							 </li>\
-					<% } %>\
 			  </ul>\
 			  <div class="list-line"></div>\
 			  <div class="odc-adress-area">\
@@ -121,7 +121,7 @@
 				  北京市 <%=order.cityName%> <%=order.districtName%> <%=order.address%><br>\
 				  <%=order.consignee%>，<%=order.mobile%>\
 				</p>\
-				<p class="od-total">总计：<b><%=order.order_amount%></b>元</p>\
+				<p class="od-total"><%if(parseInt(order.formated_shipping_fee.replace("￥",""),10)>0){%>运费：<%=order.formated_shipping_fee%>元<br/><% } %>总计：<b><%=order.order_amount%></b>元</p>\
 			  </div>\
 			</div>\
 			<em class="buy-line2"></em>\
@@ -152,7 +152,7 @@
 					
 					var cardmessage = order.card_message.split(';');
 					for(var i=0,j=0;i<goods.length;i++){
-						if(goods[i].goods_id!=60&&goods[i].goods_id!=CANDLE){
+						if(goods[i].goods_id!=FORK&&goods[i].goods_id!=CANDLE&&goods[i].goods_id!=NUM_CANDLE){
 							goods[i].card_message = cardmessage[j];
 							j++;
 						}
@@ -192,7 +192,7 @@
 							location.reload();
 						}else{
 							require(['ui/confirm'],function(confirm){
-								new confirm("订单取消失败！可能是该订单已经确认，将不能取消");
+								new confirm("订单取消失败！可能是该订单已经确认，将不能取消，请联系客服");
 							});
 						}
 					},'json');

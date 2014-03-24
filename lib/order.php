@@ -839,12 +839,12 @@ class MES_Order{
 			//蜡烛这玩意 需要在order页面返回给前端添加到订单里，其他商品不需要这么做
 			//67数字蜡烛
 			//61普通蜡烛
-			if($val['goods_id']==61&&$goods_id == 61){
+			if($val['goods_id']==61&&$goods_id == 61&&$val['parent_id']==$parent_id){
 				  $result['data'] = $val;	
 			}
-			if($val['goods_id']=='67'&&$goods_id == '67'&&$val['goods_attr']==$goods_attr){	
+
+			if($val['goods_id']=='67'&&$goods_id == '67'&&$val['parent_id']==$parent_id){	
 				  $result['data'] = $val;
-				 
 			}
 		}	
 	    $result['confirm_type'] = !empty($_CFG['cart_confirm']) ? $_CFG['cart_confirm'] : 2;

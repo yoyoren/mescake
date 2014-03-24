@@ -18,7 +18,7 @@
 						<div class="tt-title" style="border-top:0 none;">
 							<em class="buy-line2"></em>
 							<h4>送货信息</h4>
-							<span class="ct-commit">*为保证送货准确性，请您填写正确无误的信息</span>
+							<span class="ct-commit">*为保证送货准确性，请您填写正确无误的信息。</span>
 							<span class="ct-commit" id="login_tip" style="display:none">如果您之前注册购买过，请<a href="#" class="td-u user_login">登录</a>以读取地址信息，并积累积分</span>
 						</div>
 						<div class="box-inner">
@@ -33,7 +33,7 @@
 										送货地址：
 									</div>
 									<div class="r-con clearfix">
-										<a href="javascript:void(0);" class="area-intro space"> 北京市 <em class="area-intro-ico"></em> <span class="ai-intro">北京市五环内免费送货，五环外不送货。</span> </a>
+										<a href="javascript:void(0);" class="area-intro space"> 北京市 <em class="area-intro-ico"></em> <span class="ai-intro">带* 地址需要加收10元送货费，不在列表中的地区暂时无法提供送货服务。</span> </a>
 										<select id="region_sel" class="space">
 											<option value="0">请选择区域</option>
 										</select>

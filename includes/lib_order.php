@@ -468,7 +468,7 @@ function order_goods($order_id)
 {
     $sql = "SELECT rec_id, goods_id, goods_name, goods_sn,  goods_number, " .
             "goods_price, goods_attr, is_real, parent_id, is_gift, " .
-            "goods_price * goods_number AS subtotal, extension_code " .
+            "goods_price * goods_number AS subtotal, extension_code,origin_rec_id " .
             "FROM " . $GLOBALS['ecs']->table('order_goods') .
             " WHERE order_id = '$order_id'";
 

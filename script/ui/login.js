@@ -11,7 +11,7 @@ define(['ui/dialog'],function(Dialog){
 
 	var bottom = ' <input class="btn status1-btn big-btn long-btn" type="submit" value="登录" id="popup_login">\
 	<div class="pass-area">\
-            <label for="remember" id="remember_password"><input type="checkbox">&nbsp;记住登录</label>\
+            <label for="remember" id="remember_password"><input type="checkbox" id="remember">&nbsp;记住登录</label>\
             <a href="route.php?action=forget_password_page&mod=account">忘记密码</a>\
     </div>\
 	<a href="route.php?action=signup_page&mod=account" class="btn big-btn long-btn">新用户注册</a>';

@@ -25,7 +25,7 @@
           <div class="ol-title6">操作</div>
           <div class="ol-title7">&nbsp;</div>
         </div>
-      <p>看不到我的订单？试试<a href="route.php?action=query_order&mod=account" class="td-u link-color" id="get_by_phone">用手机号码查询</a></p>
+      <p class="use-phone-tips">看不到我的订单？试试<a href="route.php?action=query_order&mod=account" class="td-u link-color" id="get_by_phone">用手机号码查询</a></p>
       <!-- <div class="order-btn-area clearfix">
         <a href="" class="btn big-btn fl-l">继续购物</a>
         <input class="btn green-btn big-btn fl-r" type="submit" value="提交订单"/>

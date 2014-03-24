@@ -14,14 +14,13 @@
  </script>
 <div class="layout">
   <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
-  <div class="head-line"></div>
   <div class="content-area">
     <div class="content">
       <div class="n-box">
 	      <div class="tt-title"><h4>我的购物车</h4></div>
 	      <!-- #BeginLibraryItem "/lib/order_list_v2.lbi" --><!-- #EndLibraryItem -->
 	      <div class="shop-btn-area clearfix">
-		  <a href="index.php" id="continue_shopping" class="btn big-btn vt-a fl-l">继续购物</a>
+		  <a href="route.php?mod=page&action=cato&id=specialday" id="continue_shopping" class="btn big-btn vt-a fl-l">继续购物</a>
 		  <input class="btn status1-btn big-btn vt-a fl-r" type="submit" style="margin-right:0;" value="提交订单" id="order_next" onclick="">
 	      </div>
       </div>
