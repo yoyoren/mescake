@@ -16,7 +16,7 @@ if (isset($_REQUEST['code'])) {
 	}
 }
 if ($token) {
-	$_SESSION['token'] = $token;
+	$_SESSION['weibotoken'] = $token;
 	setcookie( 'weibojs_'.$o->client_id, http_build_query($token) );
 	header("Location:../route.php?mod=huodong&action=cat_page&auth=true");
 } else {
