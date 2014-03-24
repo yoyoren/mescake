@@ -5,6 +5,7 @@
   <title>猫爪活动</title>
   <link rel="stylesheet" type="text/css" href="css/homev2.css" />
   <link rel="stylesheet" type="text/css" href="css/active.css" />
+  <link rel="stylesheet" type="text/css" href="css/dialog.css" />
 <script src="script/release/lib.min.js"></script>
 </head>
 <body>
@@ -22,90 +23,18 @@
       <a href="{$auth_url}" data-uid="{$uid}" id="do_upload" class="act-btn">我来晒一下</a>
     </div>
   </div>
-  <div class="act-img-area">
+  <div class="act-img-area" id="image_container">
     <ul class="act-ul">
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
-      <li>
-        <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
-        <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
-      </li>
       <li>
         <a href="javascript:void(0);"><img src="img/cat.jpg"/></a>
         <div class="act-func-area"><span class="weibo-name">@f没格局看</span><span class="act-love">56</span></div>
       </li>
     </ul>
   </div>
+  <script>
+    window.showupload = {$showupload};
+  </script>
+  <script src="script/page/cat.js"></script>
 </div>
 </body>
 </html>

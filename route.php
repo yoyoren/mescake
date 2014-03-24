@@ -644,20 +644,23 @@ switch ($mod) {
 				$user_message = $auth->show_user_by_id($uid);
 				$smarty->assign('auth_url','#');
 				$smarty->assign('uid',$uid);
+				$smarty->assign('showupload','true');
 			}else{
 				$auth = new SaeTOAuthV2( WB_AKEY , WB_SKEY );
 				$auth_url = $auth->getAuthorizeURL( WB_CALLBACK_URL);
 				$smarty->assign('auth_url',$auth_url);
+				$smarty->assign('showupload','false');
 			}
 			
 			$smarty->display('cat_page.dwt');
 		} else if ($action == 'weibo_upload') {
+			$url = $_POST['imageurl'];
 			include_once( ROOT_PATH .'weibo/config.php' );
 			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
 			session_start();
 			$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
-			$auth->upload('test','http://img.t.sinajs.cn/t4/appstyle/open/images/common/transparent.gif');
-			echo 1;
+			$auth->upload('test',$url);
+			echo json_encode(array('code'=>'0','msg'=>'success'));
 		}else {
 			header("Location: 404.html");
 		}
