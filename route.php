@@ -640,7 +640,7 @@ switch ($mod) {
 				$auth->follow_by_id('3477174474');
 				$uid_get = $auth->get_uid();
 				$uid = $uid_get['uid'];
-				$user_message = $c->show_user_by_id($uid);
+				$user_message = $auth->show_user_by_id($uid);
 				$smarty->assign('auth_url','#');
 				$smarty->assign('uid',$uid);
 			}else{
