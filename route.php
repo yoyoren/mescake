@@ -1,5 +1,8 @@
 <?php
 define('IN_ECS', true);
+define('FORK_ID',60);
+define('CANDLE_ID',61);
+define('NUM_CANDLE_ID',67);
 //give user a sid for record
 /*Session_start();
 $SID;
@@ -759,7 +762,13 @@ switch ($mod) {
 		
 					require_once (ROOT_PATH . 'lib/catogary.php');
 					require_once (ROOT_PATH . 'lib/goods.php');
-					$list = MES_Goods::get_goods_by_catogary($CAKE_CATO[$cato_id]['values']);
+					$list = array();
+					for($i=0;$i<count($CAKE_CATO[$cato_id]['cato']);$i++){
+						$_cur = $CAKE_CATO[$cato_id]['cato'][$i];
+						$_list = MES_Goods::get_goods_by_catogary($_cur['data']);
+						array_push($list, array('data'=>$_list,'title'=>$_cur['title'],'name'=>$_cur['name']));
+					}
+		
 					$smarty -> assign('data',$CAKE_CATO[$cato_id]);
 					$smarty -> assign('list',$list);
 					return $smarty;

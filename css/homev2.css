@@ -100,8 +100,10 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
   }
   .slider-num-ico:hover,
   .sn-current{background: url(img/sli-num-ico28.png) 0 0 no-repeat;}
-  .theme-area{overflow: hidden; /*_margin-top:-10px;*/}
-  .ta-item{float: left; width: 50%; overflow: hidden; padding: 44px 0 10px 0; height: 254px;}
+  .theme-area{position: relative; height: 616px;}
+  .ta-item2{position: absolute; right: 0; top:0; }
+  .ta-item4{position: absolute; right: 0; top:308px; }
+  .ta-item{width: 50%; overflow: hidden; padding: 44px 0 10px 0; height: 254px;}
   .ta-item-inner{width: 460px; padding-left: 40px;}
   .ta-item-inner img{display: block; margin-left: 120px;}
   .ta-item-left .ta-item-inner{float: right; padding-left: 0;}
@@ -419,9 +421,12 @@ a.btn:hover{text-decoration: none;}
   .pro-content{width: 960px; margin: 0 auto;}
   .pro-ul{width: 110px; margin-left: 20px; display: inline;}
   .pro-list-area{width: 830px; display: inline;}
-  .pro-list-title{color: #000; font-size: 18px; padding-bottom: 14px; border-bottom: 1px solid #000;}
+  .pro-list-title{color: #000; font-size: 18px; padding-bottom: 14px; border-bottom: 1px solid #000; display: block;}
+  .pro-list-title:hover{text-decoration: none;}
   .pro-head{padding:40px 0 80px 0; text-align: center;}
   .pro-head p{font-size: 14px; color: #666;padding-top: 14px;}
+  .pro-head p a{color: #666; margin: 0 4px;}
+  .pro-head p a:hover{text-decoration: underline;}
   .pro-head h2{font-size: 20px;}
   .pro-list-item{width: 415px; float: left; height: 350px; padding: 30px 0 50px 0;}
   .pro-list-item h5{font-size: 24px; padding-bottom: 14px; font-weight: normal; *font-weight: bold;}

@@ -839,11 +839,11 @@ class MES_Order{
 			//蜡烛这玩意 需要在order页面返回给前端添加到订单里，其他商品不需要这么做
 			//67数字蜡烛
 			//61普通蜡烛
-			if($val['goods_id']==61&&$goods_id == 61&&$val['parent_id']==$parent_id){
+			if($val['goods_id']==CANDLE_ID&&$goods_id == CANDLE_ID&&$val['parent_id']==$parent_id){
 				  $result['data'] = $val;	
 			}
 
-			if($val['goods_id']=='67'&&$goods_id == '67'&&$val['parent_id']==$parent_id){	
+			if($val['goods_id']==NUM_CANDLE_ID&&$goods_id == NUM_CANDLE_ID&&$val['parent_id']==$parent_id){	
 				  $result['data'] = $val;
 			}
 		}	
@@ -910,32 +910,6 @@ class MES_Order{
 	    //计算订单的费用
 	    $total = order_fee($order, $cart_goods, $consignee);
 		return $total;
-		
-		/*
-		//蛋糕
-		$sql = "select * from " . $ecs->table('cart') . " WHERE  session_id='" . SESS_ID . "'";
-		$goods = $db->getAll($sql);
-		$total = 0;
-		foreach($goods as $val){
-			$total += $val['goods_price'] * $val['goods_number'];
-		}
-		
-		//餐具
-		if($_SESSION['extra_fork']==NULL){
-		   //$_SESSION['extra_fork'] = array();
-		}else{
-			$forks = $_SESSION['extra_fork'];
-			foreach ($forks as $value){
-				$total+=($value*0.5);
-			}
-		}
-
-		//运费
-		if($_SESSION['need_shipping_fee']){
-			$total+=$_SESSION['need_shipping_fee'];
-		}
-		return $total;
-		*/
 	}
 
  

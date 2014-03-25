@@ -21,18 +21,20 @@
         <h2>{$data.detail_desc_h1}</h2>
         <p>{$data.detail_desc_h2}</p>
       </div>
-      <h4 class="pro-list-title">{$data.detail_desc_h3}</h4>
-      <div class="clearfix">
-        {foreach from=$list item=value key=key}
-        <div class="pro-list-item">
-          <h5>{$value.goods_name}</h5>
-          <p>{$value.goods_desc}</p>
-          <a href="route.php?mod=goods&action=goods_detail_page&id={$value.goods_id}">
-	  <img src="css/img/blank.gif" class="lazy_load" data-src="{$value.goods_image}" style="display:none">
-	  </a>
-        </div>
-	{/foreach}
+      {foreach from=$list item=value key=key}
+	<a class="pro-list-title" name="{$value.name}" id="{$value.name}">{$value.title}</a>
+	<div class="clearfix">
+	   {foreach from=$value.data item=value2 key=key2}
+		<div class="pro-list-item">
+		  <h5>{$value2.goods_name}</h5>
+		  <p>{$value2.goods_desc}</p>
+		  <a href="route.php?mod=goods&action=goods_detail_page&id={$value2.goods_id}">
+		  <img src="css/img/blank.gif" class="lazy_load" data-src="{$value2.goods_image}" style="display:none">
+		  </a>
+		</div>
+	   {/foreach}
       </div>
+      {/foreach}
       <div class="tl-c" style="display:none">
         <p class="pro-more"><a href="#">需要特别的蛋糕？来看看我们的定制服务</a></p>
       </div>
