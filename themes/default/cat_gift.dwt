@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>猫爪奖品</title>
+  <link rel="stylesheet" type="text/css" href="css/homev2.css" />
+  <link rel="stylesheet" type="text/css" href="css/active.css" />
+</head>
+<body>
+<div class="act-layout">
+  <div class="act-big-img-area act-big-img-area-intro">
+    <a href="route.php?mod=huodong&action=cat_page" class="act-btn btn-goback">&lt;</a>
+    <div class="tl-c">
+      <h1>晒晒还能有奖品！</h1>
+      <p>3月30日至4月30日，根据“点赞”票数</p>
+      <p><em class="big-font">每天</em>抽出“人气猫爪“ 1名，获得<em class="strong-font">30元蛋糕代金券</em>一张；</p>
+      <img src="css/img/cat.jpg" />
+      <p><em class="big-font">每周</em>选出“本周人气奖“ 1名，获得<em class="strong-font">萌猫主题猫爪蛋糕</em>一个</p>
+      <img src="css/img/cat.jpg" />
+      <p>活动<em class="big-font">最终</em>（4.30）将评选出“最佳人气奖“ 2名，获得价值<em class="strong-font">500元的蛋糕礼册</em>一份</p>
+      <img src="css/img/cat.jpg" />
+      <p>每实将在官博<em class="special-color">@MES每实</em>公布获奖名单，快来关注我们吧！</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

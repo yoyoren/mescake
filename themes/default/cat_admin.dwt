@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>猫爪活动admin</title>
+  <link rel="stylesheet" type="text/css" href="css/homev2.css" />
+  <link rel="stylesheet" type="text/css" href="css/active.css" />
+  <link rel="stylesheet" type="text/css" href="css/dialog.css" />
+<script src="script/release/lib.min.js"></script>
+<script src="script/page/common.js"></script>
+</head>
+<body>
+<div class="act-layout">
+	<div class="manage-area">
+		<div class="manage-head clearfix">
+			<div class="fl-l">
+				  <a href="#" class="current tabs"  id="all_tab">未审核</a> |
+				  <a href="#" class="tabs" id="pass_tab">已通过</a> |
+				  <a href="#" class="tabs" id="fail_tab">不合格</a>
+					</div>
+					<div class="fl-r">排序： 
+					  <a href="" class="sort-link sort-current">按时间<em>▼</em></a> |
+					  <a href="" class="sort-link">按赞数<em>▼</em></a>
+			    </div>
+			</div>
+		</div>
+		<div class="manage-line"></div>
+		<div id="container"></div>
+	</div>
+</div>
+<script>
+
+
+function get_by_status(status){
+	MES.get({
+		mod:'huodong',
+		action:'cat_get_by_status',
+		param:{
+			status:status
+		},
+		callback:function(d){
+		 var data =d.data;
+		 var html = '';
+		 for(var i=0;i<data.length;i++){
+		   html+='<div class="manage-item">\
+			  <img src="'+data[i].img+'">\
+			  <div class="fl-l">\
+			    <p><a href="#">@'+data[i].weibo_name+'</a></p>\
+			    <p>赞：<input type="text" class="manage-input" value="'+data[i].times+'"> </p>'+data[i].format_date+'\
+			    <a href="#" class="manage-btn pass" data-id="'+data[i].id+'">通过</a>\
+			    <a href="#" class="manage-btn m-status1-btn fail" data-id="'+data[i].id+'">不合格</a>\
+			  </div>\
+			</div>';
+		 }
+		 $('#container').html(html);
+			
+		}
+
+	});
+}
+get_by_status(0);
+$('#all_tab').click(function(){
+   get_by_status(0);
+});
+$('#pass_tab').click(function(){
+   get_by_status(1);
+});
+$('#fail_tab').click(function(){
+   get_by_status(2);
+});
+
+$(document).delegate('.pass','click',function(){
+	var id=$(this).data('id');
+	MES.post({
+		mod:'huodong',
+		action:'cat_change_status',
+		param:{
+		 id:id,
+		 status:1
+		},
+		callback:function(d){
+			alert('操作成功');
+		}
+	});
+}).delegate('.fail','click',function(){
+	var id=$(this).data('id');
+	MES.post({
+		mod:'huodong',
+		action:'cat_change_status',
+		param:{
+		 id:id,
+		 status:2
+		},
+		callback:function(d){
+			alert('操作成功');
+		}
+	});
+});
+$('.tabs').click(function(){
+ $('.tabs').removeClass('current');
+ $(this).addClass('current');
+})
+</script>
+</body>
+</html>
