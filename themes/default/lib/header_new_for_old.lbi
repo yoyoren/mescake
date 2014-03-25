@@ -13,7 +13,7 @@ function closel(id){
   
         <a href="route.php?mod=account&action=order_list">我的订单</a> |
         <a href="#" id="header_shopcar"><em class="ico-shop"></em>购物车</a>
-        <p class="tel-con"><em class="ico-phone"></em>4000 600 700<b>订购电话</b></p>
+        <p class="tel-con" style="display:none"><em class="ico-phone"></em>4000 600 700<b>订购电话</b></p>
       </div>
     </div>
     <ul class="head-nav">

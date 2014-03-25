@@ -785,6 +785,12 @@
 					});
 					$('#submit_order_btn').removeClass('green-btn');
 					SubmitLock = true;
+				}else if(date == '2014-03-25'){
+					require(['ui/confirm'],function(confirm){
+						new confirm('由于内部系统故障今天暂停送货，小伙伴们可以择日再来或选择其他送货日期');
+					});
+					$('#submit_order_btn').removeClass('green-btn');
+					SubmitLock = true;
 				}else{
 					$('#submit_order_btn').addClass('green-btn');
 					SubmitLock = false;
