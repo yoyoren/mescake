@@ -663,7 +663,6 @@ switch ($mod) {
 			include_once( ROOT_PATH .'weibo/config.php' );
 			include_once( ROOT_PATH .'weibo/saetv2.ex.class.php' );
 			
-			
 			session_start();
 			if($_SESSION['weibotoken']['access_token']){
 				include_once( ROOT_PATH .'lib/cat_activity.php' );
@@ -674,14 +673,49 @@ switch ($mod) {
 				$user_message = $auth->show_user_by_id($uid);
 				$weibo_name = $user_message['screen_name'];
 				MES_Cat_activity::add($weibo_name,$url);
-				echo json_encode(array('code'=>'0','msg'=>'success'));
+				echo json_encode(array('code'=>0,'msg'=>'success'));
 			}else{
-				echo json_encode(array('code'=>'1','msg'=>'fail'));
+				echo json_encode(array('code'=>RES_FAIL,'msg'=>'fail'));
 			}
+		} else if ($action == 'weibo_upload_test') {
+			include_once( ROOT_PATH .'lib/cat_activity.php' );
+			//weibo的图片上传
+			$url = ANTI_SPAM($_POST['imageurl']);
+			$weibo_name = "test";
+			MES_Cat_activity::add($weibo_name,$url);
+
+			echo json_encode(array('code'=>0,'msg'=>'success'));
+		} else if ($action == 'cat_admin') {
+			$smarty->display('cat_admin.dwt');
+		} else if ($action == 'cat_gift') {
+			$smarty->display('cat_gift.dwt');
 		} else if ($action == 'like') {
 			include_once( ROOT_PATH .'lib/cat_activity.php' );
 			$id = ANTI_SPAM($_POST['id']);
 			MES_Cat_activity::like($id);
+		} else if ($action == 'cat_get_all') {
+			include_once( ROOT_PATH .'lib/cat_activity.php' );
+			echo MES_Cat_activity::get_all();
+		} else if ($action == 'cat_get_by_status') {
+			include_once( ROOT_PATH .'lib/cat_activity.php' );
+
+			$status = $_GET['status'];
+			if($status!=1&&$status!=2&&$status!=0){
+				die;
+			}
+			echo MES_Cat_activity::cat_get_by_status($status);
+
+		}  else if ($action == 'cat_change_status') {
+
+			include_once( ROOT_PATH .'lib/cat_activity.php' );
+			$status = ANTI_SPAM($_POST['status']);
+			$id = ANTI_SPAM($_POST['id']);
+			echo MES_Cat_activity::cat_change_status($id,$status);
+		} else if ($action == 'cat_like') {
+
+			include_once( ROOT_PATH .'lib/cat_activity.php' );
+			$id = ANTI_SPAM($_POST['id']);
+			echo MES_Cat_activity::cat_like($id,$status);
 		} else {
 			header("Location: 404.html");
 		}

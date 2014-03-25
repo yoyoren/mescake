@@ -34,7 +34,7 @@ define(['ui/dialog'],function(Dialog){
 												mod:'huodong',
 												action:'weibo_upload',
 												param:{
-													imageurl:'http://test.mescake.com/'+d.url
+													imageurl:d.url
 												},
 												callback:function(d){
 													if(d.code == 0){
