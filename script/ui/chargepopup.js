@@ -31,7 +31,7 @@ define(['ui/dialog'],function(Dialog){
 				single.show();
 			}else{
 				 single = new Dialog({
-						title:'代金券充值',
+						title:'礼金卡充值',
 						onshow:function(d){
 							if(d){
 								callback = d.callback

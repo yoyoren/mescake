@@ -3,11 +3,11 @@ define(['ui/dialog'],function(Dialog){
 	var body = '<div class="dialog-con">\
 				<div class="up-img-area" id="upload_image"></div>\
 				<form action="route.php?action=upload&mod=huodong"  enctype="multipart/form-data" method="post" id="mes_form">\
-					<input type="file" name="images" id="mes_input"/>\
+					<input type="file" name="images"  class="up-input" id="mes_input"/>\
 				 </form>\
 				<div class="single-btn-area">\
-				  <input class="btn" type="button" value="取消">\
-				  <input class="btn status1-btn" type="button" value="上传" id="upload_to_weibo">\
+				  <input class="btn" type="button" value="取消" id="upload_cancle_weibo">\
+				  <input class="btn status1-btn" type="button" value="发布" id="upload_to_weibo">\
 				</div>\
 			  </div>'
 	var single;
@@ -22,19 +22,24 @@ define(['ui/dialog'],function(Dialog){
 						body:body,
 						bottom:' ',
 						afterRender:function(){
+							$('#upload_cancle_weibo').click(function(){
+								single.close();
+							});
+
 							require(['widget/upload'],function(upload){
 								new upload({
 									inputId:'mes_input',
 									formId:'mes_form',
 									url:'route.php?action=upload&mod=huodong',
 									callback:function(d){
-										$('#upload_image').append('<img src="'+d.url+'" width="100"/>');
+										var url = d.url;
+										$('#upload_image').append('<img src="'+url+'" width="200"/>');
 										$('#upload_to_weibo').click(function(){
 											MES.post({
 												mod:'huodong',
 												action:'weibo_upload',
 												param:{
-													imageurl:d.url
+													imageurl:url
 												},
 												callback:function(d){
 													if(d.code == 0){

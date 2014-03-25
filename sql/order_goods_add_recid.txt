@@ -1,0 +1,1 @@
+ALTER TABLE `ecs_order_goods` ADD `origin_rec_id` varchar( 32 ) NOT NULL DEFAULT '0';

@@ -41,6 +41,8 @@ em.strong-font{font-size: 16px; font-weight: bold;}
 /* 猫爪弹窗 */
 .up-img-area{width: 180px; height: 180px; background:#ddd url(img/up-img-bg.png) center center no-repeat; border-radius: 10px; margin: 40px auto 10px auto;}
 .up-link{color: #d5392d; text-decoration: underline;}
+/* 选择文件 */
+.up-input{display: block; margin:0 auto; position: relative; z-index: 10; width: 180px;}
 
 /* 猫爪后台 */
    .manage-area{padding-top: 60px;}
