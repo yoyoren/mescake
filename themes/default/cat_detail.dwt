@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>查看大图</title>
+  <link rel="stylesheet" type="text/css" href="css/homev2.css" />
+  <link rel="stylesheet" type="text/css" href="css/active.css" />
+  <script src="script/release/lib.min.js"></script>
+<script src="script/page/common.js"></script>
+</head>
+<body>
+<div class="act-layout">
+  <div class="act-big-img-area">
+    <a href="route.php?mod=huodong&action=cat_page" class="act-btn btn-goback">&lt;</a>
+    <h4><span class="act-img-weibo-name">@{$data.weibo_name}</span>家的猫爪</h4>
+
+    <img src="{$data.img}" width="600px" />
+    <div class="tl-c">
+      <p style="padding-bottom:20px;">已经有<b>{$data.times}</b>个人表示很赞！</p>
+      <a href="#" data-id="{$data.id}" class="act-btn act-status2 like"><em class="btn-love"></em>赞一个!</a>
+    </div>
+  </div>
+</div>
+<script>
+	$(document).delegate('.like','click',function(){
+	  var id = $(this).data('id');
+	  MES.post({
+			mod:'huodong',
+			action:'cat_like',
+			param:{
+				id:id
+			},
+			callback:function(d){
+				alert('您已经成功了赞了这货！');
+			}
+
+		});
+	});
+</script>
+</body>
+</html>
