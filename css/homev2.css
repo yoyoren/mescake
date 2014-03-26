@@ -419,7 +419,7 @@ a.btn:hover{text-decoration: none;}
   .left-corner{background:url(img/pro-nav-li-bg.png) 0 0 no-repeat; display: inline-block; *display: inline; *zoom:1; width: 10px; height: 10px; visibility: hidden;}
   .pro-content-area{background: url(img/pros-bg.png) 0 0 repeat-x;}
   .pro-content{width: 960px; margin: 0 auto;}
-  .pro-ul{width: 110px; margin-left: 20px; display: inline;}
+  .pro-ul{width: 110px; /*margin-left: 20px; */display: inline;}
   .pro-list-area{width: 830px; display: inline;}
   .pro-list-title{color: #000; font-size: 18px; padding-bottom: 14px; border-bottom: 1px solid #000; display: block;}
   .pro-list-title:hover{text-decoration: none;}
@@ -452,6 +452,21 @@ a.btn:hover{text-decoration: none;}
 
 /* 看不见订单提示 */
 .use-phone-tips{color: #666; padding-top: 40px;}
+
+/* 梦想家的配置 */
+.cat-item{border-bottom: 1px solid #000; margin-bottom: 40px; height:305px; overflow: hidden; padding-bottom: 40px;}
+.cake-cat,
+.cat-people{display: block;}
+.cake-cat{width: 384px; height: 298px;}
+.cat-people{height: 180px; margin-top: 60px; margin-right: 20px;}
+.cat-detail{padding-top: 100px; width: 240px;}
+.cat-detail h5{font-size: 20px; color: #999; font-weight: normal;}
+.cat-detail p{color: #999; line-height: 1.5; font-size: 12px;}
+
+/* 梦想家蛋糕的单独配置 */
+  .cat-mark .buy-container{top:780px;}
+  .cat-mark .size-list li{text-align: center;}
+  .flower-mark{color: #999; padding-top:10px; background: url(img/flower0.jpg) center bottom no-repeat; height: 130px;}
 
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}
