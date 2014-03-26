@@ -13,7 +13,11 @@ $('#my_order_frame').show();
 									<span class="od-img-area">\
 										<a href="route.php?mod=account&action=order_detail&order_id=<%=data[i].order_id%>">\
 											<%if(data[i].showStaff) {%>\
-											<img class="od-img" src="themes/default/images/sgoods/<%=data[i].showStaff.goods_sn.substring(0,3)%>.png" width="70">\
+												<%if(data[i].showStaff.goods_id == CAT_CAKE) {%>\
+												<img class="od-img" src="css/img/cat-little.jpg" width="70">\
+												<% } else {%>\
+												<img class="od-img" src="themes/default/images/sgoods/<%=data[i].showStaff.goods_sn.substring(0,3)%>.png" width="70">\
+												<% } %>\
 											<% } %>\
 										</a>\
 									</span>\

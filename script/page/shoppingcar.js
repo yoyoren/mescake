@@ -41,6 +41,8 @@
 								<img style="background-color:#fff;height: auto" src="img/lazhu.png"  class="od-img"/>\
 							<% } else if(data[i].goods_id==NUM_CANDLE){%>\
 								<img style="height: auto" width="70"src="css/img/order-detail2.png"  class="od-img"/>\
+							<% } else if(data[i].goods_id==CAT_CAKE){%>\
+								<img style="height: auto" width="70"src="css/img/cat-little.jpg"  class="od-img"/>\
 							<% } else {%>\
 								<img style="height: auto" width="70" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.png"  class="od-img"/>\
 							<% } %>\
@@ -60,6 +62,21 @@
 					  <a href="#" class="or-handle order_cancel" data-id="<%=data[i].rec_id%>" data-goods="<%=data[i].goods_id%>">删除</a>\
 				  </li>\
 				  <% } %>\
+				 <%if(data[i].goods_id==CAT_CAKE){%>\
+					<li class="clearfix sub_order_<%=data[i].rec_id%>">\
+					  <div class="od-title1">\
+						<a href="#">\
+						  <span class="od-img-area">\
+							<img src="img/order-detail3.png" class="od-img">\
+						  </span>\
+						  <span class="or-name-intro">致春天</span>\
+						</a>\
+					  </div>\
+					  <div class="od-title2">赠送</div>\
+					  <div class="od-title3"><%=data[i].goods_number%></div>\
+					  <div class="od-title4">￥0</div>\
+					</li>\
+				   <% } %>\
 				  <%if(data[i].goods_id!=NUM_CANDLE&&data[i].goods_id!=CANDLE&&data[i].goods_id!=FORK){%>\
 					<li class="clearfix sub_order_<%=data[i].rec_id%>" id="sub_order_fork_<%=data[i].rec_id%>">\
 					 <div class="od-title1">\
@@ -199,7 +216,7 @@
 					}
 
 					//订单中有大于5磅的货物 则不能货到付款
-					if(parseInt(_good.goods_attr,10)>5&&!window.SHOPPING_CAR){
+					if(parseInt(_good.goods_attr,10)>5&&!window.SHOPPING_CAR&&_good.goods_id!=NUM_CANDLE){
 						window.HAS_BIG_STAFF = true;
 						setTimeout(function(){
 							$('#alipay_radio').trigger('click');

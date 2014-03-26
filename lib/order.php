@@ -843,7 +843,8 @@ class MES_Order{
 				  $result['data'] = $val;	
 			}
 
-			if($val['goods_id']==NUM_CANDLE_ID&&$goods_id == NUM_CANDLE_ID&&$val['parent_id']==$parent_id){	
+			//数字蛋糕 判定为唯一 需要attr
+			if($val['goods_attr'] ==$goods_attr&&$val['goods_id']==NUM_CANDLE_ID&&$goods_id == NUM_CANDLE_ID&&$val['parent_id']==$parent_id){	
 				  $result['data'] = $val;
 			}
 		}	

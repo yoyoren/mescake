@@ -3,6 +3,8 @@ define('IN_ECS', true);
 define('FORK_ID',60);
 define('CANDLE_ID',61);
 define('NUM_CANDLE_ID',67);
+define('CAT_CAKE_ID',68);
+
 //give user a sid for record
 /*Session_start();
 $SID;
@@ -692,14 +694,27 @@ switch ($mod) {
 			$smarty->display('cat_admin.dwt');
 		} else if ($action == 'cat_gift') {
 			$smarty->display('cat_gift.dwt');
+		} else if ($action == 'cat_detail') {
+			
+			//大图页面
+			include_once( ROOT_PATH .'lib/cat_activity.php' );
+			$id = ANTI_SPAM($_GET['id']);
+			$data = MES_Cat_activity::cat_get_by_id($id);
+			$smarty->assign('data',$data);
+			$smarty->display('cat_detail.dwt');
 		} else if ($action == 'like') {
+			//赞操作
 			include_once( ROOT_PATH .'lib/cat_activity.php' );
 			$id = ANTI_SPAM($_POST['id']);
 			MES_Cat_activity::like($id);
 		} else if ($action == 'cat_get_all') {
+			
+			//获得所有活动数据
 			include_once( ROOT_PATH .'lib/cat_activity.php' );
 			echo MES_Cat_activity::get_all();
 		} else if ($action == 'cat_get_by_status') {
+			
+			//根据后台状态来获得数据
 			include_once( ROOT_PATH .'lib/cat_activity.php' );
 
 			$status = $_GET['status'];

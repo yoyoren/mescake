@@ -18,9 +18,17 @@
 		}
 	  });
   }
-  jqFristSelection.addClass('current');
-  jqFristSelection.find('em').addClass('radiobox-checked');
-  getPriceByAttr(attr);
+	  if(window.GOODS_ID==CAT_CAKE){
+		var _html='<li class="current">\
+					  <p class="flower-mark">（附赠精美花环一枚）</p>\
+					</li>';
+		$('#more_list').append(_html).show();
+		$('body').addClass('cat-mark');
+	}
+	jqFristSelection.addClass('current');
+	jqFristSelection.find('em').addClass('radiobox-checked');
+	getPriceByAttr(attr);
+  
   
 
   $('#show_more_staff').click(function(){
@@ -51,7 +59,7 @@
     // 检查是否有商品规格
     goods.quick = 1;
     //商品重量
-    goods.spec = window.ATTR;
+    goods.spec = window.ATTR||[];
     goods.goods_id = window.GOODS_ID;
     //数量
     goods.number = 1;

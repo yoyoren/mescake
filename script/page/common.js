@@ -2,6 +2,7 @@
    window.MES = window.MES||{};
    window.CANDLE = 61;
    window.NUM_CANDLE = 67;
+   window.CAT_CAKE = 68;
    window.FORK = 60;
    window.IS_MOBILE = /^1[3|4|5|8|9]\d{9}$/;
    MES.IS_MOBILE = function(num){

@@ -54,7 +54,11 @@
 							<%}else{%>\
 								<a target="_blank" href="route.php?mod=goods&action=goods_detail_page&id=<%=goods[i].goods_id%>">\
 								  <span class="od-img-area">\
-									<img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.png" class="od-img" width="70">\
+									<%if(goods[i].goods_id == CAT_CAKE){%>\
+										<img src="css/img/cat-little.jpg" class="od-img" width="70">\
+								    <% } else {%>\
+										<img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.png" class="od-img" width="70">\
+									<% } %>\
 								  </span><%=goods[i].goods_name%>（<%=goods[i].goods_attr%>）\
 								</a>\
 							<% } %>\

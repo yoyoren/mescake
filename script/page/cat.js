@@ -23,7 +23,7 @@
 			 var html = '';
 			 for(var i=0;i<data.length;i++){
 				html+='<li>\
-					<a href="javascript:void(0);"><img src="'+data[i].img+'"></a>\
+					<a href="route.php?mod=huodong&action=cat_detail&id='+data[i].id+'"><img src="'+data[i].img+'"></a>\
 					<div class="act-func-area"><span class="weibo-name">@'+data[i].weibo_name+'</span><span class="act-love like" data-id="'+data[i].id+'">'+data[i].times+'</span></div>\
 				  </li>';
 			 }

@@ -680,7 +680,7 @@ class MES_User{
 		//接收卡号、密码
 
 		//验证码
-		$redis_vaild_code = GET_REDIS($mobile,'signup');
+		$redis_vaild_code = GET_REDIS($mobile,'charge');
 		if($redis_vaild_code!=$vaild_code){
 			return json_encode(array(
 				'code' =>10010,
