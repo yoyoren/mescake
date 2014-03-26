@@ -459,9 +459,13 @@ a.btn:hover{text-decoration: none;}
 .cat-people{display: block;}
 .cake-cat{width: 384px; height: 298px;}
 .cat-people{height: 180px; margin-top: 60px; margin-right: 20px;}
-.cat-detail{padding-top: 100px; width: 240px;}
-.cat-detail h5{font-size: 20px; color: #999; font-weight: normal;}
-.cat-detail p{color: #999; line-height: 1.5; font-size: 12px;}
+.cat-detail{padding-top: 100px; width: 240px; display: block;}
+.cat-item-link{display: block; overflow: hidden;}
+.cat-item-link:hover{text-decoration: none;}
+.cat-detail .cat-title,
+.cat-detail .cat-con{display: block;}
+.cat-detail .cat-title{font-size: 20px; color: #999; font-weight: normal;}
+.cat-detail .cat-con{color: #999; line-height: 1.5; font-size: 12px;}
 
 /* 梦想家蛋糕的单独配置 */
   .cat-mark .buy-container{top:780px;}

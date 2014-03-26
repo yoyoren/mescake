@@ -25,16 +25,18 @@
         <p>{$data.detail_desc_h2}</p>
       </div>
       {if $data.cls=="for-dream"}
-	      <div class="cat-item" style="border:0">
-		<a href="" class="cat-people fl-l"><img src="img/sort/cat-people1.jpg"></a>
-		<div class="cat-detail fl-l">
-		  <h5>梦想家E01</h5>
-		  <h5 style="color:#333;">小爪</h5>
-		  <p style="padding-top:20px;">文艺梦想家——田原</p>
-		  <p>为精致甜点撒上猫咪哲学的梦想实验</p>
-		</div>
-		<a href="route.php?mod=goods&action=goods_detail_page&id=68" class="cake-cat fl-l"><img src="img/sort/cat.jpg"></a>
-	      </div>
+		<div class="cat-item">
+			<a href="route.php?mod=goods&action=goods_detail_page&id=68" class="cat-item-link clearfix">
+			  <img class="cat-people fl-l" src="img/sort/cat-people1.jpg">
+			  <span class="cat-detail fl-l">
+			    <span class="cat-title">梦想家E01</span>
+			    <span class="cat-title" style="color:#333;">小爪</span>
+			    <span class="cat-con" style="padding-top:20px;">文艺梦想家——田原</span>
+			    <span class="cat-con">为精致甜点撒上猫咪哲学的梦想实验</span>
+			  </span>
+			  <img class="cake-cat fl-l" src="img/sort/cat.jpg">
+			</a>
+		      </div>
 	      <div class="cat-item" style="display:none">
 		<a href="" class="cat-people fl-l"><img src="img/sort/cat-people2.jpg"></a>
 		<div class="cat-detail fl-l">

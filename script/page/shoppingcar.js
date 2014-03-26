@@ -44,7 +44,7 @@
 							<% } else if(data[i].goods_id==CAT_CAKE){%>\
 								<img style="height: auto" width="70"src="css/img/cat-little.jpg"  class="od-img"/>\
 							<% } else {%>\
-								<img style="height: auto" width="70" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.png"  class="od-img"/>\
+								<img style="height: auto" width="70" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.jpg"  class="od-img"/>\
 							<% } %>\
 					     </span>\
 						 <span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%>（<%=data[i].goods_attr%>）<% } %></span>\
