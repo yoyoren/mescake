@@ -671,8 +671,10 @@ switch ($mod) {
 			session_start();
 			if($_SESSION['weibotoken']['access_token']){
 				include_once( ROOT_PATH .'lib/cat_activity.php' );
+				$weibo_url = 'http://test.mescake.com/route.php?mod=huodong&action=cat_page';
+				$weibo_text = '#每实猫爪大晒#各种萌猫爪大集合，你也晒晒吧'.$weibo_url;
 				$auth = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['weibotoken']['access_token'] );
-				$auth->upload('test',$url);
+				$auth->upload($weibo_text,$url);
 				$uid_get = $auth->get_uid();
 				$uid = $uid_get['uid'];
 				$user_message = $auth->show_user_by_id($uid);
