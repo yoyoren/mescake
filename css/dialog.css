@@ -18,15 +18,15 @@ height: 16px; width: 16px; background: url(img/dialog-close-btn.png) 0 0 no-repe
 
 .dialog .text-area,
 .dialog .global-input{border:1px solid #e5e5e5; border-radius: 3px;  background: #fff; padding: 10px; margin-bottom: 6px; width:298px;}
-.dialog .btn{padding: 0 40px; _padding:0 20px; margin-top: 10px; height: 38px; line-height: 38px; font-size: 16px; border-radius: 3px; background: #fafafa;}
+.dialog .btn{padding: 0 40px; *padding:0 20px; margin-top: 10px; height: 38px; line-height: 38px; font-size: 16px; border-radius: 3px; background: #fafafa;}
 .dialog .status1-btn{background: #d11c08;}
-.dialog .code-btn{width:60px; padding:0 14px; margin:0 0 0 10px; height: 42px; line-height: 42px; vertical-align: middle; font-size: 12px; _margin-top:-38px;}
+.dialog .code-btn{width:60px; padding:0 14px; margin:0 0 0 10px; height: 42px; line-height: 42px; vertical-align: middle; font-size: 12px; *margin-top:-38px;}
 /* 只有一个按钮的区域 */
 .single-btn-area{padding-top: 10px; text-align: center;}
 .single-btn-area .btn{margin-right: 0;}
 
 .dialog input.long-btn{width: 320px;}
-.dialog .long-btn{margin-right: 0;  width: 238px; _width:278px;}
+.dialog .long-btn{margin-right: 0;  width: 238px; *width:278px;}
 .dialog .text-area:focus,
 .has-bor-input:focus{box-shadow: inset 0 0 8px #eaeaea;}
 

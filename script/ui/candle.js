@@ -79,7 +79,15 @@ define(['ui/dialog'],function(Dialog){
 							var jqInput = $('#candle_number_input');
 							
 							jqInput.placeholder();
-							$('#candle_number_input').keyup(function(){
+							$('#candle_number_input').keydown(function(e){
+
+								if((e.which<48||e.which>57)&&e.which!=8){
+								
+									e.preventDefault&&e.preventDefault();
+									return false;
+								}
+							});
+							$('#candle_number_input').keyup(function(e){
 								var _this = $(this);
 								var _val = _this.val();
 								

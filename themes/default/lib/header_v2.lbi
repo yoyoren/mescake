@@ -8,16 +8,18 @@
           <li class="hn-item" style="display:none"><a href="#"><em class="nav-time ico-item"></em><em class="nav-con">每实每刻</em></a></li>
         </ul>
 	<script>
+		
 		if(location.href.indexOf('cato')>-1){
 			$('#cake_tag').addClass('current');
-		}else{
-			$('#index_tag').addClass('current');
 		}
-    $(".hn-item a").bind("mouseover",function(){
-      $(this).addClass("hover");
-    }).bind("mouseout",function(){
-      $(this).removeClass("hover");
-    });
+		if(location.href.indexOf('index')>-1){
+			$('#home_tag').addClass('current');
+		}
+		    $(".hn-item a").bind("mouseover",function(){
+		      $(this).addClass("hover");
+		    }).bind("mouseout",function(){
+		      $(this).removeClass("hover");
+		    });
 	</script>
         <div class="mh-login-area fl-r">
           <a href="#" id="header_login">登录&nbsp;&nbsp;&nbsp;|</a>

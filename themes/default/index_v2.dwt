@@ -6,37 +6,18 @@
 <meta name="Description" content="MES每实是一个食物,生活方式,艺术和文化的综合体,它钟情于创造任何让生活产生乐趣,品质和格调的食物产品,3大系列,38款产品,让你每时每刻尽享美好." />
 <title>{$page_title}</title>
 <!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
+  <style type="text/css">
+  html,body{_overflow-x:hidden;}
+  </style>
 </head>
 <body>
 <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
   <div class="head-area">
-  <style type="text/css">
-  .slider-img-area{border-bottom: 1px solid #bcbcbc; height: 440px;}
-  .s-img-area{}
-  .s-img-area img{display: block; margin: 0 auto;}
-  .s-img-area-inner{width: 960px; margin:0 auto; position: relative;}
-  .s-img-intro{position: absolute;}
-  .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
-  .s-img-area-inner p{font-size: 18px; color: #333; line-height: 1.8;}
 
-  .slider-num{width: 960px; margin: 0 auto; margin-top: -40px; position: relative; z-index: 10;}
-  .slider-num-ico{display: inline-block; *display: inline; *zoom:1;
-    width: 10px; height: 10px; background: url(img/sli-num-ico18.png) 0 0 no-repeat; overflow: hidden; margin: 0 6px;
-  }
-  .slider-num-ico:hover,
-  .sn-current{background: url(img/sli-num-ico28.png) 0 0 no-repeat;}
-  .theme-area{overflow: hidden;}
-  .ta-item{float: left; width: 50%; overflow: hidden; padding: 44px 0 10px 0;}
-  .ta-item-inner{width: 460px; padding-left: 40px;}
-  .ta-item-inner img{display: block; margin-left: 120px;}
-  .ta-item-left .ta-item-inner{float: right; padding-left: 0;}
-  .ta-title{font-size: 18px; padding-bottom: 10px; color: #000;}
-  .ta-intro{font-size: 12px; color: #51534d; padding-bottom: 10px;}
-  </style>
   <div class="slider-img-area">
     <div class="slider-container clearfix" style="width:400%;">
 	    {foreach from=$slider item=value key=key}
-	    <div class="s-img-area slider_image" style="background:#fff;width:25%; float:left;">
+	    <div class="s-img-area slider_image" style="background:#fff;width:25%; float:left;" onclick="location.href='{$value.link}'">
 	      <div class="s-img-area-inner">
 		<div class="s-img-intro" style="left:20px; top:140px;">
 		  <h2 style="color:#acd67f;">{$value.title}</h2>
@@ -59,28 +40,28 @@
     </div>
   </div>
   <div class="theme-area">
-    <div class="ta-item ta-item-left ta-item1" onclick="location.href='route.php?mod=page&action=cato&id=specialday'">
+    <div class="ta-item ta-item-left ta-item1 pointer" onclick="location.href='route.php?mod=page&action=cato&id=specialday'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.specialday.name}</h4>
         <p class="ta-intro">{$cato.specialday.desc}</p>
         <em class="ta-imgs taim-1"></em>
       </div>
     </div>
-    <div class="ta-item ta-item2" onclick="location.href='route.php?mod=page&action=cato&id=forlove'">
+    <div class="ta-item ta-item2 pointer" onclick="location.href='route.php?mod=page&action=cato&id=forlove'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.forlove.name}</h4>
         <p class="ta-intro">{$cato.forlove.desc}</p>
         <em class="ta-imgs taim-2"></em>
       </div>
     </div>
-    <div class="ta-item ta-item-left ta-item3" onclick="location.href='route.php?mod=page&action=cato&id=party'">
+    <div class="ta-item ta-item-left ta-item3 pointer" onclick="location.href='route.php?mod=page&action=cato&id=party'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.party.name}</h4>
         <p class="ta-intro">{$cato.party.desc}!</p>
         <em class="ta-imgs taim-3"></em>
       </div>
     </div>
-    <div class="ta-item ta-item4" onclick="location.href='route.php?mod=page&action=cato&id=dream'">
+    <div class="ta-item ta-item4 pointer" onclick="location.href='route.php?mod=page&action=cato&id=dream'">
       <div class="ta-item-inner">
         <h4 class="ta-title">{$cato.dream.name}</h4>
         <p class="ta-intro">{$cato.dream.desc}</p>
@@ -88,7 +69,7 @@
       </div>
     </div>
   </div>
-  <div class="flow-img-area">
+  <div class="flow-img-area" style="display:none">
     <div class="s-img-area" style="background:#fff;">
       <div class="s-img-area-inner">
         <div class="s-img-intro" style="left:80px; top:120px;">

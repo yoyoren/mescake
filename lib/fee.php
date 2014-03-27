@@ -68,6 +68,10 @@ class MES_Fee{
 				'1'=>array('name'=>'长阳','free'=>false),
 				'2'=>array('name'=>'良乡','free'=>false),
 			 ),
+			'571'=>array(
+				'1'=>array('name'=>'*五环外六环内区域','free'=>false),
+			
+			),
 		);
 		return $CITY_HASH;
 	}

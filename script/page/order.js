@@ -507,6 +507,9 @@
 			},function(d){
 				var html='';
 				for(var i=0;i<d.length;i++){
+					if(d[i].region_id == 571||d[i].region_id == 572){
+						d[i].region_name+='*';
+					}
 					html+='<option value="'+d[i].region_id+'">'+d[i].region_name+'</option>'
 				}
 				JQ.region_sel.append(html);

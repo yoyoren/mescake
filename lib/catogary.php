@@ -56,9 +56,8 @@ $CAKE_CATO = array(
 
 
 $CAKE_SLIDER = array(
-  0=>array('img'=>'img/test-img1.jpg',title=>'荔枝与茉莉的约会','desc'=>'齿间淹没的雨林坚果与巴西栗，青松般激怒神经的气息呗柏油温柔调和','link'=>''),
-  1=>array('img'=>'img/test-img1.jpg',title=>'荔枝与茉莉的约会','desc'=>'齿间淹没的雨林坚果与巴西栗，青松般激怒神经的气息呗柏油温柔调和','link'=>''),
-  2=>array('img'=>'img/test-img1.jpg',title=>'荔枝与茉莉的约会','desc'=>'齿间淹没的雨林坚果与巴西栗，青松般激怒神经的气息呗柏油温柔调和','link'=>''),
+  0=>array('img'=>'img/banner-for-love.jpg',title=>'<h2 style="color:#f2a8a8;">我愿意</h2>','desc'=>'<p style="width:340px;">人的一生，会遇到约2920万人<br>千万分之一的驻足<br>致爱，致唯一</p>','link'=>'route.php?mod=goods&action=goods_detail_page&id=27'),
+  1=>array('img'=>'img/banner-cat.jpg',title=>'<h2 style="color:#f59e21;">像猫一样享受生活</h2>','desc'=>'<p style="width:340px;">晒太阳是特长，看风景是爱好，<br>快乐随性是我的天分；<br>得意洋洋的享受时间，<br>让整个世界做我的游乐场。</p>','link'=>'route.php?mod=goods&action=goods_detail_page&id=68')
 );
 
 ?>

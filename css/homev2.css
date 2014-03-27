@@ -87,9 +87,10 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
 
 /* 主页 */
   .slider-img-area{border-bottom: 1px solid #bcbcbc; height: 440px; overflow: hidden;}
+  .slider-container{height: 440px;}
   .s-img-area{overflow:hidden;}
   .s-img-area img{display: block; /*margin: 0 auto;*/}
-  .s-img-area-inner{width: 960px; margin:0 auto; position: relative;}
+  .s-img-area-inner{width: 960px; margin:0 auto; position: relative; cursor: pointer;}
   .s-img-intro{position: absolute;}
   .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
   .s-img-area-inner p{font-size: 18px; color: #333; line-height: 1.8;}
@@ -116,7 +117,7 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
 .taim-1{background: url(img/v-list-pro1c.jpg); width: 250px; height: 188px;}
 .taim-2{background: url(img/v-list-pro2c2.jpg); width: 249px; height: 188px;}
 .taim-3{background: url(img/v-list-pro3c.jpg); width: 280px; height: 189px;}
-.taim-4{background: url(img/v-list-pro4c2.jpg); width: 252px; height: 182px;}
+.taim-4{background: url(img/v-list-pro4c23.jpg); width: 309px; height: 185px; margin-left: 70px;}
 .ta-item1{background:#f2ece2;}
 .ta-item1:hover{background: #f3e4cc;}
 .ta-item1:hover .taim-1{background-position: 0 -188px;}
@@ -128,7 +129,7 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
 .ta-item3:hover .taim-3{background-position: 0 -190px;}
 .ta-item4{background:#e8f0f3; }
 .ta-item4:hover{background: #cbe7f2;}
-.ta-item4:hover .taim-4{background-position: 0 -182px;}
+.ta-item4:hover .taim-4{background-position: 0 -185px;}
 
 /* 产品详情 */
     .product-main-area{}
@@ -407,7 +408,7 @@ a.btn:hover{text-decoration: none;}
 .suc-tip2 a{color: #0872e9; text-decoration: underline;}
 .suc-bg-area{width: 600px; margin: 0 auto;  margin-top: 40px;}
 .suc-container .box-inner{padding: 20px 0;}
-.suc-container .status1-btn{border-radius: 0 3px 3px 0; height: 44px; vertical-align: middle; margin-left: -2px; position: relative; z-index: 2; _margin-top:-56px;}
+.suc-container .status1-btn{border-radius: 0 3px 3px 0; height: 44px; vertical-align: middle; margin-left: -2px; position: relative; z-index: 2; }
 
 /* 产品总体列表页 */
   .pro-ul li{padding-top: 30px;}
@@ -454,7 +455,7 @@ a.btn:hover{text-decoration: none;}
 .use-phone-tips{color: #666; padding-top: 40px;}
 
 /* 梦想家的配置 */
-.cat-item{border-bottom: 1px solid #000; margin-bottom: 40px; height:305px; overflow: hidden; padding-bottom: 40px;}
+.cat-item{border-top: 1px solid #000; margin-bottom: 40px; height:305px; overflow: hidden; padding: 20px 0 40px 0;}
 .cake-cat,
 .cat-people{display: block;}
 .cake-cat{width: 384px; height: 298px;}
