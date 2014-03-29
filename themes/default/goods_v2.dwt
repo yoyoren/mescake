@@ -9,10 +9,8 @@
 </head>
 <body>
 <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
-    <div class="buy-container">
-        <!-- {if $goods_id!=68}-->
-       <p style="color:#ccc;font-size:12px;text-align:center;margin-left:650px;padding:15px;">产品照片基于2磅蛋糕</p>
-        <!-- {/if}-->
+    <div class="buy-container" style="top:190px;">
+
       <div class="buy-area" id="buy_area">
        
         <ul class="size-list">
@@ -37,6 +35,9 @@
           <a href="#" class="btn big-btn" id="add_to_cart_btn">加入购物车</a>
         </div>
       </div>
+              <!-- {if $goods_id!=68}-->
+       <p style="color:#ccc;font-size:12px;text-align:center;margin-left:650px;padding:15px;padding-top:36px;">*产品照片为2磅蛋糕实物</p>
+        <!-- {/if}-->
     </div>
    
   
