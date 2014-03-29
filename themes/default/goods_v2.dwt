@@ -9,7 +9,7 @@
 </head>
 <body>
 <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
-    <div class="buy-container" style="top:190px;">
+    <div class="buy-container"  <!-- {if $goods_id!=68}-->style="top:190px;"<!-- {/if}-->>
 
       <div class="buy-area" id="buy_area">
        
@@ -22,7 +22,7 @@
 	  {/if}
         </ul>
 
-        <ul class="size-list" style="padding:20px;position:absolute;top:10px;;background-color:#fff;border:1px solid #e8e8e8;margin-left:5px;display:none;" id="more_list">
+        <ul class="size-list"  <!-- {if $goods_id==68}-->style="padding-top:0;display:none"<!-- {/if}--> <!-- {if $goods_id!=68}-->style="padding:20px;position:absolute;top:10px;;background-color:#fff;border:1px solid #e8e8e8;margin-left:5px;display:none;" <!-- {/if}--> id="more_list">
           <!-- {foreach from=$specification_more item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
 	  <!-- {/foreach} --> 
