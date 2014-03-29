@@ -608,56 +608,66 @@
 				action:'save_consignee',
 				mod:'order',
 				param:data||{},
-				callback:function(d){
-			
-				if(window.IS_LOGIN){
-					me.checkout();
-				}else{
-					//检查没有登录的用户手机号码是否被注册了
-					var username = JQ.new_tel.val();
-					if($('#serect_checkbox')[0].checked){
-						username = JQ.my_phone_input.val();
+				onerror:function(d){
+					if(d.msg=='time error'){
+						require(["ui/confirm"], function(confirm) {
+							new confirm('您所选择的送货时间距离制作时间少于5小时，请重新选择!');
+						});
 					}
-					if(!MES.IS_MOBILE(username)){
-						MES.inputError('new_tel_error');
+				},
+				callback:function(d){
+					if(d.code!=0){
+						me._submitFail();
 						return;
 					}
-
-					$.get('route.php?action=check_user_exsit&mod=account',{
-						_tc:Math.random(),
-						username:username
-					},function(d){
-						//用户已经存在于数据库中
-						if(d.exsit){
-							require(['ui/confirm'],function(confirm){
-								var _confirm = new confirm('您所使用的手机号已经被注册，请登录后再继续订购',function(){
-									_confirm.close();
-									require(["ui/login"], function(login) {login.show();});
-								});
-							});
-							
-							me._submitFail();
-						}else{
-							
-							//给这个用户注册一个账户 并且帮他登录
-							var username = data.mobile;
-							if(data.serect){
-								username = data.myphone;
-							}
-							$.post('route.php?action=auto_register&mod=account',{
-								username:username
-							},function(d){
-			
-								if(d.code == 0){
-									//注册成功后给这个用户结帐
-									me.checkout();
-								}else{
-									me._submitFail();
-								}
-							},'json');
+					if(window.IS_LOGIN){
+						me.checkout();
+					}else{
+						//检查没有登录的用户手机号码是否被注册了
+						var username = JQ.new_tel.val();
+						if($('#serect_checkbox')[0].checked){
+							username = JQ.my_phone_input.val();
 						}
-					},'json')
-				}
+						if(!MES.IS_MOBILE(username)){
+							MES.inputError('new_tel_error');
+							return;
+						}
+
+						$.get('route.php?action=check_user_exsit&mod=account',{
+							_tc:Math.random(),
+							username:username
+						},function(d){
+							//用户已经存在于数据库中
+							if(d.exsit){
+								require(['ui/confirm'],function(confirm){
+									var _confirm = new confirm('您所使用的手机号已经被注册，请登录后再继续订购',function(){
+										_confirm.close();
+										require(["ui/login"], function(login) {login.show();});
+									});
+								});
+								
+								me._submitFail();
+							}else{
+								
+								//给这个用户注册一个账户 并且帮他登录
+								var username = data.mobile;
+								if(data.serect){
+									username = data.myphone;
+								}
+								$.post('route.php?action=auto_register&mod=account',{
+									username:username
+								},function(d){
+				
+									if(d.code == 0){
+										//注册成功后给这个用户结帐
+										me.checkout();
+									}else{
+										me._submitFail();
+									}
+								},'json');
+							}
+						},'json');
+					}	
 				}
 				
 			});

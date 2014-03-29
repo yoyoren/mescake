@@ -13,20 +13,22 @@
 	   var action = opt.action||'';
 	   var callback = opt.callback;
 	   var onsuccess = opt.onsuccess||function(){};
-	   var onerror = opt.onerror||function(){};
+	   var onerror = opt.onerror;
 	   var param = opt.param||{};
 	   var method = method||'get';
 
 	   param['_tc'] = Math.random();
 	   $[method]('route.php?mod='+mod+'&action='+action,param,function(d){
-		    if(d.code == 10005){
-				require(["ui/login"], function(login) {login.show();});
-			}else if(d.code == 10006){
-				require(["ui/confirm"], function(confirm) {
-					new confirm('服务器内部错误！可能是您提交了非法格式的数据！');
-				});
+		    //如果有自己的错误处理 就用自己的
+			if(!onerror){
+				if(d.code == 10005){
+					require(["ui/login"], function(login) {login.show();});
+				}else if(d.code == 10006){
+					require(["ui/confirm"], function(confirm) {
+						new confirm('服务器内部错误！可能是您提交了非法格式的数据！');
+					});
+				}
 			}
-			
 			if(callback){
 				callback(d);
 				return;
@@ -34,7 +36,7 @@
 			if(d.code == 0){
 			   onsuccess(d);
 			}else{
-			   onerror(d);
+			   onerror&&onerror(d);
 			}
 	   },'json');
    }

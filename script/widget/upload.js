@@ -5,7 +5,7 @@ define(function(Dialog){
 			inputId:opt.inputId,
 			iframeId:opt.iframeId||'mes_upload',
 			url:opt.url,
-			callback:opt.callback||function(){}
+			callback:opt.callback||function(){},
 			upload:opt.upload||function(){}
 		}
 
