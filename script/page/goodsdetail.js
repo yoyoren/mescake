@@ -29,14 +29,24 @@
 	jqFristSelection.find('em').addClass('radiobox-checked');
 	getPriceByAttr(attr);
   
-  
+  var lock =false;
+  $(document).click(function(e){
+	 if(lock){
+		return;
+	 }
+	$('#more_list').hide();
+  });
 
   $('#show_more_staff').click(function(){
-	$(this).hide();
+	lock =true;
 	$('#more_list').show();
+	setTimeout(function(){
+		lock =false;
+	},20)
   });
 
   $('.js_choose_weight').click(function(){
+	$('#more_list').hide();
 	var jqThis = $(this);
 	var attr = jqThis.data('attr');
 	window.ATTR = attr;
