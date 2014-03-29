@@ -1,0 +1,11 @@
+Update ecs_goods set goods_desc='荔枝与茉莉的约会' where goods_id=1; 
+Update ecs_goods set goods_desc='时光的痕迹' where goods_id=5;
+Update ecs_goods set goods_desc='一杯红茶 一块Scone 一个下午' where goods_id=6;
+Update ecs_goods set goods_desc='一下午的投机和一块纯正的蛋糕' where goods_id=7;
+Update ecs_goods set goods_desc='奏响半世纪的舌尖乐章 回溯50年前的法式经典' where goods_id=33;
+Update ecs_goods set goods_desc='极致的凝结 延续近2个世纪的巧克力经典' where goods_id=35;
+Update ecs_goods set goods_desc='不可思议的味觉碰撞 体会绵软与松脆的美妙结合' where goods_id=37;
+Update ecs_goods set goods_desc='雕刻美味的年轮 体会巴黎独有的百万层酥脆' where goods_id=38;
+Update ecs_goods set goods_desc='8小时的疲惫 一针鸡血' where goods_id=8;
+Update ecs_goods set goods_desc='亲吻晨光 cake一下' where goods_id=9;
+Update ecs_goods set goods_desc='这是一场奇幻的梦' where goods_id=11;

@@ -21,7 +21,7 @@ require (dirname(__FILE__) . '/includes/init.php');
 require_once (ROOT_PATH . 'lib/safe.php');
 require_once (ROOT_PATH . 'lib/user.php');
 
-
+define('CLIENT_IP',GET_IP());
 
 if ((DEBUG_MODE & 2) != 2) {
 	$smarty -> caching = true;
@@ -30,6 +30,8 @@ if ((DEBUG_MODE & 2) != 2) {
 //路由分发的依据
 $action = ANTI_SPAM($_GET['action']);
 $mod = ANTI_SPAM($_GET['mod']);
+
+//过滤请求参数错误的
 function error_exit() {
 	return json_encode(array('code' => 2, 'msg' => 'param error'));
 }
@@ -58,7 +60,7 @@ switch ($mod) {
 
 			//每次结算要记录一个ip防止被刷
 			$leaving_messsage = $_GET['mes'];
-			$current_ip = GET_IP();
+			$current_ip = CLIENT_IP;
 			$_key = 'checkout_times_' . $current_ip;
 			$checkout_times = 0;
 
@@ -230,12 +232,17 @@ switch ($mod) {
 										'empty'=>true
 								));
 				$message_input= ANTI_SPAM($_POST['message_input'],array(
- 						'empty'=>true
+ 						'empty'=>true,
+ 						'minLength' => 0, 
+						'maxLength' => 140, 
  				));
+
 				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
 				$inv_content=ANTI_SPAM($_POST['inv_content'],array(
  										'empty'=>true
  				));
+ 				
+ 				//如果开了发票 就必须写发票人
 				if($inv_content){
  					$inv_payee=ANTI_SPAM($_POST['inv_payee']);
  				}else{
@@ -292,7 +299,7 @@ switch ($mod) {
 
 			echo MES_Order::save_consignee($data);
 		} else if ($action == 'checkout') {
-			$current_ip = GET_IP();
+			$current_ip = CLIENT_IP;
 			$_key = 'checkout_times_' . $current_ip;
 			$checkout_times = 0;
 			if ($REDIS_CLIENT -> exists($_key)) {
@@ -301,14 +308,16 @@ switch ($mod) {
 
 			//大于三次的提交 才验证
 	
-			if ($checkout_times > 30) {
+			if ($checkout_times > 3) {
 				error_reporting(0);
-
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
 				$validator = new captcha();
 				if (!$validator -> check_word($vaild_code)) {
-					echo json_encode(array('code' => RES_CAPTACH_INVAILD, 'msg' => 'vaild error', ));
+					echo json_encode(array(
+					 'code' => RES_CAPTACH_INVAILD,
+					 'msg' => 'vaild error', 
+					));
 					die ;
 				}
 			}
@@ -316,28 +325,31 @@ switch ($mod) {
 			$card_message = ANTI_SPAM($_POST['card_message'],array('empty'=>true));
 			if (!$card_message) {
 				$card_message = '';
-			} else {
-				//$card_message = explode("|",$card_message);
 			}
+
 			if($card_message!=""){
 				$card_message_arr = explode("|", $card_message);
 				for ($i = 0; $i < count($card_message_arr); $i++) {
-					//var_dump(iconv_strlen($card_message,'utf-8'));
 					
-					//ANTI_SPAM($card_message_arr[$i], array('minLength' => 0, 'maxLength' => 10, ));
+					//可以不写 但是写不能超过长度
+					ANTI_SPAM($card_message_arr[$i], array(
+						'empty'=>true,
+						'minLength' => 0, 
+						'maxLength' => 10, 
+					));
 				}
 			}
 			//每次结算要记录一个ip防止被刷
-			$current_ip = GET_IP();
+	
 			$_key = 'checkout_times_' . $current_ip;
 			$_value;
-
+			$expire_time = 24 * 3600;
 			if ($REDIS_CLIENT -> exists($_key)) {
 				$_value = intval($REDIS_CLIENT -> get($_key));
 				$_value += 1;
-				$REDIS_CLIENT -> setex($_key, 24 * 3600, $_value);
+				$REDIS_CLIENT -> setex($_key, $expire_time, $_value);
 			} else {
-				$REDIS_CLIENT -> setex($_key, 24 * 3600, 1);
+				$REDIS_CLIENT -> setex($_key, $expire_time, 1);
 			}
 
 			echo MES_Order::checkout($card_message);
@@ -349,8 +361,10 @@ switch ($mod) {
 		} else if ($action == 'add_to_cart') {
 			//add an cake or fork to your cart
 
+			//goods是一个json string
 			$goods = strip_tags(urldecode($_POST['goods']));
 			$goods = json_str_iconv($goods);
+			
 			$parent_id = ANTI_SPAM($_POST['parent_id'],array('empty'=>true));
 			$goods_id = ANTI_SPAM($_POST['goods_id']);
 			$goods_attr = ANTI_SPAM($_POST['goods_attr'],array('empty'=>true));
@@ -358,12 +372,12 @@ switch ($mod) {
 				if (!is_numeric($goods_id) || intval($goods_id) <= 0) {
 					ecs_header("Location:./\n");
 				}
-				$goods_id = intval($goods_id);
+				//$goods_id = intval($goods_id);
 				die ;
 			}
 
 			//67为数字蜡烛 必须要符合添加的规范
-			if($goods_id ==67){
+			if($goods_id ==NUM_CANDLE_ID){
 				if($goods_attr<1||$goods_attr>99||!is_numeric($goods_attr)){
 					echo json_encode(array(
 						'code'=>RES_FAIL,
@@ -413,7 +427,9 @@ switch ($mod) {
 		if ($action == 'login') {
 			$username = !empty($_POST['username']) ? json_str_iconv(trim($_POST['username'])) : '';
 			$password = !empty($_POST['password']) ? trim($_POST['password']) : '';
-			echo MES_User::ajax_login(ANTI_SPAM($username), ANTI_SPAM($password));
+			$username = ANTI_SPAM($username);
+			$password = ANTI_SPAM($password);
+			echo MES_User::ajax_login($username,$password);
 		} else if ($action == 'check_login') {
 
 			//检测用户是否已经登录
@@ -429,16 +445,16 @@ switch ($mod) {
 		} else if ($action == 'signup_vaild_code') {
 			 
 			 //用户注册操作 
-			 $mobile = $_POST['mobile'];
+			 $mobile = ANTI_SPAM($_POST['mobile']);
 			 echo MES_User::signup_vaild_code($mobile);
 		} else if ($action == 'signup') {
 			 
 			 //用户注册操作 
-			 $username = $_POST['username'];
-			 $password = $_POST['password'];
+			 $username = ANTI_SPAM($_POST['username']);
+			 $password = ANTI_SPAM($_POST['password']);
 
 			 //手机验证码
-			 $vaild_code = $_POST['vaild_code'];
+			 $vaild_code = ANTI_SPAM($_POST['vaild_code']);
 			 echo MES_User::signup($username,$password,$vaild_code);
 			
 		} else if ($action == 'check_user_exsit') {
@@ -449,7 +465,11 @@ switch ($mod) {
 		} else if ($action == 'auto_register') {
 
 			//自动注册其实用的就是那个手机号码
-			$username = ANTI_SPAM($_POST['username'], array('minLength' => 1, 'maxLength' => 20, ));
+			$username = ANTI_SPAM($_POST['username'], array(
+				'minLength' => 1, 
+				'maxLength' => 20, 
+			));
+
 			echo MES_User::auto_register($username);
 		} else if ($action == "change_unregister_password") {
 
@@ -594,6 +614,7 @@ switch ($mod) {
 
 	case 'huodong' :
 		require_once (ROOT_PATH . 'lib/lover.php');
+		//情人节活动
 		if ($action == 'add') {
 			$name = ANTI_SPAM($_POST['name']);
 			$my_weibo = ANTI_SPAM($_POST['my_weibo']);
@@ -603,12 +624,17 @@ switch ($mod) {
 			$comment = ANTI_SPAM($_POST['comment']);
 			echo MES_Lover::add($name, $my_weibo, $mobile, $his_weibo, $address, $comment);
 		} else if ($action == 'get_all') {
+			//情人节活动 已经下线
+			die;
 			echo MES_Lover::get_all();
 		} else if ($action == 'page') {
 			$smarty -> display('huodongpage.dwt');
 		} else if ($action == 'admin') {
-			//$smarty -> display('huodongadmin.dwt');
+			//情人节活动 已经下线
+			die;
+			$smarty -> display('huodongadmin.dwt');
 		} else if ($action == 'upload') {
+			//猫爪活动 图片上传
 			$ret = array();
 			$file = $_FILES['images'];
 			$images = $_POST['images'];
@@ -685,6 +711,7 @@ switch ($mod) {
 				echo json_encode(array('code'=>RES_FAIL,'msg'=>'fail'));
 			}
 		} else if ($action == 'weibo_upload_test') {
+			//weibo猫爪活动 测试上传接口
 			include_once( ROOT_PATH .'lib/cat_activity.php' );
 			//weibo的图片上传
 			$url = ANTI_SPAM($_POST['imageurl']);
@@ -740,11 +767,14 @@ switch ($mod) {
 			header("Location: 404.html");
 		}
 		break;
+
 	case 'test' :
+	    //anti spam测试接口
 		$str = ANTI_SPAM($_GET['str']);
 		PARAM_VAILD($str, array('max' => 10, 'type' => 'number', 'values' => array(1, 2, 4)));
 		break;
 	case 'token' :
+		//生成随机token测试接口
 		echo GEN_MES_TOKEN();
 		break;
 	case 'goods' :
@@ -756,12 +786,13 @@ switch ($mod) {
 
 			echo MES_Goods::get_price_by_weight($goods_id, $attr_id, $number);
 		}else if ($action == 'goods_detail_page') {
-			$goods_id = ANTI_SPAM($_REQUEST['id']);
+			$goods_id = ANTI_SPAM($_GET['id']);
 			MES_Goods::goods_detail_page($goods_id);
 		}
 		break;
 	case 'page':
 			if ($action == 'index') {
+				//新版的首页
 				function get_index_tpl(){
 					global $smarty;
 					require_once (ROOT_PATH . 'lib/catogary.php');
@@ -772,6 +803,7 @@ switch ($mod) {
 				//为首页生成一个静态缓存页面
 			    echo PAGE_CACHER('index','page','index_v2.dwt','get_index_tpl',true);
 			}else if ($action == 'cato') {
+				//蛋糕分类的页面
 				$cato_id = ANTI_SPAM($_GET['id']);
 				function get_cato_tpl(){
 					global $smarty;
