@@ -40,6 +40,8 @@
   $('#show_more_staff').click(function(){
 	lock =true;
 	$('#more_list').show();
+	var mr = ($('#buy_area').width() - $('#more_list').width()-40)/2;
+	$('#more_list').css('margin-left',mr);
 	setTimeout(function(){
 		lock =false;
 	},20)

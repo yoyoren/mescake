@@ -22,7 +22,7 @@
 	  {/if}
         </ul>
 
-        <ul class="size-list" style="padding:20px;position:absolute;top:10px;;background-color:#fff;border:1px solid #e8e8e8;margin-left:5px;display:none" id="more_list">
+        <ul class="size-list" style="padding:20px;position:absolute;top:10px;;background-color:#fff;border:1px solid #e8e8e8;margin-left:5px;display:none;box-shadow: 0px 0px 3px #333;" id="more_list">
           <!-- {foreach from=$specification_more item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
 	  <!-- {/foreach} --> 
