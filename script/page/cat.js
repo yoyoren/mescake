@@ -44,7 +44,7 @@
 				id:id
 			},
 			callback:function(d){
-					if(d&&d.code == 1){
+					if(d&&d.code == 2){
 						alert('您不能总是赞同一个货！去赞赞其他货吧');
 					}else{
 						alert('您已经成功de赞了这货！');
