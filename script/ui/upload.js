@@ -38,7 +38,7 @@ define(['ui/dialog'],function(Dialog){
 									callback:function(d){
 										$('#upload_tip').html('图片上传成功');
 										var url = d.url;
-										$('#upload_image').append('<img src="'+url+'" width="200"/>');
+										$('#upload_image').append('<img src="'+url+'" width="180"/>');
 										$('#upload_to_weibo').click(function(){
 											MES.post({
 												mod:'huodong',

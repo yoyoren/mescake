@@ -629,7 +629,13 @@ class MES_Order{
 	    }
 
 		$country   = "北京市 ";
-		$id= $_SESSION[flow_consignee][city];
+		
+		//没有地址信息
+		$id= $_SESSION['flow_consignee']['city'];
+		if(!$id){
+			return json_ecode(array('code'=>'10010','msg'=>'address id lose!'));
+		}
+
 		$card_message = explode('|',$card_message);
 		for($i=0;$i<count($card_message);$i++){
 			$card_message[$i]=$card_message[$i]=='' ? '无' : $card_message[$i];

@@ -12,8 +12,8 @@
  * $Author: liubo $
  * $Id: search.php 17217 2011-01-19 06:29:08Z liubo $
 */
-
-define('IN_ECS', true);
+die;
+define('IN_ECS', false);
 
 if (!function_exists("htmlspecialchars_decode"))
 {
