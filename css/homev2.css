@@ -104,12 +104,12 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
   .theme-area{position: relative; height: 616px;}
   .ta-item2{position: absolute; right: 0; top:0; }
   .ta-item4{position: absolute; right: 0; top:308px; }
-  .ta-item{width: 50%; overflow: hidden; padding: 44px 0 10px 0; height: 254px;}
+  .ta-item{width: 50%; overflow: hidden; padding:34px 0 20px 0; height: 254px;}
   .ta-item-inner{width: 460px; padding-left: 40px;}
   .ta-item-inner img{display: block; margin-left: 120px;}
   .ta-item-left .ta-item-inner{float: right; padding-left: 0;}
-  .ta-title{font-size: 18px; padding-bottom: 10px; color: #000;}
-  .ta-intro{font-size: 12px; color: #51534d; padding-bottom: 10px;}
+  .ta-title{font-size: 18px; color: #000;}
+  .ta-intro{font-size: 12px; color: #51534d; padding-bottom: 20px;}
 
 /* 4个产品类的图片 */
 .ta-item:hover{cursor: pointer;}
@@ -441,7 +441,7 @@ a.btn:hover{text-decoration: none;}
   .for-love .pro-head h2{color: #ff9998;}
    
   .for-day{background: url(img/pros-bg3.png) 0 0 repeat-x;}
-    .for-day .pro-head{background: url(img/pro-head-bg3.jpg) 500px 0 no-repeat;}
+    .for-day .pro-head{background: url(img/pro-head-bg3.jpg) 610px 0 no-repeat;}
   .for-day .pro-head h2{color: #a97647;}
 
   .for-happy{background: url(img/pros-bg2.png) 0 0 repeat-x;}
