@@ -762,6 +762,13 @@ switch ($mod) {
 
 			include_once( ROOT_PATH .'lib/cat_activity.php' );
 			$id = ANTI_SPAM($_POST['id']);
+			$has_liked = GET_REDIS(CLIENT_IP.$id,'cat_like');
+			if($has_liked){
+				echo json_encode(array('code'=>2));
+				return;
+			}else{
+				SET_REDIS(CLIENT_IP.$id,'1','cat_like');
+			}
 			echo MES_Cat_activity::cat_like($id,$status);
 		} else {
 			header("Location: 404.html");

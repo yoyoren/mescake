@@ -24,7 +24,7 @@ define(['ui/dialog'],function(Dialog){
 						bottom:' ',
 						afterRender:function(){
 							$('#upload_cancle_weibo').click(function(){
-								single.close();
+								single.hide();
 							});
 
 							require(['widget/upload'],function(upload){
@@ -56,7 +56,7 @@ define(['ui/dialog'],function(Dialog){
 															new confirm('服务器错误！');
 														});
 													}
-													single.close();
+													single.hide();
 												}
 											});
 											
