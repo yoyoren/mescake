@@ -21,7 +21,14 @@ a.act-btn:hover{text-decoration: none;}
 .weibo-name{float: left; padding-left: 10px;}
 .act-love{float: right; padding-left: 20px; padding-right: 10px; background: url(img/act-love.png) 0 0 no-repeat; vertical-align: middle;}
 .act-ul li a{display: block; width: 180px; height: 180px; overflow: hidden;}
-
+.act-ul li a {
+display: block;
+width: 180px;
+height: 180px;
+overflow: hidden;
+line-height: 180px;
+}
+.act-ul li a img{display:inline-block; vertical-align:middle; *display:inline; zoom:1;}
 /* 活动大图 */
 
 .btn-love{display: inline-block; *display:inline; *zoom:1; width: 14px; height: 18px; margin-right: 6px;  background: url(img/act-love.png) 0 0 no-repeat; vertical-align: middle;}

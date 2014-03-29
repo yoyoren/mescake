@@ -5,7 +5,7 @@ class MES_Cat_activity{
 	
 	public static function get_all(){
 		GLOBAL $db;
-		$sql= "select * from cat_activity";
+		$sql= "select * from cat_activity  orderby add_time desc";
 		$data = $db->getAll($sql);
 		for($i=0;$i<count($data);$i++){
 			 $data[$i]['format_date'] = date('Y-m-d H:i:s', $data[$i]['add_time']);
@@ -15,7 +15,7 @@ class MES_Cat_activity{
 
 	public static function cat_get_by_status($status=0){
 		GLOBAL $db;
-		$sql= "select * from cat_activity where status={$status}";
+		$sql= "select * from cat_activity where status={$status} orderby add_time desc";
 		$data = $db->getAll($sql);
 		for($i=0;$i<count($data);$i++){
 			 $data[$i]['format_date'] = date('Y-m-d H:i:s', $data[$i]['add_time']);
