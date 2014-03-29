@@ -30,22 +30,24 @@
 	getPriceByAttr(attr);
   
   var lock =false;
-  $(document).click(function(e){
-	 if(lock){
-		return;
-	 }
-	$('#more_list').hide();
-  });
+  if(window.GOODS_ID!=CAT_CAKE){
+	  $(document).click(function(e){
+		 if(lock){
+			return;
+		 }
+		$('#more_list').hide();
+	  });
 
-  $('#show_more_staff').click(function(){
-	lock =true;
-	$('#more_list').show();
-	var mr = ($('#buy_area').width() - $('#more_list').width()-40)/2;
-	$('#more_list').css('margin-left',mr);
-	setTimeout(function(){
-		lock =false;
-	},20)
-  });
+	  $('#show_more_staff').click(function(){
+		lock =true;
+		$('#more_list').show();
+		var mr = ($('#buy_area').width() - $('#more_list').width()-40)/2;
+		$('#more_list').css('margin-left',mr);
+		setTimeout(function(){
+			lock =false;
+		},20)
+	  });
+  }
 
   $('.js_choose_weight').click(function(){
 	$('#more_list').hide();
