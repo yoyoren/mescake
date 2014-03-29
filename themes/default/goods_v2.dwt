@@ -10,7 +10,11 @@
 <body>
 <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
     <div class="buy-container">
+        <!-- {if $goods_id!=68}-->
+       <p style="color:#ccc;font-size:12px;text-align:center;margin-left:650px;padding:15px;">产品照片基于2磅蛋糕</p>
+        <!-- {/if}-->
       <div class="buy-area" id="buy_area">
+       
         <ul class="size-list">
 		<!-- {foreach from=$specification_display item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
@@ -19,12 +23,14 @@
           <li id="show_more_staff"><em class="radiobox-item"></em>更多尺寸</li>
 	  {/if}
         </ul>
+
         <ul class="size-list" style="padding-top:0;display:none" id="more_list">
           <!-- {foreach from=$specification_more item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
 	  <!-- {/foreach} --> 
         </ul>
         <div class="buy-down">
+	  
           <em class="buy-line"></em>
           <p class="buy-price" id="price_container" style="display:none"><em>￥</em><span id="staff_price"></span></p>
           <a href="#" class="btn big-btn status1-btn" id="order_now_btn">立即购买</a><br>

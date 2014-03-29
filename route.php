@@ -640,8 +640,8 @@ switch ($mod) {
 			$images = $_POST['images'];
 			$size = $file['size'];
 			$type = $file['type'];
-			if($size>5*1024*1024){
-				 echo '<script>window.ret="'.json_encode(array('code'=>1,'msg'=>'文件体积过大')).'"</script>';
+			if($size>1*1024*1024){
+				 echo '<script>window.ret="'.json_encode(array('code'=>1,'msg'=>'文件体积过大,不能大于1MB')).'"</script>';
 				 return;
 			}
 			

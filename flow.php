@@ -1217,7 +1217,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	//anti csrf
 	$order_token = $_POST['token'];
 	if ($order_token !== $_SESSION['order_token']) {
-		ecs_header("Location: 404.html");
+		ecs_header("Location: route.php?mod=account&action=order_list");
 		exit ;
 	}
 

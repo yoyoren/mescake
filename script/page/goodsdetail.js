@@ -79,6 +79,7 @@
     addToCart(window.GOODS_ID, function() {
       MES.reload("route.php?mod=order&action=step2");
     });
+	return false;
   });
 
   $('#add_to_cart_btn').click(function() {
