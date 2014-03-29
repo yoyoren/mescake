@@ -17,9 +17,9 @@
   <div class="slider-img-area">
     <div class="slider-container clearfix" style="width:400%;">
 	    {foreach from=$slider item=value key=key}
-	    <div class="s-img-area slider_image" style="background:#fff;width:25%; float:left;" onclick="location.href='{$value.link}'">
+	    <div class="s-img-area pointer slider_image" style="background:#f6f6f6;width:25%; float:left;" onclick="location.href='{$value.link}'">
 	      <div class="s-img-area-inner">
-		<div class="s-img-intro" style="left:20px; top:140px;">
+		<div class="s-img-intro" style="left:20px; top:100px;">
 		  <h2 style="color:#acd67f;">{$value.title}</h2>
 		  <p style="width:340px;">{$value.desc}</p>
 		</div>

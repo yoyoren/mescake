@@ -6,6 +6,7 @@ define(function(Dialog){
 			iframeId:opt.iframeId||'mes_upload',
 			url:opt.url,
 			callback:opt.callback||function(){}
+			upload:opt.upload||function(){}
 		}
 
 		this.jqForm = $('#'+this.opt.formId);
@@ -25,6 +26,7 @@ define(function(Dialog){
 			jqForm.attr('method','post');
 			jqForm.after('<iframe name="'+iframeId+'" id="'+iframeId+'" width="0" height="0"></iframe>');
 			this.jqInput.change(function(){
+				me.opt.upload();
 				jqForm.submit();
 			});
 			setTimeout(function(){
