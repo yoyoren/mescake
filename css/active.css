@@ -16,6 +16,7 @@ a.act-btn:hover{text-decoration: none;}
 .act-ul{overflow: hidden; margin-left: -10px; padding:30px 0;}
 .act-ul li{float: left; margin: 0 0 10px 10px; width: 180px; height: 180px; background: #bbb; overflow: hidden; position: relative;}
 .act-ul li:hover .act-func-area{display: block;}
+.act-ul li img{min-width: 180px; min-height: 180px;}
 .act-func-area{display: none; position:absolute; bottom: 0; background:#fb5396; height: 24px; padding-top: 6px; left: 0; width: 100%; color: #fff; overflow: hidden;}
 
 .weibo-name{float: left; padding-left: 10px;}

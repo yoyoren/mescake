@@ -151,11 +151,13 @@ _background: url(img/ico_details8.png) -145px -37px no-repeat;
 .buy-line{background:url(img/buy-line.png) repeat-x; display: block; height: 2px; overflow: hidden;}
 .buy-line2{background:url(img/buy-line2.png) repeat-x; margin-bottom:-1px; display: block; height: 2px; overflow: hidden;}
 
-.buy-price{color: #333; font-size: 26px; font-weight: bold; padding: 20px 0 14px 0;}
+.buy-price{color: #333; font-size: 26px; font-weight: bold; padding: 20px 0 14px 0; height: 34px;}
 .buy-price em{font-size: 16px;}
 
 .buy-down .btn{margin-bottom: 14px; width: 150px; padding: 0;}
 .buy-down .btn:hover{text-decoration: none;}
+.more-corner{display: inline-block; *display: inline; *zoom:1; width: 12px; height: 12px;
+background: url(img/more-corner.png) 0 0 no-repeat; vertical-align: middle; margin-left: 6px;}
 
 /* 结账时的留言和总数 */
 .tt-price-area{position: relative; padding: 30px 20px 30px 24px;}
@@ -185,11 +187,11 @@ a.btn:hover{text-decoration: none;}
   .material-inner{width: 960px; margin: 0 auto; font-size: 12px;}
   .ma-item1,
   .ma-item2,
-  .ma-item3{width: 320px; float: left; height: 120px;}
+  .ma-item3{width: 310px; float: left; height: 120px; padding-right: 10px;}
 .ma-item1,
 .ma-item2{background:url(img/dotted-line.png) right 20px no-repeat;}
-.ma-item2{width: 280px;}
-.ma-item3{width: 360px;}
+.ma-item2{width: 270px;}
+.ma-item3{width: 350px;}
 .ma-title{font-size: 14px; color: #fff;}
 .ma-title p{margin: 0 auto;}
 .mat-1,

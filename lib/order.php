@@ -4,6 +4,7 @@ require_once('lib/user.php');
 require_once('lib/fee.php');
 
 $GOODS_FREE_FORK = array(
+	''=>'5',
 	'1.0磅'=>'5',
 	'2.0磅'=>'10',
 	'3.0磅'=>'15',
@@ -175,6 +176,7 @@ class MES_Order{
 	        //get number for weight!
 	        //$row['goods_attr_real']= intval($row['goods_attr'],10);
 			//var_dump($GOODS_FREE_FORK[$row['goods_attr']]);
+			//var_dump($row['goods_attr']);
 	        $row['free_fork'] = $GOODS_FREE_FORK[$row['goods_attr']]*$row['goods_number'];
 			if($_SESSION['extra_fork'][$row['rec_id']]){
 				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['rec_id']];

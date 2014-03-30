@@ -18,11 +18,11 @@
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
 		<!-- {/foreach} -->    
 	  {if $show_more == true}
-          <li id="show_more_staff"><em class="radiobox-item"></em>更多尺寸</li>
+          <li id="show_more_staff"><em class="radiobox-item"></em>更多尺寸<em class="more-corner"></em></li>
 	  {/if}
         </ul>
 
-        <ul class="size-list"  <!-- {if $goods_id==68}-->style="padding-top:0;display:none"<!-- {/if}--> <!-- {if $goods_id!=68}-->style="padding:20px;position:absolute;top:10px;;background-color:#fff;border:1px solid #e8e8e8;margin-left:5px;display:none;" <!-- {/if}--> id="more_list">
+        <ul class="size-list"  <!-- {if $goods_id==68}-->style="padding-top:0;display:none"<!-- {/if}--> <!-- {if $goods_id!=68}-->style="padding:20px 20px 2px 20px;position:absolute;top:10px;;background-color:#fff;border:1px solid #e8e8e8;margin-left:5px;box-shadow: 0 0 10px #ccc;display:none;" <!-- {/if}--> id="more_list">
           <!-- {foreach from=$specification_more item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
 	  <!-- {/foreach} --> 
@@ -30,7 +30,9 @@
         <div class="buy-down">
 	  
           <em class="buy-line"></em>
-          <p class="buy-price" id="price_container" style="display:none"><em>￥</em><span id="staff_price"></span></p>
+          <div style="height:68px;">
+            <p class="buy-price" id="price_container" style="display:none"><em>￥</em><span id="staff_price"></span></p>
+          </div>
           <a href="#" class="btn big-btn status1-btn" id="order_now_btn">立即购买</a><br>
           <a href="#" class="btn big-btn" id="add_to_cart_btn">加入购物车</a>
         </div>
