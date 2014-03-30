@@ -5,7 +5,7 @@ $CAKE_CATO = array(
     'name'=>'纪念日',
 	'cato'=>array(
 		array('name'=>'taster','title'=>'For Taster / 献给品赏家','data'=>array('1','5','6','7','8','9','11')),
-		array('name'=>'lover','title'=>'For Lover / 献给爱人','data'=>array('27','26')),
+		array('name'=>'lover','title'=>'For Lover / 献给爱人','data'=>array('27','26','22','25')),
 		array('name'=>'explorer','title'=>'For Explorer / 献给旅行家','data'=>array('15','16','17','18','19','20','21')),
 		array('name'=>'fun','title'=>'For Fun / 来点气氛','data'=>array('32')),
 	),
