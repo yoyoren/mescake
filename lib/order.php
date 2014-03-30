@@ -730,7 +730,7 @@ class MES_Order{
 	//完成一个订单
 	public static function done($token,$pay_id){
 		
-		
+	
 	}
 
 	//给出运送地点是否要运费

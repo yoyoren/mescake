@@ -386,6 +386,7 @@ switch ($mod) {
 					die;
 				}
 			}
+		
 			echo MES_Order::add_to_cart($goods, ANTI_SPAM($goods_id),$parent_id,$goods_attr);
 		} else if ($action == 'shipping_fee_cal') {
 
