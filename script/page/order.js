@@ -616,6 +616,12 @@
 					}
 				},
 				callback:function(d){
+					if(d.msg=='time error'){
+						require(["ui/confirm"], function(confirm) {
+							new confirm('您所选择的送货时间距离制作时间少于5小时，请重新选择!');
+						});
+					}
+
 					if(d.code!=0){
 						me._submitFail();
 						return;
