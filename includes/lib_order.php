@@ -1344,7 +1344,6 @@ function clear_cart($type = CART_GENERAL_GOODS)
 function get_goods_attr_info($arr, $type = 'pice')
 {
     $attr   = '';
-
     if (!empty($arr))
     {
         //$fmt = "%s:%s[%s] \n";
@@ -1355,21 +1354,24 @@ function get_goods_attr_info($arr, $type = 'pice')
                     $GLOBALS['ecs']->table('attribute')." AS a ".
                 "WHERE " .db_create_in($arr, 'ga.goods_attr_id')." AND a.attr_id = ga.attr_id";
         $res = $GLOBALS['db']->query($sql);
-
+		
         while ($row = $GLOBALS['db']->fetchRow($res))
         {
             $attr_price = round(floatval($row['attr_price']), 2);
             //$attr .= sprintf($fmt, $row['attr_name'], $row['attr_value'], $attr_price);
 			//$attr .=sprintf($fmt, $row['attr_value']);
 			$attr .=$row['attr_value'];
-			if(strpos($attr,'磅'))
-			{
+
+			if(strpos($attr,'磅')){
 				$attr =substr($attr,0,strpos($attr,'.')).'.0磅';
 			}
-				}
-		
-				$attr = str_replace('[0]', '', $attr);
+			if(strpos($attr,'套')){
+				$attr =substr($attr,0,strpos($attr,'套')).'.0磅';
 			}
+		}
+		
+		$attr = str_replace('[0]', '', $attr);
+	}
 
     return $attr;
 }

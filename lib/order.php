@@ -173,10 +173,7 @@ class MES_Order{
 	            $row['package_goods_list'] = get_package_goods($row['goods_id']);
 	        }
 
-	        //get number for weight!
-	        //$row['goods_attr_real']= intval($row['goods_attr'],10);
-			//var_dump($GOODS_FREE_FORK[$row['goods_attr']]);
-			//var_dump($row['goods_attr']);
+
 	        $row['free_fork'] = $GOODS_FREE_FORK[$row['goods_attr']]*$row['goods_number'];
 			if($_SESSION['extra_fork'][$row['rec_id']]){
 				$row['extra_fork'] =  $_SESSION['extra_fork'][$row['rec_id']];
@@ -596,18 +593,10 @@ class MES_Order{
     	$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
     	$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
 
-    	//团购标志
-    	if ($flow_type == CART_GROUP_BUY_GOODS){
-	        //$smarty->assign('is_group_buy', 1);
-	    }
-	    //积分兑换商品 
-	    elseif ($flow_type == CART_EXCHANGE_GOODS)
-	    {
-	        //$smarty->assign('is_exchange_goods', 1);
-	    }else{
-	        //正常购物流程  清空其他购物流程情况
-	        $_SESSION['flow_order']['extension_code'] = '';
-	    }
+
+	    //正常购物流程  清空其他购物流程情况
+	    $_SESSION['flow_order']['extension_code'] = '';
+
 
 	    //检查购物车中是否有商品
 	    $sql = "SELECT COUNT(*) FROM " . $ecs->table('cart') .
