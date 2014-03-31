@@ -13,6 +13,7 @@ if (isset($_REQUEST['code'])) {
 	try {
 		$token = $o->getAccessToken( 'code', $keys ) ;
 	} catch (OAuthException $e) {
+
 	}
 }
 if ($token) {

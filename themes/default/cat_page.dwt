@@ -20,7 +20,7 @@
     </p>
     <p class="act-h-con-tip">3月30日至4月30日，每天、每周都有人气奖! <a href="route.php?mod=huodong&action=cat_gift" id="get_gift">查看奖品</a>
     <div class="act-head-btn-area">
-      <a href="http://service.weibo.com/share/share.php?title=%23MES每实猫爪大晒%23各种萌猫爪大集合，你也来晒晒吧http://www.mescake.com/route.php?mod=huodong&action=cat_page" target="_blank" class="act-btn act-status1" id="share">分享</a>
+      <a href="http://service.weibo.com/share/share.php?title=%23MES每实猫爪大晒%23各种萌猫爪大集合，你也来晒晒吧http://test.mescake.com/route.php?mod=huodong&action=cat_page" target="_blank" class="act-btn act-status1" id="share">分享</a>
       <a href="{$auth_url}" data-uid="{$uid}" id="do_upload" class="act-btn">我来晒一下</a>
     </div>
   </div>
