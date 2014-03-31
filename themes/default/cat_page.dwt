@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>猫爪活动</title>
+  <title>微博活动-MES每实猫爪大晒</title>
   <link rel="stylesheet" type="text/css" href="css/homev2.css" />
   <link rel="stylesheet" type="text/css" href="css/active.css" />
   <link rel="stylesheet" type="text/css" href="css/dialog.css" />
@@ -12,13 +12,16 @@
 <body>
 <div class="act-layout">
   <div class="act-head">
+    <a href="http://www.mescake.com/" target="_blank" style="display:block; height:60px;"><img src="img/cat/cat-to-home.png"/></a>
     <h1>#每实猫爪大晒#</h1>
+    
     <p class="act-h-con">
     猫爪，杀伤力与治愈力并存！<br />
     锋利的，总是抓破你家沙发和你；柔软的，自带棉花糖般的小肉垫 <br />
     上传你家喵的猫爪照片，或点赞选出你最喜欢的猫爪
     </p>
-    <p class="act-h-con-tip">3月30日至4月30日，每天、每周都有人气奖! <a href="route.php?mod=huodong&action=cat_gift" id="get_gift">查看奖品</a>
+    <p class="act-h-con-tip">3月30日至4月30日，每天、每周都有人气奖! <a href="route.php?mod=huodong&action=cat_gift" id="get_gift">查看奖品</a></p>
+    <p class="act-h-con-tip"> 去<a href="http://www.mescake.com/" target="_blank">MES每实</a>官网</p>
     <div class="act-head-btn-area">
       <a href="http://service.weibo.com/share/share.php?title=%23MES每实猫爪大晒%23各种萌猫爪大集合，你也来晒晒吧http://huodong.mescake.com/route.php?mod=huodong&action=cat_page" target="_blank" class="act-btn act-status1" id="share">分享</a>
       <a href="{$auth_url}" data-uid="{$uid}" id="do_upload" class="act-btn">我来晒一下</a>

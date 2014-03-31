@@ -576,12 +576,12 @@ class MES_Order{
 			return json_encode($result);
 		}
 		//在服务器检查订单是否合法
-		$meg = check_order($consignee, $cart_goods); 
-		if($meg) {
-			$result['code']=2;
-			$result['message']= $meg;
-			return json_encode($result);
-		}
+		//$meg = check_order($consignee, $cart_goods); 
+		//if($meg) {
+		//	$result['code']=2;
+		//	$result['message']= $meg;
+		//	return json_encode($result);
+		//}
 
 		$result['data'] = $consignee;
 		return json_encode($result);	

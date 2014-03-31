@@ -1,6 +1,6 @@
   .act-layout{width: 960px; margin: 0 auto;}
 .act-head{text-align: center; padding-top: 60px; position: relative;}
-.act-head h1{color: #d5392d; font-size: 30px; padding: 20px; }
+.act-head h1{color: #d5392d; font-size: 30px; padding: 0 20px 20px 20px; }
 .act-h-con{color: #666; line-height: 2.0;}
 .act-h-con-tip{padding-top: 10px;}
 .act-h-con-tip a{color: #d5392d; text-decoration: underline;}
@@ -29,7 +29,9 @@ height: 180px;
 overflow: hidden;
 line-height: 180px;
 }
-.act-ul li a img{display:inline-block; vertical-align:middle; *display:inline; zoom:1;}
+.act-ul li a img{display:inline-block; *display:inline; zoom:1;}
+
+.back-home{position: absolute; top:140px; left: 0; display: block;}
 /* 活动大图 */
 
 .btn-love{display: inline-block; *display:inline; *zoom:1; width: 14px; height: 18px; margin-right: 6px;  background: url(img/act-love.png) 0 0 no-repeat; vertical-align: middle;}
@@ -42,8 +44,8 @@ line-height: 180px;
 /* 猫爪奖品 */
 .act-big-img-area-intro h1{font-size: 30px; padding-top:30px;}
 .act-big-img-area-intro p{font-size: 14px; color: #666; padding: 20px 0;}
-em.big-font{font-size: 22px; font-weight: bold;}
-em.strong-font{font-size: 16px; font-weight: bold;}
+.act-big-img-area-intro .big-font{font-size: 22px; font-weight: bold; color: #666;}
+.act-big-img-area-intro .strong-font{font-size: 16px; font-weight: bold; color: #666;}
 .special-color{color: #8BB5DB; font-size: 18px; font-weight: bold;}
 
 /* 猫爪弹窗 */
