@@ -79,13 +79,18 @@
     goods.number = 1;
     goods.parent = 0;
     //(typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
-    $.post('route.php?mod=order&action=add_to_cart', {
-      goods : $.toJSON(goods),
-      goods_id : goodsId,
-	  parent_id :0
-    }, function(d) {
-	 callback();
-    }, 'json');
+	MES.post({
+		mod:'order',
+		action:'add_to_cart',
+		param:{
+		  goods : $.toJSON(goods),
+		  goods_id : goodsId,
+		  parent_id :0
+		},
+		callback:function(){
+		   callback();
+		}
+	});
   }
 
 
