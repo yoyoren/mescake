@@ -112,7 +112,7 @@
    
    MES.updateTotalPriceDisplay = function(d){
 			if(d.order_total == false){
-				location.href = 'route.php?mod=order&action=empty';
+				location.href = '/orderempty';
 				return;
 			}
 			d = d.order_total;
@@ -142,7 +142,7 @@
 	    MES.getGoodsCount();
 	   //进入购物车给一个
 	   $('#header_shopcar').click(function(){
-		    MES.reload("route.php?mod=order&action=step1");
+		    MES.reload("/shopcar");
 	   });
 
 
@@ -165,7 +165,7 @@
 		   }
 			$('#header_login').hide();
 			$('#header_logout').show();
-			$('#header_logout').before('<a href="route.php?mod=account&action=account">'+uname+', </a>');
+			$('#header_logout').before('<a href="/account">'+uname+', </a>');
 	   },function(){ });
    
    });

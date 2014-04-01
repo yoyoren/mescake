@@ -35,7 +35,7 @@
 				 <%if(data[i].goods_id!=FORK){%>\
 					<li class="clearfix sub_order_<%=data[i].rec_id%>"  id="sub_order_<%=data[i].rec_id%>">\
 					  <div class="od-title1">\
-						 <a href="route.php?mod=goods&action=goods_detail_page&id=<%=data[i].goods_id%>" target="_blank">\
+						 <a href="/cake/<%=data[i].goods_id%>" target="_blank">\
 						 <span class="od-img-area">\
 							<%if(data[i].goods_id==CANDLE){%>\
 								<img style="background-color:#fff;height: auto" src="img/lazhu.png"  class="od-img"/>\
@@ -190,7 +190,7 @@
 
 		_renderOrderList:function(d){
 			if(!d.goods_list.length){
-					location.href="route.php?mod=order&action=empty";
+					location.href="/orderempty";
 					return false;
 				}
 				$('#my_order_frame').show();

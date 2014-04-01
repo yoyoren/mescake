@@ -11,10 +11,10 @@
   <div class="pro-content-area {$data.cls}">
    <div class="pro-content clearfix">
     <ul class="pro-ul fl-l">
-      <li {if $data.cls=="for-day"}class="current"{/if}><a href="/route.php?mod=page&action=cato&id=specialday"><em class="left-corner"></em>纪念日</a></li>
-      <li {if $data.cls=="for-love"}class="current"{/if}><a href="/route.php?mod=page&action=cato&id=forlove"><em class="left-corner"></em>为了爱</a></li>
-      <li {if $data.cls=="for-happy"}class="current"{/if}><a href="/route.php?mod=page&action=cato&id=party"><em class="left-corner"></em>欢聚一下</a></li>
-      <li {if $data.cls=="for-dream"}class="current"{/if}><a href="/route.php?mod=page&action=cato&id=dream"><em class="left-corner"></em>梦想家</a></li>
+      <li {if $data.cls=="for-day"}class="current"{/if}><a href="/cato/specialday"><em class="left-corner"></em>纪念日</a></li>
+      <li {if $data.cls=="for-love"}class="current"{/if}><a href="/cato/forlove"><em class="left-corner"></em>为了爱</a></li>
+      <li {if $data.cls=="for-happy"}class="current"{/if}><a href="/cato/party"><em class="left-corner"></em>欢聚一下</a></li>
+      <li {if $data.cls=="for-dream"}class="current"{/if}><a href="/cato/dream"><em class="left-corner"></em>梦想家</a></li>
     </ul>
       
 
@@ -26,7 +26,7 @@
       </div>
       {if $data.cls=="for-dream"}
 		<div class="cat-item">
-			<a href="/route.php?mod=goods&action=goods_detail_page&id=68" class="cat-item-link clearfix">
+			<a href="/cake/68" class="cat-item-link clearfix">
 			  <img class="cat-people fl-l" src="/img/sort/cat-people1.jpg">
 			  <span class="cat-detail fl-l">
 			    <span class="cat-title">梦想家E01</span>
@@ -45,7 +45,7 @@
 		  <p style="padding-top:20px;">文艺梦想家——韩寒</p>
 		  <p>为精致甜点撒上猫咪哲学的梦想实验</p>
 		</div>
-		<a href="/route.php?mod=goods&action=goods_detail_page&id=68" class="cake-cat fl-l"><img src="/img/sort/cat.jpg"></a>
+		<a href="/cake/68" class="cake-cat fl-l"><img src="/img/sort/cat.jpg"></a>
 	      </div>
 	      <div class="cat-item" style="border:0;display:none">
 		<a href="#" class="cat-people fl-l"><img src="/img/sort/cat-people3.jpg"></a>
@@ -55,7 +55,7 @@
 		  <p style="padding-top:20px;">文艺梦想家——高晓松</p>
 		  <p>为精致甜点撒上猫咪哲学的梦想实验</p>
 		</div>
-		<a href="/route.php?mod=goods&action=goods_detail_page&id=68" class="cake-cat fl-l"><img src="/img/sort/cat.jpg"></a>
+		<a href="/cake/68" class="cake-cat fl-l"><img src="/img/sort/cat.jpg"></a>
 	      </div>
       {/if}
       {foreach from=$list item=value key=key}
@@ -65,7 +65,7 @@
 		<div class="pro-list-item">
 		  <h5>{$value2.goods_name}</h5>
 		  <p>{$value2.goods_desc}</p>
-		  <a href="/route.php?mod=goods&action=goods_detail_page&id={$value2.goods_id}">
+		  <a href="/cake/{$value2.goods_id}">
 		  <img src="/css/img/blank.gif" class="lazy_load" data-src="/{$value2.goods_image}" style="display:none">
 		  </a>
 		</div>

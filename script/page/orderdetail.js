@@ -52,7 +52,7 @@
 								<span class="od-img-area"><img src="css/img/order-detail2.png" class="od-img" width="50"></span><%=goods[i].goods_name%>(<%=goods[i].goods_attr%>)\
 								<% } %>\
 							<%}else{%>\
-								<a target="_blank" href="route.php?mod=goods&action=goods_detail_page&id=<%=goods[i].goods_id%>">\
+								<a target="_blank" href="/cake/<%=goods[i].goods_id%>">\
 								  <span class="od-img-area">\
 									<%if(goods[i].goods_id == CAT_CAKE){%>\
 										<img src="css/img/cat-little.jpg" class="od-img" width="70">\
@@ -70,7 +70,7 @@
 						<%if(goods[i].goods_id == CAT_CAKE){%>\
 							<li>\
 							  <div class="od-title1">\
-									<a target="_blank" href="route.php?mod=goods&action=goods_detail_page&id=<%=goods[i].goods_id%>">\
+									<a target="_blank" href="/cake/<%=goods[i].goods_id%>">\
 									  <span class="od-img-area">\
 										<img src="css/img/order-detail3.png" class="od-img" width="70">\
 									  </span> 致春天\
