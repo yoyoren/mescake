@@ -1,7 +1,7 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="css/homev2.css" />
-<link rel="stylesheet" type="text/css" href="css/dialog.css" />
-<script src="script/release/lib.min.js"></script>
-<script src="script/page/common.js"></script>
+<link rel="stylesheet" type="text/css" href="{$static_domain}css/homev2.css" />
+<link rel="stylesheet" type="text/css" href="{$static_domain}css/dialog.css" />
+<script src="{$static_domain}script/release/lib.min.js"></script>
+<script src="{$static_domain}script/page/common.js"></script>
 
