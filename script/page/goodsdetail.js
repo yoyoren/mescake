@@ -96,7 +96,7 @@
 
   $('#order_now_btn').click(function() {
     addToCart(window.GOODS_ID, function() {
-      MES.reload("route.php?mod=order&action=step2");
+      MES.reload("/route.php?mod=order&action=step2");
     });
 	return false;
   });

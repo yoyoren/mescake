@@ -38,7 +38,7 @@ j.defQueue:R).push([b,c,e])};define.amd={jQuery:!0};j.exec=function(b){return ev
 
 requirejs.config({
     //By default load any module IDs from js/lib
-    baseUrl: 'script'
+    baseUrl: '/script'
 });
 
 
