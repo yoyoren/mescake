@@ -13,7 +13,7 @@
       <div class="order-area">
         <div class="has-no-order">
 	   <h4 class="content-title">您的购物车中没有商品</h4>
-          <a href="route.php?mod=page&action=cato&id=specialday"  class="btn big-btn status2-btn">赶紧去选购吧 >></a>
+          <a href="/cato/specialday"  class="btn big-btn status2-btn">赶紧去选购吧 >></a>
         </div>
       </div>
     </div>
