@@ -16,9 +16,9 @@
 	   var onerror = opt.onerror;
 	   var param = opt.param||{};
 	   var method = method||'get';
-
+	   var host = location.host;
 	   param['_tc'] = Math.random();
-	   $[method]('route.php?mod='+mod+'&action='+action,param,function(d){
+	   $[method]('https://'+host+'/route.php?mod='+mod+'&action='+action,param,function(d){
 		    //如果有自己的错误处理 就用自己的
 			if(!onerror){
 				if(d.code == 10005){
