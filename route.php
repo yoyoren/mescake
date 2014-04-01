@@ -4,7 +4,7 @@ define('FORK_ID',60);
 define('CANDLE_ID',61);
 define('NUM_CANDLE_ID',67);
 define('CAT_CAKE_ID',68);
-
+define('STATIC_DOMAIN','http://static.mescake.com/');
 //give user a sid for record
 /*Session_start();
 $SID;
@@ -30,7 +30,7 @@ if ((DEBUG_MODE & 2) != 2) {
 //路由分发的依据
 $action = ANTI_SPAM($_GET['action']);
 $mod = ANTI_SPAM($_GET['mod']);
-
+$smarty->assign('static_domain',STATIC_DOMAIN);
 //过滤请求参数错误的
 function error_exit() {
 	return json_encode(array('code' => 2, 'msg' => 'param error'));

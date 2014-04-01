@@ -33,7 +33,7 @@
     </div>
   </div>
   </div>
-  <script src="script/page/orderlist.js"></script>
+  <script src="{$static_domain}script/page/orderlist.js"></script>
   <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
 </div>
 </body>

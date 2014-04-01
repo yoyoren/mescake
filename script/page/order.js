@@ -125,6 +125,12 @@
 							tel:_this.data('tel'),
 							contact:_this.data('contact'),
 							district:_this.data('district')
+						},
+						callback:function(id){
+							JQ.address_container.find('.address_item').removeClass('ama-item-current');
+							CURRENT_ADDRESS_ID = id;
+							$('#address_'+id).addClass('ama-item-current');
+							me.ifAddressNeedFee();
 						}
 					});
 				});

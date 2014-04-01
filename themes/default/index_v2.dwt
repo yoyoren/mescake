@@ -76,12 +76,11 @@
           <h2 style="color:#333; font-size:30px;">鲜花是永恒的绝配</h2>
           <p style="color:#333; width:340px;">仅摘选最精致的花，奉献给你</p>
         </div>
-        <img src="img/test-img2.jpg" />
       </div>
     </div>
   </div>
 <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
-<script src="script/page/index.js"></script>
+<script src="{$static_domain}script/page/index.js"></script>
 
 </body>
 </html>

@@ -27,7 +27,7 @@
   </div>
 
   <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
-  <script src="script/page/account.js"></script>
+  <script src="{$static_domain}script/page/account.js"></script>
 </div>
 </body>
 </html>

@@ -80,7 +80,7 @@
    </div>
   </div>
 
-  <script src="script/page/catogary.js"></script>
+  <script src="{$static_domain}script/page/catogary.js"></script>
   <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
 </div>
 </body>

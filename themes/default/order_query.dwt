@@ -33,7 +33,7 @@
       </div>
     </div>
   </div>
-  <script src="script/page/orderquery.js"></script>
+  <script src="{$static_domain}script/page/orderquery.js"></script>
   <script>
 	$('#mobile_input').placeholder();
 	$('#vaild_input').placeholder();

@@ -20,7 +20,7 @@
 	    </div>
 	  </div>
   </div>
-  <script src="script/page/orderdetail.js"></script>
+  <script src="{$static_domain}script/page/orderdetail.js"></script>
   <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
 </div>
 </body>

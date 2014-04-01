@@ -61,7 +61,6 @@ class MES_Goods {
 
 			$shop_price = get_final_price($goods_id, $number, true, $attr_id);
 			$res['result'] = $shop_price * $number;
-			//$res['result'] .="<font size=\"6px\" style=\"vertical-align:top;\">00</font>";
 			$free = MES_Goods::get_attr($attr_id);
 			$res['cd'] = $free['cd'];
 			$res['cj'] = $free['cj'];
@@ -91,6 +90,7 @@ class MES_Goods {
 				//促销信息
 				$smarty -> assign('promotion_info', get_promotion_info());
 				$fileContent = file_get_contents("./tmpl/cake_".$goods_id.".htm");
+				$fileContent = str_replace('{STATIC_DOMAIN}',STATIC_DOMAIN,$fileContent);
 				$smarty -> assign('staff_html', $fileContent);
 
 				/* 获得商品的信息 */

@@ -54,6 +54,7 @@ define(['ui/dialog'],function(Dialog){
 	}
 
 	//把表单当中的内容清理掉
+	var callback = function(){}
 	var clearForm  = function(){
 		var jqRegionSel = $('#region_sel_popup');
 		var jqDistrictSel = $('#dis_district_popup');
@@ -69,6 +70,7 @@ define(['ui/dialog'],function(Dialog){
 	var changemobile = {
 		
 		init:function(){
+
 			if(single){
 				single.show();
 			}else{
@@ -82,6 +84,7 @@ define(['ui/dialog'],function(Dialog){
 						onshow:function(d){
 							//修改和新增由不同的按钮来完成
 							if(d&&d.mod){
+								callback = d.callback||function(){};
 								CURRENT_ID = d.id;
 								$('#mod_address_popup').show();
 								$('#save_address_popup').hide();
@@ -107,6 +110,7 @@ define(['ui/dialog'],function(Dialog){
 						},
 						afterRender:function(){
 							//获得地址信息
+						
 							var jqRegionSel = $('#region_sel_popup');
 							var jqDistrictSel = $('#dis_district_popup');
 							var jqNewAddressInput = $('#new_address_popup');
@@ -209,7 +213,7 @@ define(['ui/dialog'],function(Dialog){
 								var address = jqNewAddressInput.val();
 								var tel = jqNewTelInput.val();
 								var contact = jqNewContactInput.val();
-								
+						
 								//表单验证失败
 								if(!vaildForm()){
 									return;
@@ -232,9 +236,13 @@ define(['ui/dialog'],function(Dialog){
 											var html = mstmpl(addressTmpl,{
 												data:[d.data]
 											});
-											$('#address_'+CURRENT_ID).replaceWith(html);
+											var jqAddressForm = $('#address_'+CURRENT_ID);
+											jqAddressForm.replaceWith(html);
 											single.hide();
 											clearForm();
+											setTimeout(function(){
+												callback(CURRENT_ID);
+											},0);
 	
 										}
 									}
