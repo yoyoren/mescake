@@ -1,5 +1,5 @@
 <div class="mes-head">
-      <a href="/index.htm" class="main-logo"><img src="{$static_domain}img/n-logo.png" /></a>
+      <a href="/home" class="main-logo"><img src="{$static_domain}img/n-logo.png" /></a>
       <div class="clearfix">
         <ul class="head-nav fl-l">
           <li class="hn-item"><a href="/home" id="home_tag"><em class="nav-home ico-item"></em><em class="nav-con">首页</em></a></li>
