@@ -73,7 +73,7 @@
 						</a>\
 					  </div>\
 					  <div class="od-title2">赠送</div>\
-					  <div class="od-title3"><%=data[i].goods_number%></div>\
+					  <div class="od-title3">同蛋糕份数</div>\
 					  <div class="od-title4">￥0</div>\
 					</li>\
 				   <% } %>\
@@ -358,11 +358,11 @@
 				var attr = $(this).data('attr');
 				var words = 10;
 				if(attr==1){
-					words = 4;
-				}else if(attr==2){
 					words = 6;
-				}else if(attr==3){
+				}else if(attr==2){
 					words = 8;
+				}else if(attr==3){
+					words = 10;
 				}
 				require(['ui/brithcard'],function(brithcardDialog){
 					brithcardDialog.show({

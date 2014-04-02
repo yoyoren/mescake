@@ -57,6 +57,7 @@ switch ($mod) {
 			$smarty -> display('shoppingcar_new.dwt');
 			return;
 		} else if ($action == 'step2') {
+			date_default_timezone_set("Etc/GMT-8");
 
 			//每次结算要记录一个ip防止被刷
 			$leaving_messsage = $_GET['mes'];
@@ -73,7 +74,7 @@ switch ($mod) {
 			$smarty -> assign('leaving_messsage', $leaving_messsage);
 			$smarty -> assign('order_token', $_token);
 			$smarty -> assign('checkout_times', $checkout_times);
-			date_default_timezone_set("Etc/GMT-8");
+			
 			$time = date('Y-m-d H:i:s',time());
 			$smarty->assign('current_time', $time);
 
@@ -85,6 +86,10 @@ switch ($mod) {
 
 			echo COMPRESS_HTML($content);
 			//return;
+		} else if ($action == 'update_server_time') {
+			date_default_timezone_set("Etc/GMT-8");
+			$time = date('Y-m-d H:i:s',time());
+			echo json_encode(array('code'=>0,'time'=>$time));
 		} else if ($action == 'empty') {
 			$smarty -> display('order_empty.dwt');
 		} else if ($action == 'get_order_list') {
@@ -168,25 +173,7 @@ switch ($mod) {
 			echo MES_Order::update_fork($id, $num);
 		} else if ($action == 'save_consignee') {
 			//save consignee when user select a address!
-			/*
-			$consignee = array(
-		            'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
-		            'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
-		            'country'       => empty($_POST['country'])    ? '' :   intval($_POST['country']),
-		            'province'      => empty($_POST['province'])   ? 502 :  intval($_POST['province']),
-		            'city'          => empty($_POST['city'])       ? '' :   intval($_POST['city']),
-		            'district'      => empty($_POST['district'])   ? '' :   intval($_POST['district']),
-		            'email'         => empty($_POST['email'])      ? '' :   compile_str($_POST['email']),
-		            'address'       => empty($_POST['address'])    ? '' :   compile_str($_POST['address']),
-		            'zipcode'       => empty($_POST['zipcode'])    ? '' :   compile_str(make_semiangle(trim($_POST['zipcode']))),
-		            'tel'           => empty($_POST['tel'])        ? '' :   compile_str(make_semiangle(trim($_POST['tel']))),
-		            'mobile'        => empty($_POST['mobile'])     ? '' :   compile_str(make_semiangle(trim($_POST['mobile']))),
-		            'sign_building' => empty($_POST['sign_building']) ? '' :compile_str($_POST['sign_building']),
-		            'best_time'     => $_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00",
-					
-		        );
-				*/
-				
+				date_default_timezone_set("Etc/GMT-8");	
 				$address_id = ANTI_SPAM($_POST['address_id'],array(
 										'minLength'=>1,
 										'maxLength'=>12,
@@ -281,13 +268,65 @@ switch ($mod) {
 				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'tel empty', ));
 				die ;
 			}
-
+			
 			//如果送货时间小于当前时间5小时 不能送
-			if (time() > (strtotime($best_time) - 5 * 3600)) {
+			$best_timestamp = strtotime($best_time);
+
+			
+			if (time() > ($best_timestamp - 5 * 3600)) {
 				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'time error', ));
 				die ;
 			}
+			$best_time_arr = explode(" ",$best_time);
+			$best_time_date = strtotime($best_time_arr[0]);
+
+
+			$best_time_arr = explode(":",$best_time_arr[1]);
+			$best_time_hour = $best_time_arr[0];
+			$best_time_minute = $best_time_arr[1];
 			
+			
+			$current_time = date('Y-m-d H:i:s',time());
+
+			$current_time = explode(" ",$current_time);
+
+			$current_time_date = strtotime($current_time[0]);
+			$current_time = explode(":",$current_time[1]);
+
+			$current_time_hour = $current_time[0];
+			$current_time_minute = $current_time[1];
+			
+
+			//相同日期 大于17点 无论如何都是不能下当天的单的。
+			if($best_time_date == $current_time_date){
+			   if($current_time_hour>17){
+					echo json_encode(array(
+							'code'=>RES_PARAM_INVAILD,
+							'msg'=>'time error',
+					));
+					die;
+			   }
+			   if($current_time_hour<10&&$best_time_hour<14){
+					echo json_encode(array(
+							'code'=>RES_PARAM_INVAILD,
+							'msg'=>'time error',
+					));
+					die;
+			   }
+			}
+
+			//如果选择的日期是第二天
+			if($best_time_date - $current_time_date==86400){
+				//22点客服下班了 所以必须选择14点以后的单
+				if($current_time_hour>=22&&$best_time_hour<14){
+					echo json_encode(array(
+							'code'=>RES_PARAM_INVAILD,
+							'msg'=>'time error',
+					));
+					die;
+				}
+			}
+		
 			//发票内容不为空，抬头则不能为空
  			if($inv_content&&empty($inv_payee)){
  				echo json_encode(array(

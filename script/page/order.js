@@ -1,4 +1,6 @@
+//var CURRENT_TIME = '2014-04-02 01:12:00';
 (function(){
+
 	$('#message_container').show();
    window.addressTmpl = '<%for(var i=0;i<data.length;i++){%>\
 						<div class="ama-item address_item <%if(i==0){%>ama-item-current<%}%>" id="address_<%=data[i].address_id%>"\

@@ -26,6 +26,9 @@
           <!-- {foreach from=$specification_more item=value key=key} -->
 		<li class="js_choose_weight" data-attr="{$value.id}"><em class="radiobox-item"></em>{$value.label}</li>    
 	  <!-- {/foreach} --> 
+	  <!-- {if $goods_id!=68}-->
+	  <li><p class="buy-weight-tip">5磅以上蛋糕请提前24小时<br>订购或致电客服咨询</p></li>
+	  <!-- {/if}-->
         </ul>
         <div class="buy-down">
 	  

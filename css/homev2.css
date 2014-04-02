@@ -91,7 +91,9 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
   .s-img-area{overflow:hidden;}
   .s-img-area img{display: block; /*margin: 0 auto;*/}
   .s-img-area-inner{width: 960px; margin:0 auto; position: relative;}
-  .s-img-intro{position: absolute;}
+  .s-img-area-inner{display: block; overflow: hidden; height: 440px;}
+  .s-img-area-inner:hover{text-decoration: none;}
+  .s-img-intro{position: absolute; display: block;}
   .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
   .s-img-area-inner p{font-size: 18px; color: #333; line-height: 1.8;}
 
@@ -158,6 +160,7 @@ _background: url(img/ico_details8.png) -145px -37px no-repeat;
 .buy-down .btn:hover{text-decoration: none;}
 .more-corner{display: inline-block; *display: inline; *zoom:1; width: 12px; height: 12px;
 background: url(img/more-corner.png) 0 0 no-repeat; vertical-align: middle; margin-left: 6px;}
+.buy-weight-tip{color: #ff7e00; font-size: 12px; text-align: center; line-height: 1.5;}
 
 /* 结账时的留言和总数 */
 .tt-price-area{position: relative; padding: 30px 20px 30px 24px;}

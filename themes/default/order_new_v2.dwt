@@ -243,6 +243,20 @@
 				var CURRENT_TIME = '{$current_time}';
 				var MESSAHE = '{$leaving_messsage}';
 				$('#message_input').val(MESSAHE);
+				var updateServerTime = function(){
+					setTimeout(function(){
+						MES.get({
+						  mod:'order',
+						  action:'update_server_time',
+						  callback:function(d){
+						    var time = d.time;
+						    CURRENT_TIME = time;
+						    updateServerTime();
+						  }
+						});
+					},600000);
+				};
+				updateServerTime();
 			</script>
 			<script src="{$static_domain}js/jquery.json-1.3.js"></script>
 			<script src="{$static_domain}script/page/shoppingcar.js"></script>
