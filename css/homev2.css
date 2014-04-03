@@ -90,8 +90,7 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
   .slider-container{height: 440px;}
   .s-img-area{overflow:hidden;}
   .s-img-area img{display: block; /*margin: 0 auto;*/}
-  .s-img-area-inner{width: 960px; margin:0 auto; position: relative;}
-  .s-img-area-inner{display: block; overflow: hidden; height: 440px;}
+  .s-img-area-inner{width: 960px; margin:0 auto; position: relative; display: block;}
   .s-img-area-inner:hover{text-decoration: none;}
   .s-img-intro{position: absolute; display: block;}
   .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
