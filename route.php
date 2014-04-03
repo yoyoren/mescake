@@ -304,7 +304,7 @@ switch ($mod) {
 			$current_time_minute = $current_time[1];
 			
 
-			//相同日期 大于17点 无论如何都是不能下当天的单的。
+			//相同日期 服务器时间大于17点 无论如何都是不能下当天的单的。
 			if($best_time_date == $current_time_date){
 			   if($current_time_hour>17){
 					echo json_encode(array(
@@ -313,7 +313,9 @@ switch ($mod) {
 					));
 					die;
 			   }
-			   if($current_time_hour<10&&$best_time_hour<14){
+
+			   //当天的所有订单都是不接受14点以前的订单的
+			   if($best_time_hour<14){
 					echo json_encode(array(
 							'code'=>RES_PARAM_INVAILD,
 							'msg'=>'time error',
