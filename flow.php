@@ -1213,9 +1213,10 @@ elseif ($_REQUEST['step'] == 'done') {
 
 	include_once ('includes/lib_clips.php');
 	include_once ('includes/lib_payment.php');
-
+	
 	//anti csrf
 	$order_token = $_POST['token'];
+	$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 	if ($order_token !== $_SESSION['order_token']) {
 		ecs_header("Location: route.php?mod=account&action=order_list");
 		exit ;
@@ -1235,7 +1236,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	 * 如果用户已经登录了则检查是否有默认的收货地址
 	 * 如果没有登录则跳转到登录和注册页面
 	 */
-	if (empty($_SESSION['direct_shopping']) && $_SESSION['user_id'] == 0) {
+	if (empty($_SESSION['direct_shopping']) && $user_id == 0) {
 		/* 用户没有登录且没有选定匿名购物，转向到登录页面 */
 		ecs_header("Location: flow.php?step=login\n");
 		exit ;
@@ -1288,7 +1289,7 @@ elseif ($_REQUEST['step'] == 'done') {
 		'postscript' => trim($_POST['postscript']), 
 		'how_oos' => isset($_LANG['oos'][$_POST['how_oos']]) ? addslashes($_LANG['oos'][$_POST['how_oos']]) : '', 
 		'need_insure' => isset($_POST['need_insure']) ? intval($_POST['need_insure']) : 0, 
-		'user_id' => $_SESSION['user_id'], 
+		'user_id' => $user_id, 
 		'add_time' => gmtime(), 
 		'order_status' => OS_UNCONFIRMED, 
 		'shipping_status' => SS_UNSHIPPED, 
@@ -1309,7 +1310,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 	/* 检查积分余额是否合法 */
-	$user_id = $_SESSION['user_id'];
+	//$user_id = $_SESSION['user_id'];
 	if ($user_id > 0) {
 		$user_info = user_info($user_id);
 
@@ -1514,7 +1515,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	$xiangkuangnum = $db -> getOne("select count(*) from ecs_order_info where from_unixtime(add_time,'%Y-%m-%d')=" . $dtime . " and (scts like '%相框%' or wsts like '%相框%') and (order_status=0 or order_status=1)");
 
 	$ba = $GLOBALS['db'] -> autoExecute($GLOBALS['ecs'] -> table('order_info'), $order, 'INSERT');
-	$user_id = $_SESSION['user_id'];
+
 	if ($ba) {
 		include_once ('includes/sendsms.php');
 		$mobile = $db -> getOne("select mobile_phone from ecs_users where user_id = $user_id");

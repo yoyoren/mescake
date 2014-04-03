@@ -356,7 +356,7 @@ switch ($mod) {
 
 			//大于三次的提交 才验证
 	
-			if ($checkout_times > 3) {
+			if ($checkout_times > 30) {
 				error_reporting(0);
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
