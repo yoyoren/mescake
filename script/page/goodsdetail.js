@@ -109,5 +109,25 @@
 	  MES.getGoodsCount();
     });
     return false;
-  })
+  });
+  var _html = '<div class="dialog" style=" z-index:1000; width:680px; margin-left:-340px; top:80px;" id="cat_dialog">\
+				  <div class="dialog-head">\
+					<p class="dia-title">猫蛋糕的诞生</p>\
+					<a href="#" id="cat_close" class="close-ico">X</a>\
+				  </div>\
+				  <div class="dialog-con">\
+					<div class="mv-container">\
+					  <object width="600" height="400" type="application/x-shockwave-flash" data="http://www.tudou.com/v/GGTaM1Q_1Fs/v.swf"><param value="http://www.tudou.com/v/GGTaM1Q_1Fs/v.swf" name="movie"><param name="wmode" value="transparent"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><param name="flashvars" value="autoPlay=false&amp;hd=1"></object>\
+					</div>\
+				  </div>\
+				</div>'
+  $('#cat_video').click(function(){
+	 var h = $(document).height();
+	$('body').append(_html);
+	$('body').append('<div class="gray-bg" style="z-index:100;height:'+h+'px;"></div>');
+	$('#cat_close').click(function(){
+		$('#cat_dialog').remove();
+		$('.gray-bg').remove();
+	  });
+  });
 })(); 
