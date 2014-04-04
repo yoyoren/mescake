@@ -675,6 +675,7 @@ class MES_User{
 		global $_LANG;
 
 		global $ecs;
+		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 		$time=gmtime();
 		$result = array('code' =>0, 'message' => '');
 		//接收卡号、密码
@@ -726,7 +727,7 @@ class MES_User{
 		
 		if($res){
 			$change_money = floatval($record['cardmoney']);
-				log_mcard_change($_SESSION['user_id'], $change_money,'储值卡：'.$card_num.'充值',0,0,2);
+				log_mcard_change($user_id, $change_money,'储值卡：'.$card_num.'充值',0,0,2);
 				$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id='$_SESSION[user_id]'");
 				$result['user_money'] = $user_money;
 				$result['change_money'] = $change_money;
