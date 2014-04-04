@@ -80,9 +80,18 @@ define(['ui/dialog'],function(Dialog){
 							
 							jqInput.placeholder();
 							$('#candle_number_input').keydown(function(e){
+								var cantype = false; 
+								if(e.which<106&&e.which>95){
+									cantype = true;
+								}
+								if(e.which<57&&e.which>48){
+									cantype = true;
+								}
 
-								if((e.which<48||e.which>57)&&e.which!=8){
-								
+								if(e.which == 8){
+									cantype = true;
+								}
+								if(!cantype){
 									e.preventDefault&&e.preventDefault();
 									return false;
 								}
