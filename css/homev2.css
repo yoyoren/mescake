@@ -478,6 +478,11 @@ a.btn:hover{text-decoration: none;}
   .cat-mark .size-list li{text-align: center;}
   .flower-mark{color: #999; padding-top:10px; background: url(img/flower0.jpg) center bottom no-repeat; height: 130px;}
 
+/* 猫视频 */
+.mv-area{padding-left: 180px; height: 104px; cursor: pointer; background: url(img/cat-mv.png) 0 0 no-repeat; width: 220px; font-size: 14px; margin-top: 40px;}
+.mv-area p{font-size: 12px; padding-top: 10px;}
+.mv-area .strong{color: #ea4633;}
+
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}
 .footer{width: 960px; margin: 0 auto; font-size: 12px;}
