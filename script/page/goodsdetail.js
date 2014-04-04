@@ -122,12 +122,12 @@
 				  </div>\
 				</div>'
   $('#cat_video').click(function(){
-	$('body').append(_html).css('overflow','hidden');
-	$('body').append('<div class="gray-bg" style="z-index:100;"></div>');
+	 var h = $(document).height();
+	$('body').append(_html);
+	$('body').append('<div class="gray-bg" style="z-index:100;height:'+h+'px;"></div>');
 	$('#cat_close').click(function(){
 		$('#cat_dialog').remove();
 		$('.gray-bg').remove();
-		$('body').css('overflow','auto');
 	  });
   });
 })(); 
