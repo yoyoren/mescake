@@ -55,6 +55,7 @@ $CAKE_CATO = array(
 
 
 $CAKE_SLIDER = array(
+  array('img'=>'img/luckman.jpg',title=>'','desc'=>'','link'=>'http://huodong.mescake.com/cake/32'),
   array('img'=>'img/banner-huodong.jpg',title=>'','desc'=>'','link'=>'http://huodong.mescake.com/cat'),
   array('img'=>'img/banner-cat.jpg',title=>'<h2 style="color:#f59e21;">像猫一样享受生活</h2>','desc'=>'<p style="width:340px;">晒太阳是特长，看风景是爱好，<br>快乐随性是我的天分；<br>得意洋洋的享受时间，<br>让整个世界做我的游乐场。</p>','link'=>'/catcake'),
   
