@@ -484,9 +484,9 @@ a.btn:hover{text-decoration: none;}
 .mv-area .strong{color: #ea4633;}
 
 /* luck man活动 */
-.product-active-intro{background:#f7f7f7; border-bottom: 1px dotted #e9e5e2; padding: 10px 0; text-align: center;}
-.luck-ico{display: inline-block; *display: inline; zoom:1; width: 16px; height: 16px; background: url(img/luck-ico.png) 0 2px no-repeat; margin-right: 10px; *background-position: 0 0;}
-.luck-light{color: #c91600;}
+.product-active-intro{background:#faf9f9; border-bottom: 1px dashed #ccc; padding: 10px 0; text-align: center; line-height: 63px; font-size: 12px;}
+.luck-ico{display: inline-block; *display: inline; zoom:1; width: 140px; height: 63px; vertical-align: middle;}
+.luck-light{color: #ff5c26;}
 
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}
