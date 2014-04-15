@@ -47,7 +47,7 @@ define(['ui/dialog'],function(Dialog){
 									return false;
 								}
 
-								$.post('route.php?mod=account&action=login',{
+								$.post('/route.php?mod=account&action=login',{
 									username:username,
 									password:password
 								},function(d){
