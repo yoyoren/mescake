@@ -355,7 +355,7 @@ switch ($mod) {
 			}
 
 	
-			if ($checkout_times > 30) {
+			if ($checkout_times > 3) {
 				error_reporting(0);
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
