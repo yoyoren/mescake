@@ -270,12 +270,14 @@ class MES_Goods {
 			if(in_array($goods_res[$i]['goods_id'], $id_arrays)){
 				$goods_res[$i]['goods_desc'] = strip_tags($goods_res[$i]['goods_desc']);
 				$goods_res[$i]['goods_image'] ='themes/default/images/sgoods/'.substr($goods_res[$i]['goods_sn'],0,3).'.jpg';
-				array_push($res,$goods_res[$i]);
+				//只展示上架的蛋糕
+				if($goods_res[$i]['is_on_sale']=="1"){
+					array_push($res,$goods_res[$i]);
+				}
 			}
 			
 		}
 		return $res;
-		//var_dump($goods_res);
 	}
 
 }

@@ -32,7 +32,7 @@ $CAKE_CATO = array(
 	'cato'=>array(
 		array('name'=>'classic','title'=>'Classic / 环球经典','data'=>array('33','35','37','38')),
 		array('name'=>'world','title'=>'Around World / 异国风味','data'=>array('15','16','17','18','19','20','21')),
-		array('name'=>'share','title'=>'分享时刻','data'=>array('9','1','5','6','7','11','8')),
+		array('name'=>'share','title'=>'分享时刻','data'=>array('9','1','5','6','7','11','8','70')),
 		array('name'=>'fun','title'=>'For Fun / 来点气氛','data'=>array('32'))
 	),
 	'img'=>'mg/test-img.png',
@@ -52,7 +52,8 @@ $CAKE_CATO = array(
 	'cls' => 'for-dream',
   ),
 );
-
+$CAKE_CATO = file_get_contents("goodsconfig.json");
+$CAKE_CATO = json_decode($CAKE_CATO,true);
 
 $CAKE_SLIDER = array(
   array('img'=>'img/luckman.png',title=>'','desc'=>'','link'=>'http://huodong.mescake.com/cake/32'),

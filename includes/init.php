@@ -169,7 +169,7 @@ if (!get_magic_quotes_gpc())
 $ecs = new ECS($db_name, $prefix);
 define('DATA_DIR', $ecs->data_dir());
 define('IMAGE_DIR', $ecs->image_dir());
-
+//62b3e28530eef298ec2854eb68790d91
 /* 初始化数据库类 */
 require(ROOT_PATH . 'includes/cls_mysql.php');
 $db = new cls_mysql($db_host, $db_user, $db_pass, $db_name);
@@ -222,6 +222,7 @@ if (!defined('INIT_NO_USERS'))
 
     define('SESS_ID', $sess->get_session_id());
 }
+
 if(isset($_SERVER['PHP_SELF']))
 {
     $_SERVER['PHP_SELF']=htmlspecialchars($_SERVER['PHP_SELF']);

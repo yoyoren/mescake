@@ -355,7 +355,7 @@ switch ($mod) {
 			}
 
 	
-			if ($checkout_times > 3) {
+			if ($checkout_times > 30) {
 				error_reporting(0);
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
@@ -867,10 +867,12 @@ switch ($mod) {
 					require_once (ROOT_PATH . 'lib/catogary.php');
 					require_once (ROOT_PATH . 'lib/goods.php');
 					$list = array();
+
 					for($i=0;$i<count($CAKE_CATO[$cato_id]['cato']);$i++){
 						$_cur = $CAKE_CATO[$cato_id]['cato'][$i];
 						$_list = MES_Goods::get_goods_by_catogary($_cur['data']);
 						array_push($list, array('data'=>$_list,'title'=>$_cur['title'],'name'=>$_cur['name']));
+						
 					}
 		
 					$smarty -> assign('data',$CAKE_CATO[$cato_id]);
