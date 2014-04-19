@@ -1,0 +1,54 @@
+{
+	"specialday":{
+		"name":"纪念日",
+		"cato":[{"name":"taster","title":"For Taster / 献给品赏家","data":["1","5","6","7","8","9","11"]},
+			{"name":"lover","title":"For Lover / 献给爱人","data":["27","26","22","25"]},
+			{"name":"explorer","title":"For Explorer / 献给旅行家","data":["15","16","17","18","19","20","21"]},
+			{"name":"fun","title":"For Fun / 来点气氛","data":["32"]}
+		],
+		"img":"mg/test-img.png",
+		"desc":"在Ta的生日或者特殊纪念日，送上特殊的祝福",
+		"detail_desc_h1":"在生日或特殊的日子里，送上你最甜美的祝福",
+		"detail_desc_h2":"<a href='#taster'>献给品赏家</a> | <a href='#lover'>献给爱人</a> | <a href='#explorer'>献给旅行家</a>",
+		"cls":"for-day"
+	},
+	"forlove":{
+		"name":"为了爱",
+		"cato":[
+			{"name":"promise","title":"Promise / 许诺","data":["22","25","26","27"]},
+			{"name":"travle","title":"Travle / 一起旅行","data":["15","16","18","19"]}
+		],
+		"img":"mg/test-img.png",
+		"desc":"无论Party还是私聚，一同享用精挑细选之作吧!",
+		"detail_desc_h1":"无论Party还是私聚，一同享用精挑细选之作吧!",
+		"detail_desc_h2":"<a href='#promise'>爱的许诺</a> | <a href='#travle'>一起旅行</a>",
+		"cls" : "for-love"
+	},
+	"party":{
+		"name":"欢聚一下",
+		"cato":[
+			{"name":"classic","title":"Classic / 环球经典","data":["33","35","37","38"]},
+			{"name":"world","title":"Around World / 异国风味","data":["15","16","17","18","19","20","21"]},
+			{"name":"share","title":"分享时刻","data":["9","1","5","6","7","11","8","71"]},
+			{"name":"fun","title":"For Fun / 来点气氛","data":["32"]}
+		],
+		"img":"mg/test-img.png",
+		"desc":"无论Party还是私聚，一同享用精挑细选之作吧!",
+		"detail_desc_h1":"无论Party还是私聚，一同享用精挑细选之作吧!",
+		"detail_desc_h2":"<a href='#classic'>环球经典</a> | <a href='#world'>异国风味</a> | <a href='#share'>分享时刻</a> | <a href='#fun'>来点气氛</a>",
+		"cls" : "for-happy"
+	},
+	"dream":{
+		"name":"梦想家",
+		"cato":[
+			
+		],
+		"img":"mg/test-img.png",
+		"desc":"不同人有不同的梦想以及对心目中理想美味的定义",
+		"detail_desc_h1":"不同的人有不同的梦想，以及对心目中理想美味的定义",
+		"detail_desc_h2":"",
+		"detail_desc_h3":"Dream / 田园",
+		"cls" : "for-dream"
+	}
+	
+}

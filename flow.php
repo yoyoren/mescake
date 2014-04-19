@@ -1213,9 +1213,19 @@ elseif ($_REQUEST['step'] == 'done') {
 
 	include_once ('includes/lib_clips.php');
 	include_once ('includes/lib_payment.php');
-	
+	$token = $_COOKIE['serviceToken'];
+	$uuid = $_COOKIE['uuid'];
+	$res = false;
+	if($token&&GET_REDIS($uuid,'user')== $token){
+	  $res = true;
+	}
+	if(!$res){
+		echo '请先登录后，再重新提交您的订单';
+		return;
+	}
 	//anti csrf
 	$order_token = $_POST['token'];
+
 	$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 	if ($order_token !== $_SESSION['order_token']) {
 		ecs_header("Location: route.php?mod=account&action=order_list");
@@ -1229,7 +1239,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	$sql = "SELECT COUNT(*) FROM " . $ecs -> table('cart') . " WHERE session_id = '" . SESS_ID . "' " . "AND parent_id = 0 AND is_gift = 0 AND rec_type = '$flow_type'";
 	if ($db -> getOne($sql) == 0) {
 		header("Location: route.php?mod=order&action=empty");
-		return;
+		exit ;
 	}
 	/*
 	 * 检查用户是否已经登录
@@ -1252,7 +1262,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	}else if ($_POST['pay_id'] == 4) {
 		$pay_id = 3;
 	}else{
-		ecs_header("Location: index.php");
+		ecs_header("Location: index.htm");
 		exit ;
 	}
 	
@@ -1504,8 +1514,8 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 	/* 插入订单表 */
 	$db -> query("insert into order_genid (remark) values('9999')");
-	$order['order_id'] = $new_order_id = $db -> insert_id();
-	
+	$gen_id = $db -> insert_id();
+	$order['order_id'] = $new_order_id = $gen_id;	
 	$order['order_sn'] = $cc . date("Ymd") . substr($order['order_id'], -5);
 	include_once ('includes/tender.php');
 	tender($order['order_id'], $order['user_id'], $order['pay_id'], $order['pay_note'], $order['order_amount'], $order['bonus'], $order['bonus_id'], $order['surplus'], $order['integral']);
@@ -1513,6 +1523,13 @@ elseif ($_REQUEST['step'] == 'done') {
 	$bt = substr($order['best_time'], 0, 10);
 	$dtime = date("Y-m-d", time());
 	$xiangkuangnum = $db -> getOne("select count(*) from ecs_order_info where from_unixtime(add_time,'%Y-%m-%d')=" . $dtime . " and (scts like '%相框%' or wsts like '%相框%') and (order_status=0 or order_status=1)");
+
+	$if_exsit = $db -> getAll('select * from ecs_order_info where order_id="'.$new_order_id.'"');
+	$if_exsit = count($if_exsit);
+	if($if_exsit>0){
+		echo '订单提交失败,请联系客服';
+		return;
+	}
 
 	$ba = $GLOBALS['db'] -> autoExecute($GLOBALS['ecs'] -> table('order_info'), $order, 'INSERT');
 
