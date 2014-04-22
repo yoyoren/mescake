@@ -139,7 +139,7 @@
 				  北京市 <%=order.cityName%> <%=order.districtName%> <%=order.address%><br>\
 				  <%=order.consignee%>，<%=order.mobile%>\
 				</p>\
-				<p class="od-total"><%if(parseInt(order.formated_shipping_fee.replace("￥",""),10)>0){%>运费：<%=order.formated_shipping_fee%>元<br/><% } %>总计：<b><%=order.order_amount%></b>元</p>\
+				<p class="od-total"><%if(parseInt(order.formated_shipping_fee.replace("￥",""),10)>0){%>运费：<%=order.formated_shipping_fee%>元<br/><% } %>总计：<b><%=order.formated_total_fee%></b>元</p>\
 			  </div>\
 			</div>\
 			<em class="buy-line2"></em>\
@@ -157,6 +157,7 @@
 					<a href="#" class="btn" id="canel_order">取消订单</a>\
 				<% } %>\
 		   </div>';
+		
     var orderId = location.href.split('order_id=').pop();
 	var OrderDetail = {
 		render:function(){

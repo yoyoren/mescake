@@ -216,7 +216,7 @@
 							<!-- {if $checkout_times>3} -->
 							<div class="tl-r" id="vaild_code_frame" style="padding-bottom:20px;">
 								<span class="total-sub-tip">请输入验证码：</span>
-								<input type="text" class="global-input" style="width:80px; margin-bottom:0;" id="code_input">
+								<input type="text" class="global-input vt-a has-bor-input" style="width:80px; margin-bottom:0;" id="code_input">
 								<img src="captcha.php" class="check-code vt-a" style="*margin-top:-20px;" id="code_image">
 							</div>
 							<!-- {/if} -->

@@ -1704,10 +1704,20 @@ elseif ($_REQUEST['step'] == 'done') {
 		$pay_obj = new $payment['pay_code'];
 
 		$pay_online = $pay_obj -> get_code($order, unserialize_config($payment['pay_config']));
+		if($pay_id == 3){
+			//块钱支付
+			$pay_online_url = '';
+			$pay_online = str_replace('script','a',$pay_online);
+		}else{
+			//支付宝支付
+			$pay_online_url = $pay_obj -> get_code($order, unserialize_config($payment['pay_config']),false,true);
+		}
 
 		$order['pay_desc'] = $payment['pay_desc'];
 
 		$smarty -> assign('pay_online', $pay_online);
+		$smarty -> assign('pay_online_url', $pay_online_url);
+		$smarty -> assign('pay_id', $pay_id);
 	}
 
 	if (!empty($order['shipping_name'])) {
