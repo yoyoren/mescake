@@ -1238,7 +1238,16 @@ elseif ($_REQUEST['step'] == 'done') {
 		header("Location: route.php?mod=order&action=empty");
 		exit ;
 	}
-
+	/*
+	 * 检查用户是否已经登录
+	 * 如果用户已经登录了则检查是否有默认的收货地址
+	 * 如果没有登录则跳转到登录和注册页面
+	 */
+	if (empty($_SESSION['direct_shopping']) && $user_id == 0) {
+		/* 用户没有登录且没有选定匿名购物，转向到登录页面 */
+		ecs_header("Location: flow.php?step=login\n");
+		exit ;
+	}
 	$_POST['shipping'] = 1;
 	$pay_id = intval($_POST['pay_id']);
 	if ($_POST['pay_id'] == 1) {
@@ -1512,6 +1521,12 @@ elseif ($_REQUEST['step'] == 'done') {
 	$dtime = date("Y-m-d", time());
 	$xiangkuangnum = $db -> getOne("select count(*) from ecs_order_info where from_unixtime(add_time,'%Y-%m-%d')=" . $dtime . " and (scts like '%相框%' or wsts like '%相框%') and (order_status=0 or order_status=1)");
 
+	$if_exsit = $db -> getAll('select * from ecs_order_info where order_id="'.$new_order_id.'"');
+	$if_exsit = count($if_exsit);
+	if($if_exsit>0){
+		echo '订单提交失败,请联系客服';
+		return;
+	}
 
 	$ba = $GLOBALS['db'] -> autoExecute($GLOBALS['ecs'] -> table('order_info'), $order, 'INSERT');
 
