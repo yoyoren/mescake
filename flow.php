@@ -1219,10 +1219,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	if($token&&GET_REDIS($uuid,'user')== $token){
 	  $res = true;
 	}
-	if(!$res){
-		echo '请先登录后，再重新提交您的订单';
-		return;
-	}
+
 	//anti csrf
 	$order_token = $_POST['token'];
 
