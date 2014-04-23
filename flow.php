@@ -1248,16 +1248,20 @@ elseif ($_REQUEST['step'] == 'done') {
 		ecs_header("Location: flow.php?step=login\n");
 		exit ;
 	}
+	define('PAY_ALIPAY',2);
+	define('PAY_KUAIQAIN',3);
+	define('PAY_POS',4);
+
 	$_POST['shipping'] = 1;
 	$pay_id = intval($_POST['pay_id']);
 	if ($_POST['pay_id'] == 1) {
-		$pay_id = 4;
+		$pay_id = PAY_POS;
 	}else if ($_POST['pay_id'] == 2) {
-		$pay_id = 4;
+		$pay_id = PAY_POS;
 	}else if ($_POST['pay_id'] == 3) {
-		$pay_id = 2;
+		$pay_id = PAY_ALIPAY;
 	}else if ($_POST['pay_id'] == 4) {
-		$pay_id = 3;
+		$pay_id = PAY_KUAIQAIN;
 	}else{
 		ecs_header("Location: index.htm");
 		exit ;
@@ -1317,7 +1321,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 	/* 检查积分余额是否合法 */
-	//$user_id = $_SESSION['user_id'];
+
 	if ($user_id > 0) {
 		$user_info = user_info($user_id);
 
@@ -1530,7 +1534,8 @@ elseif ($_REQUEST['step'] == 'done') {
 
 	$ba = $GLOBALS['db'] -> autoExecute($GLOBALS['ecs'] -> table('order_info'), $order, 'INSERT');
 
-	if ($ba) {
+	//只有货到付款才能立刻发短信
+	if ($ba&&$pay_id == PAY_POS) {
 		include_once ('includes/sendsms.php');
 		$mobile = $db -> getOne("select mobile_phone from ecs_users where user_id = $user_id");
 		sms_send2($mobile, 1);
