@@ -1535,10 +1535,14 @@ elseif ($_REQUEST['step'] == 'done') {
 	$ba = $GLOBALS['db'] -> autoExecute($GLOBALS['ecs'] -> table('order_info'), $order, 'INSERT');
 
 	//只有货到付款才能立刻发短信
-	if ($ba&&$pay_id == PAY_POS) {
+	if ($ba) {
 		include_once ('includes/sendsms.php');
 		$mobile = $db -> getOne("select mobile_phone from ecs_users where user_id = $user_id");
-		sms_send2($mobile, 1);
+		if($pay_id == PAY_POS){
+			sms_send2($mobile, 1);
+		}else{
+			sms_send_unpay($mobile, 1);
+		}
 
 	}
 	$dispatch['order_id'] = $order['order_id'];

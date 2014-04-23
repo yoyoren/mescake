@@ -75,7 +75,7 @@ else
 				include_once (ROOT_PATH .'includes/sendsms.php');
 				$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 				$mobile = $db -> getOne("select mobile_phone from ecs_users where user_id = $user_id");
-				sms_send2($mobile, 1);
+				sms_send_pay_success($mobile, 1);
 			}
         }
         else

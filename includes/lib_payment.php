@@ -161,8 +161,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
 
                 /* 修改订单状态为已付款 */
                 $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
-                            " SET order_status = '" . OS_CONFIRMED . "', " .
-                                " confirm_time = '" . gmtime() . "', " .
+                            " SET confirm_time = '" . gmtime() . "', " .
                                 " pay_status = '$pay_status', " .
                                 " pay_time = '".gmtime()."', " .
                                 " money_paid = order_amount," .
