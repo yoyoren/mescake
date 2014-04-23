@@ -2,52 +2,53 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>MES蛋糕</title>
-  
+  <title>MES蛋糕 -- 下单成功</title>
   <!-- #BeginLibraryItem "/lib/head_script_v2.lbi" --><!-- #EndLibraryItem -->
-  <link href="themes/default/style.css" rel="stylesheet" type="text/css" />
   <style>
   .footer{background:#fff}
   </style>
 </head>
 <body>
-<div class="layout">
-  <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
-  <script>
-	$(function(){
-		$('.imgShowSmall img').mouseover(function(){
-			var thissrc = $(this).attr('src');
-			$(this).parents('.imgShow').find('.imgShowBig img').attr('src',thissrc);
-		});		   
-	});
-	</script>
-        <div class="flowBox">
-		<div class="box1">
-		<div class="imgShow">
-		<div class="imgShowBig">
-			<img src="images/sgoods/{$goods.img}.png" width="144" height="96" alt="" />
-			</div>
-		<div class="imgShowSmall">
-			{foreach from=$goods_list item=goods}
-				{if $goods.goodsimg!=''}
-				<img src="images/sgoods/{$goods.goodsimg}.png" width="50" height="33" alt="" />
-				{/if}
-			{/foreach}
-			</div>
-	    </div>
-		<div class="donetext">
-		<table style="text-align:left;margin:auto;font-size:12px;">
-			<tr>
-				<td>您选择的{$goods.name},订单号为{$order.order_sn}，蛋糕正在制作。<br/>
-				我们的特别派送员将在预订时间送达贵处，再次感谢您的预订。<br>
-			<div style="text-align:center;">如需帮助请致电4000 600 700</div></td>
-			</tr>
-			
-		</table>
-		</div>
-	</div>
-        </div>{$pay_online}
-  <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
-</div>
+<!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+<div class="content-area">
+    <div class="content">
+      <div class="suc-container tl-c">
+        <p class="suc-tip3">嗨！亲爱的用户~<br>您已经成功下单，感谢选择MES每实<sup>TM</sup>蛋糕</p>
+        <div class="suc-bg-area">
+          <div class="n-box">
+            <em class="buy-line"></em>
+            <div class="box-inner">
+              <p class="suc-tip suc-ti">您可以<a  target="_blank"  href="/cato/specialday" class="suc-tip-link">浏览其他蛋糕</a>或<a target="_blank" href="/route.php?mod=account&action=order_detail&order_id={$order.order_id}" class="suc-tip-link">查看订单</a></p>
+              <div class="alipay-link-area">
+                <a href="#" id="online_payment" class="btn status1-btn big-btn vt-a" style="margin-right:0;display:none">在线支付</a>
+              </div>
+            </div>
+            <em class="buy-line2"></em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="pay_frame" style="display:none">
+  {$pay_online}
+  </div>
+<script>
+var pay_online_url = "{$pay_online_url}";
+var pay_id = "{$pay_id}";
+var pay_button = $('#online_payment');
+if(pay_id ==2){
+  pay_button.show();
+  pay_button.html('支付宝在线支付');
+  pay_button.attr('href',pay_online_url).attr('target','_blank');
+}else if(pay_id == 3){
+  pay_button.show();
+  pay_button.html('快钱在线支付');
+  pay_button.click(function(){
+	$('#pay_frame').find('form')[0].submit();
+	return false;
+  });
+}
+</script>
+<!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
 </body>
 </html>

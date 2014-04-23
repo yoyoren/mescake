@@ -41,6 +41,7 @@ body{*position:relative;} /* 针对ie6body里面有position的bug。*/
 /* 头部区域 */
 .head-area{background: #fff;}
 
+.dis-inl,
 .hn-item em,
 .ico-shop,
 .ico-shop-num,
@@ -264,6 +265,14 @@ a.btn:hover{text-decoration: none;}
 .od-img-add-ico{*margin-top: 15px;}
 .od-ul .od-title1{text-align: left;}
 
+/* 多张蜡烛处理 */
+.font0{font-size: 0!important; vertical-align: middle;}
+.od-candle-item{width: 26px; *width: 24px; margin-top: 6px; *margin-top: 20px;}
+.od-for4 .od-candle-item{width: 20px; *width: 18px;}
+.od-more-than4{line-height: 0;}
+.od-more-than4 .od-candle-item{width: 20px; *width: 18px; margin-top: 6px;}
+.od-title1 .candle-edit{text-decoration: underline; color: #ff7e00;}
+
 .order-detail-con{color: #616161; padding-bottom: 22px; font-size: 12px; overflow: hidden;}
 
 .content-title{padding-bottom: 24px;}
@@ -413,6 +422,8 @@ a.btn:hover{text-decoration: none;}
 .suc-bg-area{width: 600px; margin: 0 auto;  margin-top: 40px;}
 .suc-container .box-inner{padding: 20px 0;}
 .suc-container .status1-btn{border-radius: 0 3px 3px 0; height: 44px; vertical-align: middle; margin-left: -2px; position: relative; z-index: 2; }
+.suc-tip-link{color: #ff7e00; margin: 0 2px; text-decoration: underline;}
+.alipay-link-area .status1-btn{border-radius: 3px; height: 44px; line-height:44px; vertical-align: middle; margin-left: -2px; position: relative; z-index: 2;}
 
 /* 产品总体列表页 */
   .pro-ul li{padding-top: 30px;}

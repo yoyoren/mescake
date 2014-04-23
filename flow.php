@@ -1248,16 +1248,20 @@ elseif ($_REQUEST['step'] == 'done') {
 		ecs_header("Location: flow.php?step=login\n");
 		exit ;
 	}
+	define('PAY_ALIPAY',2);
+	define('PAY_KUAIQAIN',3);
+	define('PAY_POS',4);
+
 	$_POST['shipping'] = 1;
 	$pay_id = intval($_POST['pay_id']);
 	if ($_POST['pay_id'] == 1) {
-		$pay_id = 4;
+		$pay_id = PAY_POS;
 	}else if ($_POST['pay_id'] == 2) {
-		$pay_id = 4;
+		$pay_id = PAY_POS;
 	}else if ($_POST['pay_id'] == 3) {
-		$pay_id = 2;
+		$pay_id = PAY_ALIPAY;
 	}else if ($_POST['pay_id'] == 4) {
-		$pay_id = 3;
+		$pay_id = PAY_KUAIQAIN;
 	}else{
 		ecs_header("Location: index.htm");
 		exit ;
@@ -1317,7 +1321,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 	/* 检查积分余额是否合法 */
-	//$user_id = $_SESSION['user_id'];
+
 	if ($user_id > 0) {
 		$user_info = user_info($user_id);
 
@@ -1530,10 +1534,15 @@ elseif ($_REQUEST['step'] == 'done') {
 
 	$ba = $GLOBALS['db'] -> autoExecute($GLOBALS['ecs'] -> table('order_info'), $order, 'INSERT');
 
+	//只有货到付款才能立刻发短信
 	if ($ba) {
 		include_once ('includes/sendsms.php');
 		$mobile = $db -> getOne("select mobile_phone from ecs_users where user_id = $user_id");
-		sms_send2($mobile, 1);
+		if($pay_id == PAY_POS){
+			sms_send2($mobile, 1);
+		}else{
+			sms_send_unpay($mobile, 1);
+		}
 
 	}
 	$dispatch['order_id'] = $order['order_id'];
@@ -1577,6 +1586,7 @@ elseif ($_REQUEST['step'] == 'done') {
 		$sql = "INSERT INTO " . $ecs -> table('order_goods') . "( " . "order_id, goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, goods_discount,is_integral) " . " values('$new_order_id', 60, '餐具套装', '00', '$sends','0', '',1,0) ";
 		$db -> query($sql);
 	}
+	/*
 	if (isset($_COOKIE['emar'])) {
 		include_once 'api/advertiser/Sender.php';
 		include_once 'api/advertiser/Order.php';
@@ -1631,7 +1641,7 @@ elseif ($_REQUEST['step'] == 'done') {
 		$sql = "INSERT INTO cps ( " . "order_id,src,channel,cid,wi,order_time)" . " values('$new_order_id','emar','cps'," . $arr[2] . ",'" . $arr[3] . "','" . $ordertime . "') ";
 		$db -> query($sql);
 
-	}
+	}*/
 
 	/* 处理余额、积分、红包 */
 	if ($order['user_id'] > 0 && $order['surplus'] > 0) {
@@ -1704,10 +1714,20 @@ elseif ($_REQUEST['step'] == 'done') {
 		$pay_obj = new $payment['pay_code'];
 
 		$pay_online = $pay_obj -> get_code($order, unserialize_config($payment['pay_config']));
+		if($pay_id == 3){
+			//块钱支付
+			$pay_online_url = '';
+			$pay_online = str_replace('script','a',$pay_online);
+		}else{
+			//支付宝支付
+			$pay_online_url = $pay_obj -> get_code($order, unserialize_config($payment['pay_config']),false,true);
+		}
 
 		$order['pay_desc'] = $payment['pay_desc'];
 
 		$smarty -> assign('pay_online', $pay_online);
+		$smarty -> assign('pay_online_url', $pay_online_url);
+		$smarty -> assign('pay_id', $pay_id);
 	}
 
 	if (!empty($order['shipping_name'])) {
@@ -2171,7 +2191,7 @@ $smarty -> assign('step', $_REQUEST['step']);
 assign_dynamic('shopping_flow');
 
 $smarty -> assign('consignee_list', $consignee_list);
-//print_r($consignee_list);
+
 if ($_SESSION['user_auto_register'] == '11') {
 	//如果是那种非注册用户就要引导注册
 	$smarty -> display('order_set_password.dwt');
