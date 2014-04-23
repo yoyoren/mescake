@@ -1577,6 +1577,7 @@ elseif ($_REQUEST['step'] == 'done') {
 		$sql = "INSERT INTO " . $ecs -> table('order_goods') . "( " . "order_id, goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, goods_discount,is_integral) " . " values('$new_order_id', 60, '餐具套装', '00', '$sends','0', '',1,0) ";
 		$db -> query($sql);
 	}
+	/*
 	if (isset($_COOKIE['emar'])) {
 		include_once 'api/advertiser/Sender.php';
 		include_once 'api/advertiser/Order.php';
@@ -1631,7 +1632,7 @@ elseif ($_REQUEST['step'] == 'done') {
 		$sql = "INSERT INTO cps ( " . "order_id,src,channel,cid,wi,order_time)" . " values('$new_order_id','emar','cps'," . $arr[2] . ",'" . $arr[3] . "','" . $ordertime . "') ";
 		$db -> query($sql);
 
-	}
+	}*/
 
 	/* 处理余额、积分、红包 */
 	if ($order['user_id'] > 0 && $order['surplus'] > 0) {
@@ -2181,7 +2182,7 @@ $smarty -> assign('step', $_REQUEST['step']);
 assign_dynamic('shopping_flow');
 
 $smarty -> assign('consignee_list', $consignee_list);
-//print_r($consignee_list);
+
 if ($_SESSION['user_auto_register'] == '11') {
 	//如果是那种非注册用户就要引导注册
 	$smarty -> display('order_set_password.dwt');
