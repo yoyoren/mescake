@@ -92,6 +92,12 @@ class MES_Goods {
 				$fileContent = file_get_contents("./tmpl/cake_".$goods_id.".htm");
 				$fileContent = str_replace('{STATIC_DOMAIN}',STATIC_DOMAIN,$fileContent);
 				$smarty -> assign('staff_html', $fileContent);
+				$sql_get_nosugar = "select attr_value from ecs_goods_attr where goods_id={$goods_id} and attr_id=".ATTR_CAN_NO_SUGAR;
+				$sql_get_cancut = "select attr_value from ecs_goods_attr where goods_id={$goods_id} and attr_id=".ATTR_CAN_CUT;
+				$no_sugar = $db->getOne($sql_get_nosugar);
+				$can_cut = $db->getOne($sql_get_cancut);
+				$smarty -> assign('can_cut', $can_cut);
+				$smarty -> assign('no_sugar', $no_sugar);
 
 				/* 获得商品的信息 */
 				$goods = get_goods_info($goods_id);
@@ -125,15 +131,16 @@ class MES_Goods {
 							$goods['bonus_money'] = price_format($goods['bonus_money']);
 						}
 					}
-
+					$smarty -> assign('goods_name', $goods['goods_name']);
 					$smarty -> assign('goods', $goods);
 					$smarty -> assign('goods_id', $goods['goods_id']);
+					$smarty -> assign('goods_sn', $goods['goods_sn']);
 					$_SESSION['goods_ids'] = $goods['goods_id'];
 					$smarty -> assign('promote_end_time', $goods['gmt_end_time']);
 					$smarty -> assign('categories', get_categories_tree($goods['cat_id']));
 					// 分类树
 
-					/* meta */
+					//for seo
 					$smarty -> assign('keywords', htmlspecialchars($goods['keywords']));
 					$smarty -> assign('description', htmlspecialchars($goods['goods_brief']));
 
@@ -278,6 +285,16 @@ class MES_Goods {
 			
 		}
 		return $res;
+	}
+
+	//获得无糖的产品的规格价格
+	public static function get_nosugar_goods_attr($goods_id,$attr_value){
+		global $db;	
+		$sql = "select * from ecs_goods_attr where goods_id={$goods_id} and attr_value='{$attr_value}' and attr_id=".ATTR_NO_SUGAR;
+		$data = $db->getAll($sql);
+		$data = $data[0];
+		return json_encode(array('code'=>0,'data'=>$data));
+	
 	}
 
 }

@@ -1,5 +1,6 @@
 (function() {
   var jqFristSelection = $($('.js_choose_weight')[0]);
+  window.GOODS_WEIGHT = jqFristSelection.text();
   var attr = jqFristSelection.data('attr');
   var getPriceByAttr = function(attr){
 	  window.ATTR = attr;
@@ -13,6 +14,7 @@
 		},
 		callback : function(d) {
 		  var price = d.result;
+
 		  $('#price_container').show();
 		  $('#staff_price').html(price);
 		}
@@ -54,6 +56,7 @@
 	var jqThis = $(this);
 	var attr = jqThis.data('attr');
 	window.ATTR = attr;
+	window.GOODS_WEIGHT = jqThis.text();
 	//clear old style
 	$('#buy_area').find('li').removeClass('current');
 	$('#buy_area').find('em').removeClass('radiobox-checked');
@@ -95,19 +98,47 @@
 
 
   $('#order_now_btn').click(function() {
-    addToCart(window.GOODS_ID, function() {
-      MES.reload("/checkout");
-    });
+	  if(window.NO_SUGAR ==1||window.CAN_CUT==1){
+		 require(['ui/cakepopup'], function(cakepopup) {
+			cakepopup.show({
+				callback:function(cut,nosugar){
+					addToCart(window.GOODS_ID, function() {
+					  MES.reload("/checkout");
+					});
+				},
+			});
+		 });
+	  }else{
+		 addToCart(window.GOODS_ID, function() {
+		  MES.reload("/checkout");
+		});
+	  }
+
 	return false;
   });
 
   $('#add_to_cart_btn').click(function() {
-    addToCart(window.GOODS_ID, function() {
-      require(['ui/tip'], function(tip) {
-        new tip('该商品已经添加到购物车');
-      });
-	  MES.getGoodsCount();
-    });
+	  if(window.NO_SUGAR ==1||window.CAN_CUT==1){
+		 require(['ui/cakepopup'], function(cakepopup) {
+			cakepopup.show({
+				callback:function(cut,nosugar){
+					   addToCart(window.GOODS_ID, function() {
+						  require(['ui/tip'], function(tip) {
+							new tip('该商品已经添加到购物车');
+						  });
+						  MES.getGoodsCount();
+					 });
+				},
+			});
+		 });
+	  }else{
+		 addToCart(window.GOODS_ID, function() {
+		  require(['ui/tip'], function(tip) {
+			new tip('该商品已经添加到购物车');
+		  });
+		  MES.getGoodsCount();
+		});
+	  }
     return false;
   });
   var _html = '<div class="dialog" style=" z-index:1000; width:680px; margin-left:-340px; top:80px;" id="cat_dialog">\

@@ -355,7 +355,7 @@ switch ($mod) {
 			}
 
 	
-			if ($checkout_times > 3) {
+			if ($checkout_times > 50) {
 				error_reporting(0);
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
@@ -843,6 +843,10 @@ switch ($mod) {
 		}else if ($action == 'goods_detail_page') {
 			$goods_id = ANTI_SPAM($_GET['id']);
 			MES_Goods::goods_detail_page($goods_id);
+		}else if ($action == 'get_nosugar_goods_attr') {
+			$goods_id = ANTI_SPAM($_GET['id']);
+			$attr_value = ANTI_SPAM($_GET['attr_value']);
+			echo MES_Goods::get_nosugar_goods_attr($goods_id,$attr_value);
 		}
 		break;
 	case 'page':

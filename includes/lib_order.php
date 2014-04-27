@@ -468,7 +468,7 @@ function order_goods($order_id)
 {
     $sql = "SELECT rec_id, goods_id, goods_name, goods_sn,  goods_number, " .
             "goods_price, goods_attr, is_real, parent_id, is_gift, " .
-            "goods_price * goods_number AS subtotal, extension_code,origin_rec_id " .
+            "goods_price * goods_number AS subtotal, extension_code,origin_rec_id,goods_attr_id " .
             "FROM " . $GLOBALS['ecs']->table('order_goods') .
             " WHERE order_id = '$order_id'";
 
@@ -476,10 +476,16 @@ function order_goods($order_id)
 
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
-        if ($row['extension_code'] == 'package_buy')
-        {
+        if ($row['extension_code'] == 'package_buy'){
             $row['package_goods_list'] = get_package_goods($row['goods_id']);
         }
+
+		//为无糖增加的功能 要得到一个蛋糕的attr_id
+		if ($row['goods_attr_id']){
+			$goods_attr_id = $row['goods_attr_id'];
+			$sql_get_attr_type = "select attr_id from ecs_goods_attr where goods_attr_id={$goods_attr_id}";
+			$row['attr_id'] = $GLOBALS['db']->getOne($sql_get_attr_type);
+		}
         $goods_list[] = $row;
     }
 
@@ -1133,7 +1139,9 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
     $goods['market_price'] += $spec_price;
     $goods_attr             = get_goods_attr_info($spec);
     $goods_attr_id          = join(',', $spec);
-	
+	if($goods_attr_id ==NULL){
+		$goods_attr_id = $spec;
+	}
 	//如果是餐具 呵呵 悲剧了
 	if($goods_id == 60){
 		$goods_price = $num*0.5;

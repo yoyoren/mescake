@@ -58,3 +58,10 @@ height: 16px; width: 16px; background: url(img/dialog-close-btn.png) 0 0 no-repe
 .for4 .candle-item{width: 30px; *width: 28px;}
 .more-than4{line-height: 50px; }
 .more-than4 .candle-item{width: 30px; *width: 28px; *margin-top: 0;}
+
+/* 无糖设置 */
+.cake-tip-select{}
+.cts-img-item{display: block; margin: 0 auto 20px auto;}
+.cts-intro{margin: 10px; line-height: 1.5; padding-left: 24px; position: relative; font-size: 12px;}
+.cts-intro b{font-size: 14px;}
+.cts-intro .check-item{position: absolute; left: 0px; top: 4px; _left: -24px; _top:0;}

@@ -39,7 +39,8 @@ define(function(){
 			index:_index,
 			zIndex:zIndex++,
 			textStyle:opt.textStyle,
-			width:opt.width||'400'
+			width:opt.width||'400',
+			notShow:opt.notShow
 		});
 		$('body').append(html);
 		$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');
@@ -53,7 +54,11 @@ define(function(){
 		this.onshow = opt.onshow||function(){};
 		this.onclose = opt.onclose||function(){};
 		this.closeButton = $('#close_'+_index);
-		this.bind().show();
+		this.bind();
+		if(!opt.notShow){
+			this.show();
+		}
+		
 
 
 		///渲染后可以自己定义一些自定义事件
@@ -63,6 +68,9 @@ define(function(){
 	};
 
 	_dialog.prototype = {
+		setTitle:function(html){
+			this.el.find('.dia-title').html(html);
+		},
 		bind:function(){
 			var _self = this;
 			this.cancelButton&&this.cancelButton.click(function(){

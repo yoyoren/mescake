@@ -9,8 +9,12 @@
 </head>
 <body>
 <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+     <div class="cake-tip-area">
+	    <!-- {if $can_cut==1}--><p>本蛋糕可以做切块处理</p><!-- {/if}-->
+	    <!-- {if $no_sugar==1}--><p>本蛋糕可以做无糖版本（适合血糖敏感等人群使用）</p><!-- {/if}-->
+      </div>
     <div class="buy-container"  <!-- {if $goods_id!=68}-->style="top:190px;"<!-- {/if}-->>
-
+     
       <div class="buy-area" id="buy_area">
        
         <ul class="size-list">
@@ -85,6 +89,10 @@
     </div>
 <script>
 window.GOODS_ID = {$goods_id};
+window.CAN_CUT = '{$can_cut}';
+window.NO_SUGAR = '{$no_sugar}';
+window.GOODS_NAME = '{$goods_name}';
+window.GOODS_SN = '{$goods_sn}';
 </script>
 <script src="{$static_domain}js/jquery.json-1.3.js"></script>
 <script src="{$static_domain}script/page/goodsdetail.js"></script>
