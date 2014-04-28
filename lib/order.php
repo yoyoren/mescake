@@ -744,7 +744,7 @@ class MES_Order{
 	}
 
 	//增加到购物车
-	public static function add_to_cart($goods,$goods_id,$parent_id,$goods_attr=0){
+	public static function add_to_cart($goods,$goods_id,$parent_id,$goods_attr=0,$is_cut=0){
 		GLOBAL $db;
 		GLOBAL $ecs;
 		include_once('includes/cls_json.php');
@@ -792,7 +792,7 @@ class MES_Order{
 	            $result['goods_id'] = $goods->goods_id;
 	            $result['parent'] = $parent_id;
 	            $result['message'] = $spe_array;
-				// insert into ecs_attribute (attr_id,cat_id,attr_name,attr_input_type,attr_type,attr_values,attr_index,sort_order,is_linked,attr_group) values (23,1,1,1,1,1,1,1,1,1)
+	
 	            return json_encode($result);
 	        }
 	    }
@@ -808,7 +808,7 @@ class MES_Order{
 	        $result['message'] = $_LANG['invalid_number'];
 	    }else{
 	        // 更新：添加到购物车
-	        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent,$parent_id,$goods_attr)){
+	        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent,$parent_id,$goods_attr,$is_cut)){
 	            if ($_CFG['cart_confirm'] > 2){
 	                $result['message'] = '';
 	            }else{

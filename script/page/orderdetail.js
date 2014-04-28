@@ -60,7 +60,11 @@
 										<img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.jpg" class="od-img" width="70">\
 									<% } %>\
 								  </span><%=goods[i].goods_name%><%if(goods[i].goods_id != CAT_CAKE){%>（<%=goods[i].goods_attr%>）<% } %>\
-									<%if(goods[i].attr_id ==23){%> - 无糖<% } %>\
+									<%if(goods[i].attr_id ==23&&goods[i].is_cut ==1){%>- 无糖、切块\
+									<% } else {%>\
+										<%if(goods[i].attr_id ==23){%> - 无糖<% } %>\
+										<%if(goods[i].is_cut ==1){%> - 切块<% } %>\
+									<% } %>\
 								</a>\
 							<% } %>\
 						  </div>\

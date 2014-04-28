@@ -2,14 +2,14 @@ define(['ui/dialog'],function(Dialog){
 	var body = '<div class="cake-tip-select">\
           <img class="cts-img-item" id="popup_goods_image" src="http://mescake.com/themes/default/images/sgoods/S02.jpg">\
           <p class="cts-intro" id="can_cut_frame" style="display:none">\
-            <label for="check-item1">\
+            <label for="cut_check">\
               <input type="checkbox" class="check-item" id="cut_check">\
               <b>请帮我切块（免费）</b><br>\
               在制作时帮您把蛋糕切块，方便分享（1磅蛋糕可切9块）\
             </label>\
           </p>\
           <p class="cts-intro" id="no_sugar_frame" style="display:none"> \
-            <label for="check-item2"><input type="checkbox" class="check-item" id="nosugar_check">\
+            <label for="nosugar_check"><input type="checkbox" class="check-item" id="nosugar_check">\
             <b>请使用无糖食材制作（加￥<span id="nosugar_add_price"></span>元）</b><br>\
             一些蛋糕可以使用无糖的食材来制作，适合血糖敏感等人群食用</label>\
           </p>\
@@ -31,6 +31,7 @@ define(['ui/dialog'],function(Dialog){
 				 single = new Dialog({
 						title:'您选择了<span id="pop_goods_weight"></span>的<span id="pop_goods_name"></span>（￥<span id="pop_goods_price"></span>）',
 						notShow:true,
+						width:500,
 						onshow:function(d){
 							if(d){
 								var weight = window.GOODS_WEIGHT.split('：')[0];

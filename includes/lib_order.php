@@ -468,7 +468,7 @@ function order_goods($order_id)
 {
     $sql = "SELECT rec_id, goods_id, goods_name, goods_sn,  goods_number, " .
             "goods_price, goods_attr, is_real, parent_id, is_gift, " .
-            "goods_price * goods_number AS subtotal, extension_code,origin_rec_id,goods_attr_id " .
+            "goods_price * goods_number AS subtotal, extension_code,origin_rec_id,goods_attr_id,is_cut " .
             "FROM " . $GLOBALS['ecs']->table('order_goods') .
             " WHERE order_id = '$order_id'";
 
@@ -1039,7 +1039,7 @@ function cart_weight_price($type = CART_GENERAL_GOODS)
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id = 0,$p_goods_attr=0)
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id = 0,$p_goods_attr=0,$is_cut=0)
 {
     $GLOBALS['err']->clean();
     $_parent_id = $parent;
@@ -1175,6 +1175,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
         'is_shipping'   => $goods['is_shipping'],
         'rec_type'      => CART_GENERAL_GOODS,
 		'parent_id'=>$parent_id,
+		'is_cut'=>$is_cut,
     );
 
     /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
@@ -1275,7 +1276,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
                 " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
                 " AND parent_id = ".$parent_id." AND goods_attr = '" .$_attr. "' " .
                 " AND extension_code <> 'package_buy' " .
-                " AND rec_type = 'CART_GENERAL_GOODS'";
+                " AND rec_type = 'CART_GENERAL_GOODS' AND goods_attr_id={$goods_attr_id} AND is_cut={$is_cut}";
 
         $row = $GLOBALS['db']->getRow($sql);
 

@@ -47,7 +47,7 @@
 								<img style="height: auto" width="70" src="themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.jpg"  class="od-img"/>\
 							<% } %>\
 					     </span>\
-						 <span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%><% if(data[i].goods_id!=CAT_CAKE){%>（<%=data[i].goods_attr%>）<%if(data[i].attr_id=="23"){%>- 无糖<% } %> <% } %><% } %></span>\
+						 <span class="or-name-intro"><%=data[i].goods_name%><%if(data[i].goods_attr){%><% if(data[i].goods_id!=CAT_CAKE){%>（<%=data[i].goods_attr%>）<%if(data[i].attr_id=="23"||data[i].is_cut=="1"){%> - <% } %><%if(data[i].attr_id=="23"){%>无糖<% } %> <%if(data[i].is_cut=="1"){%>切块<% } %> <% } %><% } %></span>\
 						 </a>\
 					  </div>\
 					  <div class="od-title2">￥<%=data[i].goods_price%></div>\

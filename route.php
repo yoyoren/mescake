@@ -415,6 +415,7 @@ switch ($mod) {
 			$parent_id = ANTI_SPAM($_POST['parent_id'],array('empty'=>true));
 			$goods_id = ANTI_SPAM($_POST['goods_id']);
 			$goods_attr = ANTI_SPAM($_POST['goods_attr'],array('empty'=>true));
+			$is_cut = ANTI_SPAM($_POST['is_cut'],array('empty'=>true));
 			if (!empty($goods_id) && empty($goods)) {
 				if (!is_numeric($goods_id) || intval($goods_id) <= 0) {
 					ecs_header("Location:./\n");
@@ -434,7 +435,7 @@ switch ($mod) {
 				}
 			}
 		
-			echo MES_Order::add_to_cart($goods, ANTI_SPAM($goods_id),$parent_id,$goods_attr);
+			echo MES_Order::add_to_cart($goods, ANTI_SPAM($goods_id),$parent_id,$goods_attr,$is_cut);
 		} else if ($action == 'shipping_fee_cal') {
 
 			//计算配送的费用

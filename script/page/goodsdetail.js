@@ -1,6 +1,8 @@
 (function() {
+  window.IS_CUT = 0;
   var jqFristSelection = $($('.js_choose_weight')[0]);
   window.GOODS_WEIGHT = jqFristSelection.text();
+
   var attr = jqFristSelection.data('attr');
   var getPriceByAttr = function(attr){
 	  window.ATTR = attr;
@@ -88,10 +90,12 @@
 		param:{
 		  goods : $.toJSON(goods),
 		  goods_id : goodsId,
-		  parent_id :0
+		  parent_id :0,
+		  is_cut:window.IS_CUT
 		},
 		callback:function(){
 		   callback();
+		   window.IS_CUT = 0;
 		}
 	});
   }
@@ -102,6 +106,9 @@
 		 require(['ui/cakepopup'], function(cakepopup) {
 			cakepopup.show({
 				callback:function(cut,nosugar){
+					if(cut){
+						window.IS_CUT = 1;
+					}
 					addToCart(window.GOODS_ID, function() {
 					  MES.reload("/checkout");
 					});
@@ -122,7 +129,10 @@
 		 require(['ui/cakepopup'], function(cakepopup) {
 			cakepopup.show({
 				callback:function(cut,nosugar){
-					   addToCart(window.GOODS_ID, function() {
+					if(cut){
+						window.IS_CUT = 1;
+					}
+					addToCart(window.GOODS_ID, function() {
 						  require(['ui/tip'], function(tip) {
 							new tip('该商品已经添加到购物车');
 						  });
