@@ -100,47 +100,98 @@
 	});
   }
 
+function getAddServiceInfo(hasInfoCB,noInfoCB) {
+	MES.get({
+		mod : 'goods',
+		action : 'get_cutnum_goods_attr',
+		param : {
+			id : window.GOODS_ID,
+			attr_value : window.GOODS_WEIGHT
+		},
+		callback : function(d1) {
+				MES.get({
+					mod : 'goods',
+					action : 'get_nosugar_goods_attr',
+					param : {
+						id : window.GOODS_ID,
+						attr_value : window.GOODS_WEIGHT
+					},
+					callback : function(d2) {
+						if(d1.data||d2.data){
+							hasInfoCB(d1.data,d2.data);
+						}else{
+							noInfoCB();
+						}
+					}
+				});
+		}
+	});
+}
 
   $('#order_now_btn').click(function() {
 	  if(window.NO_SUGAR ==1||window.CAN_CUT==1){
-		 require(['ui/cakepopup'], function(cakepopup) {
-			cakepopup.show({
-				callback:function(cut,nosugar){
-					if(cut){
-						window.IS_CUT = 1;
+		 getAddServiceInfo(function(d1,d2){
+			require(['ui/cakepopup'], function(cakepopup) {
+				cakepopup.show({
+					cancut:d1,
+					nosugar:d2,
+					callback:function(cut,nosugar){
+						if(cut){
+							window.IS_CUT = 1;
+						}
+						addToCart(window.GOODS_ID, function() {
+						  MES.reload("/checkout");
+						});
 					}
-					addToCart(window.GOODS_ID, function() {
-					  MES.reload("/checkout");
-					});
-				}
-			});
+				});
+			 });
+		 },function(){
+			 addToCart(window.GOODS_ID, function() {
+			  MES.reload("/checkout");
+			 });
 		 });
 	  }else{
 		 addToCart(window.GOODS_ID, function() {
 		  MES.reload("/checkout");
-		});
+		 });
 	  }
 
 	return false;
-  });
+
+});
+
+
+
 
   $('#add_to_cart_btn').click(function() {
 	  if(window.NO_SUGAR ==1||window.CAN_CUT==1){
-		 require(['ui/cakepopup'], function(cakepopup) {
-			cakepopup.show({
-				callback:function(cut,nosugar){
-					if(cut){
-						window.IS_CUT = 1;
+		 getAddServiceInfo(function(d1,d2){
+			 require(['ui/cakepopup'], function(cakepopup) {
+				cakepopup.show({
+					cancut:d1,
+					nosugar:d2,
+					callback:function(cut,nosugar){
+						if(cut){
+							window.IS_CUT = 1;
+						}
+						addToCart(window.GOODS_ID, function() {
+							  require(['ui/tip'], function(tip) {
+								new tip('该商品已经添加到购物车');
+							  });
+							  MES.getGoodsCount();
+						 });
 					}
-					addToCart(window.GOODS_ID, function() {
-						  require(['ui/tip'], function(tip) {
-							new tip('该商品已经添加到购物车');
-						  });
-						  MES.getGoodsCount();
-					 });
-				}
+				});
+			 });
+		 },function(){
+			addToCart(window.GOODS_ID, function() {
+			  require(['ui/tip'], function(tip) {
+				new tip('该商品已经添加到购物车');
+			  });
+			  MES.getGoodsCount();
 			});
 		 });
+		 
 	  }else{
 		 addToCart(window.GOODS_ID, function() {
 		  require(['ui/tip'], function(tip) {

@@ -912,7 +912,7 @@
 				var selTime = (new Date(date)).getTime();
 				var _html='<option value="0">小时</option>';
 				JQ.minute_picker.show();
-				if(window.HAS_BIG_STAFF){
+				if(window.HAS_BIG_STAFF||window.HAS_NO_SUGAR_STAFF){
 					if(selTime - currTime > 3600*1000*24){
 						for(var i=14;i<=22;i++){
 							_html+='<option value="'+i+'">'+i+'</option>';

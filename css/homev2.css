@@ -500,8 +500,8 @@ a.btn:hover{text-decoration: none;}
 .luck-light{color: #ff5c26;}
 
 /* 无糖提示 */
-.cake-tip-area{padding-left: 60px; background: url(img/tips-ico.png) 10px center no-repeat; _background: url(img/tips-ico.gif) 10px center no-repeat; width: 900px; 
-  margin: 0 auto; position: absolute; top:164px; z-index: 1; left: 50%; margin-left: -480px;}
+.cake-tip-area{padding-left: 60px; background: url(img/tips-ico.png) 10px center no-repeat; _background: url(img/tips-ico.gif) 10px 0 no-repeat; width: 900px; 
+  margin: 0 auto; position: absolute; top:164px; z-index: 1; left: 50%; margin-left: -480px; height: 26px;}
 .cake-tip-area p{color: #f0809d; font-size: 14px;}
 
 /* 底部 */

@@ -225,6 +225,10 @@
 						$('#cash_radio').hide();
 						$('#cash_sel').hide();
 					}
+
+					if(_good.attr_id==23){
+						window.HAS_NO_SUGAR_STAFF = true;
+					}
 				}
 		
 			 	var html = mstmpl(orderListTmpl,{

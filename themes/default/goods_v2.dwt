@@ -9,10 +9,12 @@
 </head>
 <body>
 <!-- #BeginLibraryItem "/lib/header_v2.lbi" --><!-- #EndLibraryItem -->
+     <!-- {if $can_cut==1||$no_sugar==1}-->
      <div class="cake-tip-area">
 	    <!-- {if $can_cut==1}--><p>本蛋糕可以做切块处理</p><!-- {/if}-->
 	    <!-- {if $no_sugar==1}--><p>本蛋糕可以做无糖版本（适合血糖敏感等人群使用）</p><!-- {/if}-->
       </div>
+      <!-- {/if}-->
     <div class="buy-container"  <!-- {if $goods_id!=68}-->style="top:190px;"<!-- {/if}-->>
      
       <div class="buy-area" id="buy_area">

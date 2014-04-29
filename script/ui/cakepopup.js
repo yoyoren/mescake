@@ -49,43 +49,24 @@ define(['ui/dialog'],function(Dialog){
 									$('#no_sugar_frame').show();
 								}
 								$('#cut_weight_display').html(weight);
-								MES.get({
-									mod:'goods',
-									action:'get_cutnum_goods_attr',
-									param:{
-									  id : window.GOODS_ID,
-									  attr_value :window.GOODS_WEIGHT
-									},
-									callback:function(d){
-										if(d.data){
+										if(d.cancut){
 											$('#can_cut_frame').show();
-											$('#popup_cut_num').html(d.data.attr_price);
+											$('#popup_cut_num').html(d.cancut.attr_price);
 										}else{
 											$('#can_cut_frame').hide();
 										}
-									}
-								});
 
-								MES.get({
-									mod:'goods',
-									action:'get_nosugar_goods_attr',
-									param:{
-									  id : window.GOODS_ID,
-									  attr_value :window.GOODS_WEIGHT
-									},
-									callback:function(d){
-										if(d.data){
-											var nosuagr_price = d.data.attr_price;
+
+										if(d.nosugar){
+											var nosuagr_price = d.nosugar.attr_price;
 											price = price.replace('￥');
 											var add_price = nosuagr_price - price;
 											$('#nosugar_add_price').html(add_price);
-											no_sugar_attrid = d.data.goods_attr_id;
+											no_sugar_attrid = d.nosugar.goods_attr_id;
 										}else{	
 											$('#no_sugar_frame').hide();
 										}
-										
-									}
-								});
+
 								
 							}
 						},
