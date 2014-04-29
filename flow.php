@@ -1279,6 +1279,41 @@ elseif ($_REQUEST['step'] == 'done') {
 	$shipping_fee = trim($shipping_fee);
 	$leaving_message = isset($_POST['leaving_message']) ? $_POST['leaving_message']: "";
 	//$leaving_message = isset($_POST['leaving_message']) ? ($_POST['leaving_message'] == "输入内容" ? "" : $_POST['leaving_message']) : "";
+	/* 订单中的商品 */
+	$leaving_message.=';;;;[制作需求]：';
+	$cart_goods = cart_goods($flow_type);
+	$cart_goods_count = count($cart_goods);
+	$product_message = '';
+	for($i=0;$i<$cart_goods_count;$i++){
+		$curr_goods = $cart_goods[$i];
+		$curr_message = $curr_goods['goods_name'].$curr_goods['goods_attr'];
+		$curr_no_sugar = false;
+		$_goods_attr_id = $curr_goods['goods_attr_id'];
+		if($_goods_attr_id>1000){
+			$sql_get_attr_type = "select attr_id from ecs_goods_attr where goods_attr_id={$_goods_attr_id}";
+			$cur_attr_id = $GLOBALS['db']->getOne($sql_get_attr_type);
+			if($cur_attr_id == ATTR_NO_SUGAR){
+				$curr_message.='[无糖制作]';
+				$curr_no_sugar = true;
+			}
+		}
+
+		if($curr_goods['is_cut']==1){
+			$curr_message.='[需要切块]';
+		}
+		if($curr_goods['is_cut']==1||$curr_no_sugar){
+			$curr_message.='X'. $curr_goods['goods_number'].';';
+			$product_message.=$curr_message;
+		}
+		
+	}
+
+	if($product_message == ''){
+		$product_message = '无';
+	}
+
+	$leaving_message.=$product_message;
+	
 	$order = array(
 		'shipping_id' => intval($_POST['shipping']), 
 		'pay_id' => intval($pay_id), 
@@ -1354,13 +1389,11 @@ elseif ($_REQUEST['step'] == 'done') {
 	}
 
 
-	/* 订单中的商品 */
-	$cart_goods = cart_goods($flow_type);
+	
 
 	if (empty($cart_goods)) {
 		header("Location: route.php?mod=order&action=empty");
 		return;
-		//show_message($_LANG['no_goods_in_cart'], $_LANG['back_home'], './', 'warning');
 	}
 
 	/* 检查商品总额是否达到最低限购金额 */
