@@ -250,7 +250,7 @@ define('RES_NEED_CHANGE_PASSWORD','10008');
 define('ATTR_CAN_CUT',20);
 //可做无糖
 define('ATTR_CAN_NO_SUGAR',21);
-define('ATTR_CAN_CUT_SIZE',24);
+define('ATTR_CAN_CUT_SIZE',22);
 define('ATTR_NO_SUGAR',23);
 define('ATTR_YES',1);
 define('ATTR_NO',0);

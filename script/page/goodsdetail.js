@@ -112,7 +112,7 @@
 					addToCart(window.GOODS_ID, function() {
 					  MES.reload("/checkout");
 					});
-				},
+				}
 			});
 		 });
 	  }else{
@@ -138,7 +138,7 @@
 						  });
 						  MES.getGoodsCount();
 					 });
-				},
+				}
 			});
 		 });
 	  }else{

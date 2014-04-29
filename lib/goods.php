@@ -297,5 +297,14 @@ class MES_Goods {
 	
 	}
 
+	public static function get_cutnum_goods_attr($goods_id,$attr_value){
+		global $db;	
+		$sql = "select * from ecs_goods_attr where goods_id={$goods_id} and attr_value='{$attr_value}' and attr_id=".ATTR_CAN_CUT_SIZE;
+		$data = $db->getAll($sql);
+		$data = $data[0];
+		return json_encode(array('code'=>0,'data'=>$data));
+	
+	}
+
 }
 ?>

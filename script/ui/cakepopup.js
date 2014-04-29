@@ -5,7 +5,7 @@ define(['ui/dialog'],function(Dialog){
             <label for="cut_check">\
               <input type="checkbox" class="check-item" id="cut_check">\
               <b>请帮我切块（免费）</b><br>\
-              在制作时帮您把蛋糕切块，方便分享（1磅蛋糕可切9块）\
+              在制作时帮您把蛋糕切块，方便分享（<span id="cut_weight_display"></span>蛋糕可切<span id="popup_cut_num"></span>块）\
             </label>\
           </p>\
           <p class="cts-intro" id="no_sugar_frame" style="display:none"> \
@@ -48,6 +48,23 @@ define(['ui/dialog'],function(Dialog){
 								if(window.NO_SUGAR){
 									$('#no_sugar_frame').show();
 								}
+								$('#cut_weight_display').html(weight);
+								MES.get({
+									mod:'goods',
+									action:'get_cutnum_goods_attr',
+									param:{
+									  id : window.GOODS_ID,
+									  attr_value :window.GOODS_WEIGHT
+									},
+									callback:function(d){
+										if(d.data){
+											$('#can_cut_frame').show();
+											$('#popup_cut_num').html(d.data.attr_price);
+										}else{
+											$('#can_cut_frame').hide();
+										}
+									}
+								});
 
 								MES.get({
 									mod:'goods',
@@ -71,9 +88,6 @@ define(['ui/dialog'],function(Dialog){
 								});
 								
 							}
-						},
-						onconfirm:function(){
-						
 						},
 						bottom: ' ',
 						body:body,
