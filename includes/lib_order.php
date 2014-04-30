@@ -1143,8 +1143,9 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
 	if($goods_attr_id ==NULL){
 		$goods_attr_id = $spec;
 	}
-
-	if(empty(array_filter($goods_attr_id))){
+	
+	//如果是空数组 就把这个值设置为0
+	if(is_array($goods_attr_id)&&empty(array_filter($goods_attr_id))){
 		$goods_attr_id = 0;
 	}
 	
