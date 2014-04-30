@@ -1139,9 +1139,16 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
     $goods['market_price'] += $spec_price;
     $goods_attr             = get_goods_attr_info($spec);
     $goods_attr_id          = join(',', $spec);
+	
 	if($goods_attr_id ==NULL){
 		$goods_attr_id = $spec;
 	}
+
+	if(empty(array_filter($goods_attr_id))){
+		$goods_attr_id = 0;
+	}
+	
+
 	//如果是餐具 呵呵 悲剧了
 	if($goods_id == 60){
 		$goods_price = $num*0.5;
@@ -1276,7 +1283,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
                 " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
                 " AND parent_id = ".$parent_id." AND goods_attr = '" .$_attr. "' " .
                 " AND extension_code <> 'package_buy' " .
-                " AND rec_type = 'CART_GENERAL_GOODS' AND goods_attr_id={$goods_attr_id} AND is_cut={$is_cut}";
+                " AND rec_type = 'CART_GENERAL_GOODS' AND goods_attr_id={$goods_attr_id} AND is_cut='{$is_cut}'";
 
         $row = $GLOBALS['db']->getRow($sql);
 
@@ -2950,12 +2957,13 @@ function add_package_to_cart($package_id, $num = 1)
     /* 如果数量不为0，作为基本件插入 */
     if ($num > 0)
     {
+			
          /* 检查该商品是否已经存在在购物车中 */
         $sql = "SELECT goods_number FROM " .$GLOBALS['ecs']->table('cart').
                 " WHERE session_id = '" .SESS_ID. "' AND goods_id = '" . $package_id . "' ".
                 " AND parent_id = 0 AND extension_code = 'package_buy' " .
                 " AND rec_type = '" . CART_GENERAL_GOODS . "'";
-
+	
         $row = $GLOBALS['db']->getRow($sql);
 
         if($row) //如果购物车已经有此物品，则更新

@@ -49,7 +49,8 @@ define(['ui/dialog'],function(Dialog){
 					goods : $.toJSON(goods),
 					goods_id : candleId,
 					parent_id : parent_id,
-					goods_attr: goods_attr||0
+					goods_attr: goods_attr||0,
+					is_cut:0
 				},
 				callback:function(d){
 					callback(d,candleId);

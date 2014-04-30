@@ -492,7 +492,8 @@
 						  $.post('route.php?mod=order&action=add_to_cart', {
 							goods:$.toJSON(goods),
 							goods_id:FORK,
-							parent_id:0
+							parent_id:0,
+							is_cut:0
 						  }, function(d){
 						  		//第一次加蜡烛没有总价
 						  		d.data.subtotal = '￥5.00';

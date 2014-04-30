@@ -343,6 +343,7 @@
 						//hide new form area and clear it
 						JQ.new_address_form.hide();
 						me.clearAddressForm();
+						me.ifAddressNeedFee();
 					}
 
 				},'json');
@@ -594,7 +595,7 @@
 			
 			if(!me.vaildDate()){
 				require(['ui/confirm'],function(confirm){
-					new confirm('您选择的送货日期不正确，请重新选择',function(){});
+					new confirm('您选择的送货时间或日期不正确，请重新选择',function(){});
 				});
 				me._submitFail();
 				return;
@@ -918,7 +919,12 @@
 							_html+='<option value="'+i+'">'+i+'</option>';
 						}
 					}else{
-						_html=('<option value="0">大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
+						if(window.HAS_NO_SUGAR_STAFF){
+							_html=('<option value="0">无糖蛋糕制作需要24小时，所选择日期不能送货</option>');
+						}else{
+							_html=('<option value="0">大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
+						}
+						
 						JQ.minute_picker.hide();
 					}
 				}else{
