@@ -44,7 +44,11 @@ height: 16px; width: 16px; background: url(img/dialog-close-btn.png) 0 0 no-repe
 
 /* 蜡烛弹框 */
 .check-candle-area{}
-.cca-item{overflow: hidden; height: 130px; border: 1px solid #ccc; border-radius: 10px; margin-bottom: 10px; padding: 1px;}
+.cca-item{float: left; width: 190px; text-align: center;}
+.cca-img-area{text-align: center;}
+.cca-intro{margin: 15px 0;}
+
+/*.cca-item{overflow: hidden; height: 130px; border: 1px solid #ccc; border-radius: 10px; margin-bottom: 10px; padding: 1px;}
 .cca-item-current{border: 2px solid #85c3e9; padding: 0;}
 .cca-item .fl-l{vertical-align: middle;}
 .cca-item .radiobox-item{margin: 50px 20px 0 30px;}
@@ -57,4 +61,11 @@ height: 16px; width: 16px; background: url(img/dialog-close-btn.png) 0 0 no-repe
 .candle-item{width: 40px; *width: 38px; vertical-align: middle; display: inline-block; *margin-top:20px;}
 .for4 .candle-item{width: 30px; *width: 28px;}
 .more-than4{line-height: 50px; }
-.more-than4 .candle-item{width: 30px; *width: 28px; *margin-top: 0;}
+.more-than4 .candle-item{width: 30px; *width: 28px; *margin-top: 0;}*/
+
+/* 无糖设置 */
+.cake-tip-select{}
+.cts-img-item{display: block; margin: 0 auto 20px auto;}
+.cts-intro{margin: 10px; line-height: 1.5; padding-left: 24px; position: relative; font-size: 12px;}
+.cts-intro b{font-size: 14px;}
+.cts-intro .check-item{position: absolute; left: 0px; top: 4px; _left: -24px; _top:0;}

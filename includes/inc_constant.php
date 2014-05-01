@@ -244,4 +244,14 @@ define('RES_NEED_LOGIN','10005');
 define('RES_PARAM_INVAILD','10006');
 define('RES_CAPTACH_INVAILD','10007');
 define('RES_NEED_CHANGE_PASSWORD','10008');
+
+//商品的附加属性
+//可切块
+define('ATTR_CAN_CUT',20);
+//可做无糖
+define('ATTR_CAN_NO_SUGAR',21);
+define('ATTR_CAN_CUT_SIZE',22);
+define('ATTR_NO_SUGAR',23);
+define('ATTR_YES',1);
+define('ATTR_NO',0);
 ?>

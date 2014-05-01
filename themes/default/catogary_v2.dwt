@@ -72,7 +72,7 @@
 	   {/foreach}
       </div>
       {/foreach}
-
+      <div style="height:100px;"></div><!-- 用于页面占空间 -->
       <div class="tl-c" style="display:none">
         <p class="pro-more"><a href="#">需要特别的蛋糕？来看看我们的定制服务</a></p>
       </div>

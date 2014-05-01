@@ -127,6 +127,7 @@ class MES_Order{
 		//require(ROOT_PATH . 'includes/lib_order.php');
 		//require(ROOT_PATH . 'includes/lib_transaction.php');
 		GLOBAL $GOODS_FREE_FORK;
+		GLOBAL $db;
 
 	    $goods_list = array();
 	    $total = array(
@@ -157,6 +158,12 @@ class MES_Order{
 	        $row['goods_price']  = $row['goods_price'];
 	        $row['market_price'] = price_format($row['market_price'], false);
 			$row['url'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
+			$goods_attr_id = $row['goods_attr_id'];
+			
+			if($goods_attr_id){
+				$sql_get_attr_type = "select attr_id from ecs_goods_attr where goods_attr_id={$goods_attr_id}";
+				$row['attr_id'] = $db->getOne($sql_get_attr_type);
+			}
 	        /* 统计实体商品和虚拟商品的个数 */
 	        if ($row['is_real']){
 	            $real_goods_count++;
@@ -166,8 +173,8 @@ class MES_Order{
 
 
 	        //增加是否在购物车里显示商品图 
-	        $goods_thumb = $GLOBALS['db']->getOne("SELECT `goods_thumb` FROM " . $GLOBALS['ecs']->table('goods') . " WHERE `goods_id`='{$row['goods_id']}'");
-	        $row['goods_thumb'] = get_image_path($row['goods_id'], $goods_thumb, true);
+	        //$goods_thumb = $GLOBALS['db']->getOne("SELECT `goods_thumb` FROM " . $GLOBALS['ecs']->table('goods') . " WHERE `goods_id`='{$row['goods_id']}'");
+	        //$row['goods_thumb'] = get_image_path($row['goods_id'], $goods_thumb, true);
 	        
 	        if ($row['extension_code'] == 'package_buy'){
 	            $row['package_goods_list'] = get_package_goods($row['goods_id']);
@@ -737,7 +744,7 @@ class MES_Order{
 	}
 
 	//增加到购物车
-	public static function add_to_cart($goods,$goods_id,$parent_id,$goods_attr=0){
+	public static function add_to_cart($goods,$goods_id,$parent_id,$goods_attr=0,$is_cut=0){
 		GLOBAL $db;
 		GLOBAL $ecs;
 		include_once('includes/cls_json.php');
@@ -785,7 +792,7 @@ class MES_Order{
 	            $result['goods_id'] = $goods->goods_id;
 	            $result['parent'] = $parent_id;
 	            $result['message'] = $spe_array;
-
+	
 	            return json_encode($result);
 	        }
 	    }
@@ -801,7 +808,7 @@ class MES_Order{
 	        $result['message'] = $_LANG['invalid_number'];
 	    }else{
 	        // 更新：添加到购物车
-	        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent,$parent_id,$goods_attr)){
+	        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent,$parent_id,$goods_attr,$is_cut)){
 	            if ($_CFG['cart_confirm'] > 2){
 	                $result['message'] = '';
 	            }else{

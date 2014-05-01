@@ -468,7 +468,7 @@ function order_goods($order_id)
 {
     $sql = "SELECT rec_id, goods_id, goods_name, goods_sn,  goods_number, " .
             "goods_price, goods_attr, is_real, parent_id, is_gift, " .
-            "goods_price * goods_number AS subtotal, extension_code,origin_rec_id " .
+            "goods_price * goods_number AS subtotal, extension_code,origin_rec_id,goods_attr_id,is_cut " .
             "FROM " . $GLOBALS['ecs']->table('order_goods') .
             " WHERE order_id = '$order_id'";
 
@@ -476,10 +476,16 @@ function order_goods($order_id)
 
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
-        if ($row['extension_code'] == 'package_buy')
-        {
+        if ($row['extension_code'] == 'package_buy'){
             $row['package_goods_list'] = get_package_goods($row['goods_id']);
         }
+
+		//为无糖增加的功能 要得到一个蛋糕的attr_id
+		if ($row['goods_attr_id']){
+			$goods_attr_id = $row['goods_attr_id'];
+			$sql_get_attr_type = "select attr_id from ecs_goods_attr where goods_attr_id={$goods_attr_id}";
+			$row['attr_id'] = $GLOBALS['db']->getOne($sql_get_attr_type);
+		}
         $goods_list[] = $row;
     }
 
@@ -879,7 +885,7 @@ function get_order_sn()
 function cart_goods($type = CART_GENERAL_GOODS)
 {
     $sql = "SELECT rec_id, user_id, goods_id, goods_name, goods_sn, goods_number, " .
-            "market_price, goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, is_shipping, " .
+            "market_price, goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, is_shipping,  goods_attr_id,is_cut," .
             "goods_price * goods_number AS subtotal " .
             "FROM " . $GLOBALS['ecs']->table('cart') .
             " WHERE session_id = '" . SESS_ID . "' " .
@@ -1033,7 +1039,7 @@ function cart_weight_price($type = CART_GENERAL_GOODS)
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id = 0,$p_goods_attr=0)
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id = 0,$p_goods_attr=0,$is_cut=0)
 {
     $GLOBALS['err']->clean();
     $_parent_id = $parent;
@@ -1134,6 +1140,16 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
     $goods_attr             = get_goods_attr_info($spec);
     $goods_attr_id          = join(',', $spec);
 	
+	if($goods_attr_id ==NULL){
+		$goods_attr_id = $spec;
+	}
+	
+	//如果是空数组 就把这个值设置为0
+	if(is_array($goods_attr_id)&&empty(array_filter($goods_attr_id))){
+		$goods_attr_id = 0;
+	}
+	
+
 	//如果是餐具 呵呵 悲剧了
 	if($goods_id == 60){
 		$goods_price = $num*0.5;
@@ -1167,6 +1183,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
         'is_shipping'   => $goods['is_shipping'],
         'rec_type'      => CART_GENERAL_GOODS,
 		'parent_id'=>$parent_id,
+		'is_cut'=>$is_cut,
     );
 
     /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
@@ -1267,7 +1284,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
                 " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
                 " AND parent_id = ".$parent_id." AND goods_attr = '" .$_attr. "' " .
                 " AND extension_code <> 'package_buy' " .
-                " AND rec_type = 'CART_GENERAL_GOODS'";
+                " AND rec_type = 'CART_GENERAL_GOODS' AND goods_attr_id={$goods_attr_id} AND is_cut='{$is_cut}'";
 
         $row = $GLOBALS['db']->getRow($sql);
 
@@ -2941,12 +2958,13 @@ function add_package_to_cart($package_id, $num = 1)
     /* 如果数量不为0，作为基本件插入 */
     if ($num > 0)
     {
+			
          /* 检查该商品是否已经存在在购物车中 */
         $sql = "SELECT goods_number FROM " .$GLOBALS['ecs']->table('cart').
                 " WHERE session_id = '" .SESS_ID. "' AND goods_id = '" . $package_id . "' ".
                 " AND parent_id = 0 AND extension_code = 'package_buy' " .
                 " AND rec_type = '" . CART_GENERAL_GOODS . "'";
-
+	
         $row = $GLOBALS['db']->getRow($sql);
 
         if($row) //如果购物车已经有此物品，则更新

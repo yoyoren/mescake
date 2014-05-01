@@ -355,7 +355,7 @@ switch ($mod) {
 			}
 
 	
-			if ($checkout_times > 3) {
+			if ($checkout_times > 50) {
 				error_reporting(0);
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
@@ -415,6 +415,7 @@ switch ($mod) {
 			$parent_id = ANTI_SPAM($_POST['parent_id'],array('empty'=>true));
 			$goods_id = ANTI_SPAM($_POST['goods_id']);
 			$goods_attr = ANTI_SPAM($_POST['goods_attr'],array('empty'=>true));
+			$is_cut = ANTI_SPAM($_POST['is_cut'],array('empty'=>true));
 			if (!empty($goods_id) && empty($goods)) {
 				if (!is_numeric($goods_id) || intval($goods_id) <= 0) {
 					ecs_header("Location:./\n");
@@ -434,7 +435,7 @@ switch ($mod) {
 				}
 			}
 		
-			echo MES_Order::add_to_cart($goods, ANTI_SPAM($goods_id),$parent_id,$goods_attr);
+			echo MES_Order::add_to_cart($goods, ANTI_SPAM($goods_id),$parent_id,$goods_attr,$is_cut);
 		} else if ($action == 'shipping_fee_cal') {
 
 			//计算配送的费用
@@ -843,7 +844,17 @@ switch ($mod) {
 		}else if ($action == 'goods_detail_page') {
 			$goods_id = ANTI_SPAM($_GET['id']);
 			MES_Goods::goods_detail_page($goods_id);
+		}else if ($action == 'get_nosugar_goods_attr') {
+			$goods_id = ANTI_SPAM($_GET['id']);
+			$attr_value = ANTI_SPAM($_GET['attr_value']);
+			echo MES_Goods::get_nosugar_goods_attr($goods_id,$attr_value);
+		}else if ($action == 'get_cutnum_goods_attr') {
+			$goods_id = ANTI_SPAM($_GET['id']);
+			$attr_value = ANTI_SPAM($_GET['attr_value']);
+			echo MES_Goods::get_cutnum_goods_attr($goods_id,$attr_value);
 		}
+
+		
 		break;
 	case 'page':
 			if ($action == 'index') {

@@ -343,6 +343,7 @@
 						//hide new form area and clear it
 						JQ.new_address_form.hide();
 						me.clearAddressForm();
+						me.ifAddressNeedFee();
 					}
 
 				},'json');
@@ -594,7 +595,7 @@
 			
 			if(!me.vaildDate()){
 				require(['ui/confirm'],function(confirm){
-					new confirm('您选择的送货日期不正确，请重新选择',function(){});
+					new confirm('您选择的送货时间或日期不正确，请重新选择',function(){});
 				});
 				me._submitFail();
 				return;
@@ -616,13 +617,6 @@
 				action:'save_consignee',
 				mod:'order',
 				param:data||{},
-				onerror:function(d){
-					if(d.msg=='time error'){
-						require(["ui/confirm"], function(confirm) {
-							new confirm('您所选择的送货时间距离制作时间少于5小时，请重新选择!');
-						});
-					}
-				},
 				callback:function(d){
 					if(d.msg=='time error'){
 						require(["ui/confirm"], function(confirm) {
@@ -631,6 +625,10 @@
 					}
 
 					if(d.code!=0){
+						require(["ui/confirm"], function(confirm) {
+							new confirm('您所填写的收货信息不完善，您可以尝试重新填写后再提交');
+						});
+
 						me._submitFail();
 						return;
 					}
@@ -646,41 +644,46 @@
 							MES.inputError('new_tel_error');
 							return;
 						}
-
-						$.get('route.php?action=check_user_exsit&mod=account',{
-							_tc:Math.random(),
-							username:username
-						},function(d){
-							//用户已经存在于数据库中
-							if(d.exsit){
-								require(['ui/confirm'],function(confirm){
-									var _confirm = new confirm('您所使用的手机号已经被注册，请登录后再继续订购',function(){
-										_confirm.close();
-										require(["ui/login"], function(login) {login.show();});
+						MES.get({
+							mod:'account',
+							action:'check_user_exsit',
+							param:{username:username},
+							callback:function(d){
+								//用户已经存在于数据库中
+								if(d.exsit){
+									require(['ui/confirm'],function(confirm){
+										var _confirm = new confirm('您所使用的手机号已经被注册，请登录后再继续订购',function(){
+											_confirm.close();
+											require(["ui/login"], function(login) {login.show();});
+										});
 									});
-								});
-								
-								me._submitFail();
-							}else{
-								
-								//给这个用户注册一个账户 并且帮他登录
-								var username = data.mobile;
-								if(data.serect){
-									username = data.myphone;
-								}
-								$.post('route.php?action=auto_register&mod=account',{
-									username:username
-								},function(d){
-				
-									if(d.code == 0){
-										//注册成功后给这个用户结帐
-										me.checkout();
-									}else{
-										me._submitFail();
+									
+									me._submitFail();
+								}else{
+									
+									//给这个用户注册一个账户 并且帮他登录
+									var username = data.mobile;
+									if(data.serect){
+										username = data.myphone;
 									}
-								},'json');
+									MES.post({
+										mod:'account',
+										action:'auto_register',
+										param:{username:username},
+										callback:function(d){
+											if(d.code == 0){
+												//注册成功后给这个用户结帐
+												setTimeout(function(){
+													me.checkout();
+												},100);
+											}else{
+												me._submitFail();
+											}
+										}
+									});
+								}
 							}
-						},'json');
+						});
 					}	
 				}
 				
@@ -910,13 +913,18 @@
 				var selTime = (new Date(date)).getTime();
 				var _html='<option value="0">小时</option>';
 				JQ.minute_picker.show();
-				if(window.HAS_BIG_STAFF){
+				if(window.HAS_BIG_STAFF||window.HAS_NO_SUGAR_STAFF){
 					if(selTime - currTime > 3600*1000*24){
 						for(var i=14;i<=22;i++){
 							_html+='<option value="'+i+'">'+i+'</option>';
 						}
 					}else{
-						_html=('<option value="0">大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
+						if(window.HAS_NO_SUGAR_STAFF){
+							_html=('<option value="0">无糖蛋糕制作需要24小时，所选择日期不能送货</option>');
+						}else{
+							_html=('<option value="0">大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
+						}
+						
 						JQ.minute_picker.hide();
 					}
 				}else{
