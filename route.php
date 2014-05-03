@@ -847,11 +847,13 @@ switch ($mod) {
 		}else if ($action == 'get_nosugar_goods_attr') {
 			$goods_id = ANTI_SPAM($_GET['id']);
 			$attr_value = ANTI_SPAM($_GET['attr_value']);
+			
 			echo MES_Goods::get_nosugar_goods_attr($goods_id,$attr_value);
 		}else if ($action == 'get_cutnum_goods_attr') {
 			$goods_id = ANTI_SPAM($_GET['id']);
 			$attr_value = ANTI_SPAM($_GET['attr_value']);
-			echo MES_Goods::get_cutnum_goods_attr($goods_id,$attr_value);
+			$weight = ANTI_SPAM($_GET['weight']);
+			echo MES_Goods::get_cutnum_goods_attr($goods_id,$attr_value,$weight);
 		}
 
 		
