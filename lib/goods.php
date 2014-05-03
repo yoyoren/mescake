@@ -293,15 +293,21 @@ class MES_Goods {
 		$sql = "select * from ecs_goods_attr where goods_id={$goods_id} and attr_value='{$attr_value}' and attr_id=".ATTR_NO_SUGAR;
 		$data = $db->getAll($sql);
 		$data = $data[0];
+		
 		return json_encode(array('code'=>0,'data'=>$data));
 	
 	}
 
-	public static function get_cutnum_goods_attr($goods_id,$attr_value){
+	public static function get_cutnum_goods_attr($goods_id,$attr_value,$weight){
 		global $db;	
 		$sql = "select * from ecs_goods_attr where goods_id={$goods_id} and attr_value='{$attr_value}' and attr_id=".ATTR_CAN_CUT_SIZE;
 		$data = $db->getAll($sql);
 		$data = $data[0];
+		
+		if($data == null){
+			$weight_data = array('1.0'=>'9','2.0'=>'16','3.0'=>'25','5.0'=>'49','10.0'=>'81','15.0'=>'100','20.0'=>'144','25.0'=>'196','30.0'=>'225');
+			return json_encode(array('code'=>0,'data'=>array('attr_price'=>$weight_data[$weight])));
+		}
 		return json_encode(array('code'=>0,'data'=>$data));
 	
 	}

@@ -101,12 +101,14 @@
   }
 
 function getAddServiceInfo(hasInfoCB,noInfoCB) {
+	var weightNum = window.GOODS_WEIGHT.split('磅')[0];
 	MES.get({
 		mod : 'goods',
 		action : 'get_cutnum_goods_attr',
 		param : {
 			id : window.GOODS_ID,
-			attr_value : window.GOODS_WEIGHT
+			attr_value : window.GOODS_WEIGHT,
+			weight:weightNum
 		},
 		callback : function(d1) {
 				MES.get({
@@ -125,7 +127,7 @@ function getAddServiceInfo(hasInfoCB,noInfoCB) {
 					}
 				});
 		}
-	});
+	}); 
 }
 
   $('#order_now_btn').click(function() {

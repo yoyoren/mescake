@@ -34,7 +34,11 @@ define(['ui/dialog'],function(Dialog){
 						width:500,
 						onshow:function(d){
 							if(d){
-								var weight = window.GOODS_WEIGHT.split('：')[0];
+								if(window.GOODS_WEIGHT.indexOf('：')>-1){
+									var weight = window.GOODS_WEIGHT.split('：')[0];
+								}else{
+									var weight = window.GOODS_WEIGHT.split(':')[0];
+								}
 								var price = $('#staff_price').html();
 								callback = d.callback;
 								$('#pop_goods_name').html(window.GOODS_NAME);
