@@ -2,7 +2,7 @@ define(['ui/dialog'],function(Dialog){
 	var NORMAL_CANDLE = CANDLE;
 	var NUMBER_CANDLE = NUM_CANDLE;
 	var body = '<div class="check-candle-area">\
-					<div class="cca-item cca-item-current clearfix candle_sel_frame">\
+					<div class="cca-item cca-item-current clearfix candle_sel_frame"  data-id="'+NORMAL_CANDLE+'">\
 					  <em class="radiobox-item radiobox-checked fl-l candle_type_sel"  data-id="'+NORMAL_CANDLE+'"></em>\
 					  <p class="cca-intro fl-l"><b>艺术蜡烛</b><br>￥5/只</p>\
 					  <div class="cca-img-area fl-l">\
@@ -10,10 +10,10 @@ define(['ui/dialog'],function(Dialog){
 					  </div>\
 					  <div class="cca-func-area fl-l">\
 						<p>请输入蜡烛数量</p>\
-						<input type="text" class="global-input" id="num_candle_input" style="width:70px;" placeholder="1">\
+						<input type="text" class="global-input" id="num_candle_input" style="width:70px;">\
 					  </div>\
 					</div>\
-					<div class="cca-item clearfix candle_sel_frame">\
+					<div class="cca-item clearfix candle_sel_frame"  data-id="'+NUMBER_CANDLE+'">\
 					  <em class="radiobox-item fl-l candle_type_sel" data-id="'+NUMBER_CANDLE+'" id="number_candle_sel"></em>\
 					  <p class="cca-intro fl-l"><b>数字蜡烛</b><br>￥5/个</p>\
 					  <div class="cca-img-area fl-l" id="num_candle_display">\
@@ -29,8 +29,7 @@ define(['ui/dialog'],function(Dialog){
 				  </div>\
 				  <div class="single-btn-area">\
 					<input class="btn status1-btn" type="button" id="candle_confirm" value="确定">\
-				  </div>\
-			  </div>'
+				  </div>'
 
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
@@ -66,6 +65,7 @@ define(['ui/dialog'],function(Dialog){
 			});
 		},
 		init:function(){
+	
 			if(single){
 				single.show();
 			}else{
@@ -87,7 +87,7 @@ define(['ui/dialog'],function(Dialog){
 							var candleId = NORMAL_CANDLE;
 							var jqInput = $('#candle_number_input');
 							
-							jqInput.placeholder();
+							jqInput.placeholder().val('');
 							$('#candle_number_input').keydown(function(e){
 								var cantype = false; 
 								if(e.which<106&&e.which>95){
@@ -127,16 +127,16 @@ define(['ui/dialog'],function(Dialog){
 								}
 								
 								frame.html(html);
-								$('#number_candle_sel').trigger('click');
 								return;
 							});
 
 							$('#candle_confirm').click(function(){
-								var text = jqInput.val();
+					
 								
 								if(candleId == NORMAL_CANDLE){
+									
 									var candleNum = $('#num_candle_input').val();
-									candleNum = parseInt(num,10);
+									candleNum = parseInt(candleNum,10);
 									brithCard.addOne(NORMAL_CANDLE,rec_id,0,candleNum);
 								}else{
 									var num = $('#candle_number_input').val();
@@ -145,15 +145,25 @@ define(['ui/dialog'],function(Dialog){
 									}
 									num += '';
 									num = num.split('');
+									var _numHash = {};
 									for(var i=0;i<num.length;i++){
 										var _number = num[i];
-										brithCard.addOne(NUMBER_CANDLE,rec_id,_number);
+										if(!_numHash[_number]){
+											_numHash[_number] = 1;
+										}else{
+											_numHash[_number]++;
+										}
+									}
+
+									for(var num in _numHash){
+										brithCard.addOne(NUMBER_CANDLE,rec_id,num,_numHash[num]);
 									}
 								}
 								single.hide();
 							});
 	
 							$('.candle_type_sel').click(function(){
+							
 								var _this = $(this);
 								$('.candle_type_sel').removeClass('radiobox-checked');
 								_this.addClass('radiobox-checked');
@@ -162,8 +172,11 @@ define(['ui/dialog'],function(Dialog){
 							});
 
 							$('.candle_sel_frame').click(function(){
+								var _this = $(this);
 								$('.candle_sel_frame').removeClass('cca-item-current');
-								$(this).addClass('cca-item-current').find('.candle_type_sel').trigger('click');
+								$('.candle_type_sel').removeClass('radiobox-checked');
+								_this.addClass('cca-item-current').find('.candle_type_sel').addClass('radiobox-checked');
+								candleId = _this.data('id');
 							});
 
 						}
