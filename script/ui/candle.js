@@ -1,39 +1,47 @@
 define(['ui/dialog'],function(Dialog){
 	var NORMAL_CANDLE = CANDLE;
 	var NUMBER_CANDLE = NUM_CANDLE;
-	var body = '<div>\
-				  <div class="check-candle-area clearfix">\
-					<div class="cca-item">\
-					  <div class="cca-img-area">\
-						<img src="css/img/lazhu1.jpg">\
+	var body = '<div class="check-candle-area">\
+					<div class="cca-item cca-item-current clearfix candle_sel_frame">\
+					  <em class="radiobox-item radiobox-checked fl-l candle_type_sel"  data-id="'+NORMAL_CANDLE+'"></em>\
+					  <p class="cca-intro fl-l"><b>艺术蜡烛</b><br>￥5/只</p>\
+					  <div class="cca-img-area fl-l">\
+						  <img src="css/img/lazhu1.jpg" class="big-candle">\
 					  </div>\
-					  <p class="cca-intro">艺术蜡烛</p>\
-					  <div><em class="radiobox-item radiobox-checked candle_type_sel" data-id="'+NORMAL_CANDLE+'"></em>￥5</div>\
+					  <div class="cca-func-area fl-l">\
+						<p>请输入蜡烛数量</p>\
+						<input type="text" class="global-input" id="num_candle_input" style="width:70px;" placeholder="1">\
+					  </div>\
 					</div>\
-					<div class="cca-item">\
-					  <div class="cca-img-area">\
-						<img src="css/img/lazhu-num-7.jpg" id="candle_number_1">\
-						<img src="css/img/lazhu-num-7.jpg" id="candle_number_2">\
+					<div class="cca-item clearfix candle_sel_frame">\
+					  <em class="radiobox-item fl-l candle_type_sel" data-id="'+NUMBER_CANDLE+'" id="number_candle_sel"></em>\
+					  <p class="cca-intro fl-l"><b>数字蜡烛</b><br>￥5/个</p>\
+					  <div class="cca-img-area fl-l" id="num_candle_display">\
+						<img class="candle-item" src="css/img/lazhu-num-5.jpg">\
+						<img class="candle-item" src="css/img/lazhu-num-2.jpg">\
+						<img class="candle-item" src="css/img/lazhu-num-0.jpg">\
 					  </div>\
-					  <input type="text" class="global-input" style="width:70px;" placeholder="输入数字" id="candle_number_input">\
-					  <div><em class="radiobox-item candle_type_sel" data-id="'+NUMBER_CANDLE+'" id="number_candle_sel"></em>￥10</div>\
+					  <div class="cca-func-area fl-l">\
+						<p>请输入你要的数字</p>\
+						<input type="text" class="global-input" style="width:70px;" placeholder="520" id="candle_number_input">\
+					  </div>\
 					</div>\
 				  </div>\
 				  <div class="single-btn-area">\
 					<input class="btn status1-btn" type="button" id="candle_confirm" value="确定">\
 				  </div>\
-				</div>'
+			  </div>'
 
 	var errorTip = '<span class="tips-container">{msg}</span>';
 	var single;
 	var rec_id;
 	var callback;
 	var brithCard = {
-		addOne:function(candleId,parent_id,goods_attr){
+		addOne:function(candleId,parent_id,goods_attr,number){
 			var goods = {};
 			var spec_arr = [];
 			var fittings_arr = [];
-			var number = 1;
+			var number = number||1;
 			var quick = 0;
 	
 			//商品重量
@@ -62,7 +70,7 @@ define(['ui/dialog'],function(Dialog){
 				single.show();
 			}else{
 				 single = new Dialog({
-					    width:460,
+					    width:500,
 						title:'选择蜡烛样式',
 						body:body,
 						bottom:' ',
@@ -100,51 +108,64 @@ define(['ui/dialog'],function(Dialog){
 							$('#candle_number_input').keyup(function(e){
 								var _this = $(this);
 								var _val = _this.val();
-								
-								if(_val.length>2){
-									_this.val(_val.substring(0,2));
+								var max = 8;
+								var realVal = _val.substring(0,max);
+								var frame = $('#num_candle_display');
+								if(_val.length>max){
+									_this.val(realVal);
+								}
+								frame.removeClass('more-than4 for4');
+								if(_val.length>4){
+									frame.addClass('more-than4');
+								}else if(_val.length==4){
+									frame.addClass('for4');
+								}
+								realVal = realVal.split('');
+								var html = '';
+								for(var i =0;i<realVal.length;i++){
+									html +='<img class="candle-item" src="css/img/lazhu-num-'+realVal[i]+'.jpg">';
 								}
 								
-								if(_val.length<1){
-									$('#candle_number_1').attr('src','css/img/lazhu-num-7.jpg').show();
-									$('#candle_number_2').attr('src','css/img/lazhu-num-7.jpg').show();
-									return;
-								}
-								
+								frame.html(html);
 								$('#number_candle_sel').trigger('click');
-								_val = parseInt(_val,10);
-								if(_val<10){
-									$('#candle_number_1').hide();
-									$('#candle_number_2').attr('src','css/img/lazhu-num-'+_val+'.jpg');
-								}else{
-									_val = ''+_val;
-									$('#candle_number_1').show();
-									$('#candle_number_1').attr('src','css/img/lazhu-num-'+_val[0]+'.jpg');
-									$('#candle_number_2').attr('src','css/img/lazhu-num-'+_val[1]+'.jpg');
-								}
+								return;
 							});
 
 							$('#candle_confirm').click(function(){
 								var text = jqInput.val();
+								
 								if(candleId == NORMAL_CANDLE){
-									brithCard.addOne(NORMAL_CANDLE,rec_id,0);
+									var candleNum = $('#num_candle_input').val();
+									candleNum = parseInt(num,10);
+									brithCard.addOne(NORMAL_CANDLE,rec_id,0,candleNum);
 								}else{
-									var num = jqInput.val();
-									if(num.length<1||num.length>2){
+									var num = $('#candle_number_input').val();
+									if(num.length<1||num.length>8){
 									   return false;
 									}
-									brithCard.addOne(NUMBER_CANDLE,rec_id,num);
+									num += '';
+									num = num.split('');
+									for(var i=0;i<num.length;i++){
+										var _number = num[i];
+										brithCard.addOne(NUMBER_CANDLE,rec_id,_number);
+									}
 								}
 								single.hide();
 							});
-
+	
 							$('.candle_type_sel').click(function(){
 								var _this = $(this);
 								$('.candle_type_sel').removeClass('radiobox-checked');
 								_this.addClass('radiobox-checked');
 								candleId = _this.data('id');
 								return;
-							})
+							});
+
+							$('.candle_sel_frame').click(function(){
+								$('.candle_sel_frame').removeClass('cca-item-current');
+								$(this).addClass('cca-item-current').find('.candle_type_sel').trigger('click');
+							});
+
 						}
 					});
 			}

@@ -18,7 +18,7 @@
    var numCandleTmpl = '<li class="clearfix sub_order_<%=rec_id%>" id="sub_order_<%=data.rec_id%>">\
 							  <div class="od-title1" data-id="<%=rec_id%>">\
 								<span class="od-img-area">\
-								  <img src="css/img/order-detail2.png" class="od-img" style="width:50px;">\
+								  <img src="css/img/lazhu-num-<%=data.goods_attr%>.jpg" class="od-img" style="width:50px;">\
 								</span>\
 								<span class="or-name-intro">数字蜡烛(<%=data.goods_attr%>)</span>\
 							  </div>\
@@ -120,7 +120,7 @@
 							 <li class="clearfix sub_order_<%=data[i].rec_id%>" id="sub_order_<%=candleNumHash[data[i].rec_id][j].rec_id%>">\
 							  <div class="od-title1" data-id="<%=data[i].rec_id%>">\
 								<span class="od-img-area">\
-								  <img src="css/img/order-detail2.png" class="od-img" style="width:50px;">\
+								  <img src="css/img/lazhu-num-<%=candleNumHash[data[i].rec_id][j].goods_attr%>.jpg" class="od-img" style="width:50px;">\
 								</span>\
 								<span class="or-name-intro">数字蜡烛(<%=candleNumHash[data[i].rec_id][j].goods_attr%>)</span>\
 							  </div>\
