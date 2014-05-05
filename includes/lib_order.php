@@ -1159,7 +1159,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
 	    $res_attr =substr($goods_attr,0,strpos($goods_attr,'.')).'.0磅';
 	}
 	
-	if($p_goods_attr||$p_goods_attr==0){
+	if($p_goods_attr){
 		$res_attr = $p_goods_attr;
 	}
 
