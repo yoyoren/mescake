@@ -90,10 +90,11 @@ define(['ui/dialog'],function(Dialog){
 							jqInput.placeholder().val('');
 							$('#candle_number_input').keydown(function(e){
 								var cantype = false; 
-								if(e.which<106&&e.which>95){
+						
+								if(e.which<=106&&e.which>=95){
 									cantype = true;
 								}
-								if(e.which<57&&e.which>48){
+								if(e.which<=57&&e.which>=48){
 									cantype = true;
 								}
 

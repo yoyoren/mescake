@@ -8,9 +8,11 @@
 							  </div>\
 							  <div class="od-title2">￥<%=data.goods_price%></div>\
 							  <div class="od-title3">\
+							    <span class="or-num or-num-ico">\
 								  <em class="or-minus order_des" data-id="<%=data.rec_id%>"></em>\
 								  <span class="or-num-num"><%=data.goods_number%></span>\
 								  <em class="or-plus order_add" data-id="<%=data.rec_id%>"></em>\
+								</span>\
 							   </div>\
 							  <div class="od-title4" id="sub_total_<%=data.rec_id%>">￥<%=data.goods_price*data.goods_number%>.00</div>\
 							 <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
@@ -18,15 +20,17 @@
    var numCandleTmpl = '<li class="clearfix sub_order_<%=rec_id%>" id="sub_order_<%=data.rec_id%>">\
 							  <div class="od-title1" data-id="<%=rec_id%>">\
 								<span class="od-img-area">\
-								  <img src="css/img/lazhu-num-<%=data.goods_attr%>.jpg" class="od-img" style="width:50px;">\
+								  <img src="css/img/lazhu-num-<%=data.goods_attr%>.jpg" class="od-img" style="width:36px;">\
 								</span>\
 								<span class="or-name-intro">数字蜡烛(<%=data.goods_attr%>)</span>\
 							  </div>\
 							  <div class="od-title2">￥<%=data.goods_price%></div>\
 							  <div class="od-title3">\
+							    <span class="or-num or-num-ico">\
 								  <em class="or-minus order_des" data-id="<%=data.rec_id%>"></em>\
 								  <span class="or-num-num"><%=data.goods_number%></span>\
 								  <em class="or-plus order_add" data-id="<%=data.rec_id%>"></em>\
+								</span>\
 							  </div>\
 							  <div class="od-title4" id="sub_total_<%=data.rec_id%>">￥<%=data.goods_price*data.goods_number%>.00</div>\
 							  <a href="#" class="or-handle order_cancel" data-id="<%=data.rec_id%>" data-goods="<%=data.goods_id%>">删除</a>\
@@ -107,9 +111,11 @@
 						  </div>\
 						  <div class="od-title2">￥<%=candleHash[data[i].rec_id].goods_price%></div>\
 						  <div class="od-title3">\
+						    <span class="or-num or-num-ico">\
 								  <em class="or-minus order_des" data-id="<%=candleHash[data[i].rec_id].rec_id%>"></em>\
 								  <span class="or-num-num"><%=candleHash[data[i].rec_id].goods_number%></span>\
 								  <em class="or-plus order_add" data-id="<%=candleHash[data[i].rec_id].rec_id%>"></em>\
+						    </span>\
 						  </div>\
 						  <div class="od-title4" id="sub_total_<%=candleHash[data[i].rec_id].rec_id%>"><%=candleHash[data[i].rec_id].subtotal%></div>\
 						  <a href="#" class="or-handle order_cancel" data-id="<%=candleHash[data[i].rec_id].rec_id%>" data-goods="<%=candleHash[data[i].rec_id].goods_id%>">删除</a>\
@@ -120,15 +126,17 @@
 							 <li class="clearfix sub_order_<%=data[i].rec_id%>" id="sub_order_<%=candleNumHash[data[i].rec_id][j].rec_id%>">\
 							  <div class="od-title1" data-id="<%=data[i].rec_id%>">\
 								<span class="od-img-area">\
-								  <img src="css/img/lazhu-num-<%=candleNumHash[data[i].rec_id][j].goods_attr%>.jpg" class="od-img" style="width:50px;">\
+								  <img src="css/img/lazhu-num-<%=candleNumHash[data[i].rec_id][j].goods_attr%>.jpg" class="od-img" style="width:36px;">\
 								</span>\
 								<span class="or-name-intro">数字蜡烛(<%=candleNumHash[data[i].rec_id][j].goods_attr%>)</span>\
 							  </div>\
 							  <div class="od-title2">￥<%=candleNumHash[data[i].rec_id][j].goods_price%></div>\
 							  <div class="od-title3">\
+							    <span class="or-num or-num-ico">\
 								  <em class="or-minus order_des" data-id="<%=candleNumHash[data[i].rec_id][j].rec_id%>"></em>\
 								  <span class="or-num-num"><%=candleNumHash[data[i].rec_id][j].goods_number%></span>\
 								  <em class="or-plus order_add" data-id="<%=candleNumHash[data[i].rec_id][j].rec_id%>"></em></div>\
+								</span>\
 							  <div class="od-title4" id="sub_total_<%=candleNumHash[data[i].rec_id][j].rec_id%>"><%=candleNumHash[data[i].rec_id][j].subtotal%></div>\
 							 <a href="#" class="or-handle order_cancel" data-id="<%=candleNumHash[data[i].rec_id][j].rec_id%>" data-goods="<%=candleNumHash[data[i].rec_id][j].goods_id%>">删除</a>\
 							 </li>\

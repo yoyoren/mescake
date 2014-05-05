@@ -426,7 +426,7 @@ switch ($mod) {
 
 			//67为数字蜡烛 必须要符合添加的规范
 			if($goods_id ==NUM_CANDLE_ID){
-				if($goods_attr<1||$goods_attr>99||!is_numeric($goods_attr)){
+				if($goods_attr<0||$goods_attr>99||!is_numeric($goods_attr)){
 					echo json_encode(array(
 						'code'=>RES_FAIL,
 						'msg'=>'invaild candle number!',
