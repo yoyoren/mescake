@@ -1162,9 +1162,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
 	if($p_goods_attr){
 		$res_attr = $p_goods_attr;
 	}
-	if($p_goods_attr == 0&&$goods_id=67){
-		$res_attr = 0;
-	}
+
 
     //多机器共享 必须用cookie;
 	$uuid = $_COOKIE['uuid'];
