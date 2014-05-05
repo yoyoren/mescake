@@ -115,23 +115,23 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
 
 /* 4个产品类的图片 */
 .ta-item:hover{cursor: pointer;}
-  .ta-imgs{display: block; margin-left: 100px;}
+  .ta-imgs{display: block; margin-left: 120px;}
 .taim-1{background: url(img/v-list-pro1c.jpg); width: 250px; height: 188px;}
-.taim-2{background: url(img/v-list-pro2c2.jpg); width: 249px; height: 188px;}
-.taim-3{background: url(img/v-list-pro3c.jpg); width: 280px; height: 189px;}
-.taim-4{background: url(img/v-list-pro4c23.jpg); width: 309px; height: 185px; margin-left: 70px;}
+.taim-2{background: url(img/v-list-pro2c2.jpg); width: 233px; height: 189px;}
+.taim-3{background: url(img/v-list-pro3c.jpg); width: 265px; height: 178px;}
+.taim-4{background: url(img/v-list-pro4c23.jpg); width: 274px; height: 178px; margin-left: 98px;}
 .ta-item1{background:#f2ece2;}
 .ta-item1:hover{background: #f3e4cc;}
 .ta-item1:hover .taim-1{background-position: 0 -188px;}
 .ta-item2{background:#f2e7e3;}
 .ta-item2:hover{background:#fad8cd;}
-.ta-item2:hover .taim-2{background-position: -1px -188px;}
+.ta-item2:hover .taim-2{background-position: 0 -189px;}
 .ta-item3{background:#ecf3e3; }
 .ta-item3:hover{background: #e1f2cb;}
-.ta-item3:hover .taim-3{background-position: 0 -190px;}
+.ta-item3:hover .taim-3{background-position: 0 -178px;}
 .ta-item4{background:#e8f0f3; }
 .ta-item4:hover{background: #cbe7f2;}
-.ta-item4:hover .taim-4{background-position: 0 -185px;}
+.ta-item4:hover .taim-4{background-position: 0 -178px;}
 
 /* 产品详情 */
     .product-main-area{}

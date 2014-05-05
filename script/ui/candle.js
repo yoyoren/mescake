@@ -88,6 +88,26 @@ define(['ui/dialog'],function(Dialog){
 							var jqInput = $('#candle_number_input');
 							
 							jqInput.placeholder().val('');
+							$('#num_candle_input').placeholder().val('');
+							$('#num_candle_input').keydown(function(e){
+								var cantype = false; 
+						
+								if(e.which<=106&&e.which>=95){
+									cantype = true;
+								}
+								if(e.which<=57&&e.which>=48){
+									cantype = true;
+								}
+
+								if(e.which == 8){
+									cantype = true;
+								}
+								if(!cantype){
+									e.preventDefault&&e.preventDefault();
+									return false;
+								}
+							});
+
 							$('#candle_number_input').keydown(function(e){
 								var cantype = false; 
 						
@@ -138,7 +158,9 @@ define(['ui/dialog'],function(Dialog){
 									
 									var candleNum = $('#num_candle_input').val();
 									candleNum = parseInt(candleNum,10);
-									brithCard.addOne(NORMAL_CANDLE,rec_id,0,candleNum);
+									if(candleNum&&!isNaN(candleNum)){
+										brithCard.addOne(NORMAL_CANDLE,rec_id,0,candleNum);
+									}
 								}else{
 									var num = $('#candle_number_input').val();
 									if(num.length<1||num.length>8){
@@ -157,7 +179,9 @@ define(['ui/dialog'],function(Dialog){
 									}
 
 									for(var num in _numHash){
-										brithCard.addOne(NUMBER_CANDLE,rec_id,num,_numHash[num]);
+										if(!isNaN(_numHash[num])){
+											brithCard.addOne(NUMBER_CANDLE,rec_id,num,_numHash[num]);
+										}
 									}
 								}
 								single.hide();
