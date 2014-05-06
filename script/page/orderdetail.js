@@ -49,7 +49,7 @@
 								<span class="od-img-area"><img src="css/img/lazhu1.jpg" class="od-img" width="50"></span><%=goods[i].goods_name%>\
 								<% } %>\
 								<%if(goods[i].goods_id == NUM_CANDLE){%>\
-								<span class="od-img-area"><img src="css/img/order-detail2.png" class="od-img" width="50"></span><%=goods[i].goods_name%>(<%=goods[i].goods_attr%>)\
+								<span class="od-img-area"><img src="css/img/lazhu-num-<%=goods[i].goods_attr%>.jpg" class="od-img" width="50"></span><%=goods[i].goods_name%>(<%=goods[i].goods_attr%>)\
 								<% } %>\
 							<%}else{%>\
 								<a target="_blank" href="/cake/<%=goods[i].goods_id%>">\
