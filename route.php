@@ -69,6 +69,10 @@ switch ($mod) {
 			//每次结算要记录一个ip防止被刷
 			$leaving_messsage = $_GET['mes'];
 			$current_ip = CLIENT_IP;
+			if($_COOKIE['ECS_ID']){
+			   $current_ip = $_COOKIE['ECS_ID'];
+			}
+
 			$_key = 'checkout_times_' . $current_ip;
 			$checkout_times = 0;
 
@@ -348,6 +352,9 @@ switch ($mod) {
 			echo MES_Order::save_consignee($data);
 		} else if ($action == 'checkout') {
 			$current_ip = CLIENT_IP;
+			if($_COOKIE['ECS_ID']){
+			   $current_ip = $_COOKIE['ECS_ID'];
+			}
 			$_key = 'checkout_times_' . $current_ip;
 			$checkout_times = 0;
 			if ($REDIS_CLIENT -> exists($_key)) {
@@ -355,8 +362,8 @@ switch ($mod) {
 			}
 
 	
-			if ($checkout_times > 50) {
-				error_reporting(0);
+			if ($checkout_times > 3) {
+				//error_reporting(0);
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
 				$validator = new captcha();
@@ -426,7 +433,7 @@ switch ($mod) {
 
 			//67为数字蜡烛 必须要符合添加的规范
 			if($goods_id ==NUM_CANDLE_ID){
-				if($goods_attr<1||$goods_attr>99||!is_numeric($goods_attr)){
+				if($goods_attr<0||$goods_attr>99||!is_numeric($goods_attr)){
 					echo json_encode(array(
 						'code'=>RES_FAIL,
 						'msg'=>'invaild candle number!',
