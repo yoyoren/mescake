@@ -27,35 +27,35 @@
       {if $data.cls=="for-dream"}
 		<div class="cat-item">
 			<a href="/cake/68" class="cat-item-link clearfix">
-			  <img class="cat-people fl-l" src="/img/sort/cat-people1.jpg">
+			  <img class="cat-people fl-l" src="{$static_domain}img/sort/cat-people1.jpg">
 			  <span class="cat-detail fl-l">
 			    <span class="cat-title">梦想家E01</span>
 			    <span class="cat-title" style="color:#333;">小爪</span>
 			    <span class="cat-con" style="padding-top:20px;">文艺梦想家——田原</span>
 			    <span class="cat-con">为精致甜点撒上猫咪哲学的梦想实验</span>
 			  </span>
-			  <img class="cake-cat fl-l" src="/img/sort/cat.jpg">
+			  <img class="cake-cat fl-l" src="{$static_domain}img/sort/cat.jpg">
 			</a>
 		      </div>
 	      <div class="cat-item" style="display:none">
-		<a href="#" class="cat-people fl-l"><img src="/img/sort/cat-people2.jpg"></a>
+		<a href="#" class="cat-people fl-l"><img src="{$static_domain}img/sort/cat-people2.jpg"></a>
 		<div class="cat-detail fl-l">
 		  <h5>梦想家E02</h5>
 		  <h5 style="color:#333;">汽车</h5>
 		  <p style="padding-top:20px;">文艺梦想家——韩寒</p>
 		  <p>为精致甜点撒上猫咪哲学的梦想实验</p>
 		</div>
-		<a href="/cake/68" class="cake-cat fl-l"><img src="/img/sort/cat.jpg"></a>
+		<a href="/cake/68" class="cake-cat fl-l"><img src="{$static_domain}img/sort/cat.jpg"></a>
 	      </div>
 	      <div class="cat-item" style="border:0;display:none">
-		<a href="#" class="cat-people fl-l"><img src="/img/sort/cat-people3.jpg"></a>
+		<a href="#" class="cat-people fl-l"><img src="{$static_domain}img/sort/cat-people3.jpg"></a>
 		<div class="cat-detail fl-l">
 		  <h5>梦想家E03</h5>
 		  <h5 style="color:#333;">电影</h5>
 		  <p style="padding-top:20px;">文艺梦想家——高晓松</p>
 		  <p>为精致甜点撒上猫咪哲学的梦想实验</p>
 		</div>
-		<a href="/cake/68" class="cake-cat fl-l"><img src="/img/sort/cat.jpg"></a>
+		<a href="/cake/68" class="cake-cat fl-l"><img src="{$static_domain}/img/sort/cat.jpg"></a>
 	      </div>
       {/if}
       {foreach from=$list item=value key=key}
@@ -66,7 +66,7 @@
 		  <h5>{$value2.goods_name}</h5>
 		  <p>{$value2.goods_desc}</p>
 		  <a href="/cake/{$value2.goods_id}">
-		  <img src="/css/img/blank.gif" class="lazy_load" data-src="/{$value2.goods_image}" style="display:none">
+		  <img src="{$static_domain}css/img/blank.gif" class="lazy_load" data-src="/{$value2.goods_image}" style="display:none">
 		  </a>
 		</div>
 	   {/foreach}
