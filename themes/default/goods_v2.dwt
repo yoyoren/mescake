@@ -17,6 +17,9 @@
 	    </div>
 	  </div>
       <!-- {/if}-->
+      <script>
+       window.CAN_CUT = '{$can_cut}';
+      </script>
     <div class="buy-container"  <!-- {if $goods_id!=68}-->style="top:190px;"<!-- {/if}-->>
      
       <div class="buy-area" id="buy_area">
