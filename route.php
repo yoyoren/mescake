@@ -9,7 +9,7 @@ define('DOMAIN',$_SERVER['SERVER_NAME']);
 if(DOMAIN=='test.mescake.com'){
 	define('STATIC_DOMAIN','http://static.n.mescake.com/');
 }else{
-	define('STATIC_DOMAIN','http://static.mescake.com/');
+	define('STATIC_DOMAIN','http://s1.static.mescake.com/');
 }
 
 //give user a sid for record
