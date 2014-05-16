@@ -23,10 +23,10 @@
 		  <p style="width:340px;">{$value.desc}</p>
 		</div>
 		{if $key == 0}
-		<img src="{$static_domain}{$value.img}"/>
+		<img src="{$value.img}"/>
 		{/if}
 		{if $key > 0}
-		<img data-src="{$static_domain}{$value.img}" src="{$static_domain}css/img/blank.gif" class="lazy_load"/>
+		<img data-src="{$value.img}" src="{$static_domain}css/img/blank.gif" class="lazy_load"/>
 		{/if}
 	      </a>
 	    </div>
