@@ -167,7 +167,7 @@ class MES_Goods {
 					}
 
 					$position = assign_ur_here($goods['cat_id'], $goods['goods_name']);
-
+					$smarty -> assign('best_temp', $goods['best_temp']);
 					/* current position */
 					$smarty -> assign('page_title', $position['title']);
 					// 页面标题

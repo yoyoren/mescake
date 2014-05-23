@@ -79,7 +79,7 @@
         </div>
         <p class="ma-intro">0-4℃，冷藏保鲜24小时</p>
         <div class="ma-ico-area tl-c">
-          <p><em class="ma-ico3"></em>最佳食用温度10℃</p>
+          <p><em class="ma-ico3"></em>最佳食用温度{$best_temp}℃</p>
         </div>
       </div>
       <div class="ma-item3">
