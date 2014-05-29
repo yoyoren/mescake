@@ -1224,7 +1224,8 @@ elseif ($_REQUEST['step'] == 'done') {
 	$order_token = $_POST['token'];
 
 	$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
-	if ($order_token !== $_SESSION['order_token']) {
+	
+	if ($order_token !== $_SESSION['order_token']&&$order_token!=='from_mobile') {
 		ecs_header("Location: route.php?mod=account&action=order_list");
 		exit ;
 	}
@@ -1792,6 +1793,15 @@ elseif ($_REQUEST['step'] == 'done') {
 	unset($_SESSION['direct_shopping']);
 	unset($_SESSION['need_shipping_fee']);
 	unset($_SESSION['extra_fork']);
+	if($order_token=='from_mobile'){
+		if ($_SESSION['user_auto_register'] == '11') {
+			//如果是那种非注册用户就要引导注册
+			header("Location: http://touch.mescake.com/setpassword");
+		} else {
+			header("Location: http://touch.mescake.com/done?oid=".$order['order_id']);
+		}
+		exit;
+	}
 }
 
 /*------------------------------------------------------ */
