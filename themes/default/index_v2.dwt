@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+var ua = navigator.userAgent;
+if(/android|iphone/gi.test(ua)&&location.href.indexOf('from=touch')<0 ){
+   location.href = 'http://touch.mescake.com';
+}
+</script>
 <meta name="Keywords" content="mes,每实,蛋糕,北京蛋糕" />
 <meta name="Description" content="MES每实是一个食物,生活方式,艺术和文化的综合体,它钟情于创造任何让生活产生乐趣,品质和格调的食物产品,3大系列,38款产品,让你每时每刻尽享美好." />
 <title>MES每实-尽享美好</title>
