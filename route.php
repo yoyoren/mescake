@@ -351,6 +351,7 @@ switch ($mod) {
 
 			echo MES_Order::save_consignee($data);
 		} else if ($action == 'checkout') {
+			$source = $_POST['source'];
 			$current_ip = CLIENT_IP;
 			if($_COOKIE['ECS_ID']){
 			   $current_ip = $_COOKIE['ECS_ID'];
@@ -362,7 +363,7 @@ switch ($mod) {
 			}
 
 	
-			if ($checkout_times > 3) {
+			if ($checkout_times > 3&&$source!='FROM_MOBILE') {
 				//error_reporting(0);
 				$vaild_code = ANTI_SPAM($_POST['vaild_code']);
 				include_once ('includes/cls_captcha.php');
