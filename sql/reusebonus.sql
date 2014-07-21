@@ -1,1 +1,0 @@
-ALTER TABLE `ecs_bonus_type` ADD `reusable` TINYINT( 1 ) NOT NULL DEFAULT '0';

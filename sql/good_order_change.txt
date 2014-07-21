@@ -1,2 +1,0 @@
-ALTER TABLE ecs_order_goods ADD 'parent_id' varchar(32) NOT NULL DEFAULT '0';
-ALTER TABLE ecs_cart ADD 'parent_id' varchar(32) NOT NULL DEFAULT '0';
