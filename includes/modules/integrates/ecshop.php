@@ -85,8 +85,10 @@ class ecshop extends integrate
      * @return  int
      */
     function check_user($username, $password = null)
+
     {
-        if ($this->charset != 'UTF8')
+       
+		if ($this->charset != 'UTF8')
         {
             $post_username = ecs_iconv('UTF8', $this->charset, $username);
         }
@@ -94,7 +96,6 @@ class ecshop extends integrate
         {
             $post_username = $username;
         }
-
         if ($password === null)
         {
             $sql = "SELECT " . $this->field_id .
@@ -143,8 +144,7 @@ class ecshop extends integrate
 
                 /* 计算加密后密码 */
                 $encrypt_password = '';
-                switch ($encrypt_type)
-                {
+                switch ($encrypt_type){
                     case ENCRYPT_ZC :
                         $encrypt_password = md5($encrypt_salt.$password);
                         break;

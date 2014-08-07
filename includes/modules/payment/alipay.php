@@ -207,7 +207,7 @@ class alipay
 		//}
         return $button;
     }
-
+	
     /**
      * 响应操作
      */

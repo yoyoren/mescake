@@ -1,6 +1,9 @@
 <?php
 
 require_once('lib/fee.php');
+require_once('model/sec.php');
+
+
 class MES_User{
 
 	//获得街道的地址
@@ -24,7 +27,137 @@ class MES_User{
 		file_get_contents($url);
 		return $rand_password;
 	}
-	
+
+    private static function _set_login_session ($username=''){
+            $sql = "SELECT user_id, password, email FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_name='$username' LIMIT 1";
+            $row = $GLOBALS['db']->getRow($sql);
+            if ($row){
+                $_SESSION['user_id']   = $row['user_id'];
+                $_SESSION['user_name'] = $username;
+                $_SESSION['email']     = $row['email'];
+				$time_lasts=3600*24;
+				//redis里共享这个userid;
+				SETEX_REDIS($username,$row['user_id'],$time_lasts,'user_id');
+            }
+    }
+
+	private static function compile_password ($cfg){
+
+       if (isset($cfg['password'])){
+            $cfg['md5password'] = md5($cfg['password']);
+       }
+
+       if (empty($cfg['type'])){
+            $cfg['type'] = PWD_MD5;
+       }
+
+       switch ($cfg['type']){
+           case PWD_MD5 :
+               if(!empty($cfg['ec_salt'])){
+			       return md5($cfg['md5password'].$cfg['ec_salt']);
+		       }else{
+                    return $cfg['md5password'];
+			   }
+
+           case PWD_PRE_SALT :
+               if (empty($cfg['salt'])){
+                    $cfg['salt'] = '';
+               }
+
+               return md5($cfg['salt'] . $cfg['md5password']);
+
+           case PWD_SUF_SALT :
+               if (empty($cfg['salt'])){
+                    $cfg['salt'] = '';
+               }
+
+               return md5($cfg['md5password'] . $cfg['salt']);
+
+           default:
+               return '';
+       }
+    }
+
+	 private static function check_user($username, $password = null){
+		global $db;
+		$user_table = $GLOBALS['ecs']->table("users");
+        $post_username = $username;
+        if ($password === null){
+			//test pass
+            $data = MES_Sec::get_userid_by_username($username);
+            return $data;
+        }else{
+			//test pass
+			$row = MES_Sec::get_decode_userinfo_by_username($username);
+			$ec_salt=$row['ec_salt'];
+            if (empty($row)){
+                return 0;
+            }
+
+            if (empty($row['salt']))
+            {
+                if ($row['password'] != MES_User::compile_password(array('password'=>$password,'ec_salt'=>$ec_salt))){
+                    return 0;
+                }else{
+					if(empty($ec_salt)){
+						$ec_salt=rand(1,9999);
+						$new_password=md5(md5($password).$ec_salt);
+					    $sql = "UPDATE ".$user_table ."SET password= '" .$new_password."',ec_salt='".$ec_salt."'".
+                   " WHERE user_name='$post_username'";
+                         $this->db->query($sql);
+
+					}
+                    return $row['user_id'];
+                }
+            } else {
+                /* 如果salt存在，使用salt方式加密验证，验证通过洗白用户密码 */
+                $encrypt_type = substr($row['salt'], 0, 1);
+                $encrypt_salt = substr($row['salt'], 1);
+
+                /* 计算加密后密码 */
+                $encrypt_password = '';
+                switch ($encrypt_type)
+                {
+                    case ENCRYPT_ZC :
+                        $encrypt_password = md5($encrypt_salt.$password);
+                        break;
+                    case ENCRYPT_UC :
+                        $encrypt_password = md5(md5($password).$encrypt_salt);
+                        break;
+
+                    default:
+                        $encrypt_password = '';
+
+                }
+
+                if ($row['password'] != $encrypt_password) {
+                    return 0;
+                }
+
+                $sql = "UPDATE " . $user_table .
+                       " SET password = '".  MES_User::compile_password(array('password'=>$password)) . "', salt=''".
+                       " WHERE user_id = '$row[user_id]'";
+                $db->query($sql);
+                return $row['user_id'];
+            }
+        }
+    }
+
+	private static function _login($username, $password, $remember = null){
+        $cookie_path  = '/';
+		if (MES_User::check_user($username, $password) > 0){
+            MES_User::_set_login_session($username);
+			$time_lasts=3600*24;
+			$time = time()+$time_lasts;
+			$token = md5($username.$password.'_mescake');
+			SETEX_REDIS($username,$token,$time_lasts,'user');
+            setcookie("serviceToken",$token, $time, $cookie_path);            
+            setcookie("uuid",$username, $time, $cookie_path);
+            return true;
+        }else{
+            return false;
+        }
+	}
 
 	public static function ajax_login($username,$password){
 		global $db;
@@ -38,15 +171,15 @@ class MES_User{
 			'code' => RES_SUCCSEE, 
 			'content' => 'login successs'
 		);
-
-		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
+		//test pass
+		$username = MES_Sec::get_decode_username_by_mobile($username);
 
 		if(empty($username)){
 			$result['code'] = RES_FAIL;
 			$result['content'] = $_LANG['login_failure'];
 			return $json->encode($result);
 		}
-		if ($user->login11($username, $password)){
+		if (MES_User::_login($username, $password)){
 			$ucdata = empty($user->ucdata)? "" : $user->ucdata;
 			$result['ucdata'] = $ucdata;
 
@@ -63,9 +196,7 @@ class MES_User{
 	public static function get_user_info($user_id){
 		global $db;
 		$user_id = addslashes($user_id);
-		$sql = "SELECT * FROM " . $GLOBALS['ecs']->table('users') .
-				" WHERE user_id = '$user_id'";
-		$user = $db->getRow($sql);
+		$user = MES_Sec::get_decode_userinfo_by_userid($user_id);
 
 		unset($user['question']);
 		unset($user['answer']);
@@ -79,13 +210,34 @@ class MES_User{
 		return $user;
 	}
 
-	public static function logout(){
-		global $user;
+
+    private static function clear_cookie_for_logout(){
+		$cookie_path  = '/';
+		$time = time() - 3600;
+        setcookie("ECS[user_id]",  '', $time, $cookie_path);            
+        setcookie("ECS[password]", '', $time, $cookie_path);
+	    setcookie("uuid", '', $time, $cookie_path);
+		setcookie("serviceToken", '', $time, $cookie_path);
+	}
+
+	private static function clear_session(){
+		 $GLOBALS['sess']->destroy_session();
+	}
+
+	private static function clear_redis_for_logout(){
 		$uuid = $_COOKIE['uuid'];
 		DEL_REDIS($uuid,'user');
 		DEL_REDIS($uuid,'user_id');
-		$user->logout();
-		return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success'));
+	}
+
+	public static function logout(){
+		MES_User::clear_session();
+		MES_User::clear_cookie_for_logout();
+		MES_User::clear_redis_for_logout();
+		return json_encode(array(
+			'code'=>RES_SUCCSEE,
+			'msg'=>'success'
+		));
 	}
 
 	public static function check_login(){
@@ -123,15 +275,95 @@ class MES_User{
 		return $res;
 	}
 
+
+	//更新用户信息
+	//原来是在lib_main中定义的一个全局方法 似乎是没有必要的
+	public static function update_user_info(){
+		if (!$_SESSION['user_id']){
+			return false;
+		}
+
+		//查询会员信息
+		$time = date('Y-m-d');
+		$sql = 'SELECT u.user_money,u.email, u.pay_points, u.user_rank, u.rank_points, '.
+				' IFNULL(b.type_money, 0) AS user_bonus, u.last_login, u.last_ip'.
+				' FROM ' .$GLOBALS['ecs']->table('users'). ' AS u ' .
+				' LEFT JOIN ' .$GLOBALS['ecs']->table('user_bonus'). ' AS ub'.
+				' ON ub.user_id = u.user_id AND ub.used_time = 0 ' .
+				' LEFT JOIN ' .$GLOBALS['ecs']->table('bonus_type'). ' AS b'.
+				" ON b.type_id = ub.bonus_type_id AND b.use_start_date <= '$time' AND b.use_end_date >= '$time' ".
+				" WHERE u.user_id = '$_SESSION[user_id]'";
+		if ($row = $GLOBALS['db']->getRow($sql))
+		{
+			/* 更新SESSION */
+			$_SESSION['last_time']   = $row['last_login'];
+			$_SESSION['last_ip']     = $row['last_ip'];
+			$_SESSION['login_fail']  = 0;
+			$_SESSION['email']       = $row['email'];
+
+			/*判断是否是特殊等级，可能后台把特殊会员组更改普通会员组*/
+			if($row['user_rank'] >0)
+			{
+				$sql="SELECT special_rank from ".$GLOBALS['ecs']->table('user_rank')."where rank_id='$row[user_rank]'";
+				if($GLOBALS['db']->getOne($sql)==='0' || $GLOBALS['db']->getOne($sql)===null)
+				{   
+					$sql="update ".$GLOBALS['ecs']->table('users')."set user_rank='0' where user_id='$_SESSION[user_id]'";
+					$GLOBALS['db']->query($sql);
+					$row['user_rank']=0;
+				}
+			}
+
+			/* 取得用户等级和折扣 */
+			if ($row['user_rank'] == 0)
+			{
+				// 非特殊等级，根据等级积分计算用户等级（注意：不包括特殊等级）
+				$sql = 'SELECT rank_id, discount FROM ' . $GLOBALS['ecs']->table('user_rank') . " WHERE special_rank = '0' AND min_points <= " . intval($row['rank_points']) . ' AND max_points > ' . intval($row['rank_points']);
+				if ($row = $GLOBALS['db']->getRow($sql))
+				{
+					$_SESSION['user_rank'] = $row['rank_id'];
+					$_SESSION['discount']  = $row['discount'] / 100.00;
+				}
+				else
+				{
+					$_SESSION['user_rank'] = 0;
+					$_SESSION['discount']  = 1;
+				}
+			}
+			else
+			{
+				// 特殊等级
+				$sql = 'SELECT rank_id, discount FROM ' . $GLOBALS['ecs']->table('user_rank') . " WHERE rank_id = '$row[user_rank]'";
+				if ($row = $GLOBALS['db']->getRow($sql))
+				{
+					$_SESSION['user_rank'] = $row['rank_id'];
+					$_SESSION['discount']  = $row['discount'] / 100.00;
+				}
+				else
+				{
+					$_SESSION['user_rank'] = 0;
+					$_SESSION['discount']  = 1;
+				}
+			}
+		}
+
+		/* 更新登录时间，登录次数及登录ip */
+		$sql = "UPDATE " .$GLOBALS['ecs']->table('users'). " SET".
+			   " visit_count = visit_count + 1, ".
+			   " last_ip = '" .real_ip(). "',".
+			   " last_login = '" .gmtime(). "'".
+			   " WHERE user_id = '" . $_SESSION['user_id'] . "'";
+		$GLOBALS['db']->query($sql);
+	}
+
 	//检查一个用户是否存在
-	public static function check_user_exsit($username,$serverside=false){
-		//global $user;
+	public static function check_user_exsit($mobile,$serverside=false){
 		global $db;
 		$res = array('code'=>RES_SUCCSEE);
-		$username = addslashes($username);
-		$user = $db->getAll("select * from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
-		$user = $user[0];
-		if($user['mobile_phone']==$username&&$user!=null){
+		$mobile = addslashes($mobile);
+
+		//test pass
+		$user = MES_Sec::get_decode_userinfo_by_mobile($mobile);
+		if($user['mobile_phone']==$mobile&&$user!=null){
 			if($user['user_type']==11){
 				$res['exsit'] = false;
 				$res['autoregister'] = true;
@@ -148,19 +380,39 @@ class MES_User{
 		return json_encode($res);
 	}
 
+
+    //添加用户username, $email,$password
+    public static function add_user($username,$email,$password){
+        /* 将用户添加到整合方 */
+		
+        if (MES_User::check_user($username) > 0)
+        {
+            $error = ERR_USERNAME_EXISTS;
+            return false;
+        }
+
+        /* 检查email是否重复 */
+        if (MES_Sec::check_email_exsit($email))
+        {
+            $error = ERR_EMAIL_EXISTS;
+            return false;
+        }
+
+        $password = MES_User::compile_password(array('password'=>$password));
+
+        MES_Sec::add_user($username,$email,$password);
+        return true;
+    } 
+
 	//帮用户自动注册
 	public static function auto_register($mobile){
 		global $db;
 		global $ecs;
 		include_once(ROOT_PATH . 'includes/lib_passport.php');
-
-
-		$check_user = MES_User::check_user_exsit($mobile);
-		//if($check_user['autoregister']==true){
-		//}
-
+        
+		$msg='';
 		$mobile = addslashes($mobile);
-        $msg='';
+		$check_user = MES_User::check_user_exsit($mobile);
 
 		//这个密码实际上会在注册后立即被更新成一个随机密码
         $password = '123456';
@@ -172,8 +424,8 @@ class MES_User{
 		$other['rea_name'] = '';
 
         $back_act = '';
-        if (register($username, $password, $email,$other) !== false){
-        	//user type 写成11 自动注册
+        if (MES_User::_register($username, $password, $email,$other) !== false){
+        	//user type写成11代表自动注册
 			//密码必须名文 因为这个要发送给用户
 			$rand_password = MES_User::rand_num();
 			$db->query("update ecs_users set user_type=11,password='$rand_password' where user_name='$username'");//用户类型设置bisc
@@ -188,6 +440,127 @@ class MES_User{
 			'msg'=>$msg
 		));
 	}
+	
+	
+	//检查管理员表
+	private static function _admin_registered( $adminname ){
+			$res = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('admin_user') .
+										  " WHERE user_name = '$adminname'");
+			return $res;
+	}
+
+     //之前定义在lib_passport内部的注册方法
+	 public static function _register($username, $password, $email, $other = array()){
+		
+		//检查username
+		if (empty($username)){
+			$GLOBALS['err']->add($GLOBALS['_LANG']['username_empty']);
+		}else{
+			if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)){
+				$GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['username_invalid'], htmlspecialchars($username)));
+			}
+		}
+
+		//检查email
+		if (empty($email)){
+			return false;
+		}
+
+		if ($GLOBALS['err']->error_no > 0){
+			return false;
+		}
+
+		//检查是否和管理员重名
+		if (MES_User::_admin_registered($username)){
+			return false;
+		}
+
+    
+		if (!MES_User::add_user($username, $email,$password)){
+			//注册失败
+			return false;
+		}else{
+			//注册成功
+			//设置成登录状态
+			$GLOBALS['user']->set_session($username);
+			$GLOBALS['user']->set_cookie($username);
+
+			$time_lasts=3600*24;
+			$time = time()+$time_lasts;
+			$token = md5($username.$password.'_mescake');
+			
+
+			SETEX_REDIS($username,$token,$time_lasts,'user');
+
+			//cookie的下发 要放到正确的路径下
+			setcookie("serviceToken",$token, $time,'/');            
+			setcookie("uuid",$username, $time,'/');
+			
+			//test pass
+			$row = MES_Sec::get_decode_userinfo_by_username($username);
+			if ($row) {
+				SETEX_REDIS($username,$row['user_id'],$time_lasts,'user_id');
+			}
+
+			
+			//推荐处理
+			$affiliate  = unserialize($GLOBALS['_CFG']['affiliate']);
+			if (isset($affiliate['on']) && $affiliate['on'] == 1)
+			{
+				// 推荐开关开启
+				$up_uid     = get_affiliate();
+				empty($affiliate) && $affiliate = array();
+				$affiliate['config']['level_register_all'] = intval($affiliate['config']['level_register_all']);
+				$affiliate['config']['level_register_up'] = intval($affiliate['config']['level_register_up']);
+				if ($up_uid){
+
+					if (!empty($affiliate['config']['level_register_all'])){
+
+						if (!empty($affiliate['config']['level_register_up'])){
+							$rank_points = $GLOBALS['db']->getOne("SELECT rank_points FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'");
+							if ($rank_points + $affiliate['config']['level_register_all'] <= $affiliate['config']['level_register_up']){
+								log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, sprintf($GLOBALS['_LANG']['register_affiliate'], $_SESSION['user_id'], $username));
+							}
+						}else{
+							log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, $GLOBALS['_LANG']['register_affiliate']);
+						}
+					}
+
+					//设置推荐人
+					$sql = 'UPDATE '. $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $_SESSION['user_id'];
+
+					$GLOBALS['db']->query($sql);
+				}
+			}
+
+			//定义other合法的变量数组
+			$other_key_array = array('msn', 'qq', 'office_phone', 'home_phone', 'mobile_phone','rea_name');
+			$update_data['reg_time'] = local_strtotime(local_date('Y-m-d H:i:s'));
+			if ($other)
+			{
+				foreach ($other as $key=>$val)
+				{
+					//删除非法key值
+					if (!in_array($key, $other_key_array))
+					{
+						unset($other[$key]);
+					}
+					else
+					{
+						$other[$key] =  htmlspecialchars(trim($val)); //防止用户输入javascript代码
+					}
+				}
+				$update_data = array_merge($update_data, $other);
+			}
+			$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('users'), $update_data, 'UPDATE', 'user_id = ' . $_SESSION['user_id']);
+			
+			//注册的时候只写入了email和密码 至于手机号要单独更新
+			update_user_info();      // 更新用户信息
+			return true;
+		}
+	}
+
+
 
 	public static function get_auto_register_mobile(){
 		return json_encode(array(
@@ -209,11 +582,8 @@ class MES_User{
 
 		
 		$password = md5($password);
-		//$password = md5($password.'0');
 		$mobile = $_SESSION['user_auto_register_moblie'];
 		$username = 'W' . $mobile . "@fal.com";
-		
-
 
 		if($_SESSION['user_auto_register'] == '11'){
 			$db->query("update ecs_users set user_type=0,password='$password' where user_name='$username'");
@@ -406,17 +776,16 @@ class MES_User{
 	}
 
 	//使用手机号码查询验证码的登录
-	public static function query_login($username,$password){
+	public static function query_login($mobile,$password){
 		global $db;
 		global $_LANG;
 		global $user;
-		$username = addslashes($username);
+		$mobile = addslashes($mobile);
 		$password = addslashes($password);
-		$mobile = $username;
 		$json = new JSON;
 		$res  = array('code' =>RES_SUCCSEE, 'content' => 'login successs');
 
-		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where mobile_phone='$username'");
+		$username = MES_Sec::get_decode_username_by_mobile($mobile);
 
 		if(empty($username)||empty($password)){
 			$res['code']   = RES_FAIL;
@@ -475,6 +844,7 @@ class MES_User{
 	public static function get_users_info(){
 		global $db;
 		$user_name = addslashes($_COOKIE['uuid']);
+		//MES_Sec::get_decode_userinfo_by_username($user_name);
 		$info=$db->getAll("select mobile_phone,rea_name,sex,user_money from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
 		return json_encode(array(
 			'code' =>RES_SUCCSEE,
@@ -609,6 +979,7 @@ class MES_User{
 		  ));
 	}
 	
+	//对外的使用手机号码的注册
 	public static function signup($mobile,$password,$vaild_code){
 		global $_CFG;
 		global $db;
@@ -616,9 +987,8 @@ class MES_User{
 		//增加是否关闭注册
 		if ($_CFG['shop_reg_closed']){
 			return json_encode(array('code' =>RES_FAIL,'msg'=>'close'));
-		}
-		else{
-			include_once(ROOT_PATH . 'includes/lib_passport.php');
+		}else{
+
 			$f_email= 'W' . $mobile . "@fal.com";
 			$email = $f_email;
 			$username = $f_email;
@@ -628,7 +998,7 @@ class MES_User{
 			$redis_vaild_code = GET_REDIS($mobile,'signup');
 			
 			if($redis_vaild_code!=$vaild_code){
-				return json_encode(array('code' =>10010,'msg'=>'vaild error'));
+				return json_encode(array('code' =>10010,'msg'=>'vaild error for wrong vaild code'));
 			}
 			
 			if (strlen($username) < 3){
@@ -642,15 +1012,17 @@ class MES_User{
 			if (strpos($password, ' ') > 0){
 				return json_encode(array('code' =>RES_FAIL,'msg'=>$_LANG['passwd_balnk']));
 			}
-
-			if (register($username, $password, $email,$other) !== false){
+			
+			//register in lib_passport;
+			if (MES_User::_register($username, $password, $email,$other) !== false){
+				
 				$db->query("update ecs_users set user_type=0 where user_name='$username'");//用户类型设置bisc
-				$ucdata = empty($user->ucdata)? "" : $user->ucdata;
-				$_SESSION['user_msg']=$username;
+				$_SESSION['user_msg']=$username;			
+				//删除注册状态验证的redis;
 				DEL_REDIS($mobile,'signup');
 				return json_encode(array('code' =>RES_SUCCSEE,'msg'=>'success'));
 			}else{
-				return json_encode(array('code' =>RES_FAIL,'msg'=>'fail'));
+				return json_encode(array('code' =>RES_FAIL,'msg'=>'failed'));
 			}
 		}
 	}
@@ -727,19 +1099,18 @@ class MES_User{
 		
 		if($res){
 			$change_money = floatval($record['cardmoney']);
-				log_mcard_change($user_id, $change_money,'储值卡：'.$card_num.'充值',0,0,2);
-				$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id='$_SESSION[user_id]'");
-				$result['user_money'] = $user_money;
-				$result['change_money'] = $change_money;
-				$result['message'] ='操作成功';
-				DEL_REDIS($mobile,'charge');
+			log_mcard_change($user_id, $change_money,'储值卡：'.$card_num.'充值',0,0,2);
+			$user_money = $GLOBALS['db']->getOne('SELECT user_money FROM ' . $ecs->table('users') ." WHERE user_id='$_SESSION[user_id]'");
+			$result['user_money'] = $user_money;
+			$result['change_money'] = $change_money;
+			$result['message'] ='操作成功';
+			DEL_REDIS($mobile,'charge');
 		}else{
 		   $result['code'] = RES_FAIL;
 		   $result['message'] ='更新储值卡状态失败，请重试';
 		}
 		return json_encode($result);
 	}
-	
 }
 
 ?>

@@ -14,6 +14,8 @@
  */
 
 define('IN_ECS', true);
+define('DOMAIN',$_SERVER['SERVER_NAME']);
+
 
 require (dirname(__FILE__) . '/includes/init.php');
 require (ROOT_PATH . 'includes/lib_order.php');
@@ -36,6 +38,13 @@ if (!isset($_REQUEST['step'])) {
 
 assign_template();
 assign_dynamic('flow');
+if(DOMAIN=='test.mescake.com'){
+	define('STATIC_DOMAIN','http://static.n.mescake.com/');
+}else{
+	define('STATIC_DOMAIN','http://s1.static.mescake.com/');
+}
+//flow里面的有个done_v2 是唯一没有放在route下面管理的界面
+$smarty->assign('static_domain',STATIC_DOMAIN);
 $position = assign_ur_here(0, $_LANG['shopping_flow']);
 $smarty -> assign('page_title', $position['title']);
 // 页面标题
@@ -1961,21 +1970,15 @@ elseif ($_REQUEST['step'] == 'add_favourable') {
 /* 验证红包序列号 */
 elseif ($_REQUEST['step'] == 'validate_bonus') {
 	$bonus_sn = trim($_REQUEST['bonus_sn']);
+	//有些优惠券只针对某些蛋糕生效
+	$goods_id = trim($_REQUEST['goods_id']);
 	if (is_numeric($bonus_sn)) {
 		$bonus = bonus_info(0, $bonus_sn);
 	} else {
 		$bonus = array();
 	}
 
-	//    if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0)
-	//    {
-	//        die($_LANG['bonus_sn_error']);
-	//    }
-	//    if ($bonus['min_goods_amount'] > cart_amount())
-	//    {
-	//        die(sprintf($_LANG['bonus_min_amount_error'], price_format($bonus['min_goods_amount'], false)));
-	//    }
-	//    die(sprintf($_LANG['bonus_is_ok'], price_format($bonus['type_money'], false)));
+
 	$bonus_kill = price_format($bonus['type_money'], false);
 
 	include_once ('includes/cls_json.php');

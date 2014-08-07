@@ -143,12 +143,13 @@ class integrate
      * @return void
      */
     function login11($username, $password, $remember = null)
-    {
+    {	
+		
         if ($this->check_user($username, $password) > 0)
         {
-			
-            if ($this->need_sync)
-            {
+		
+            if ($this->need_sync){
+				
                 $this->sync($username,$password);
             }
             $this->set_session($username);
@@ -251,6 +252,7 @@ class integrate
     function add_user($username, $password, $email, $gender = -1, $bday = 0, $reg_date=0, $md5password='')
     {
         /* 将用户添加到整合方 */
+		
         if ($this->check_user($username) > 0)
         {
             $this->error = ERR_USERNAME_EXISTS;
@@ -297,7 +299,6 @@ class integrate
             $fields[] = $this->field_reg_date;
             $values[] = $reg_date;
         }
-
         $sql = "INSERT INTO " . $this->table($this->user_table).
                " (" . implode(',', $fields) . ")".
                " VALUES ('" . implode("', '", $values) . "')";
@@ -305,7 +306,7 @@ class integrate
         $this->db->query($sql);
 
         if ($this->need_sync)
-        {
+        { 
             $this->sync($username, $password);
         }
 
@@ -743,6 +744,7 @@ class integrate
      */
     function compile_password ($cfg)
     {
+
        if (isset($cfg['password']))
        {
             $cfg['md5password'] = md5($cfg['password']);

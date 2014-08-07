@@ -1,17 +1,6 @@
 <?php
 
-/**
- * ECSHOP 用户帐号相关函数库
- * ============================================================================
- * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
- * 网站地址: http://www.ecshop.com；
- * ----------------------------------------------------------------------------
- * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
- * 使用；不允许对程序代码以任何形式任何目的的再发布。
- * ============================================================================
- * $Author: liubo $
- * $Id: lib_passport.php 17217 2011-01-19 06:29:08Z liubo $
-*/
+require_once('lib/user.php');
 
 if (!defined('IN_ECS'))
 {
@@ -126,8 +115,10 @@ function register($username, $password, $email, $other = array())
 		//cookie的下发 要放到正确的路径下
         setcookie("serviceToken",$token, $time,'/');            
         setcookie("uuid",$username, $time,'/');
+		
 		$sql = "SELECT user_id, password, email FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_name='$username' LIMIT 1";
         $row = $GLOBALS['db']->getRow($sql);
+		$row = MES_Sec::get_decode_userinfo_by_username($username);
         if ($row) {
 			SETEX_REDIS($username,$row['user_id'],$time_lasts,'user_id');
         }
@@ -201,18 +192,8 @@ function register($username, $password, $email, $other = array())
     }
 }
 
-/**
- *
- *
- * @access  public
- * @param
- *
- * @return void
- */
-function logout()
-{
-/* todo */
-}
+
+
 
 /**
  *  将指定user_id的密码修改为new_password。可以通过旧密码和验证字串验证修改。

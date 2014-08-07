@@ -1274,6 +1274,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$parent_id
         $num -= $parent['goods_number'];
     }*/
     /* 如果数量不为0，作为基本件插入 */
+
     if ($num > 0)
     {
 		if($p_goods_attr>0){
