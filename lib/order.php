@@ -1,7 +1,9 @@
 <?php
 
+require_once('model/sec.php');
 require_once('lib/user.php');
 require_once('lib/fee.php');
+
 
 $GOODS_FREE_FORK = array(
 	''=>'5',
@@ -52,9 +54,8 @@ class MES_Order{
 		GLOBAL $db;
 		if(MES_User::server_check_login()){
 			$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
-			$sql="select * from ecs_user_address where user_id={$user_id}";	
-			$address=$db->getAll($sql);
-			
+			$address = MES_Sec::get_address_by_userid($user_id);
+		
 			for($i=0;$i<count($address);$i++){
 				$region_id = $address[$i]['city'];
 				$district_id = $address[$i]['district'];
@@ -85,14 +86,10 @@ class MES_Order{
 		GLOBAL $db;
 		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
 		//根据用户id来更新地址
-		$db->query("update ecs_user_address set country={$country},city={$city},district={$district},consignee='{$contact}',address='{$address}',mobile='{$tel}'
-			where user_id={$user_id} and address_id={$address_id}");
 
+		MES_Sec::update_address_by_userid_and_addressid($country,$city,$district,$contact,$address,$tel,$user_id,$address_id);
 
-		//get updated address
-		$sql="select * from ecs_user_address where user_id={$user_id} and address_id={$address_id}";	
-		$address=$db->getRow($sql);
-		
+		$address = MES_Sec::get_address_by_userid_and_addressid($user_id,$address_id);
 		//get cityname from anther table;
 		$city_name=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
 		$address['cityName'] = $city_name;
@@ -109,11 +106,8 @@ class MES_Order{
 	public static function add_order_address($contact,$country,$city,$address,$tel,$district=0){
 		GLOBAL $db;
 		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
-		$db->query("INSERT INTO ecs_user_address(address_name, user_id, consignee, country, province, city, district, address, tel, mobile, money_address, route_id, ExchangeState, ExchangeState2)
-		VALUES('',{$user_id},'{$contact}','{$country}','0', '{$city}', '{$district}', '{$address}', '', '{$tel}', NULL, '0', '0', '0')");
-		
-		$sql="select * from ecs_user_address where user_id={$user_id} and address='{$address}' limit 0,1";	
-		$address=$db->getRow($sql);
+		MES_Sec::add_address($contact,$country,$city,$district,$address,$tel,$user_id);
+		$address = MES_Sec::get_address_by_userid_and_address($user_id,$address);
 		
 		//get cityname from anther table;
 		$city_name=$db->getOne("select region_name from ship_region where region_id={$address['city']}");
@@ -219,9 +213,8 @@ class MES_Order{
 	public static function if_address_need_fee($address_id){
 		GLOBAL $db;
 		$user_id = GET_REDIS($_COOKIE['uuid'],'user_id');
-		$sql="select * from ecs_user_address where address_id={$address_id} and user_id={$user_id}";	
-		$address=$db->getAll($sql);
-		$address = $address[0];
+		$address = MES_Sec::get_address_by_userid_and_addressid($user_id,$address_id);
+
 		if($address){
 			$region_id = $address['city'];
 			$district_id = $address['district'];

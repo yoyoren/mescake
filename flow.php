@@ -1219,9 +1219,13 @@ if ($_REQUEST['step'] == 'add_to_cart') {
 //-- 完成所有订单操作，提交到数据库
 /*------------------------------------------------------ */
 elseif ($_REQUEST['step'] == 'done') {
-
+	require_once('model/sec.php');
 	include_once ('includes/lib_clips.php');
 	include_once ('includes/lib_payment.php');
+	define('PAY_ALIPAY',2);
+	define('PAY_KUAIQAIN',3);
+	define('PAY_POS',4);
+
 	$token = $_COOKIE['serviceToken'];
 	$uuid = $_COOKIE['uuid'];
 	$res = false;
@@ -1253,14 +1257,12 @@ elseif ($_REQUEST['step'] == 'done') {
 	 * 如果用户已经登录了则检查是否有默认的收货地址
 	 * 如果没有登录则跳转到登录和注册页面
 	 */
-	if (empty($_SESSION['direct_shopping']) && $user_id == 0) {
-		/* 用户没有登录且没有选定匿名购物，转向到登录页面 */
+	if ($user_id == 0) {
 		ecs_header("Location: flow.php?step=login\n");
 		exit ;
 	}
-	define('PAY_ALIPAY',2);
-	define('PAY_KUAIQAIN',3);
-	define('PAY_POS',4);
+
+	
 
 	$_POST['shipping'] = 1;
 	$pay_id = intval($_POST['pay_id']);
@@ -1368,9 +1370,10 @@ elseif ($_REQUEST['step'] == 'done') {
 	/* 检查积分余额是否合法 */
 
 	if ($user_id > 0) {
-		$user_info = user_info($user_id);
-
+		$user_info = MES_Sec::get_userinfo_by_userid($user_id);
+		
 		$order['surplus'] = min($order['surplus'], $user_info['user_money'] + $user_info['credit_line']);
+		
 		if ($order['surplus'] < 0) {
 			$order['surplus'] = 0;
 		}
@@ -1388,7 +1391,7 @@ elseif ($_REQUEST['step'] == 'done') {
 		}
 	} else {
 		$order['surplus'] = 0;
-		$order['integral'] = 0;
+		$order['integral'] = 0; 
 	}
 
 	/* 检查红包是否存在*/
@@ -1566,8 +1569,9 @@ elseif ($_REQUEST['step'] == 'done') {
 	$dt = date("Y-m-d", $order['add_time']);
 	$bt = substr($order['best_time'], 0, 10);
 	$dtime = date("Y-m-d", time());
-	$xiangkuangnum = $db -> getOne("select count(*) from ecs_order_info where from_unixtime(add_time,'%Y-%m-%d')=" . $dtime . " and (scts like '%相框%' or wsts like '%相框%') and (order_status=0 or order_status=1)");
+	//$xiangkuangnum = $db -> getOne("select count(*) from ecs_order_info where from_unixtime(add_time,'%Y-%m-%d')=" . $dtime . " and (scts like '%相框%' or wsts like '%相框%') and (order_status=0 or order_status=1)");
 
+	//这个方法不需要加密和解密处理，因为不涉及具体的数据内容
 	$if_exsit = $db -> getAll('select * from ecs_order_info where order_id="'.$new_order_id.'"');
 	$if_exsit = count($if_exsit);
 	if($if_exsit>0){
@@ -1575,12 +1579,15 @@ elseif ($_REQUEST['step'] == 'done') {
 		return;
 	}
 
-	$ba = $GLOBALS['db'] -> autoExecute($GLOBALS['ecs'] -> table('order_info'), $order, 'INSERT');
+	
+	$ba = MES_Sec::add_order($order);
 
 	//只有货到付款才能立刻发短信
 	if ($ba) {
 		include_once ('includes/sendsms.php');
-		$mobile = $db -> getOne("select mobile_phone from ecs_users where user_id = $user_id");
+		$userinfo = MES_Sec::get_userinfo_by_userid($user_id);
+		$mobile = $userinfo['mobile_phone']; 
+
 		if($pay_id == PAY_POS){
 			sms_send2($mobile, 1);
 		}else{
@@ -1629,62 +1636,7 @@ elseif ($_REQUEST['step'] == 'done') {
 		$sql = "INSERT INTO " . $ecs -> table('order_goods') . "( " . "order_id, goods_id, goods_name, goods_sn, goods_number,  " . "goods_price, goods_attr, goods_discount,is_integral) " . " values('$new_order_id', 60, '餐具套装', '00', '$sends','0', '',1,0) ";
 		$db -> query($sql);
 	}
-	/*
-	if (isset($_COOKIE['emar'])) {
-		include_once 'api/advertiser/Sender.php';
-		include_once 'api/advertiser/Order.php';
-		include_once 'api/advertiser/OrderStatus.php';
-		include_once 'api/advertiser/Product.php';
-		include_once 'api/advertiser/Service.php';
-		include_once 'api/util/Config.php';
-		$value = urldecode($_COOKIE['emar']);
-		$arr = explode(":", $value);
-		$cps = new Order();
-		$cps -> setOrderNo($order['order_sn']);
-		$add_time = date("Y-m-d H:i:s", $order['add_time'] + 8 * 3600);
-		$cps -> setOrderTime($add_time);
-		// 设置下单时间
-		$cps -> setUpdateTime($add_time);
-		// 设置订单更新时间，如果没有下单时间，要提前对接人提前说明
-		$cps -> setCampaignId($arr[2]);
-		// 测试时使用"101"，正式上线之后活动id必须要从cookie中获取
-		$cps -> setFeedback($arr[3]);
-		// 测试时使用"101"，正式上线之后活动id必须要从cookie中获取
-		$cps -> setFare($order['shipping_fee']);
-		$cps -> setFavorable($order['bonus'] + $order['surplus']);
-		// 设置优惠券
-		$cps -> setOrderStatus($order['order_status']);
-		// 设置订单状态
-		$cps -> setPaymentStatus($order['pay_status']);
-		// 设置支付状态
-		$cps -> setPaymentType($order['pay_name']);
-		// 支付方式
 
-		foreach ($cart_goods as $k => $v) {
-			if ($v['goods_price'] > 0) {
-				$pro = new Product();
-				// $pro2 -> setOrderNo($order -> getOrderNo());
-				$pro -> setProductNo($v['goods_sn']);
-				$pro -> setName($v['goods_name']);
-				$pro -> setCategory("蛋糕");
-				$pro -> setCommissionType("");
-				$pro -> setAmount($v['goods_number']);
-				$a = number_format($v['goods_price'] * (1 - (($order['bonus'] + $order['surplus']) / ($order['bonus'] + $order['surplus'] + $order['order_amount']))), 2, ".", "");
-				$pro -> setPrice($a);
-				$products[] = $pro;
-			}
-		}
-		$cps -> setProducts($products);
-
-		//var_dump(get_object_vars($cps));
-		$sender = new Sender();
-		$sender -> setOrder($cps);
-		$sender -> sendOrder();
-		$ordertime = $order['add_time'] + 8 * 3600;
-		$sql = "INSERT INTO cps ( " . "order_id,src,channel,cid,wi,order_time)" . " values('$new_order_id','emar','cps'," . $arr[2] . ",'" . $arr[3] . "','" . $ordertime . "') ";
-		$db -> query($sql);
-
-	}*/
 
 	/* 处理余额、积分、红包 */
 	if ($order['user_id'] > 0 && $order['surplus'] > 0) {

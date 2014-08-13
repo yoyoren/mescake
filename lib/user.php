@@ -19,13 +19,10 @@ class MES_User{
 	
 	
 	
-	private static function _send_sms($mobile){
-		$rand_password = MES_User::rand_num();  
-		$c = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+	private static function _send_sms($c,$mobile){
 		$cont=urlencode($c);
 		$url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$cont.'&sendTime=';
 		file_get_contents($url);
-		return $rand_password;
 	}
 
     private static function _set_login_session ($username=''){
@@ -41,6 +38,7 @@ class MES_User{
             }
     }
 
+    //密码加密加盐
 	private static function compile_password ($cfg){
 
        if (isset($cfg['password'])){
@@ -88,7 +86,7 @@ class MES_User{
             return $data;
         }else{
 			//test pass
-			$row = MES_Sec::get_decode_userinfo_by_username($username);
+			$row = MES_Sec::get_userinfo_by_username($username);
 			$ec_salt=$row['ec_salt'];
             if (empty($row)){
                 return 0;
@@ -99,13 +97,11 @@ class MES_User{
                 if ($row['password'] != MES_User::compile_password(array('password'=>$password,'ec_salt'=>$ec_salt))){
                     return 0;
                 }else{
+					//对于没有加盐的注册用户
 					if(empty($ec_salt)){
 						$ec_salt=rand(1,9999);
 						$new_password=md5(md5($password).$ec_salt);
-					    $sql = "UPDATE ".$user_table ."SET password= '" .$new_password."',ec_salt='".$ec_salt."'".
-                   " WHERE user_name='$post_username'";
-                         $this->db->query($sql);
-
+						MES_Sec::update_password_and_salt($post_username,$new_password,$ec_salt);
 					}
                     return $row['user_id'];
                 }
@@ -196,7 +192,7 @@ class MES_User{
 	public static function get_user_info($user_id){
 		global $db;
 		$user_id = addslashes($user_id);
-		$user = MES_Sec::get_decode_userinfo_by_userid($user_id);
+		$user = MES_Sec::get_userinfo_by_userid($user_id);
 
 		unset($user['question']);
 		unset($user['answer']);
@@ -427,8 +423,8 @@ class MES_User{
         if (MES_User::_register($username, $password, $email,$other) !== false){
         	//user type写成11代表自动注册
 			//密码必须名文 因为这个要发送给用户
-			$rand_password = MES_User::rand_num();
-			$db->query("update ecs_users set user_type=11,password='$rand_password' where user_name='$username'");//用户类型设置bisc
+			$password = MES_User::rand_num();
+			MES_Sec::update_auto_regsiter_password($username,$password);
 			$_SESSION['user_msg'] = $username;
 		}
 
@@ -444,6 +440,7 @@ class MES_User{
 	
 	//检查管理员表
 	private static function _admin_registered( $adminname ){
+		//这个不需要加密
 			$res = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('admin_user') .
 										  " WHERE user_name = '$adminname'");
 			return $res;
@@ -497,7 +494,7 @@ class MES_User{
 			setcookie("uuid",$username, $time,'/');
 			
 			//test pass
-			$row = MES_Sec::get_decode_userinfo_by_username($username);
+			$row = MES_Sec::get_userinfo_by_username($username);
 			if ($row) {
 				SETEX_REDIS($username,$row['user_id'],$time_lasts,'user_id');
 			}
@@ -586,7 +583,8 @@ class MES_User{
 		$username = 'W' . $mobile . "@fal.com";
 
 		if($_SESSION['user_auto_register'] == '11'){
-			$db->query("update ecs_users set user_type=0,password='$password' where user_name='$username'");
+
+			MES_Sec::update_password_for_unregitser_user($username,$password);
 			unset($_SESSION['user_auto_register']);
 			unset($_SESSION['user_auto_register_moblie']);
 			return json_encode(array('code'=>RES_SUCCSEE,'msg'=>'success'));
@@ -742,21 +740,18 @@ class MES_User{
 	   if(strlen($mobile)<5){
 		   return json_encode(array('code' =>RES_FAIL));
 	   }
-	   $user_type=$db->getOne("select user_type from". $GLOBALS['ecs']->table("users")."where email='$mobile' or mobile_phone='$mobile'");
+	   $user_type = MES_Sec::get_user_type_by_mobile($mobile);
 	   if($user_type == 11){
 		   //重新生成随机的密码
 		   $rand_password = MES_User::rand_num();
 		   //组合出这个地址
 		   $user_name= 'W' . $mobile . "@fal.com";
-		   $db->query("update ecs_users set password='$rand_password' where user_name='$user_name'");
-
-		   $password = $db->getOne("select password from". $GLOBALS['ecs']->table("users")."where email='$mobile' or mobile_phone='$mobile'");	  
+		   MES_Sec::update_password_by_username($password,$user_name);
+		   $password = MES_Sec::get_password_by_mobile($mobile);
+  
 		   
 		   $c = "尊敬的用户，您在每实官网手机校验码为".$password."。如有问题请与每实客服中心联系，电话4000 600 700。";
-		   $cont=urlencode($c);
-		  
-		   $url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$cont.'&sendTime=';
-		   file_get_contents($url);
+		   MES_User::_send_sms($c,$mobile);
 		   
 		   return json_encode(array('code' =>RES_SUCCSEE));
 	   }else{
@@ -764,6 +759,7 @@ class MES_User{
 	   }
 	}
 
+    //产生一个随机的密码，用于手机找回密码
 	private static function rand_num(){
 		srand((double)microtime()*1000000);//create a random number feed.
 		$ychar="0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
@@ -805,13 +801,14 @@ class MES_User{
 		return $json->encode($res);
 	}
 
+    //修改默认的手机号码
 	public static function change_mobile($mobile,$code){
 		global $db;
 		if($_SESSION['change_mobile']!=$mobile||$_SESSION['change_mobile_code']!=$code){
 			return json_encode(array('code' =>RES_FAIL));
 		}else{
 			$user_name = $_SESSION['uuid'];
-			$db->query("update ecs_users set mobile_phone='$mobile' where user_name='$user_name'");
+			MES_Sec::update_mobile_by_username($mobile,$user_name);
 			unset($_SESSION['change_mobile']);
 			unset($_SESSION['change_mobile_code']);
 			return json_encode(array('code' =>RES_SUCCSEE,'mobile'=>$mobile));
@@ -821,9 +818,7 @@ class MES_User{
 	public static function change_mobile_get_code($mobile){
 		$rand_password = MES_User::rand_num();
 		$c = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
-		$content=urlencode($c);
-	    $url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$content.'&sendTime=';
-		file_get_contents($url);
+		MES_User::_send_sms($c,$mobile);
 		$_SESSION['change_mobile'] = $mobile;
 		$_SESSION['change_mobile_code'] = $rand_password;
 		return json_encode(array('code' =>RES_SUCCSEE));
@@ -833,7 +828,7 @@ class MES_User{
 	public static function get_user_mobile_number(){
 		global $db;
 		$user_name = addslashes($_SESSION['uuid']);
-		$mobile=$db->getOne("select mobile_phone from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+		$mobile = MES_Sec::get_mobile_by_username($user_name);
 		return json_encode(array(
 			'code' =>RES_SUCCSEE,
 			'mobile'=>$mobile
@@ -844,8 +839,8 @@ class MES_User{
 	public static function get_users_info(){
 		global $db;
 		$user_name = addslashes($_COOKIE['uuid']);
-		//MES_Sec::get_decode_userinfo_by_username($user_name);
-		$info=$db->getAll("select mobile_phone,rea_name,sex,user_money from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+		//test pass
+		$info = MES_Sec::get_userinfo_by_username($user_name);
 		return json_encode(array(
 			'code' =>RES_SUCCSEE,
 			'info'=>$info
@@ -861,16 +856,16 @@ class MES_User{
 		
 		$old = md5($old);
 		$new = md5($new);
-		//$salt_password = md5($old.'ec_salt');
-		//var_dump($salt_password);
-		$password_in_db =$db->getOne("select password from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
-		$salt_in_db =$db->getOne("select ec_salt from". $GLOBALS['ecs']->table("users")."where user_name='$user_name'");
+
+		$password_in_db = MES_Sec::get_password_by_username($user_name);
+		$salt_in_db = MES_Sec::get_salt_by_username($user_name);
+		
 		$salt_password = md5($old.$salt_in_db);
 
 
 		if($password_in_db==$salt_password){
 			$new_password = md5($new.$salt_in_db);
-			$db->query("update ecs_users set password='$new_password' where user_name='$user_name'");
+			MES_Sec::update_password_by_username($new_password,$user_name);
 			return json_encode(array('code' =>RES_SUCCSEE));
 		}else{
 			return json_encode(array('code' =>RES_FAIL));
@@ -892,14 +887,16 @@ class MES_User{
 	public static function forget_password_step2($mobile,$password){
 		global $db;
 		if($_SESSION['forget_mobile_vaild']&&$_SESSION['forget_mobile'] == $mobile){
-			$salt_in_db = $db->getOne("select ec_salt from". $GLOBALS['ecs']->table("users")."where mobile_phone='$mobile'");
+			$salt_in_db = MES_Sec::get_salt_by_mobile($mobile);
 			if(!$salt_in_db){
 				$salt_in_db = '8801';
-				$db->query("update ecs_users set ec_salt='$salt_in_db' where mobile_phone='$mobile'");
+				MES_Sec::update_salt_by_mobile($salt_in_db,$mobile);
 			}
+			
 			$password = md5($password);
 			$new_password = md5($password.$salt_in_db);
-			$db->query("update ecs_users set password='$new_password' where mobile_phone='$mobile'");
+			MES_Sec::update_password_by_mobile($new_password,$mobile);
+
 			unset($_SESSION['forget_mobile']);
 			unset($_SESSION['forget_mobile_code']);
 			return json_encode(array('code' =>RES_SUCCSEE));
@@ -911,13 +908,11 @@ class MES_User{
 	public static function get_forget_password_code($mobile){
 		
 		global $db;
-		$mobile_phone = $db->getOne("select mobile_phone from". $GLOBALS['ecs']->table("users")."where mobile_phone='$mobile'");
+		$mobile_phone = MES_Sec::check_mobile_exsit($mobile);
 		if($mobile_phone){
 			$rand_password = MES_User::rand_num();
 			$c = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
-			$content=urlencode($c);
-			$url = 'http://sdk.kuai-xin.com:8888/sms.aspx?action=send&userid=4333&account=s120018&password=wangjianming123&mobile='.$mobile.'&content='.$content.'&sendTime=';
-			file_get_contents($url);
+			MES_User::_send_sms($c,$mobile);
 			$_SESSION['forget_mobile'] = $mobile;
 			$_SESSION['forget_mobile_code'] = $rand_password;
 			return json_encode(array('code' =>RES_SUCCSEE));
@@ -926,7 +921,8 @@ class MES_User{
 		}
 	}
 
-
+   //新版暂时没有使用
+   //可以先不改造
 	public static function change_sex($sex){
 		global $db;
 		if($sex!=0&&$sex!=1){
@@ -937,7 +933,9 @@ class MES_User{
 		$db->query("update ecs_users set sex='$sex' where user_name='$user_name'");
 		return json_encode(array('code' =>RES_SUCCSEE));
 	}
-
+	
+	//新版暂时没有使用
+    //可以先不改造
 	public static function change_real_name($name){
 		global $db;
 		$user_name = addslashes($_COOKIE['uuid']);
@@ -969,7 +967,9 @@ class MES_User{
 	public static function signup_vaild_code($mobile){
 		
 		 //重新生成随机的密码
-		  $rand_password = MES_User::_send_sms($mobile);
+		  $rand_password = MES_User::rand_num();  
+		  $content = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+		  MES_User::_send_sms($content,$mobile);
 		  
 		  //缓存验证码
 		  SET_REDIS($mobile,$rand_password,'signup');
@@ -1013,11 +1013,12 @@ class MES_User{
 				return json_encode(array('code' =>RES_FAIL,'msg'=>$_LANG['passwd_balnk']));
 			}
 			
-			//register in lib_passport;
+			//register in lib_passport orginal;
 			if (MES_User::_register($username, $password, $email,$other) !== false){
 				
-				$db->query("update ecs_users set user_type=0 where user_name='$username'");//用户类型设置bisc
-				$_SESSION['user_msg']=$username;			
+				MES_Sec::update_usertype_by_username($username);
+				$_SESSION['user_msg'] = $username;			
+
 				//删除注册状态验证的redis;
 				DEL_REDIS($mobile,'signup');
 				return json_encode(array('code' =>RES_SUCCSEE,'msg'=>'success'));
@@ -1030,7 +1031,9 @@ class MES_User{
     //充值验证码
 	public static function charge_vaild($mobile){
 		 //重新生成随机的密码
-		  $rand_password = MES_User::_send_sms($mobile);
+		  $rand_password = MES_User::rand_num();  
+		  $content = "尊敬的用户，您在每实官网手机校验码为".$rand_password."。如有问题请与每实客服中心联系，电话4000 600 700。";
+		  MES_User::_send_sms($content,$mobile);
 		  
 		  //缓存验证码
 		  SET_REDIS($mobile,$rand_password,'charge');
