@@ -25,14 +25,14 @@ if(SERVER_UID==MAIN_NGINX_SERVER||SERVER_UID==MAIN_NGINX_SERVER_INNER){
 
 }else if(SERVER_UID==CLUSTER_NGINX_SERVER||SERVER_UID==CLUSTER_NGINX_SERVER_INNER){
 	//´Ó·þÎñÆ÷ÅäÖÃ
-	$db_host = "210.51.166.148";
-	$db_name = "shop";
-	$db_user = "yucheng";
-	$db_pass = "yucheng138";
+	$db_host = "127.0.0.1";
+	$db_name = "mescake";
+	$db_user = "root";
+	$db_pass = "dbmescake_149server_production";
 	$redis_config = array(
-		'host' =>  '210.51.166.148',
+		'host' =>  '210.51.166.149',
 		'port' =>  6379,
-		'password'=>'yuchengmescake'
+		'password'=>''
 	);
 }else {
 	$db_host = "127.0.0.1";

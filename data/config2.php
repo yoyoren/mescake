@@ -1,15 +1,15 @@
 <?php
 // database host
-$db_host   = "210.51.166.148";
+$db_host   = "210.51.166.149";
 
 // database name
-$db_name   = "shop";
+$db_name   = "mescake";
 
 // database username
-$db_user   = "yucheng";
+$db_user   = "root";
 
 // database password
-$db_pass   = "yucheng";
+$db_pass   = "dbmescake_149server_production";
 
 // table prefix
 $prefix    = "ecs_";
