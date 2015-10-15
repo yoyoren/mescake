@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>抽奖页面</title>
+<!--     <link rel="stylesheet" href="http://land.xiaomi.net/res/css/micloudfe/home.css"> -->
+    <style type="text/css">
+    *{padding: 0; margin: 0;}
+    body{font:12px/1 "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; }
+
+/* box-sizing */
+.m-p-sh.m-p,
+.m-p-sh.m-p .find-phone-content,
+.m-p-sh.m-p-nt,
+.m-p-sh.m-p-nt .find-phone-content,
+.pker-tabs,
+.gallery-list .contactlist-container,
+.find-phone-note,
+.upload-avatar-tip,
+.dialog-input{ box-sizing:border-box; -o-box-sizing:border-box; -ms-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; }
+
+/* 新版弹框 */
+.gray_box{background:#222; opacity:0.8; filter:alpha(opacity=80); position:absolute; top:0; left:0; *zoom:1; width:100%; height:100%; min-height:615px;}
+.dialog{ position:absolute; top:0; border-radius:8px; background:#fcfcfc; box-shadow:0 2px 4px rgba(0,0,0,0.4), 0 0 1px rgba(255,255,255,0.8) inset;}
+.dialog-box{display:inline-block; *display:inline; *zoom:1; width:100%; text-align:left;}
+
+.m-p-head{min-height:6px; border-bottom: 2px solid #e8e8e8; height:48px; line-height:48px; }
+.m-p-head-ct{padding:0 46px 0 24px; color:#000; font-weight:bold; text-align:left; font-size:14px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+.close_btn{ width:16px; height:16px; display:block; position:absolute; top:16px; right:18px; background-position:-309px -112px; }
+.dialog_body{}
+.dialog .m-p-frame{background:#f6f6f6;}
+.dialog-tips{font-size:14px; font-weight:bold; padding:40px 20px; min-width:260px; word-wrap:break-word; word-wrap:wrap; text-align:center; line-height:1.5;}
+.dialog-input-area{padding:24px;}
+.dialog-input-area .icobtn-del{float:left;}
+.dialog-input-area .dialog-input{float:left;}
+.dialog-input{height:38px; border:1px solid #cdd2d5; padding:8px 10px; font-size:14px; width:360px; margin-bottom:10px; line-height:18px\9;}
+
+/* 弹框 contact_content */
+.content-title{position:absolute; top:14px; left:24px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; width:230px; font-size:14px; height:22px; line-height:22px; margin-bottom:16px; font-weight:bold;}
+.content-title2{height:54px; border-bottom:1px solid #e8ebec; color:#666; font-size:14px; text-align:center; line-height:54px;}
+.dialog .m-p-foot{background:#f6f6f6; padding: 10px 20px; box-shadow:0 1px 0 #fff;  border-bottom-left-radius:8px; border-bottom-right-radius:8px;}
+.dialog .button-area{margin:0;}
+.dialog .button-red{border:1px solid #d34d48;}
+
+/* 弹框控制自由滚动条 */
+.m-p-sh.m-p{padding:56px 6px 64px 6px;}
+.m-p-sh.m-p .m-p-head{margin-top:-50px;}
+.m-p-sh.m-p .find-phone-content{height:100%; overflow-x:hidden;}
+.m-p-sh.m-p-nt{padding:6px 6px 64px 6px;}
+.m-p-sh .m-p-frame{height:100%;}
+.m-p-sh.m-p-nt .find-phone-content{height:100%;overflow-x:hidden;}
+/* 退出弹框 */
+.logout-dialog .m-p-frame{border-radius:0 0 8px 8px;}
+
+
+/* 升级云存储空间 */
+.dialog.cloud-upgrade{ min-width:642px; min-height:490px; box-shadow:none; background:none; }
+.cloud-upgrade .button-area{text-align: center;}
+.cloud-upgrade .close_btn{ top:202px; right:92px; }
+.dialog.cloud-upgrade .m-p-head{ border:0; padding:230px 134px 1px; background:url(upgrade-bg-head.png) 58% 0 no-repeat; }
+.dialog.cloud-upgrade .m-p-head-ct{ border-bottom:1px solid #ddd; padding:0; text-align:center; color:#0e91ef; font-size:16px; }
+.dialog.cloud-upgrade .m-p-frame{ background:url(upgrade-bg.png) 58% 0 no-repeat; }
+.dialog.cloud-upgrade .dialog-tip-content{ padding:30px 134px 0; min-height:94px; height:104px; overflow:hidden; }
+.dialog.cloud-upgrade .dialog-tip{ padding-bottom:14px; font-size:14px; color:#535657; }
+.cloud-upgrade .underline{ text-decoration:underline; color:#000; font-weight:bold; }
+.dialog.cloud-upgrade .m-p-foot{ border:0; padding-bottom:120px; box-shadow:none; background:url(upgrade-bg.png) 58% -128px no-repeat; }
+.dialog.cloud-upgrade-bg{ min-width:660px; min-height:590px; box-shadow:none; background:url(upgrade-bg-grid.png) 0px 40px no-repeat;
+    -webkit-animation-name: changeUpgradeBg; -webkit-animation-duration: .4s; -webkit-animation-iteration-count: infinite; -webkit-animation-direction: alternate; -webkit-animation-timing-function: linear;
+}
+@-webkit-keyframes changeUpgradeBg{ to { background-image: url('upgrade-bg-grid2.png'); } }
+.dialog.cloud-upgrade-bg .m-p-head-ct{ border:0; }
+.dialog.cloud-upgrade-bg .dialog-tip{ text-align:center; font-size:16px; color:#575758; }
+.dialog.cloud-upgrade b{color:#000;}
+
+.tip{font-size: 40px; color: #fd520f; font-weight: bold;}
+    </style>
+  </head>
+<style>
+body{background: #333;}
+button{padding:20px; font-size:40px; width:100%; border:0 none; background: #fff; cursor: pointer;}
+</style>
+<body>
+<div class="clearfix dialog cloud-upgrade cloud-upgrade-bg" id="dialog" style=" width:400px; left:50%; margin-left:-330px; top: 40px; z-index: 100; display:none;" zindex="140">
+  <div class="m-p-head clearfix">
+    <div class="m-p-head-ct"></div>
+    <a href="javascript:void(0)" class="close_btn"></a>
+  </div>
+  <div class="m-p-frame dialog_body">
+  	<div style="height:134px; display:block !important"></div>
+    
+  </div>
+  <div class="m-p-foot button-area clearfix">
+    <p class="tip">人品太好啦~</p>
+  </div>
+</div>
+<h1 id="display" style="width:100%; z-index:200; position:absolute; top:300px; text-align:center;font-size:136px;color:#fe7008;height:134px; display:block !important"></h1>
+<div style="text-align:center; position:absolute; top:600px; width:600px; left:50%; margin-left:-300px;
+border-radius:20px; overflow:hidden;
+">
+<button id="strat">开始</button>
+<button id="stop" style="display:none">暂停</button>
+</div>
+</body>
+<script>
+var end = 150;
+var luckPool = {};
+var timer;
+var curNum;
+var generator = function(){
+	var num = parseInt(Math.random()*end);
+	if(num in luckPool){
+		generator();
+	}else{
+	  curNum = num;
+	  document.getElementById('display').innerHTML = curNum;
+	}
+}
+document.getElementById('stop').onclick = function(){
+	document.getElementById('strat').style.display = '';
+	document.getElementById('stop').style.display = 'none';
+	document.getElementById('dialog').style.display = '';
+	luckPool[curNum] = true;
+	clearInterval(timer);
+}
+document.getElementById('strat').onclick = function(){
+	document.getElementById('strat').style.display = 'none';
+	document.getElementById('stop').style.display = '';
+	document.getElementById('dialog').style.display = 'none';
+	timer = setInterval(generator,50);
+}
+</script>
