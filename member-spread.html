@@ -1,0 +1,149 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="generator" content="ecos.b2c">
+<title>会员中心_DEV_21Cake官网_蛋糕24小时在线预订_5小时新鲜送达！</title>
+    </head>
+    <body>
+<style type="text/css">
+body{background: #fff;} 
+*{margin: 0; padding: 0;}
+a{text-decoration: none;}
+
+.tl-c{text-align: center;}
+.pad-t-20{padding-top: 20px;}
+.pad-t-b-20{padding: 20px 0;}
+.n-m-tip{color: #a08374; overflow: hidden; line-height: 1.5;}
+.n-m-tip a{text-decoration: underline;}
+.fl-l{float: left;}
+.fl-r{float: right;}
+.n-m-little-tip{font-size: 12px; color: #cfbaaf; vertical-align: bottom;}
+
+.n-m-btn{display: block; height: 39px; margin: 0 10px 20px; border: 1px solid #684029; background: #684029; color: #fff; font-size: 16px; line-height: 39px; text-align: center; }
+.n-m-btn-default{display: block; height: 39px; margin: 0 10px 20px; border: 1px solid #cfbaaf; background: #fff; color: #8e6a55; font-size: 16px; line-height: 39px; text-align: center; }
+/* 输入框编写 */
+.n-m-input-container{margin: 10px; position: relative;}
+.n-m-input-container .error-tip{display:block; color: #ff7e00; font-size: 12px; height: 20px; line-height: 20px;}
+.input-item{box-sizing:border-box; height: 40px; padding: 10px; line-height: normal; width: 100%; border: 1px solid #cfbaaf; color: #684029;
+    box-shadow: inset 0 0 5px #e5e5e5; background: #fff;}
+  /* 输入错误提示 */
+  .input-error-tip{padding: 0 10px 10px; color: #ff4949; font-size: 14px;}
+  .n-m-code-area .n-m-tip{padding-top: 40px;}
+  .n-m-QR-code{width: 300px; height: 300px; margin: 20px auto 40px auto; background: #eee;}
+  .home-nav{display:none}
+  .home-to-top{display:none}
+</style>
+<article id="warp_input_num">
+<div class="n-m-code-area">
+  <p class="n-m-tip tl-c">请输入工号</p>
+  <div class="n-m-input-container">
+    <input id="num_code" class="input-item" type="text" placeholder="工号">
+  </div>
+  <p class="input-error-tip" id="error_con"></p>
+  <div class="pad-t-20">
+    <a id="gen_qr" href="javascript:;" class="n-m-btn">生成</a>
+  </div>
+</div>
+</article>
+<article id="warp_qrcode"  style="display: none;">
+<div class="n-m-code-area">
+  <p class="n-m-tip tl-c">请扫描下面的二维码</p>
+  <div id="qrcode_content" class="n-m-QR-code"><canvas width="300" height="300"></canvas></div>
+  <div class="pad-t-20">
+    <a id="refresh" href="javascript:;" class="n-m-btn n-m-btn-default">重新生成</a>
+  </div>
+</div>
+</article>
+<script src="jquery-1.11.1.min.js"></script>
+<script>
+  window.jQuery=$;
+</script>
+<script src="jquery.qrcode.min.js"></script>
+
+<script>
+var numCode=$("#num_code");
+var numContent=$("#warp_input_num");
+var qrContainer=$("#warp_qrcode");
+var qrContent=$("#qrcode_content");
+var error=$("#error_con");
+function showQrcode(el,num){
+  numContent.hide();
+  qrContainer.show();
+  qrContent.html("");
+  var el=$(el);
+  var url=location.protocol+"//wx.21cake.com/member-spread_usertype-"+num+".html";
+  //var url="http://alipay.21cake.com/passport/login/";
+  var opt={
+    correctLevel:0,
+    width:el.width(),
+    height:el.height(),
+    text:url
+  }
+  el.qrcode(opt);
+}
+function showNumInput(){
+  numContent.show();
+  qrContainer.hide();
+  numCode.val("");
+  error.html("");
+}
+numCode.focus(function(){
+  error.html("");
+})
+$("#gen_qr").bind("click",function(){
+  var value = numCode.val();
+  if(value){
+    showQrcode(qrContent,value);
+  }else{
+    error.html("请输入工号再生成");
+  }
+});
+$("#refresh").bind("click",function(){
+  showNumInput();
+})
+</script>
+
+
+        </div>
+<div class="g-mask" style="display:none;" id="upgrade_mask"></div>
+<div class="n-m-dialog fixed" style="display:none" id="upgrade_dialog">
+  <p class="n-dia-title">升级会员</p>
+  <p class="n-dia-intro n-m-tip"><span style="text-align:left"> 尊敬的老用户您好！
+    现在您将可以升级为21客的会员，并获得生日卡、产品体验券等众多福利哦！</span></p>
+  <div class="pad-t-20 tl-c">
+    <a href="javascript:;" id="upgrade_cancel" class="u-btn-style-a">暂不升级</a>
+    <a href="javascript:;" id="upgrade_in" class="u-btn-on-style">前往查看</a>
+  </div>
+</div>
+<div id="upgrade_url" upgrade_url="/member-get_usertype.html"></div>
+
+<script type="text/javascript"> var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31174934-2']);
+    _gaq.push(['_trackPageview']);
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+</script> 
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fea7ddf915b0403f14eb1517f294548a8' type='text/javascript'%3E%3C/script%3E"));
+</script><script src=" http://hm.baidu.com/h.js?ea7ddf915b0403f14eb1517f294548a8" type="text/javascript"></script>
+<script>
+    $('#logout').click(function(){
+        sessionStorage.setItem('birthday_cards',"{}");
+        sessionStorage.setItem('is_tax','');
+        sessionStorage.setItem('tax_type','');
+        sessionStorage.setItem('tax_content','');
+        sessionStorage.setItem('tax_company','');
+        sessionStorage.setItem('payment','');
+        location.href = '/passport-logout.html';
+    })
+</script>    
+<script type="text/javascript" src="/wap_themes/21cake/images/upgrade.js"></script>
+    
+
+</div></body></html>

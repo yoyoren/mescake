@@ -6,11 +6,7 @@ define('NUM_CANDLE_ID',67);
 define('CAT_CAKE_ID',68);
 define('DOMAIN',$_SERVER['SERVER_NAME']);
 
-if(DOMAIN=='test.mescake.com'){
-	define('STATIC_DOMAIN','http://static.n.mescake.com/');
-}else{
 	define('STATIC_DOMAIN','http://s1.static.mescake.com/');
-}
 
 //give user a sid for record
 /*Session_start();
@@ -486,6 +482,7 @@ switch ($mod) {
 			$password = !empty($_POST['password']) ? trim($_POST['password']) : '';
 			$username = ANTI_SPAM($username);
 			$password = ANTI_SPAM($password);
+		
 			echo MES_User::ajax_login($username,$password);
 		} else if ($action == 'check_login') {
 
@@ -584,6 +581,7 @@ switch ($mod) {
 			//login by moblie query
 			$username = ANTI_SPAM($_POST['username']);
 			$password = ANTI_SPAM($_POST['password']);
+			
 			echo MES_User::query_login($username, $password);
 		} else if ($action == 'get_auto_register_mobile') {
 
@@ -851,14 +849,17 @@ switch ($mod) {
 			echo MES_Goods::get_price_by_weight($goods_id, $attr_id, $number);
 		}else if ($action == 'goods_detail_page') {
 			$goods_id = ANTI_SPAM($_GET['id']);
+			$goods_id = intval($goods_id);
 			MES_Goods::goods_detail_page($goods_id);
 		}else if ($action == 'get_nosugar_goods_attr') {
 			$goods_id = ANTI_SPAM($_GET['id']);
+			$goods_id = intval($goods_id);
 			$attr_value = ANTI_SPAM($_GET['attr_value']);
 			
 			echo MES_Goods::get_nosugar_goods_attr($goods_id,$attr_value);
 		}else if ($action == 'get_cutnum_goods_attr') {
 			$goods_id = ANTI_SPAM($_GET['id']);
+			$goods_id = intval($goods_id);
 			$attr_value = ANTI_SPAM($_GET['attr_value']);
 			$weight = ANTI_SPAM($_GET['weight']);
 			echo MES_Goods::get_cutnum_goods_attr($goods_id,$attr_value,$weight);
