@@ -262,7 +262,7 @@
 			<script src="{$static_domain}script/page/shoppingcar.js"></script>
 			<script src="{$static_domain}script/page/order.js"></script>
 			<script src="{$static_domain}script/datepicker/WdatePicker.js"></script>
-			<!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
+                        <!-- #BeginLibraryItem "/lib/footer_v2.lbi" --><!-- #EndLibraryItem -->
 		</div>
 	</body>
 </html>
