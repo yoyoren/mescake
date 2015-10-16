@@ -20,15 +20,15 @@ body,table,tr{font-size:12px;}
 </tr>
 <tr>
   <td>站点所在省份</td>
-  <td><input id="" width="200"/></td>
+  <td><select id="province_sel"></select></td>
 </tr>
 <tr>
     <td>站点所在城市</td>
-    <td><input id="" width="200"/></td>
+    <td><select id="city_sel"></select></td>
 </tr>
 <tr>
     <td>站点所在区域</td>
-    <td><input id="" width="200"/></td>
+    <td><select id="distirct_sel"></select></td>
 </tr>
 <tr>
     <td>站点经度</td>

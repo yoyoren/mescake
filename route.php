@@ -52,6 +52,53 @@ if (in_array($action, $_action_list)) {
 	}
 }
 switch ($mod) {
+	case 'address' :
+	    $ADDRESS_DATA_PATH = 'city.json';
+		if ($action == 'province') {
+			//获得所有的省数据
+			$data = file_get_contents($ADDRESS_DATA_PATH);
+			$data = json_decode($data);
+			$res = array();
+			for($i=0;$i<count($data);$i++){
+				array_push($res,array(
+					'name'=>$data[$i]->region->name,
+					'code'=>$data[$i]->region->code,
+				));
+			}
+			echo json_encode($res);
+		}else if($action == 'city'){
+			$province = ANTI_SPAM($_GET['province']);
+			$data = file_get_contents($ADDRESS_DATA_PATH);
+			$data = json_decode($data);
+			$res = array();
+			for($i=0;$i<count($data);$i++){
+				if($data[$i]->region->code == $province){
+					$res = $data[$i]->region->state;
+					echo json_encode($res);
+					die();
+				}
+			}
+			
+		}else if($action == 'district'){
+			//获得所有的区数据
+			$province = ANTI_SPAM($_GET['province']);
+			$city = ANTI_SPAM($_GET['city']);
+			$data = file_get_contents($ADDRESS_DATA_PATH);
+			$data = json_decode($data);
+			$res = array();
+			for($i=0;$i<count($data);$i++){
+				if($data[$i]->region->code == $province){
+					$_data = $data[$i]->region->state;
+					for($j=0;$j<count($_data);$j++){
+						if($_data[$j]->code == $city){
+							echo json_encode($_data[$j]->city);
+							//restful_response(RES_SUCCESS,$_data[$j]->city);
+						}
+					}
+				}
+			}
+		}
+		break;
 	case 'order' :
 		require_once (ROOT_PATH . 'lib/order.php');
 		if ($action == 'step1') {
