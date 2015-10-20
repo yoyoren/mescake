@@ -52,6 +52,46 @@ if (in_array($action, $_action_list)) {
 	}
 }
 switch ($mod) {
+	case 'self_station':
+	    require_once('lib/self_station.php');
+		if ($action == 'add'){
+			$station_name = $_POST['station_name'];
+			$station_address = $_POST['station_address'];
+			$station_province_id = $_POST['station_province_id'];
+			$station_province_name = $_POST['station_province_name'];
+			$station_city_id = $_POST['station_city_id'];
+			$station_city_name = $_POST['station_city_name'];
+			$station_district_id = $_POST['station_district_id'];
+			$station_district_name = $_POST['station_district_name'];
+			$station_lat = $_POST['station_lat'];
+			$station_lng = $_POST['station_lng'];
+			
+			$res = Mes_self_station::add($station_name,
+									$station_address,
+									$station_province_id,
+									$station_province_name,
+									$station_city_id,
+									$station_city_name,
+									$station_district_id,
+									$station_district_name,
+									$station_lat,
+									$station_lng);
+			echo $res;
+		} else if($action == 'remove'){
+			$id = $_POST['id'];
+			$res = Mes_self_station::remove($id);
+			echo $res;
+		} else if($action == 'list'){
+			$page = $_GET['page'];
+			$res = Mes_self_station::get_by_page($page);
+			echo $res;
+		} else if($action == 'get_by_city'){
+			$province = $_GET['province'];
+			$city = $_GET['city'];
+			$res = Mes_self_station::get_by_city($province,$city);
+			echo $res;
+		}
+		break;
 	case 'address' :
 	    $ADDRESS_DATA_PATH = 'city.json';
 		if ($action == 'province') {

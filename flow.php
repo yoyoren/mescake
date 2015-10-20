@@ -1252,8 +1252,22 @@ elseif ($_REQUEST['step'] == 'done') {
 	define('PAY_ALIPAY',2);
 	define('PAY_KUAIQAIN',3);
 	define('PAY_POS',4);
-
-	$_POST['shipping'] = 1;
+	define('PAY_WX',9);
+	define('SHIPPING_SELF',9);
+	
+	//配送方式的选择
+	//自提站点支持
+	if($_POST['shipping_type'] == 'ZT'){
+		require_once('lib/self_station.php');
+		$ship_site_id = $_POST['shipping_site'];
+		//获得自提站的地址信息
+		$station_info = Mes_self_station::get_by_stationid($ship_site_id);
+		//var_dump($station_info);
+		$_POST['shipping'] = SHIPPING_SELF;
+	}else{
+		$_POST['shipping'] = 1;
+	}
+	
 	$pay_id = intval($_POST['pay_id']);
 	if ($_POST['pay_id'] == 1) {
 		$pay_id = PAY_POS;
@@ -1263,6 +1277,9 @@ elseif ($_REQUEST['step'] == 'done') {
 		$pay_id = PAY_ALIPAY;
 	}else if ($_POST['pay_id'] == 4) {
 		$pay_id = PAY_KUAIQAIN;
+	}else if ($_POST['pay_id'] == 9) {
+		//新增的微信支付方式
+		$pay_id = PAY_WX;
 	}else{
 		ecs_header("Location: index.htm");
 		exit ;
@@ -1276,6 +1293,11 @@ elseif ($_REQUEST['step'] == 'done') {
 		$_SESSION['need_shipping_fee'] = '0.00';
 	}
 	$shipping_fee = $_SESSION['need_shipping_fee'];
+	
+	//自提不需要配送费用
+	if($_POST['shipping_type'] == 'ZT'){
+		$shipping_fee = 0;
+	}
 	$shipping_fee = str_replace("￥", " ", $shipping_fee);
 	$shipping_fee = trim($shipping_fee);
 	$leaving_message = isset($_POST['leaving_message']) ? $_POST['leaving_message']: "";
@@ -1393,6 +1415,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	
 
 	if (empty($cart_goods)) {
+		//var_dump($cart_goods);
 		header("Location: route.php?mod=order&action=empty");
 		return;
 	}
@@ -1404,10 +1427,20 @@ elseif ($_REQUEST['step'] == 'done') {
 
 	/* 收货人信息 */
 	$consignee = $_SESSION['flow_consignee'];
+	
+	
+	
+	//保证不被注入 必须再检测一下
 	foreach ($consignee as $key => $value) {
 		$order[$key] = addslashes($value);
 	}
-
+	//自提的收获地址要修改成自提站的
+	if($_POST['shipping_type'] == 'ZT'){
+		$ZT_address = '[用户自提] 自提站地址：'.$station_info['station_city_name'].' '.$station_info['station_district_name'].' '.$station_info['station_address'];
+		$order['address'] = $ZT_address;
+		$order['addressname'] = $ZT_address;
+	}
+    //var_dump($order);
 	/* 订单中的总额 */
 	$total = order_fee($order, $cart_goods, $consignee);
 	$order['bonus'] = $total['bonus'];
@@ -1430,6 +1463,10 @@ elseif ($_REQUEST['step'] == 'done') {
 		//$shipping = shipping_info($order['shipping_id']);
 		$order['shipping_name'] = '配送';
 	}
+	if($_POST['shipping_type'] == 'ZT'){
+		$order['shipping_name'] = '自提';
+	}
+	
 
 	//不能无脑设置没有运费阿
 	$total['shipping_fee'] = $_SESSION['need_shipping_fee'];
@@ -1498,6 +1535,8 @@ elseif ($_REQUEST['step'] == 'done') {
 
 	} elseif ($order['pay_id'] == 3) {
 		$order['pay_note'] = '快钱';
+	}elseif ($order['pay_id'] == 9) {
+		$order['pay_note'] = '微信';
 	}
 	if ($order['extension_code'] == 'exchange_goods') {
 		$order['integral_money'] = 0;
@@ -1794,11 +1833,16 @@ elseif ($_REQUEST['step'] == 'done') {
 	unset($_SESSION['need_shipping_fee']);
 	unset($_SESSION['extra_fork']);
 	if($order_token=='from_mobile'){
+		//exit;
+		$redirect_domain = 'http://touch.mescake.com';
+		if($_POST['redirect_domain']!= NULL){
+		   $redirect_domain = $_POST['redirect_domain'];
+		}
 		if ($_SESSION['user_auto_register'] == '11') {
 			//如果是那种非注册用户就要引导注册
-			header("Location: http://touch.mescake.com/setpassword");
+			header("Location: ".$redirect_domain."/setpassword");
 		} else {
-			header("Location: http://touch.mescake.com/done?oid=".$order['order_id']);
+			header("Location: ".$redirect_domain."/done?oid=".$order['order_id']);
 		}
 		exit;
 	}
