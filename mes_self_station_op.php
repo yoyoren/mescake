@@ -45,11 +45,11 @@ table td {padding:10px;}
 </tr>
 <tr>
     <td>站点经度</td>
-    <td><input class="form-control"  id="station_lat"  width="200"/></td>
+    <td><input class="form-control"  id="station_lat"  width="200" value="0"/></td>
 </tr>
 <tr>
   <td>站点纬度</td>
-  <td><input class="form-control" id="station_lng" width="200"/></td>
+  <td><input class="form-control" id="station_lng" width="200" value="0"/></td>
 </tr>
 <tr>
   <td></td>
@@ -160,6 +160,10 @@ $.get('/route.php',{
 	$('#data_container').append(html);
 },'json');
 $('body').delegate('.del_op','click',function(e){
+	var con = confirm('确认删除这个自提站?');
+	if(!con){
+		return;
+	}
 	var _id = $(this).data('id');
 	$.post('/route.php?mod=self_station&action=remove',{
 		id:_id
