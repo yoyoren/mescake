@@ -1786,7 +1786,9 @@ elseif ($_REQUEST['step'] == 'done') {
 	/* 插入支付日志 */
 	$order['log_id'] = insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
 	/* 取得支付信息，生成支付代码 */
-	if ($order['order_amount'] > 0) {
+	
+	//weixin支付的话是不需要生成这个支付代码的
+	if ($order['order_amount'] > 0 && $order['pay_id'] != PAY_WX) {
 		$payment = payment_info($order['pay_id']);
 
 		include_once ('includes/modules/payment/' . $payment['pay_code'] . '.php');
@@ -1848,7 +1850,15 @@ elseif ($_REQUEST['step'] == 'done') {
 			//如果是那种非注册用户就要引导注册
 			header("Location: ".$redirect_domain."/setpassword");
 		} else {
-			header("Location: ".$redirect_domain."/done?oid=".$order['order_id']);
+			if($order['pay_id'] == PAY_WX){
+				session_start();
+				$_SESSION['wx_pay_order_sn'] = $order['order_sn'];
+				//setcookie('wx_pay_order_id',$order['order_id']);
+				header("Location: http://www.mescake.com/weixin_checkout.php?orderid=".$order['order_id']);
+				
+			} else {
+				header("Location: ".$redirect_domain."/done?oid=".$order['order_id']);
+			}
 		}
 		exit;
 	}

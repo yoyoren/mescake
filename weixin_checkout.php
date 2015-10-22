@@ -1,4 +1,24 @@
+
 <?php
+    define('IN_ECS', true);
+	require (dirname(__FILE__) . '/includes/init.php');
+	$out_trade_no = $_GET['orderid'];
+	if($out_trade_no == null){
+		session_start();
+		$out_trade_no = $_SESSION['wx_pay_order_sn'];
+	}
+	$sql="select * from ecs_order_info where order_sn='{$out_trade_no}'";	
+	$order_info = $db->getRow($sql);
+	$order_id = $order_info['order_id'];
+	$sql = "SELECT * FROM " . $GLOBALS['ecs']->table('pay_log')." WHERE order_id = '$order_id'";
+    $pay_log = $GLOBALS['db']->getRow($sql);
+	$out_trade_no = $pay_log['log_id'];
+	
+	$total_fee = $order_info['order_amount'];
+	$total_fee = floatval($total_fee);
+	$total_fee = $total_fee*100;
+	//var_dump($total_fee);
+	//exit();
 	include_once("weixin/WxPayPubHelper/WxPayPubHelper.php");
 	//error_reporting(E_ALL);
 	//使用jsapi接口
@@ -12,8 +32,7 @@
 		//触发微信返回code码
 		$url = $jsApi->createOauthUrlForCode(WxPayConf_pub::JS_API_CALL_URL);
 		Header("Location: $url"); 
-	}else
-	{
+	}else{
 		//获取code码，以获取openid
 	    $code = $_GET['code'];
 		$jsApi->setCode($code);
@@ -27,9 +46,11 @@
 	$unifiedOrder->setParameter("body","MES商品结算");//商品描述
 	//自定义订单号，此处仅作举例
 	$timeStamp = time();
-	$out_trade_no = WxPayConf_pub::APPID."$timeStamp";
+	
+	//$out_trade_no = WxPayConf_pub::APPID."$timeStamp";
+	//$out_trade_no = $order_id;
 	$unifiedOrder->setParameter("out_trade_no","$out_trade_no");//商户订单号 
-	$unifiedOrder->setParameter("total_fee","100");//总金额
+	$unifiedOrder->setParameter("total_fee","$total_fee");//总金额
 	$unifiedOrder->setParameter("notify_url",WxPayConf_pub::NOTIFY_URL);//通知地址 
 	$unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
 	//非必填参数，商户可根据实际情况选填
@@ -67,7 +88,7 @@ a,input,em,.wap-price-intro,.wap-check-area,.wap-func-more-ico,.ra-con{ outline:
  </style>
 </head>
 <body>
-  <div id="app_main" class="app-main app-nav">
+  <div id="app_main" class="app-main app-nav" style="">
     <div class="head-area">
     <div class="mes-head clearfix">
       <a href="/" class="main-logo"></a>
@@ -122,8 +143,14 @@ M.getShopCarCount();
       </div>
     </div>
   </div>
+  
 <script type="text/javascript">
-
+		var param = <?php echo $jsApiParameters; ?>;
+		var str = '';
+		for(var i in param){
+			str += (i + ':' + param[i]);
+		}
+		;
 		//调用微信JS api 支付
 		function jsApiCall()
 		{
@@ -132,12 +159,11 @@ M.getShopCarCount();
 				<?php echo $jsApiParameters; ?>,
 				function(res){
 					WeixinJSBridge.log(res.err_msg);
-					alert(res.err_code+res.err_desc+res.err_msg);
-					
 					if(res.err_msg == "ok"){
-						
+						alert('支付成功，我们会尽快安排蛋糕制作');
+						location.href = '/myorder';
 					}else if(res.err_msg == "cancle"){
-						
+						alert('支付失败，请重新尝试完成付款');
 					}
 					
 				}

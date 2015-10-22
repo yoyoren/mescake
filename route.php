@@ -5,8 +5,7 @@ define('CANDLE_ID',61);
 define('NUM_CANDLE_ID',67);
 define('CAT_CAKE_ID',68);
 define('DOMAIN',$_SERVER['SERVER_NAME']);
-
-	define('STATIC_DOMAIN','http://s1.static.mescake.com/');
+define('STATIC_DOMAIN','http://s1.static.mescake.com/');
 
 //give user a sid for record
 /*Session_start();
