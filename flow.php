@@ -1297,6 +1297,7 @@ elseif ($_REQUEST['step'] == 'done') {
 	//自提不需要配送费用
 	if($_POST['shipping_type'] == 'ZT'){
 		$shipping_fee = 0;
+		$ZT = true;
 	}
 	$shipping_fee = str_replace("￥", " ", $shipping_fee);
 	$shipping_fee = trim($shipping_fee);
@@ -1439,6 +1440,9 @@ elseif ($_REQUEST['step'] == 'done') {
 		$ZT_address = '[用户自提] 自提站地址：'.$station_info['station_city_name'].' '.$station_info['station_district_name'].' '.$station_info['station_address'];
 		$order['address'] = $ZT_address;
 		$order['addressname'] = $ZT_address;
+		$order['ordertel'] = $consignee['self_shipping_mobile'];
+		$order['mobile'] = $consignee['self_shipping_mobile'];
+		$order['consignee'] = $consignee['self_shipping_name'];
 	}
     //var_dump($order);
 	/* 订单中的总额 */
@@ -1469,8 +1473,10 @@ elseif ($_REQUEST['step'] == 'done') {
 	
 
 	//不能无脑设置没有运费阿
-	$total['shipping_fee'] = $_SESSION['need_shipping_fee'];
-	$order['shipping_fee'] = $total['shipping_fee'];
+	if($_POST['shipping_type'] != 'ZT'){
+		$total['shipping_fee'] = $_SESSION['need_shipping_fee'];
+		$order['shipping_fee'] = $total['shipping_fee'];
+	}
 	//$order['insure_fee']   = $total['shipping_insure'];
 
 	/* 支付方式 */

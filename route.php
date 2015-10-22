@@ -268,6 +268,11 @@ switch ($mod) {
 		} else if ($action == 'save_consignee') {
 			//save consignee when user select a address!
 				date_default_timezone_set("Etc/GMT-8");	
+				$shipping = $_POST['shipping'];
+				$empty_param = false;
+				if($shipping == 'ZT'){
+					$empty_param = true;
+				}
 				$address_id = ANTI_SPAM($_POST['address_id'],array(
 										'minLength'=>1,
 										'maxLength'=>12,
@@ -275,9 +280,12 @@ switch ($mod) {
 										'empty'=>true,
 							));
 				
-				$consignee = ANTI_SPAM($_POST['consignee']);
+				$consignee = ANTI_SPAM($_POST['consignee'],array(
+										'empty'=>$empty_param
+							));
 				$country = ANTI_SPAM($_POST['country'],array(
-										'values'=>array(441,501)
+										'values'=>array(441,501),
+										'empty'=>$empty_param
 							));
 				$province = ANTI_SPAM($_POST['province'],array(
 										'empty'=>true
@@ -286,7 +294,8 @@ switch ($mod) {
 				$city = ANTI_SPAM($_POST['city'],array(
 										'minValue'=>543,
 										'maxValue'=>573,
-										'type'=>'number'
+										'type'=>'number',
+										'empty'=>$empty_param
 									));
 				$district = ANTI_SPAM($_POST['district'],array(
 										'minValue'=>0,
@@ -297,8 +306,10 @@ switch ($mod) {
 				$email = ANTI_SPAM($_POST['email'],array(
 										'empty'=>true
 									));
-;
-				$address = ANTI_SPAM($_POST['address']);
+
+				$address = ANTI_SPAM($_POST['address'],array(
+										'empty'=>$empty_param
+				));
 				$zipcode = ANTI_SPAM($_POST['zipcode'],array(
 										'empty'=>true
 							));
@@ -317,6 +328,8 @@ switch ($mod) {
  						'minLength' => 0, 
 						'maxLength' => 140, 
  				));
+				
+				$shipping = $_POST['shipping'];
 
 				$best_time = ANTI_SPAM($_POST['bdate']." ".$_POST['hour'].":".$_POST['minute'].":00");
 				$inv_content=ANTI_SPAM($_POST['inv_content'],array(
@@ -350,17 +363,30 @@ switch ($mod) {
  					'inv_content'   =>$inv_content,
 		        );
 
+            if($shipping != 'ZT'){
+				//地址id为空可以，但是内容不能为空
+				if (empty($address_id) && (empty($city) || empty($address))) {
+					echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'address error', ));
+					die ;
+				}
 
-			//地址id为空可以，但是内容不能为空
-			if (empty($address_id) && (empty($city) || empty($address))) {
-				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'address error', ));
-				die ;
-			}
-
-			//自己的手机和联系人的手机 至少写一个
-			if (empty($tel) && empty($mobile)) {
-				echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'tel empty', ));
-				die ;
+				//自己的手机和联系人的手机 至少写一个
+				if (empty($tel) && empty($mobile)) {
+					echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'tel empty', ));
+					die ;
+				}
+			} else {
+				//自提地址的数据保存
+				$self_shipping_name = $_POST['self_shipping_name'];
+				$self_shipping_mobile = $_POST['self_shipping_mobile'];
+				if (empty($self_shipping_name) || empty($self_shipping_mobile)) {
+					echo json_encode(array('code' => RES_PARAM_INVAILD, 'msg' => 'self_shipping error', ));
+					die ;
+				}
+				
+				$data['shipping'] = 'ZT';
+				$data['self_shipping_name'] =  $self_shipping_name;
+				$data['self_shipping_mobile'] =  $self_shipping_mobile;
 			}
 			
 			//如果送货时间小于当前时间5小时 不能送

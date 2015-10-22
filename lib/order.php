@@ -573,11 +573,13 @@ class MES_Order{
 		$cart_goods = cart_goods(0);
 		
 		//有二级城市 就必须要选择 否则返回错误
-		$fee_city_hash = MES_Fee::get_fee_region();
-		$city = $consignee['city'];
-		if($fee_city_hash[$city]&&!$consignee['district']){
-			$result['code']=RES_FAIL;
-			return json_encode($result);
+		if($consignee['shipping']!='ZT'){
+			$fee_city_hash = MES_Fee::get_fee_region();
+			$city = $consignee['city'];
+			if($fee_city_hash[$city]&&!$consignee['district']){
+				$result['code']=RES_FAIL;
+				return json_encode($result);
+			}
 		}
 		//在服务器检查订单是否合法
 		//$meg = check_order($consignee, $cart_goods); 
@@ -631,7 +633,7 @@ class MES_Order{
 		//没有地址信息
 		$id= $_SESSION['flow_consignee']['city'];
 		if(!$id){
-			return json_ecode(array('code'=>'10010','msg'=>'address id lose!'));
+			//return json_encode(array('code'=>'10010','msg'=>'address id lose!'));
 		}
 
 		$card_message = explode('|',$card_message);
