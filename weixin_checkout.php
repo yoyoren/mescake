@@ -158,11 +158,12 @@ M.getShopCarCount();
 				'getBrandWCPayRequest',
 				<?php echo $jsApiParameters; ?>,
 				function(res){
-					WeixinJSBridge.log(res.err_msg);
-					if(res.err_msg == "ok"){
+					//WeixinJSBridge.log(res.err_msg);
+					//alert(res.err_msg);
+					if(res.err_msg.indexOf("ok")>-1){
 						alert('支付成功，我们会尽快安排蛋糕制作');
-						location.href = '/myorder';
-					}else if(res.err_msg == "cancle"){
+						location.href = 'http://touch.n.mescake.com/myorder';
+					}else if(res.err_msg.indexOf("cancel")>-1){
 						alert('支付失败，请重新尝试完成付款');
 					}
 					
