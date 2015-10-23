@@ -7,6 +7,11 @@
 		session_start();
 		$out_trade_no = $_SESSION['wx_pay_order_sn'];
 	}
+	
+	if($out_trade_no == null){
+	   $out_trade_no = $_COOKIE['pay_from_detail'];
+	}
+	
 	$sql="select * from ecs_order_info where order_sn='{$out_trade_no}'";	
 	$order_info = $db->getRow($sql);
 	$order_id = $order_info['order_id'];
