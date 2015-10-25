@@ -25,6 +25,49 @@ class MES_User{
 		return $rand_password;
 	}
 	
+	
+	public static function fast_login_sms($mobile){
+		$rand_password = MES_User::_send_sms($mobile);
+		//缓存验证码
+		session_start();
+		$_SESSION['sms_login_password'] = $rand_password;
+		return $rand_password;
+		//SET_REDIS($mobile,$rand_password,'signup');
+	}
+	public static function fast_login($username,$sms_password){
+		global $db;
+		global $_LANG;
+		global $user;
+		$username = addslashes($username);
+		$sms_password = addslashes($sms_password);
+
+		$json = new JSON;
+		$result  = array(
+			'code' => RES_SUCCSEE, 
+			'content' => 'login successs'
+		);
+
+		$username=$db->getOne("select user_name from". $GLOBALS['ecs']->table("users")."where email='$username' or mobile_phone='$username'");
+
+		if(empty($username)){
+			$result['code'] = RES_FAIL;
+			$result['content'] = $_LANG['login_failure'];
+			return $json->encode($result);
+		}
+		if($sms_password == $_SESSION['sms_login_password']){
+			$user->login_sms($username, $sms_password);
+			$ucdata = empty($user->ucdata)? "" : $user->ucdata;
+			$result['ucdata'] = $ucdata;
+			$_SESSION['usermsg']= get_user_info();
+			unset($_SESSION['sms_login_password']);
+		}else{
+			$_SESSION['login_fail']++;
+			$result['error'] = 1;
+			$result['code'] = RES_FAIL;
+			$result['content'] = $_LANG['login_failure'];
+		}
+		return $json->encode($result);
+	}
 
 	public static function ajax_login($username,$password){
 		global $db;
@@ -90,10 +133,11 @@ class MES_User{
 
 	public static function check_login(){
 		$token = $_COOKIE['serviceToken'];
+		$token_sms = $_COOKIE['smsserviceToken'];
 		$uuid = $_COOKIE['uuid'];
 		$res = false;
 
-		if($token&&GET_REDIS($uuid,'user') == $token){
+		if(($token&&GET_REDIS($uuid,'user') == $token) || ($token_sms && GET_REDIS($uuid,'user_sms') == $token_sms)){
 			$res = true;
 			if($_SESSION['user_auto_register_moblie']){
 				$uname = $_SESSION['user_auto_register_moblie'];
@@ -114,10 +158,11 @@ class MES_User{
 	public static function server_check_login(){
 		global $db;
 		$token = $_COOKIE['serviceToken'];
+		$token_sms = $_COOKIE['smsserviceToken'];
 		$uuid = $_COOKIE['uuid'];
-
+       
 		$res = false;
-		if($token&&GET_REDIS($uuid,'user')== $token){
+		if(($token&&GET_REDIS($uuid,'user') == $token) || ($token_sms && GET_REDIS($uuid,'user_sms') == $token_sms)){
 			$res = true;
 		}
 		return $res;
@@ -396,10 +441,10 @@ class MES_User{
 
 	private static function rand_num(){
 		srand((double)microtime()*1000000);//create a random number feed.
-		$ychar="0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
+		$ychar="0,1,2,3,4,5,6,7,8,9";
 		$list=explode(",",$ychar);
 		for($i=0;$i<6;$i++){
-			$randnum=rand(0,35);
+			$randnum=rand(0,9);
 			$authnum.=$list[$randnum];
 		}
 		return $authnum;

@@ -145,7 +145,13 @@ switch ($mod) {
 			$smarty -> assign('order_list', $order_list);
 			$smarty -> display('shoppingcar_new.dwt');
 			return;
-		} else if ($action == 'step2') {
+		}else if($action == 'set_pay_session'){
+			$order_sn = $_POST['ordersn'];
+			session_start();
+			$_SESSION['wx_pay_order_sn'] = $order_sn;
+			echo 1;
+			return;
+		}else if ($action == 'step2') {
 			date_default_timezone_set("Etc/GMT-8");
 
 			//每次结算要记录一个ip防止被刷
@@ -596,6 +602,17 @@ switch ($mod) {
 			$password = ANTI_SPAM($password);
 		
 			echo MES_User::ajax_login($username,$password);
+		} else if ($action == 'fast_login_sms') {
+			$mobile = !empty($_POST['mobile']) ? json_str_iconv(trim($_POST['mobile'])) : '';
+			$res = MES_User::fast_login_sms($mobile);
+			echo 1;
+		} else if ($action == 'fast_login') {
+			$username = !empty($_POST['username']) ? json_str_iconv(trim($_POST['username'])) : '';
+			$smspassword = !empty($_POST['password']) ? trim($_POST['password']) : '';
+			$username = ANTI_SPAM($username);
+			$smspassword = ANTI_SPAM($smspassword);
+		
+			echo MES_User::fast_login($username,$smspassword);
 		} else if ($action == 'check_login') {
 
 			//检测用户是否已经登录

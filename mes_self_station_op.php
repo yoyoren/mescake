@@ -154,7 +154,7 @@ $.get('/route.php',{
 		<td>'+ _d.station_district_name +'</td>\
 		<td>'+ _d.station_lat +'</td>\
 		<td>'+ _d.station_lng +'</td>\
-		<td><button class="btn" data-id="'+_d.station_id+'" class="del_op">删除</button></td>\
+		<td><button class="btn del_op" data-id="'+_d.station_id+'" class="del_op">删除</button></td>\
 		</tr>';
 	}
 	$('#data_container').append(html);

@@ -168,6 +168,18 @@ class integrate
             return false;
         }
 	}
+	
+	function login_sms($username, $smspassword)
+    {
+            $this->set_session($username);
+			$time_lasts=3600*24;
+			$time = time()+$time_lasts;
+			$token = md5($username.$smspassword.'_mescake');
+			SETEX_REDIS($username,$token,$time_lasts,'user_sms');
+            setcookie("smsserviceToken",$token, $time, $this->cookie_path);            
+            setcookie("uuid",$username, $time, $this->cookie_path);
+            return true;
+	}
 
 	function login_for_ajax($username, $password, $remember = null)
     {
